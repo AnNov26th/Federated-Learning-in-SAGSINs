@@ -3,10 +3,10 @@ import folium
 from streamlit_folium import st_folium
 import pandas as pd
 
-# Import các đối tượng từ gói models vừa tách
+# Import các đối tượng từ gói models
 from models import GroundStation, UAV, Satellite, Ship, Vehicle
 
-# Cấu hình trang Dashboard
+# 1. Cấu hình trang Dashboard
 st.set_page_config(
     page_title="PBL4 - SAGSINs Federated Learning Dashboard",
     page_icon="📡",
@@ -16,14 +16,14 @@ st.set_page_config(
 st.title("📡 MÔ PHỎNG FEDERATED LEARNING TRONG MẠNG TÍCH HỢP SAGSINs")
 st.subheader("Đồ án Dự án Hệ điều hành & Mạng máy tính (PBL4)")
 
-# Khởi tạo các thực thể mạng SAGSINs
+# 2. Khởi tạo các thực thể mạng SAGSINs
 gs = GroundStation(station_id="GS_DANANG", name="Trạm Mặt Đất Đà Nẵng", lat=16.0544, lon=108.2022)
-uav = UAV(node_id="UAV_01", name="Drone Giám Sát", lat=16.2000, lon=108.3000, battery=95.0)
-sat = Satellite(node_id="SAT_01", name="Vệ Tinh LEO", lat=16.8000, lon=107.8000, battery=100.0, orbit_altitude=800)
-ship = Ship(node_id="SHIP_01", name="Tàu Biển Hải Quân", lat=15.8000, lon=108.8000, battery=88.0)
-vehicle = Vehicle(node_id="VEH_01", name="Xe Tự Hành Xe Thông Minh", lat=16.0200, lon=108.1800, battery=90.0)
+uav = UAV(node_id="UAV_01", name="Drone Giám Sát", lat=16.2000, lon=108.3000, battery=95.0, bandwidth=50.0)
+sat = Satellite(node_id="SAT_01", name="Vệ Tinh LEO", lat=16.8000, lon=107.8000, battery=100.0, bandwidth=20.0, orbit_altitude=800)
+ship = Ship(node_id="SHIP_01", name="Tàu Biển Hải Quân", lat=15.8000, lon=108.8000, battery=88.0, bandwidth=10.0)
+vehicle = Vehicle(node_id="VEH_01", name="Xe Tự Hành Xe Thông Minh", lat=16.0200, lon=108.1800, battery=90.0, bandwidth=100.0)
 
-# Sidebar cấu hình kịch bản
+# 3. Sidebar cấu hình kịch bản
 st.sidebar.header("⚙️ Cấu hình Kịch bản SAGSINs")
 num_rounds = st.sidebar.slider("Số vòng huấn luyện (Rounds)", 5, 50, 10)
 
@@ -40,65 +40,125 @@ selected_node_names = st.sidebar.multiselect(
     default=list(nodes_dict.keys())
 )
 
-# Chia giao diện làm 2 cột
-col1, col2 = st.columns([1.2, 1])
+# 4. Chia giao diện làm 2 cột
+col1, col2 = st.columns([1.3, 1])
 
 with col1:
-    st.markdown("### 🗺️ Bản đồ Mạng Tích hợp SAGSINs (GIS Live)")
+    st.markdown("### 🗺️ Bản đồ Mạng Tích hợp SAGSINs (Google Maps GIS)")
 
-    # Bản đồ trung tâm tại Trạm mặt đất
-    m = folium.Map(location=[gs.lat, gs.lon], zoom_start=8, tiles="OpenStreetMap")
+    # Khởi tạo bản đồ trung tâm tại Trạm mặt đất Đà Nẵng
+    m = folium.Map(
+        location=[gs.lat, gs.lon],
+        zoom_start=7,
+        tiles=None # Tự thiết lập các lớp bản đồ Google bên dưới
+    )
+
+    # Thêm Lớp Google Maps Vệ tinh + Tên địa danh (Google Hybrid - Mặc định)
+    folium.TileLayer(
+        tiles="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+        attr="Google Maps",
+        name="Google Maps (Vệ tinh + Địa danh)",
+        overlay=False,
+        control=True
+    ).add_to(m)
+
+    # Thêm Lớp Google Maps Vệ tinh thuần (Google Satellite)
+    folium.TileLayer(
+        tiles="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+        attr="Google Maps",
+        name="Google Maps (Ảnh Vệ tinh)",
+        overlay=False,
+        control=True
+    ).add_to(m)
+
+    # Thêm Lớp Google Maps Đường xá chuẩn (Google Roadmap)
+    folium.TileLayer(
+        tiles="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+        attr="Google Maps",
+        name="Google Maps (Đường xá)",
+        overlay=False,
+        control=True
+    ).add_to(m)
+
+    # Thêm Lớp Giao diện Tối Dark Mode (CartoDB Dark Matter)
+    folium.TileLayer(
+        tiles="CartoDB dark_matter",
+        attr="CartoDB",
+        name="Giao diện Tối (Dark Mode)",
+        overlay=False,
+        control=True
+    ).add_to(m)
 
     # Marker Trạm Mặt Đất (Server Trung tâm)
     folium.Marker(
         [gs.lat, gs.lon],
-        popup=f"<b>{gs.name}</b><br>Trạng thái: Central Aggregator",
+        popup=f"<b>{gs.name} ({gs.station_id})</b><br>Vai trò: Central Aggregator<br>Tọa độ: {gs.lat}, {gs.lon}",
         icon=folium.Icon(color="red", icon="home")
     ).add_to(m)
 
-    # Hiển thị các nút biên được chọn lên bản đồ
+    # Màu sắc và biểu tượng cho từng tầng mạng
     color_map = {"Air": "green", "Space": "blue", "Sea": "orange", "Ground": "purple"}
     icon_map = {"Air": "plane", "Space": "cloud", "Sea": "info-sign", "Ground": "user"}
 
+    # Hiển thị các nút biên và đường truyền tín hiệu lên bản đồ
     for name in selected_node_names:
         node = nodes_dict[name]
         node_info = node.to_dict()
 
         popup_text = f"""
         <b>{node_info['name']} ({node_info['node_id']})</b><br>
-        Tầng: <b>{node_info['layer']}</b><br>
-        Pin: {node_info['battery']}% | Băng thông: {node_info['bandwidth']} Mbps<br>
-        Trạng thái: {node_info['status']}
+        Tầng vật lý: <b>{node_info['layer']} Layer</b><br>
+        Dung lượng Pin: <b>{node_info['battery']}%</b><br>
+        Băng thông: <b>{node_info['bandwidth']} Mbps</b><br>
+        Trạng thái: <b>{node_info['status']}</b>
         """
 
+        # Marker cho Nút biên
         folium.Marker(
             [node_info['lat'], node_info['lon']],
             popup=popup_text,
-            icon=folium.Icon(color=color_map.get(node_info['layer'], "gray"),
-                             icon=icon_map.get(node_info['layer'], "info-sign"))
+            icon=folium.Icon(
+                color=color_map.get(node_info['layer'], "gray"),
+                icon=icon_map.get(node_info['layer'], "info-sign")
+            )
         ).add_to(m)
 
-    st_folium(m, width=600, height=450)
+        # 📡 Đường truyền sóng không dây (PolyLine nét đứt) từ Nút biên về Trạm mặt đất
+        folium.PolyLine(
+            locations=[[gs.lat, gs.lon], [node_info['lat'], node_info['lon']]],
+            color=color_map.get(node_info['layer'], "yellow"),
+            weight=2.5,
+            opacity=0.85,
+            dash_array="6, 10" # Nét đứt biểu diễn truyền dữ liệu sóng không dây
+        ).add_to(m)
+
+    # Nút chuyển đổi chọn qua lại giữa các kiểu bản đồ ở góc trên bên phải
+    folium.LayerControl(position="topright").add_to(m)
+
+    # Trực quan hóa bản đồ trên Streamlit
+    st_folium(m, width=650, height=480)
 
 with col2:
     st.markdown("### 📊 Thông số Hoạt động & Hiệu năng")
 
-    # Hiển thị bảng tổng hợp thông số nút biên
+    # Bảng tổng hợp thông số trạng thái các nút biên đang tham gia
     selected_data = [nodes_dict[name].to_dict() for name in selected_node_names]
     if selected_data:
         df_nodes = pd.DataFrame(selected_data)[["node_id", "name", "layer", "battery", "bandwidth", "status"]]
         st.dataframe(df_nodes, use_container_width=True)
 
-    # Biểu đồ mô phỏng quá trình hội tụ mô hình AI
+    # Biểu đồ mô phỏng quá trình hội tụ mô hình AI toàn cục (Global Model FedAvg)
     st.markdown("#### Progress Metrics (FedAvg Convergence)")
     rounds = list(range(1, 11))
     acc_data = [12.5, 35.0, 58.2, 72.1, 80.5, 85.3, 88.0, 90.2, 91.5, 92.8]
+    loss_data = [2.3, 1.8, 1.4, 1.0, 0.7, 0.5, 0.4, 0.3, 0.25, 0.2]
 
     df_metrics = pd.DataFrame({
         "Vòng lặp (Round)": rounds,
-        "Độ chính xác (%)": acc_data
+        "Độ chính xác (%)": acc_data,
+        "Độ lỗi (Loss)": loss_data
     }).set_index("Vòng lặp (Round)")
 
     st.line_chart(df_metrics)
 
-st.info("💡 Hệ thống đã tích hợp đầy đủ 4 tầng mạng vật lý SAGSINs (Space - Air - Ground - Sea).")
+st.info("💡 Hệ thống tích hợp đầy đủ 4 tầng mạng vật lý SAGSINs (Space - Air - Ground - Sea) trên nền Google Maps GIS.")
