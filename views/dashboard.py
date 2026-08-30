@@ -3,6 +3,9 @@ import folium
 from streamlit_folium import st_folium
 import pandas as pd
 
+# Import các đối tượng từ gói models vừa tách
+from models import GroundStation, UAV, Satellite, Ship, Vehicle
+
 # Cấu hình trang Dashboard
 st.set_page_config(
     page_title="PBL4 - SAGSINs Federated Learning Dashboard",
@@ -10,72 +13,92 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("📡 MÔ PHỎNG FEDERATED LEARNING TRONG MẠNG SAGSINs")
+st.title("📡 MÔ PHỎNG FEDERATED LEARNING TRONG MẠNG TÍCH HỢP SAGSINs")
 st.subheader("Đồ án Dự án Hệ điều hành & Mạng máy tính (PBL4)")
 
+# Khởi tạo các thực thể mạng SAGSINs
+gs = GroundStation(station_id="GS_DANANG", name="Trạm Mặt Đất Đà Nẵng", lat=16.0544, lon=108.2022)
+uav = UAV(node_id="UAV_01", name="Drone Giám Sát", lat=16.2000, lon=108.3000, battery=95.0)
+sat = Satellite(node_id="SAT_01", name="Vệ Tinh LEO", lat=16.8000, lon=107.8000, battery=100.0, orbit_altitude=800)
+ship = Ship(node_id="SHIP_01", name="Tàu Biển Hải Quân", lat=15.8000, lon=108.8000, battery=88.0)
+vehicle = Vehicle(node_id="VEH_01", name="Xe Tự Hành Xe Thông Minh", lat=16.0200, lon=108.1800, battery=90.0)
+
 # Sidebar cấu hình kịch bản
-st.sidebar.header("⚙️ Cấu hình Kịch bản")
+st.sidebar.header("⚙️ Cấu hình Kịch bản SAGSINs")
 num_rounds = st.sidebar.slider("Số vòng huấn luyện (Rounds)", 5, 50, 10)
-selected_clients = st.sidebar.multiselect(
-    "Chọn nút biên tham gia:",
-    ["UAV_01 (Tầng trên không)", "SAT_01 (Tầng không gian)", "SHIP_01 (Tầng biển)"],
-    default=["UAV_01 (Tầng trên không)", "SAT_01 (Tầng không gian)", "SHIP_01 (Tầng biển)"]
+
+nodes_dict = {
+    f"🛸 {uav.name} (Air Layer)": uav,
+    f"🛰️ {sat.name} (Space Layer)": sat,
+    f"🚢 {ship.name} (Sea Layer)": ship,
+    f"🚗 {vehicle.name} (Ground Layer)": vehicle
+}
+
+selected_node_names = st.sidebar.multiselect(
+    "Chọn nút biên tham gia học liên hợp:",
+    list(nodes_dict.keys()),
+    default=list(nodes_dict.keys())
 )
 
 # Chia giao diện làm 2 cột
-col1, col2 = st.columns([1, 1])
+col1, col2 = st.columns([1.2, 1])
 
 with col1:
-    st.markdown("### 🗺️ Bản đồ Mạng Tích hợp SAGSINs")
-    # Tọa độ Đà Nẵng làm trạm mặt đất trung tâm
-    ground_lat, ground_lon = 16.0544, 108.2022
-    m = folium.Map(location=[ground_lat, ground_lon], zoom_start=7, tiles="OpenStreetMap")
+    st.markdown("### 🗺️ Bản đồ Mạng Tích hợp SAGSINs (GIS Live)")
 
-    # Marker Trạm Mặt đất
+    # Bản đồ trung tâm tại Trạm mặt đất
+    m = folium.Map(location=[gs.lat, gs.lon], zoom_start=8, tiles="OpenStreetMap")
+
+    # Marker Trạm Mặt Đất (Server Trung tâm)
     folium.Marker(
-        [ground_lat, ground_lon],
-        popup="Trạm Mặt Đất (Central Server)",
+        [gs.lat, gs.lon],
+        popup=f"<b>{gs.name}</b><br>Trạng thái: Central Aggregator",
         icon=folium.Icon(color="red", icon="home")
     ).add_to(m)
 
-    # Marker UAV
-    folium.Marker(
-        [16.2000, 108.3000],
-        popup="UAV_01 (Air Layer) - Pin: 95%",
-        icon=folium.Icon(color="green", icon="plane")
-    ).add_to(m)
+    # Hiển thị các nút biên được chọn lên bản đồ
+    color_map = {"Air": "green", "Space": "blue", "Sea": "orange", "Ground": "purple"}
+    icon_map = {"Air": "plane", "Space": "cloud", "Sea": "info-sign", "Ground": "user"}
 
-    # Marker Vệ tinh
-    folium.Marker(
-        [16.8000, 107.8000],
-        popup="SAT_01 (Space Layer) - QĐ LEO",
-        icon=folium.Icon(color="blue", icon="cloud")
-    ).add_to(m)
+    for name in selected_node_names:
+        node = nodes_dict[name]
+        node_info = node.to_dict()
 
-    # Marker Tàu biển
-    folium.Marker(
-        [15.8000, 108.8000],
-        popup="SHIP_01 (Sea Layer) - Vessel",
-        icon=folium.Icon(color="orange", icon="info-sign")
-    ).add_to(m)
+        popup_text = f"""
+        <b>{node_info['name']} ({node_info['node_id']})</b><br>
+        Tầng: <b>{node_info['layer']}</b><br>
+        Pin: {node_info['battery']}% | Băng thông: {node_info['bandwidth']} Mbps<br>
+        Trạng thái: {node_info['status']}
+        """
 
-    st_folium(m, width=550, height=400)
+        folium.Marker(
+            [node_info['lat'], node_info['lon']],
+            popup=popup_text,
+            icon=folium.Icon(color=color_map.get(node_info['layer'], "gray"),
+                             icon=icon_map.get(node_info['layer'], "info-sign"))
+        ).add_to(m)
+
+    st_folium(m, width=600, height=450)
 
 with col2:
-    st.markdown("### 📊 Hiệu năng Mô hình Toàn cục (Global Model)")
+    st.markdown("### 📊 Thông số Hoạt động & Hiệu năng")
 
-    # Dữ liệu biểu đồ giả lập mẫu
+    # Hiển thị bảng tổng hợp thông số nút biên
+    selected_data = [nodes_dict[name].to_dict() for name in selected_node_names]
+    if selected_data:
+        df_nodes = pd.DataFrame(selected_data)[["node_id", "name", "layer", "battery", "bandwidth", "status"]]
+        st.dataframe(df_nodes, use_container_width=True)
+
+    # Biểu đồ mô phỏng quá trình hội tụ mô hình AI
+    st.markdown("#### Progress Metrics (FedAvg Convergence)")
     rounds = list(range(1, 11))
-    acc_data = [20, 35, 50, 65, 72, 78, 83, 86, 88, 91]
-    loss_data = [2.3, 1.8, 1.4, 1.0, 0.7, 0.5, 0.4, 0.3, 0.25, 0.2]
+    acc_data = [12.5, 35.0, 58.2, 72.1, 80.5, 85.3, 88.0, 90.2, 91.5, 92.8]
 
     df_metrics = pd.DataFrame({
         "Vòng lặp (Round)": rounds,
-        "Độ chính xác (%)": acc_data,
-        "Độ lỗi (Loss)": loss_data
+        "Độ chính xác (%)": acc_data
     }).set_index("Vòng lặp (Round)")
 
     st.line_chart(df_metrics)
-    st.success("✅ Trạng thái hệ thống: Socket TCP Controller đã sẵn sàng kết nối!")
 
-st.info("💡 Dự án được phát triển theo chuẩn kiến trúc MVC.")
+st.info("💡 Hệ thống đã tích hợp đầy đủ 4 tầng mạng vật lý SAGSINs (Space - Air - Ground - Sea).")
