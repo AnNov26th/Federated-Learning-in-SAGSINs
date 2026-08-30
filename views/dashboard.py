@@ -53,14 +53,13 @@ selected_node_names = st.sidebar.multiselect(
 # =========================================================
 st.markdown("### 🗺️ Bản đồ Mạng Tích hợp SAGSINs (Google Maps GIS)")
 
-# Khởi tạo bản đồ trung tâm tại Trạm mặt đất Đà Nẵng
 m = folium.Map(
     location=[gs.lat, gs.lon],
     zoom_start=7,
     tiles=None
 )
 
-# Thêm Lớp Google Maps Vệ tinh + Địa danh (Google Hybrid)
+# Lớp bản đồ Google Maps Hybrid
 folium.TileLayer(
     tiles="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
     attr="Google Maps",
@@ -69,16 +68,7 @@ folium.TileLayer(
     control=True
 ).add_to(m)
 
-# Thêm Lớp Google Maps Vệ tinh thuần
-folium.TileLayer(
-    tiles="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
-    attr="Google Maps",
-    name="Google Maps (Ảnh Vệ tinh)",
-    overlay=False,
-    control=True
-).add_to(m)
-
-# Thêm Lớp Google Maps Đường xá
+# Lớp bản đồ Google Maps Đường xá
 folium.TileLayer(
     tiles="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
     attr="Google Maps",
@@ -87,7 +77,7 @@ folium.TileLayer(
     control=True
 ).add_to(m)
 
-# Thêm Lớp Giao diện Tối Dark Mode
+# Lớp bản đồ Dark Mode
 folium.TileLayer(
     tiles="CartoDB dark_matter",
     attr="CartoDB",
@@ -96,39 +86,50 @@ folium.TileLayer(
     control=True
 ).add_to(m)
 
-# Marker Trạm Mặt Đất (Server Trung tâm)
+# 🏠 Popup đẹp mắt cho Trạm Mặt Đất
+gs_popup_html = f"""
+<div style="width: 240px; font-size: 13px; line-height: 1.6;">
+    <b style="font-size: 14px; color: #d9534f;">{gs.name} ({gs.station_id})</b><br>
+    <b>Vai trò:</b> Central Aggregator<br>
+    <b>Tọa độ:</b> {gs.lat}, {gs.lon}
+</div>
+"""
+
 folium.Marker(
     [gs.lat, gs.lon],
-    popup=f"<b>{gs.name} ({gs.station_id})</b><br>Vai trò: Central Aggregator<br>Tọa độ: {gs.lat}, {gs.lon}",
+    popup=folium.Popup(gs_popup_html, max_width=300),
     icon=folium.Icon(color="red", icon="home")
 ).add_to(m)
 
 color_map = {"Air": "green", "Space": "blue", "Sea": "orange", "Ground": "purple"}
 icon_map = {"Air": "plane", "Space": "cloud", "Sea": "info-sign", "Ground": "user"}
 
-# Vẽ Marker & Đường nối sóng không dây cho từng thiết bị biên
+# 📡 Marker & Popup cho các Thiết bị biên
 for name in selected_node_names:
     node = nodes_dict[name]
     node_info = node.to_dict()
 
-    popup_text = f"""
-    <b>{node_info['name']} ({node_info['node_id']})</b><br>
-    Tầng vật lý: <b>{node_info['layer']} Layer</b><br>
-    Dung lượng Pin: <b>{node_info['battery']}%</b><br>
-    Băng thông: <b>{node_info['bandwidth']} Mbps</b><br>
-    Trạng thái: <b>{node_info['status']}</b>
+    # Định dạng HTML rộng 230px để 1 thông tin nằm vừa vặn trên 1 dòng
+    popup_html = f"""
+    <div style="width: 230px; font-size: 13px; line-height: 1.7;">
+        <b style="font-size: 14px; color: #0275d8;">{node_info['name']} ({node_info['node_id']})</b><br>
+        <b>Tầng vật lý:</b> {node_info['layer']} Layer<br>
+        <b>Dung lượng Pin:</b> {node_info['battery']}%<br>
+        <b>Băng thông:</b> {node_info['bandwidth']} Mbps<br>
+        <b>Trạng thái:</b> <span style="color: green; font-weight: bold;">{node_info['status']}</span>
+    </div>
     """
 
     folium.Marker(
         [node_info['lat'], node_info['lon']],
-        popup=popup_text,
+        popup=folium.Popup(popup_html, max_width=300),
         icon=folium.Icon(
             color=color_map.get(node_info['layer'], "gray"),
             icon=icon_map.get(node_info['layer'], "info-sign")
         )
     ).add_to(m)
 
-    # 📡 Đường truyền sóng không dây (PolyLine nét đứt) từ Nút biên về Trạm mặt đất
+    # Đường truyền sóng nét đứt
     folium.PolyLine(
         locations=[[gs.lat, gs.lon], [node_info['lat'], node_info['lon']]],
         color=color_map.get(node_info['layer'], "yellow"),
@@ -138,14 +139,12 @@ for name in selected_node_names:
     ).add_to(m)
 
 folium.LayerControl(position="topright").add_to(m)
-
-# Hiển thị bản đồ Google Maps GIS mở rộng full màn hình trung tâm
 st_folium(m, use_container_width=True, height=520)
 
 st.markdown("---")
 
 # =========================================================
-# PHẦN 2: KHI CUỘN XUỐNG - BẢNG THÔNG SỐ & HIỆU NĂNG CHI TIẾT
+# PHẦN 2: BẢNG THÔNG SỐ & HIỆU NĂNG CHI TIẾT
 # =========================================================
 col_left, col_right = st.columns([1.2, 1])
 
@@ -155,12 +154,10 @@ with col_left:
     if selected_data:
         df_nodes = pd.DataFrame(selected_data)
 
-        # Sắp xếp và chọn các cột thông số hiển thị
         cols_order = ["node_id", "name", "layer", "status", "battery", "bandwidth", "lat", "lon"]
         existing_cols = [c for c in cols_order if c in df_nodes.columns]
         df_nodes = df_nodes[existing_cols]
 
-        # Đổi tên cột sang tiếng Việt cho chuyên nghiệp
         df_nodes = df_nodes.rename(columns={
             "node_id": "Mã Nút",
             "name": "Tên Thiết Bị",
@@ -190,4 +187,4 @@ with col_right:
     st.line_chart(df_metrics, height=280)
 
 st.info(
-    "💡 Giao diện đã được tối ưu: Bản đồ Google Maps mở rộng nằm ở trung tâm, cuộn xuống dưới để xem toàn bộ thông số thiết bị và hiệu năng hội tụ mô hình.")
+    "💡 Giao diện đã được tối ưu: Bản đồ Google Maps mở rộng nằm ở trung tâm, popup hiển thị thông tin thiết bị vuông vắn, cuộn xuống dưới để xem toàn bộ bảng thông số tiếng Việt.")
