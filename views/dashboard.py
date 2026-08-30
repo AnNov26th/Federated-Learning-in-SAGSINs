@@ -1,3 +1,9 @@
+import sys
+import os
+
+# BẮT BỘC: Bổ sung thư mục gốc dự án vào Python Path để Streamlit Cloud nhận diện gói models
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
@@ -6,7 +12,9 @@ import pandas as pd
 # Import các đối tượng từ gói models
 from models import GroundStation, UAV, Satellite, Ship, Vehicle
 
-# 1. Cấu hình trang Dashboard
+# =========================================================
+# TOÀN BỘ CODE PHÍA DƯỚI CỦA DASHBOARD.PY GIỮ NGUYÊN
+# =========================================================
 st.set_page_config(
     page_title="PBL4 - SAGSINs Federated Learning Dashboard",
     page_icon="📡",
@@ -16,14 +24,14 @@ st.set_page_config(
 st.title("📡 MÔ PHỎNG FEDERATED LEARNING TRONG MẠNG TÍCH HỢP SAGSINs")
 st.subheader("Đồ án Dự án Hệ điều hành & Mạng máy tính (PBL4)")
 
-# 2. Khởi tạo các thực thể mạng SAGSINs
+# Khởi tạo các thực thể mạng SAGSINs
 gs = GroundStation(station_id="GS_DANANG", name="Trạm Mặt Đất Đà Nẵng", lat=16.0544, lon=108.2022)
 uav = UAV(node_id="UAV_01", name="Drone Giám Sát", lat=16.2000, lon=108.3000, battery=95.0, bandwidth=50.0)
 sat = Satellite(node_id="SAT_01", name="Vệ Tinh LEO", lat=16.8000, lon=107.8000, battery=100.0, bandwidth=20.0, orbit_altitude=800)
 ship = Ship(node_id="SHIP_01", name="Tàu Biển Hải Quân", lat=15.8000, lon=108.8000, battery=88.0, bandwidth=10.0)
 vehicle = Vehicle(node_id="VEH_01", name="Xe Tự Hành Xe Thông Minh", lat=16.0200, lon=108.1800, battery=90.0, bandwidth=100.0)
 
-# 3. Sidebar cấu hình kịch bản
+# Sidebar cấu hình kịch bản
 st.sidebar.header("⚙️ Cấu hình Kịch bản SAGSINs")
 num_rounds = st.sidebar.slider("Số vòng huấn luyện (Rounds)", 5, 50, 10)
 
@@ -40,7 +48,7 @@ selected_node_names = st.sidebar.multiselect(
     default=list(nodes_dict.keys())
 )
 
-# 4. Chia giao diện làm 2 cột
+# Chia giao diện làm 2 cột
 col1, col2 = st.columns([1.3, 1])
 
 with col1:
@@ -50,10 +58,10 @@ with col1:
     m = folium.Map(
         location=[gs.lat, gs.lon],
         zoom_start=7,
-        tiles=None # Tự thiết lập các lớp bản đồ Google bên dưới
+        tiles=None
     )
 
-    # Thêm Lớp Google Maps Vệ tinh + Tên địa danh (Google Hybrid - Mặc định)
+    # Thêm Lớp Google Maps Vệ tinh + Tên địa danh (Google Hybrid)
     folium.TileLayer(
         tiles="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
         attr="Google Maps",
@@ -96,11 +104,9 @@ with col1:
         icon=folium.Icon(color="red", icon="home")
     ).add_to(m)
 
-    # Màu sắc và biểu tượng cho từng tầng mạng
     color_map = {"Air": "green", "Space": "blue", "Sea": "orange", "Ground": "purple"}
     icon_map = {"Air": "plane", "Space": "cloud", "Sea": "info-sign", "Ground": "user"}
 
-    # Hiển thị các nút biên và đường truyền tín hiệu lên bản đồ
     for name in selected_node_names:
         node = nodes_dict[name]
         node_info = node.to_dict()
@@ -113,7 +119,6 @@ with col1:
         Trạng thái: <b>{node_info['status']}</b>
         """
 
-        # Marker cho Nút biên
         folium.Marker(
             [node_info['lat'], node_info['lon']],
             popup=popup_text,
@@ -129,25 +134,20 @@ with col1:
             color=color_map.get(node_info['layer'], "yellow"),
             weight=2.5,
             opacity=0.85,
-            dash_array="6, 10" # Nét đứt biểu diễn truyền dữ liệu sóng không dây
+            dash_array="6, 10"
         ).add_to(m)
 
-    # Nút chuyển đổi chọn qua lại giữa các kiểu bản đồ ở góc trên bên phải
     folium.LayerControl(position="topright").add_to(m)
-
-    # Trực quan hóa bản đồ trên Streamlit
     st_folium(m, width=650, height=480)
 
 with col2:
     st.markdown("### 📊 Thông số Hoạt động & Hiệu năng")
 
-    # Bảng tổng hợp thông số trạng thái các nút biên đang tham gia
     selected_data = [nodes_dict[name].to_dict() for name in selected_node_names]
     if selected_data:
         df_nodes = pd.DataFrame(selected_data)[["node_id", "name", "layer", "battery", "bandwidth", "status"]]
         st.dataframe(df_nodes, use_container_width=True)
 
-    # Biểu đồ mô phỏng quá trình hội tụ mô hình AI toàn cục (Global Model FedAvg)
     st.markdown("#### Progress Metrics (FedAvg Convergence)")
     rounds = list(range(1, 11))
     acc_data = [12.5, 35.0, 58.2, 72.1, 80.5, 85.3, 88.0, 90.2, 91.5, 92.8]
