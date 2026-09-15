@@ -20,32 +20,135 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS cho Hover Collapsible Sidebar (Mở rộng khi rê di chuột)
+# Cấu hình giao diện (Sci-Fi Dashboard CSS)
 st.markdown("""
 <style>
+    :root {
+        --bg-color: #0b0f19;
+        --panel-bg: rgba(16, 24, 43, 0.7);
+        --neon-cyan: #00f3ff;
+        --neon-magenta: #ff00e5;
+        --neon-purple: #b500ff;
+        --text-main: #e2e8f0;
+    }
+    
+    /* Giao diện chính */
+    .stApp {
+        background-color: var(--bg-color);
+        background-image: 
+            radial-gradient(circle at 15% 50%, rgba(0, 243, 255, 0.05), transparent 25%),
+            radial-gradient(circle at 85% 30%, rgba(255, 0, 229, 0.05), transparent 25%);
+        color: var(--text-main);
+        font-family: 'Inter', 'Roboto', sans-serif;
+    }
+    
+    /* Sidebar */
     [data-testid="stSidebar"] {
-        width: 80px !important;
-        min-width: 80px !important;
-        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        overflow-x: hidden !important;
-        background-color: #f8fafc !important;
-        border-right: 1px solid #e2e8f0 !important;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+        background: linear-gradient(180deg, #101625 0%, #0a0e17 100%) !important;
+        border-right: 1px solid rgba(0, 243, 255, 0.2) !important;
+        box-shadow: 2px 0 15px rgba(0, 243, 255, 0.1);
     }
-    [data-testid="stSidebar"]:hover {
-        width: 320px !important;
-        min-width: 320px !important;
-        box-shadow: 4px 0 20px rgba(0,0,0,0.12);
+    
+    [data-testid="stSidebarNav"] {
+        display: none;
     }
-    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
-    [data-testid="stSidebar"] .stRadio label div:nth-child(2) {
-        opacity: 0;
-        transition: opacity 0.25s ease-in-out;
-        white-space: nowrap;
+    
+    /* Các Panel / Container hiển thị trong app */
+    .sci-fi-panel {
+        background: var(--panel-bg);
+        border: 1px solid rgba(0, 243, 255, 0.3);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 243, 255, 0.1), inset 0 0 20px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        margin-bottom: 20px;
     }
-    [data-testid="stSidebar"]:hover [data-testid="stMarkdownContainer"] p,
-    [data-testid="stSidebar"]:hover .stRadio label div:nth-child(2) {
-        opacity: 1;
+    
+    .sci-fi-panel:hover {
+        border-color: var(--neon-cyan);
+        box-shadow: 0 0 15px rgba(0, 243, 255, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+        color: #fff !important;
+        text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+    }
+    
+    .glow-text {
+        color: var(--neon-cyan);
+        text-shadow: 0 0 5px var(--neon-cyan);
+        font-weight: bold;
+    }
+    
+    /* Streamlit UI Overrides */
+    div[data-baseweb="select"] > div {
+        background-color: rgba(16, 24, 43, 0.8) !important;
+        border: 1px solid rgba(0, 243, 255, 0.3) !important;
+        color: white !important;
+    }
+    
+    .stButton>button {
+        background: transparent !important;
+        border: 1px solid var(--neon-cyan) !important;
+        color: var(--neon-cyan) !important;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 0 5px rgba(0, 243, 255, 0.2);
+    }
+    
+    .stButton>button:hover {
+        background: rgba(0, 243, 255, 0.1) !important;
+        box-shadow: 0 0 15px rgba(0, 243, 255, 0.5), inset 0 0 10px rgba(0, 243, 255, 0.2);
+        color: #fff !important;
+    }
+    
+    .stSlider > div > div > div > div {
+        background: var(--neon-purple) !important;
+    }
+    
+    /* Bảng Dataframe */
+    [data-testid="stDataFrame"] {
+        border: 1px solid rgba(255, 0, 229, 0.3);
+        border-radius: 5px;
+    }
+    
+    /* Header thông số tổng quan (Dashboard) */
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        background: rgba(16, 24, 43, 0.8);
+        border: 1px solid rgba(0, 243, 255, 0.3);
+        border-radius: 8px;
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
+    }
+    .metric-box {
+        text-align: center;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0 20px;
+        flex: 1;
+    }
+    .metric-box:last-child {
+        border-right: none;
+    }
+    .metric-label {
+        font-size: 0.85em;
+        color: #94a3b8;
+        text-transform: uppercase;
+    }
+    .metric-value {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: var(--neon-cyan);
+        text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
+    }
+    .metric-value.completed {
+        color: #00ff88;
+        text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -86,8 +189,8 @@ def create_base_map():
     ).add_to(m)
     return m
 
-st.sidebar.markdown("### 📡 PBL4 SAGSINs")
-st.sidebar.caption("Di Chuột Mở Rộng Menu")
+st.sidebar.markdown("<h3 class='glow-text'>🚀 SIMULATION CONTROLS</h3>", unsafe_allow_html=True)
+st.sidebar.caption("FL-SAGSIN Simulator Menu")
 st.sidebar.markdown("---")
 
 menu_options = [
@@ -101,22 +204,48 @@ menu_options = [
     "🗄️ Quản Trị CSDL SQLite"
 ]
 
-menu_choice = st.sidebar.radio("MENU CHỨC NĂNG:", menu_options)
+menu_choice = st.sidebar.radio("CHỨC NĂNG (DASHBOARD PANELS):", menu_options)
 nodes_dict = {f"{n.name} ({n.layer} - {n.node_id})": n for n in st.session_state.nodes_list}
 
-if menu_choice == menu_options:
+# Header Dashboard (Global)
+st.markdown("""
+<div class="dashboard-header">
+    <div class="metric-box">
+        <div class="metric-label">Simulation Status</div>
+        <div class="metric-value completed">Completed</div>
+    </div>
+    <div class="metric-box">
+        <div class="metric-label">Rounds</div>
+        <div class="metric-value">40/40</div>
+    </div>
+    <div class="metric-box">
+        <div class="metric-label">Avg. Local Accuracy</div>
+        <div class="metric-value">78%</div>
+    </div>
+    <div class="metric-box">
+        <div class="metric-label">Global Accuracy</div>
+        <div class="metric-value">74%</div>
+    </div>
+    <div class="metric-box">
+        <div class="metric-label">Total Time</div>
+        <div class="metric-value">125s</div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+if menu_choice == menu_options[0]:
     render_gis_map(servers_dict, st.session_state.nodes_list, create_base_map)
-elif menu_choice == menu_options:
+elif menu_choice == menu_options[1]:
     render_data_collect(nodes_dict, db)
-elif menu_choice == menu_options:
+elif menu_choice == menu_options[2]:
     render_fl_training(nodes_dict, db)
-elif menu_choice == menu_options:
+elif menu_choice == menu_options[3]:
     render_routing(servers_dict, st.session_state.nodes_list, nodes_dict, db, create_base_map)
-elif menu_choice == menu_options:
+elif menu_choice == menu_options[4]:
     render_energy_crud(servers_dict, nodes_dict, db)
-elif menu_choice == menu_options:
+elif menu_choice == menu_options[5]:
     render_attack_defense()
-elif menu_choice == menu_options:
+elif menu_choice == menu_options[6]:
     render_resource_pso(st.session_state.nodes_list)
-elif menu_choice == menu_options:
+elif menu_choice == menu_options[7]:
     render_db_admin(db)

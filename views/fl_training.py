@@ -4,11 +4,12 @@ import random
 
 
 def render_fl_training(nodes_dict, db):
-    st.title("🧠 HUẤN LUYỆN HỌC LIÊN HỢP & BẢO MẬT LDP")
+    st.markdown("<h2 class='glow-text'>🧠 HUẤN LUYỆN HỌC LIÊN HỢP & BẢO MẬT LDP</h2>", unsafe_allow_html=True)
     st.caption("Điều chỉnh Ngân sách Bảo mật Epsilon (ε) và cấu hình các tham số huấn luyện AI phân tán.")
 
+    st.markdown('<div class="sci-fi-panel">', unsafe_allow_html=True)
     with st.form("form_fl_param"):
-        st.subheader("⚙️ Cấu Hình Tham Số Huấn Luyện & Bảo Mật LDP")
+        st.markdown("<h4 style='color: var(--neon-cyan);'>⚙️ Cấu Hình Tham Số Huấn Luyện & Bảo Mật LDP</h4>", unsafe_allow_html=True)
         col1, col2 = st.columns(2)
         with col1:
             ep_val = st.slider("🔒 Ngân sách Bảo mật Privacy Budget (Epsilon - ε):", 0.1, 10.0, 2.0, 0.1)
@@ -28,19 +29,28 @@ def render_fl_training(nodes_dict, db):
                 db.insert_training_log(random.randint(1, 15), n_obj.node_id, n_obj.name, loss, acc, ep_val, weight_kb)
                 p_bar.progress((idx + 1) / len(selected_nodes_fl))
             st.success("✅ Đã chèn nhiễu Gaussian LDP và hoàn tất tổng hợp FedAvg trên Server!")
+    st.markdown('</div>', unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("#### 📈 Độ Chính Xác Toàn Cục (Global Accuracy %)")
+        st.markdown('<div class="sci-fi-panel">', unsafe_allow_html=True)
+        st.markdown("<h4 style='color: var(--neon-magenta);'>📈 Độ Chính Xác Toàn Cục (Global Accuracy %)</h4>", unsafe_allow_html=True)
         rounds = list(range(1, 11))
-        st.line_chart(pd.DataFrame({"Vòng FL": rounds,
+        chart_data_acc = pd.DataFrame({"Vòng FL": rounds,
                                     "Accuracy (%)": [15.2, 38.5, 62.1, 75.8, 83.2, 87.9, 90.5, 92.3, 93.8,
-                                                     94.7]}).set_index("Vòng FL"))
+                                                     94.7]}).set_index("Vòng FL")
+        st.line_chart(chart_data_acc, color="#ff00e5")
+        st.markdown('</div>', unsafe_allow_html=True)
     with col2:
-        st.markdown("#### 📉 Độ Lỗi Toàn Cục (Global Loss)")
-        st.line_chart(pd.DataFrame(
+        st.markdown('<div class="sci-fi-panel">', unsafe_allow_html=True)
+        st.markdown("<h4 style='color: var(--neon-cyan);'>📉 Độ Lỗi Toàn Cục (Global Loss)</h4>", unsafe_allow_html=True)
+        chart_data_loss = pd.DataFrame(
             {"Vòng FL": rounds, "Loss": [2.45, 1.82, 1.25, 0.88, 0.58, 0.42, 0.31, 0.24, 0.19, 0.15]}).set_index(
-            "Vòng FL"))
+            "Vòng FL")
+        st.line_chart(chart_data_loss, color="#00f3ff")
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    st.markdown("### 🗄️ Nhật Ký Huấn Luyện Trong CSDL")
+    st.markdown('<div class="sci-fi-panel">', unsafe_allow_html=True)
+    st.markdown("<h3 style='color: var(--neon-cyan);'>🗄️ Nhật Ký Huấn Luyện Trong CSDL</h3>", unsafe_allow_html=True)
     st.dataframe(db.fetch_training_logs(), use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
