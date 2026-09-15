@@ -32,6 +32,22 @@ st.markdown("""
         --text-main: #e2e8f0;
     }
     
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: rgba(11, 15, 25, 0.8);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: rgba(0, 243, 255, 0.3);
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 243, 255, 0.8);
+    }
+
     /* Giao diện chính */
     .stApp {
         background-color: var(--bg-color);
@@ -42,11 +58,17 @@ st.markdown("""
         font-family: 'Inter', 'Roboto', sans-serif;
     }
     
+    /* Animation mượt mà */
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
     /* Sidebar */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #101625 0%, #0a0e17 100%) !important;
+        background: linear-gradient(180deg, #0e1422 0%, #080b12 100%) !important;
         border-right: 1px solid rgba(0, 243, 255, 0.2) !important;
-        box-shadow: 2px 0 15px rgba(0, 243, 255, 0.1);
+        box-shadow: 2px 0 20px rgba(0, 243, 255, 0.08);
     }
     
     [data-testid="stSidebarNav"] {
@@ -56,17 +78,20 @@ st.markdown("""
     /* Các Panel / Container hiển thị trong app */
     .sci-fi-panel {
         background: var(--panel-bg);
-        border: 1px solid rgba(0, 243, 255, 0.3);
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 243, 255, 0.1), inset 0 0 20px rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(10px);
-        margin-bottom: 20px;
+        border: 1px solid rgba(0, 243, 255, 0.2);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 243, 255, 0.02);
+        backdrop-filter: blur(12px);
+        margin-bottom: 24px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: fadeInUp 0.6s ease-out forwards;
     }
     
     .sci-fi-panel:hover {
-        border-color: var(--neon-cyan);
-        box-shadow: 0 0 15px rgba(0, 243, 255, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.5);
+        border-color: rgba(0, 243, 255, 0.6);
+        box-shadow: 0 8px 25px rgba(0, 243, 255, 0.2), inset 0 0 20px rgba(0, 243, 255, 0.05);
+        transform: translateY(-4px) scale(1.005);
     }
     
     /* Typography */
@@ -119,18 +144,24 @@ st.markdown("""
     .dashboard-header {
         display: flex;
         justify-content: space-between;
-        background: rgba(16, 24, 43, 0.8);
-        border: 1px solid rgba(0, 243, 255, 0.3);
-        border-radius: 8px;
-        padding: 10px 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
+        background: rgba(16, 24, 43, 0.85);
+        border: 1px solid rgba(0, 243, 255, 0.2);
+        border-radius: 12px;
+        padding: 15px 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        animation: fadeInUp 0.5s ease-out forwards;
     }
     .metric-box {
         text-align: center;
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
         padding: 0 20px;
         flex: 1;
+        transition: transform 0.3s ease;
+    }
+    .metric-box:hover {
+        transform: translateY(-3px);
     }
     .metric-box:last-child {
         border-right: none;
