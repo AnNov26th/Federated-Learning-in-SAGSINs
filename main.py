@@ -119,7 +119,6 @@ st.markdown("""
         color: var(--neon-cyan) !important;
         border-radius: 20px;
         transition: all 0.3s ease;
-        text-transform: uppercase;
         letter-spacing: 1px;
         box-shadow: 0 0 5px rgba(0, 243, 255, 0.2);
     }
@@ -128,6 +127,39 @@ st.markdown("""
         background: rgba(0, 243, 255, 0.1) !important;
         box-shadow: 0 0 15px rgba(0, 243, 255, 0.5), inset 0 0 10px rgba(0, 243, 255, 0.2);
         color: #fff !important;
+    }
+    
+    /* Cấu hình đặc biệt cho Sidebar Menu Buttons */
+    [data-testid="stSidebar"] .stButton>button {
+        justify-content: flex-start !important;
+        padding-left: 15px !important;
+        border-radius: 8px !important;
+        text-transform: none !important;
+        letter-spacing: normal !important;
+        width: 100% !important;
+    }
+    
+    /* Trạng thái nút Sidebar Không Active */
+    [data-testid="stSidebar"] [data-testid="baseButton-secondary"] {
+        background: transparent !important;
+        border: 1px solid transparent !important;
+        color: #94a3b8 !important;
+        box-shadow: none !important;
+    }
+    [data-testid="stSidebar"] [data-testid="baseButton-secondary"]:hover {
+        background: rgba(0, 243, 255, 0.05) !important;
+        border: 1px solid rgba(0, 243, 255, 0.3) !important;
+        color: #fff !important;
+    }
+    
+    /* Trạng thái nút Sidebar Active (Primary) */
+    [data-testid="stSidebar"] [data-testid="baseButton-primary"] {
+        background: linear-gradient(90deg, rgba(0, 243, 255, 0.2) 0%, transparent 100%) !important;
+        border: 1px solid transparent !important;
+        border-left: 4px solid var(--neon-cyan) !important;
+        color: #fff !important;
+        font-weight: bold;
+        box-shadow: none !important;
     }
     
     .stSlider > div > div > div > div {
@@ -235,7 +267,17 @@ menu_options = [
     "🗄️ Quản Trị CSDL SQLite"
 ]
 
-menu_choice = st.sidebar.radio("CHỨC NĂNG (DASHBOARD PANELS):", menu_options)
+if 'current_menu' not in st.session_state:
+    st.session_state.current_menu = menu_options[0]
+
+st.sidebar.markdown("<p style='color: #94a3b8; font-size: 0.9em; font-weight: bold;'>CHỨC NĂNG (DASHBOARD PANELS)</p>", unsafe_allow_html=True)
+for option in menu_options:
+    is_active = st.session_state.current_menu == option
+    if st.sidebar.button(option, key=f"btn_{option}", use_container_width=True, type="primary" if is_active else "secondary"):
+        st.session_state.current_menu = option
+        st.rerun()
+
+menu_choice = st.session_state.current_menu
 nodes_dict = {f"{n.name} ({n.layer} - {n.node_id})": n for n in st.session_state.nodes_list}
 
 # Header Dashboard (Global)
