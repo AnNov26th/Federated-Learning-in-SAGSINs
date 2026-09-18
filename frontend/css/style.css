@@ -1,0 +1,60 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background: #050812;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    height: 100px;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+header p {
+    margin-top: 8px;
+    color: #aaaaaa;
+}
+
+main {
+    width: 100%;
+}
+
+#simulation {
+    width: 100%;
+    height: calc(100vh - 150px);
+}
+
+#earth-container {
+    width: 100%;
+    height: 100%;
+}
+
+#earth-container canvas {
+    display: block;
+}
+
+#status {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+}
+
+#backend-status {
+    color: #00ff88;
+}

@@ -1,0 +1,33 @@
+                    FRONTEND
+              HTML + CSS + JS
+                      │
+          ┌───────────┴───────────┐
+          │                       │
+      Three.js              Charts/UI
+          │
+     3D SAGSIN
+          │
+          │ REST / WebSocket
+          ▼
+                    FASTAPI
+                      │
+        ┌─────────────┼──────────────┐
+        │             │              │
+        ▼             ▼              ▼
+    SAGSIN         Federated       RL Module
+   Simulator       Learning
+        │             │              │
+        │          FedAvg            │
+        │          NbFML             │
+        │                            │
+        └───────────┬────────────────┘
+                    ▼
+                Gymnasium
+                    │
+                    ▼
+                 QR-DQN
+                    │
+                    ▼
+        Participant Selection
+        Resource Allocation
+        / Routing

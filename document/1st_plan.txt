@@ -1,0 +1,29 @@
+🚀 Bước 1 — Dựng Skeleton + 3D Earth Demo
+Mục tiêu cuối bước 1
+
+Chạy:
+
+uvicorn backend.main:app --reload
+
+→ mở:
+
+http://127.0.0.1:8000
+
+và thấy một trang web có:
+
+                 SAGSIN Simulation
+┌─────────────────────────────────────────────┐
+│                                             │
+│              🌍 3D EARTH                   │
+│                                             │
+│       🛰 Satellite                         │
+│                         ✈ UAV              │
+│                                             │
+│             ● Ground Station               │
+│                                             │
+└─────────────────────────────────────────────┘
+
+Backend: ● Connected
+
+Tức là Frontend ↔ FastAPI ↔ Three.js đã thông.
+
