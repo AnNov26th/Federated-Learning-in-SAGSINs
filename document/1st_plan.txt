@@ -27,3 +27,85 @@ Backend: ● Connected
 
 Tức là Frontend ↔ FastAPI ↔ Three.js đã thông.
 
+8. Sau đó mới gắn Texture 🌍
+
+Đây sẽ là Phase 2.2.
+
+Cấu trúc:
+
+assets/
+└── textures/
+    ├── earth_day.jpg
+    ├── earth_night.jpg
+    ├── earth_normal.jpg
+    └── clouds.png
+
+Lúc đó earth.js sẽ chuyển từ:
+
+const material = new THREE.MeshStandardMaterial({
+    roughness: 0.8,
+    metalness: 0.0
+});
+
+sang kiểu:
+
+const textureLoader = new THREE.TextureLoader();
+
+const earthTexture =
+    textureLoader.load(
+        "/assets/textures/earth_day.jpg"
+    );
+
+const material =
+    new THREE.MeshStandardMaterial({
+        map: earthTexture
+    });
+
+Kết quả:
+
+             🌍
+        ┌──────────┐
+        │  EARTH   │
+        │ texture  │
+        │  map     │
+        └──────────┘
+
+Sau đó mới nâng cấp:
+
+Phase 2.1
+   ↓
+Sphere
+   ↓
+Phase 2.2
+   ↓
+Earth Texture
+   ↓
+Phase 2.3
+   ↓
+Atmosphere
+   ↓
+Phase 2.4
+   ↓
+Cloud Layer
+
+Rồi Phase 3 mới bắt đầu đưa SAGSIN vào:
+
+                 🛰
+                /
+               /
+        🌍──────🛰
+       /  \
+      /    \
+    🛩      📡
+            |
+            🚗
+
+và sau đó Phase 4 mới:
+
+TLE
+ ↓
+satellite.js
+ ↓
+SGP4
+ ↓
+🛰 chuyển động theo quỹ đạo thật
