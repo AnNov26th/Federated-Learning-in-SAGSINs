@@ -14,6 +14,7 @@ export function createEarth() {
     const earthTexture = textureLoader.load("/assets/textures/earth_daymap.jpg");
     const earthNormal = textureLoader.load("/assets/textures/earth_normal_map.jpg");
     const earthSpecular = textureLoader.load("/assets/textures/earth_specular_map.jpg");
+    const earthNight = textureLoader.load("/assets/textures/earth_nightmap.jpg");
 
     // Use Phong material for better specular map support
     const material = new THREE.MeshPhongMaterial({
@@ -26,6 +27,44 @@ export function createEarth() {
 
     const earth = new THREE.Mesh(geometry, material);
     earthGroup.add(earth);
+
+    // Night Lights Layer (custom shader to only show in the dark)
+    const nightMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+            nightTexture: { value: earthNight },
+            sunDirection: { value: new THREE.Vector3(5, 3, 5).normalize() }
+        },
+        vertexShader: `
+            varying vec2 vUv;
+            varying vec3 vNormal;
+            void main() {
+                vUv = uv;
+                vNormal = normalize((modelMatrix * vec4(normal, 0.0)).xyz);
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `,
+        fragmentShader: `
+            uniform sampler2D nightTexture;
+            uniform vec3 sunDirection;
+            varying vec2 vUv;
+            varying vec3 vNormal;
+            void main() {
+                float intensity = dot(vNormal, sunDirection);
+                // When intensity < 0, it's dark. Blend smoothly.
+                float blend = smoothstep(0.1, -0.1, intensity);
+                vec4 nightColor = texture2D(nightTexture, vUv);
+                gl_FragColor = vec4(nightColor.rgb * blend, nightColor.a * blend);
+            }
+        `,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+    });
+
+    // Tạo một geometry hơi lớn hơn trái đất một chút xíu (2.005 thay vì 2) để tránh lỗi Z-fighting (nhấp nháy)
+    const nightGeometry = new THREE.SphereGeometry(2.005, 64, 64);
+    const nightMesh = new THREE.Mesh(nightGeometry, nightMaterial);
+    earthGroup.add(nightMesh);
 
     // 2. Cloud Layer
     const cloudGeometry = new THREE.SphereGeometry(2.03, 64, 64);

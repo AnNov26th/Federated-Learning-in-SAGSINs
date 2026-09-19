@@ -52,10 +52,10 @@ export function createScene(container) {
     controls.enableDamping = true;
 
 
-    // Ambient light
+    // Ambient light (reduced to make the dark side actually dark)
     const ambientLight = new THREE.AmbientLight(
         0xffffff,
-        0.5
+        0.05
     );
 
     scene.add(ambientLight);
@@ -87,6 +87,13 @@ export function createScene(container) {
     function animate() {
 
         requestAnimationFrame(animate);
+
+        // Rotate the earth and clouds
+        earth.rotation.y += 0.001;
+        // The clouds can rotate slightly faster for a parallax effect
+        if (earth.userData.clouds) {
+            earth.userData.clouds.rotation.y += 0.0003;
+        }
 
         controls.update();
 
