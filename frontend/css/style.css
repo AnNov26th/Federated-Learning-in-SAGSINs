@@ -7,11 +7,13 @@ body {
     margin: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden; /* Prevent scrolling */
+    overflow: hidden;
+    /* Prevent scrolling */
 }
 
 body {
-    background: #000; /* Black background for space */
+    background: #000;
+    /* Black background for space */
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -23,7 +25,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0; /* Behind everything */
+    z-index: 0;
+    /* Behind everything */
 }
 
 #earth-container {
@@ -43,8 +46,10 @@ body {
     width: 100%;
     padding: 20px;
     text-align: center;
-    z-index: 10; /* Above 3D */
-    pointer-events: none; /* Let clicks pass through to 3D if needed */
+    z-index: 10;
+    /* Above 3D */
+    pointer-events: none;
+    /* Let clicks pass through to 3D if needed */
 }
 
 #top-header h1 {
@@ -86,7 +91,8 @@ body {
 #main-sidebar ul {
     list-style: none;
     padding: 0;
-    margin: 80px 0 0 0; /* Space for logo/header if needed */
+    margin: 80px 0 0 0;
+    /* Space for logo/header if needed */
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -111,7 +117,8 @@ body {
     white-space: nowrap;
 }
 
-.sidebar-link:hover, .sidebar-link.active {
+.sidebar-link:hover,
+.sidebar-link.active {
     color: #00ff88;
     background: rgba(255, 255, 255, 0.05);
     border-left: 3px solid #00ff88;
@@ -137,12 +144,14 @@ body {
 /* Action Panel (Glassmorphism) */
 #action-panel {
     position: absolute;
-    top: 100px; /* Below header */
-    left: 80px; /* Next to collapsed sidebar */
+    top: 100px;
+    /* Below header */
+    left: 80px;
+    /* Next to collapsed sidebar */
     width: 320px;
     max-height: calc(100vh - 150px);
     overflow-y: auto;
-    
+
     background: rgba(15, 20, 35, 0.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -203,7 +212,206 @@ body {
     appearance: none;
 }
 
-.action-dropdown:hover, .action-dropdown:focus {
+.action-dropdown:hover,
+.action-dropdown:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #00ff88;
+}
+
+.action-dropdown option {
+    background: #0f1423;
+    color: white;
+}
+
+/* Button Styles */
+.action-btn {
+    flex: 1 1 auto;
+    padding: 10px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.action-btn:active {
+    transform: scale(0.98);
+}
+
+/* Specific Buttons */
+.primary-btn {
+    background: rgba(0, 255, 136, 0.2);
+    border-color: rgba(0, 255, 136, 0.4);
+    color: #00ff88;
+}
+
+.primary-btn:hover {
+    background: rgba(0, 255, 136, 0.4);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+}
+
+.danger-btn {
+    background: rgba(255, 60, 60, 0.2);
+    border-color: rgba(255, 60, 60, 0.4);
+    color: #ff5555;
+}
+
+/* Main Sidebar (Collapsible) */
+#main-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 100vh;
+    background: rgba(15, 20, 35, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 100;
+    transition: width 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#main-sidebar:hover {
+    width: 250px;
+}
+
+#main-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 80px 0 0 0;
+    /* Space for logo/header if needed */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#main-sidebar li {
+    width: 100%;
+}
+
+#main-sidebar li.spacer {
+    flex-grow: 1;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    text-decoration: none;
+    color: #8892b0;
+    padding-left: 20px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+    color: #00ff88;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid #00ff88;
+    padding-left: 17px;
+}
+
+.sidebar-link i {
+    min-width: 30px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.link-text {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    margin-left: 10px;
+}
+
+#main-sidebar:hover .link-text {
+    opacity: 1;
+}
+
+/* Action Panel (Glassmorphism) */
+#action-panel {
+    position: absolute;
+    top: 100px;
+    /* Below header */
+    left: 80px;
+    /* Next to collapsed sidebar */
+    width: 320px;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+
+    background: rgba(15, 20, 35, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    z-index: 10;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+.panel-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.panel-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #00ff88;
+}
+
+.panel-section {
+    margin-bottom: 25px;
+}
+
+.panel-section h4 {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #8892b0;
+    margin-top: 0;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+.action-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.action-btn i {
+    margin-right: 5px;
+}
+
+/* Dropdown / Select Styles */
+.action-dropdown {
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    outline: none;
+    appearance: none;
+}
+
+.action-dropdown:hover,
+.action-dropdown:focus {
     background: rgba(255, 255, 255, 0.15);
     border-color: #00ff88;
 }
@@ -259,20 +467,72 @@ body {
     box-shadow: 0 0 10px rgba(255, 60, 60, 0.3);
 }
 
-/* Status (Bottom Right now) */
+/* Status (Modern Glassmorphism) */
 #status {
     position: fixed;
     right: 20px;
     bottom: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-size: 12px;
+    background: rgba(15, 20, 35, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 13px;
     z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 #backend-status {
+    color: #00ff88;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Node Tooltip */
+#node-tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(15, 20, 35, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 13px;
+    color: #fff;
+    pointer-events: none;
+    /* Let mouse pass through */
+    opacity: 0;
+    /* Hidden by default */
+    transform: translate(-50%, -120%);
+    transition: opacity 0.15s ease-out, transform 0.1s ease-out;
+    z-index: 50;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    min-width: 150px;
+}
+
+#node-tooltip h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: #00ff88;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+#node-tooltip p {
+    margin: 4px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+#node-tooltip .tt-val {
     color: #00ff88;
     font-weight: bold;
 }
@@ -281,7 +541,8 @@ body {
 #node-legend {
     position: fixed;
     right: 20px;
-    bottom: 60px; /* Above status */
+    bottom: 60px;
+    /* Above status */
     background: rgba(15, 20, 35, 0.7);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);

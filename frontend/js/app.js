@@ -115,6 +115,7 @@ function latLngToVector3(lat, lng, altKm) {
 }
 
 // Lấy danh sách nodes từ backend và vẽ lên bản đồ
+const nodeMarkers = []; // Mảng chứa các marker thiết bị để raycast hover
 async function plotDatabaseNodes() {
     const nodes = await fetchNodes();
     nodes.forEach(node => {
@@ -137,15 +138,67 @@ async function plotDatabaseNodes() {
         }
         
         const marker = createMarker(colorHex, r, g, b, 1.2);
+        
+        // Gắn dữ liệu node vào marker để hiển thị tooltip
+        marker.userData = node;
+        
         const pos = latLngToVector3(node.lat, node.lng, node.alt);
         marker.position.copy(pos);
         
         scene3D.earth.add(marker);
+        nodeMarkers.push(marker);
     });
 }
 
 // Khởi chạy vẽ nodes
 plotDatabaseNodes();
+
+// --- TOOLTIP LOGIC ---
+const tooltip = document.getElementById('node-tooltip');
+
+container.addEventListener('mousemove', (event) => {
+    // Chỉ check hover nếu không đang chọn action
+    if (actionSelect.value !== "") {
+        tooltip.style.opacity = 0;
+        return;
+    }
+
+    const rect = container.getBoundingClientRect();
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, scene3D.camera);
+    
+    // Check giao cắt với các thiết bị
+    const intersects = raycaster.intersectObjects(nodeMarkers, true);
+    
+    if (intersects.length > 0) {
+        // Tìm marker cha chứa userData (vì intersect trúng mesh con)
+        let object = intersects[0].object;
+        while (object.parent && !object.userData.id) {
+            object = object.parent;
+        }
+
+        if (object.userData && object.userData.id) {
+            const data = object.userData;
+            tooltip.innerHTML = `
+                <h4>${data.id}</h4>
+                <p><span>Type:</span> <span class="tt-val">${data.type}</span></p>
+                <p><span>Alt:</span> <span class="tt-val">${data.alt} km</span></p>
+                <p><span>Bandwidth:</span> <span class="tt-val">${data.bandwidth} Mbps</span></p>
+                <p><span>Latency:</span> <span class="tt-val">${data.latency} ms</span></p>
+            `;
+            
+            tooltip.style.left = event.clientX + 'px';
+            tooltip.style.top = event.clientY + 'px';
+            tooltip.style.opacity = 1;
+            container.style.cursor = 'pointer';
+        }
+    } else {
+        tooltip.style.opacity = 0;
+        container.style.cursor = 'default';
+    }
+});
 
 // Tạo mảng chứa các điểm drop
 const droppedMarkers = [];

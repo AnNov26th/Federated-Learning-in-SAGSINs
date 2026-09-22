@@ -30,59 +30,97 @@ def seed_db():
         
         nodes = []
         
-        # Helper function to generate random lat/lng
-        def r_lat(): return random.uniform(-60, 60)
-        def r_lng(): return random.uniform(-180, 180)
-        
+        # Helper functions to generate realistic coordinates
+        def get_any_coord():
+            return random.uniform(-60, 60), random.uniform(-180, 180)
+
+        def get_land_coord():
+            # Bounding boxes for major landmasses (min_lat, max_lat, min_lng, max_lng)
+            land_zones = [
+                (30, 50, -120, -80),   # North America
+                (-30, 0, -70, -50),    # South America
+                (40, 60, 0, 30),       # Europe
+                (-20, 20, 10, 30),     # Africa
+                (20, 50, 70, 120),     # Asia
+                (-30, -20, 120, 150)   # Australia
+            ]
+            zone = random.choice(land_zones)
+            return random.uniform(zone[0], zone[1]), random.uniform(zone[2], zone[3])
+
+        def get_sea_coord():
+            # Bounding boxes for major oceans
+            sea_zones = [
+                (-30, 30, 150, 180),   # Pacific West
+                (-30, 30, -180, -130), # Pacific East
+                (-40, 40, -40, -20),   # Atlantic
+                (-30, 0, 60, 90)       # Indian Ocean
+            ]
+            zone = random.choice(sea_zones)
+            return random.uniform(zone[0], zone[1]), random.uniform(zone[2], zone[3])
+
         # 2. SPACE (10 nodes)
         # GEO (2)
         for i in range(1, 3):
-            nodes.append(Node(id=f"GEO-{i:02d}", type="SPACE", lat=r_lat(), lng=r_lng(), alt=35786, bandwidth=100.0, latency=250.0, energy=100.0))
+            lat, lng = get_any_coord()
+            nodes.append(Node(id=f"GEO-{i:02d}", type="SPACE", lat=lat, lng=lng, alt=35786, bandwidth=100.0, latency=250.0, energy=100.0))
         # MEO (3)
         for i in range(1, 4):
-            nodes.append(Node(id=f"MEO-{i:02d}", type="SPACE", lat=r_lat(), lng=r_lng(), alt=10000, bandwidth=150.0, latency=100.0, energy=90.0))
+            lat, lng = get_any_coord()
+            nodes.append(Node(id=f"MEO-{i:02d}", type="SPACE", lat=lat, lng=lng, alt=10000, bandwidth=150.0, latency=100.0, energy=90.0))
         # LEO (5)
         for i in range(1, 6):
-            nodes.append(Node(id=f"LEO-{i:02d}", type="SPACE", lat=r_lat(), lng=r_lng(), alt=600, bandwidth=50.0, latency=30.0, energy=85.0))
+            lat, lng = get_any_coord()
+            nodes.append(Node(id=f"LEO-{i:02d}", type="SPACE", lat=lat, lng=lng, alt=600, bandwidth=50.0, latency=30.0, energy=85.0))
             
         # 3. AIR (12 nodes)
         # HAP (2)
         for i in range(1, 3):
-            nodes.append(Node(id=f"HAP-{i:02d}", type="AIR", lat=r_lat(), lng=r_lng(), alt=20, bandwidth=30.0, latency=15.0, energy=70.0))
+            lat, lng = get_any_coord()
+            nodes.append(Node(id=f"HAP-{i:02d}", type="AIR", lat=lat, lng=lng, alt=20, bandwidth=30.0, latency=15.0, energy=70.0))
         # Aircraft (3)
         for i in range(1, 4):
-            nodes.append(Node(id=f"AIR-{i:02d}", type="AIR", lat=r_lat(), lng=r_lng(), alt=10, bandwidth=20.0, latency=10.0, energy=80.0))
+            lat, lng = get_any_coord()
+            nodes.append(Node(id=f"AIR-{i:02d}", type="AIR", lat=lat, lng=lng, alt=10, bandwidth=20.0, latency=10.0, energy=80.0))
         # UAV (5)
         for i in range(1, 6):
-            nodes.append(Node(id=f"UAV-{i:02d}", type="AIR", lat=r_lat(), lng=r_lng(), alt=1, bandwidth=10.0, latency=5.0, energy=50.0))
+            lat, lng = get_land_coord() # UAVs typically over land
+            nodes.append(Node(id=f"UAV-{i:02d}", type="AIR", lat=lat, lng=lng, alt=1, bandwidth=10.0, latency=5.0, energy=50.0))
         # eVTOL (2)
         for i in range(1, 3):
-            nodes.append(Node(id=f"EVT-{i:02d}", type="AIR", lat=r_lat(), lng=r_lng(), alt=0.5, bandwidth=15.0, latency=2.0, energy=60.0))
+            lat, lng = get_land_coord() # eVTOL over land
+            nodes.append(Node(id=f"EVT-{i:02d}", type="AIR", lat=lat, lng=lng, alt=0.5, bandwidth=15.0, latency=2.0, energy=60.0))
             
         # 4. GROUND (23 nodes)
         # Base Station (5)
         for i in range(1, 6):
-            nodes.append(Node(id=f"BS-{i:02d}", type="GROUND", lat=r_lat(), lng=r_lng(), alt=0.05, bandwidth=500.0, latency=1.0, energy=100.0))
+            lat, lng = get_land_coord()
+            nodes.append(Node(id=f"BS-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.05, bandwidth=500.0, latency=1.0, energy=100.0))
         # Edge Server (3)
         for i in range(1, 4):
-            nodes.append(Node(id=f"EDGE-{i:02d}", type="GROUND", lat=r_lat(), lng=r_lng(), alt=0.0, bandwidth=1000.0, latency=0.5, energy=100.0))
+            lat, lng = get_land_coord()
+            nodes.append(Node(id=f"EDGE-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.0, bandwidth=1000.0, latency=0.5, energy=100.0))
         # Vehicle (8)
         for i in range(1, 9):
-            nodes.append(Node(id=f"VEH-{i:02d}", type="GROUND", lat=r_lat(), lng=r_lng(), alt=0.0, bandwidth=5.0, latency=10.0, energy=40.0))
+            lat, lng = get_land_coord()
+            nodes.append(Node(id=f"VEH-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.0, bandwidth=5.0, latency=10.0, energy=40.0))
         # IoT Device (7)
         for i in range(1, 8):
-            nodes.append(Node(id=f"IOT-{i:02d}", type="GROUND", lat=r_lat(), lng=r_lng(), alt=0.0, bandwidth=1.0, latency=20.0, energy=20.0))
+            lat, lng = get_land_coord()
+            nodes.append(Node(id=f"IOT-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.0, bandwidth=1.0, latency=20.0, energy=20.0))
             
         # 5. SEA (5 nodes)
         # Buoy (2)
         for i in range(1, 3):
-            nodes.append(Node(id=f"BUOY-{i:02d}", type="SEA", lat=r_lat(), lng=r_lng(), alt=0.0, bandwidth=2.0, latency=50.0, energy=30.0))
+            lat, lng = get_sea_coord()
+            nodes.append(Node(id=f"BUOY-{i:02d}", type="SEA", lat=lat, lng=lng, alt=0.0, bandwidth=2.0, latency=50.0, energy=30.0))
         # Vessel (2)
         for i in range(1, 3):
-            nodes.append(Node(id=f"VES-{i:02d}", type="SEA", lat=r_lat(), lng=r_lng(), alt=0.0, bandwidth=10.0, latency=35.0, energy=80.0))
+            lat, lng = get_sea_coord()
+            nodes.append(Node(id=f"VES-{i:02d}", type="SEA", lat=lat, lng=lng, alt=0.0, bandwidth=10.0, latency=35.0, energy=80.0))
         # Shallow-water (1)
         for i in range(1, 2):
-            nodes.append(Node(id=f"SHA-{i:02d}", type="SEA", lat=r_lat(), lng=r_lng(), alt=-0.1, bandwidth=1.0, latency=80.0, energy=25.0))
+            lat, lng = get_sea_coord()
+            nodes.append(Node(id=f"SHA-{i:02d}", type="SEA", lat=lat, lng=lng, alt=-0.1, bandwidth=1.0, latency=80.0, energy=25.0))
 
         db.add_all(nodes)
         db.flush() # Commit nodes to DB to resolve foreign key constraints
