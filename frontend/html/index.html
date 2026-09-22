@@ -9,6 +9,9 @@
     <title>Federated Learning in SAGSINs</title>
 
     <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- FontAwesome cho Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Import maps polyfill -->
     <!-- Remove this when import maps will be widely supported -->
@@ -26,27 +29,122 @@
 
 <body>
 
-    <header>
+    <!-- 3D Simulation Full Screen -->
+    <div id="simulation">
+        <div id="earth-container"></div>
+    </div>
+
+    <!-- Floating Header -->
+    <header id="top-header">
         <h1>Federated Learning in SAGSINs</h1>
         <p>Space–Air–Ground–Sea Integrated Network</p>
     </header>
 
-    <main>
+    <!-- Main Collapsible Sidebar -->
+    <nav id="main-sidebar">
+        <ul>
+            <li>
+                <a href="#" class="sidebar-link active" data-tooltip="Dashboard">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span class="link-text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sidebar-link" data-tooltip="Simulation">
+                    <i class="fa-solid fa-globe"></i>
+                    <span class="link-text">Simulation</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sidebar-link" data-tooltip="Network">
+                    <i class="fa-solid fa-network-wired"></i>
+                    <span class="link-text">Network</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sidebar-link" data-tooltip="Participants">
+                    <i class="fa-solid fa-users"></i>
+                    <span class="link-text">Participants</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sidebar-link" data-tooltip="Federated Learning">
+                    <i class="fa-solid fa-brain"></i>
+                    <span class="link-text">FL Training</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sidebar-link" data-tooltip="Experiments">
+                    <i class="fa-solid fa-flask"></i>
+                    <span class="link-text">Experiments</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sidebar-link" data-tooltip="Results">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span class="link-text">Results</span>
+                </a>
+            </li>
+            <li class="spacer"></li>
+            <li>
+                <a href="#" class="sidebar-link" data-tooltip="Settings">
+                    <i class="fa-solid fa-gear"></i>
+                    <span class="link-text">Settings</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-        <section id="simulation">
-            <div id="earth-container"></div>
-        </section>
-
-        <section id="status">
-            <p>
-                Backend:
-                <span id="backend-status">
-                    Checking...
-                </span>
+    <!-- Action Panel (Page specific Toolbar) -->
+    <aside id="action-panel">
+        <div class="panel-header">
+            <h3><i class="fa-solid fa-earth-americas"></i> 3D Globe Actions</h3>
+        </div>
+        
+        <div class="panel-section">
+            <h4>Select Action</h4>
+            <select id="action-select" class="action-dropdown">
+                <option value="">-- Choose an action --</option>
+                <option value="Video Call">Video Call</option>
+                <option value="Watch Video">Watch Video</option>
+                <option value="Emergency">Emergency</option>
+                <option value="Message">Message</option>
+                <option value="Gaming">Gaming</option>
+            </select>
+            <p id="action-hint" style="color: #00ff88; font-size: 12px; display: none; margin-top: 10px;">
+                * Click on the 3D globe to select the event location.
             </p>
-        </section>
+        </div>
 
-    </main>
+        <div class="panel-section">
+            <h4>System Actions</h4>
+            <button id="btn-toggle-3d" class="action-btn"><i class="fa-solid fa-cube"></i> Toggle 2D/3D</button>
+            <button id="btn-reset-cam" class="action-btn"><i class="fa-solid fa-camera-rotate"></i> Reset Camera</button>
+        </div>
+    </aside>
+
+    <!-- Status -->
+    <div id="status">
+        <p>
+            Backend:
+            <span id="backend-status">
+                Checking...
+            </span>
+        </p>
+    </div>
+
+    <!-- Node Legend Panel -->
+    <div id="node-legend">
+        <h4>Các lớp thiết bị (Layers)</h4>
+        <ul>
+            <li><span class="legend-color" style="background: orange; box-shadow: 0 0 10px orange;"></span> 🛰️ Space (Vệ tinh)</li>
+            <li><span class="legend-color" style="background: cyan; box-shadow: 0 0 10px cyan;"></span> ✈️ Air (UAV, HAP)</li>
+            <li><span class="legend-color" style="background: lime; box-shadow: 0 0 10px lime;"></span> 🌍 Ground (Server, BS)</li>
+            <li><span class="legend-color" style="background: blue; box-shadow: 0 0 10px blue;"></span> 🌊 Sea (Tàu, Phao)</li>
+            <li><span class="legend-color" style="background: #ff00ff; box-shadow: 0 0 10px #ff00ff;"></span> 📍 Điểm đánh dấu (Drop)</li>
+        </ul>
+        <button id="btn-clear-drops" class="action-btn" style="margin-top: 10px; width: 100%;"><i class="fa-solid fa-trash"></i> Xóa tất cả điểm Drop</button>
+    </div>
 
     <script type="module" src="/js/app.js"></script>
 

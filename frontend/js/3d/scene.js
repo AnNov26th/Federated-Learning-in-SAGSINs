@@ -55,7 +55,7 @@ export function createScene(container) {
     // Ambient light (reduced to make the dark side actually dark)
     const ambientLight = new THREE.AmbientLight(
         0xffffff,
-        0.05
+        0.02 // Tối hơn một chút
     );
 
     scene.add(ambientLight);
@@ -65,7 +65,7 @@ export function createScene(container) {
     const directionalLight =
         new THREE.DirectionalLight(
             0xffffff,
-            2
+            1.5 // Ánh sáng mặt trời yếu đi một chút để tổng thể tối hơn
         );
 
     directionalLight.position.set(
@@ -88,11 +88,11 @@ export function createScene(container) {
 
         requestAnimationFrame(animate);
 
-        // Rotate the earth and clouds
-        earth.rotation.y += 0.001;
+        // Rotate the earth and clouds (rất chậm)
+        earth.rotation.y += 0.0001;
         // The clouds can rotate slightly faster for a parallax effect
         if (earth.userData.clouds) {
-            earth.userData.clouds.rotation.y += 0.0003;
+            earth.userData.clouds.rotation.y += 0.00015;
         }
 
         controls.update();
