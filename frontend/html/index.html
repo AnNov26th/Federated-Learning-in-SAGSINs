@@ -44,13 +44,13 @@
     <nav id="main-sidebar">
         <ul>
             <li>
-                <a href="#" class="sidebar-link active" data-tooltip="Dashboard">
+                <a href="#" class="sidebar-link" data-tooltip="Dashboard">
                     <i class="fa-solid fa-chart-pie"></i>
                     <span class="link-text">Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="sidebar-link" data-tooltip="Simulation">
+                <a href="#" class="sidebar-link active" data-tooltip="Simulation">
                     <i class="fa-solid fa-globe"></i>
                     <span class="link-text">Simulation</span>
                 </a>
@@ -132,6 +132,10 @@
             </span>
         </p>
     </div>
+
+    <!-- Iframe Container for other pages (like Dashboard) -->
+    <iframe id="page-frame" style="position: absolute; top: 0; left: 60px; width: calc(100% - 60px); height: 100%; border: none; z-index: 50; display: none; background: transparent;"></iframe>
+
 
     <!-- Node Legend Panel -->
     <div id="node-legend">

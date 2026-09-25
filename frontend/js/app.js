@@ -245,6 +245,12 @@ container.addEventListener('click', (event) => {
 });
 
 // Main Sidebar Menu interaction
+const pageFrame = document.getElementById('page-frame');
+const simulationDiv = document.getElementById('simulation');
+const actionPanel = document.getElementById('action-panel');
+const nodeLegend = document.getElementById('node-legend');
+const topHeader = document.getElementById('top-header');
+
 const sidebarLinks = document.querySelectorAll('.sidebar-link');
 sidebarLinks.forEach(link => {
     link.addEventListener('click', (e) => {
@@ -255,10 +261,34 @@ sidebarLinks.forEach(link => {
         const currentLink = e.currentTarget;
         currentLink.classList.add('active');
         
-        const menuName = currentLink.querySelector('.link-text').innerText;
+        const menuName = currentLink.querySelector('.link-text').innerText.trim();
         console.log(`Chuyển sang trang: ${menuName}`);
         
-        if (menuName !== "Simulation") {
+        if (menuName === "Simulation") {
+            // Hide iframe
+            if(pageFrame) {
+                pageFrame.style.display = 'none';
+                pageFrame.src = "";
+            }
+            // Show 3D globe and panels
+            if(simulationDiv) simulationDiv.style.display = 'block';
+            if(actionPanel) actionPanel.style.display = 'block';
+            if(nodeLegend) nodeLegend.style.display = 'block';
+            if(topHeader) topHeader.style.display = 'block';
+            
+        } else if (menuName === "Dashboard") {
+            // Hide 3D globe and panels
+            if(simulationDiv) simulationDiv.style.display = 'none';
+            if(actionPanel) actionPanel.style.display = 'none';
+            if(nodeLegend) nodeLegend.style.display = 'none';
+            if(topHeader) topHeader.style.display = 'none';
+            
+            // Show iframe
+            if(pageFrame) {
+                pageFrame.src = "/dashboard.html";
+                pageFrame.style.display = 'block';
+            }
+        } else {
             alert(`Sắp tới sẽ load giao diện chức năng: ${menuName}`);
         }
     });

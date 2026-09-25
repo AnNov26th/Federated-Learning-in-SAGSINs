@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAGSIN Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root { color-scheme: dark; }
+        [hidden] { display: none !important; }
+        html, body { height: auto !important; min-height: 100%; overflow-x: hidden !important; overflow-y: auto !important; }
+        body { background: #080c16; }
+        .dashboard-container { max-width: 1600px; margin: 0 auto; padding: 24px; color: #f4f7ff; font-family: 'Segoe UI', sans-serif; }
+        .dashboard-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid rgba(0,255,136,.25); }
+        .dashboard-header h1 { margin: 0; color: #00ff88; font-size: clamp(22px, 3vw, 30px); letter-spacing: .3px; }
+        .dashboard-header p { margin: 7px 0 0; color: #9ba7c2; }
+        .header-actions { display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: 12px; }
+        .connection-state, .updated-at { color: #aab4cc; font-size: 13px; }
+        .connection-state::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; background: #78839b; }
+        .connection-state[data-state="connected"]::before { background: #00d98b; box-shadow: 0 0 10px #00d98b; }
+        .connection-state[data-state="error"]::before { background: #ff626e; }
+        .refresh-btn { border: 1px solid rgba(0,255,136,.4); border-radius: 8px; padding: 9px 13px; color: #00ff88; background: rgba(0,255,136,.08); cursor: pointer; }
+        .refresh-btn:hover { background: rgba(0,255,136,.16); }
+        .notice { margin: 0 0 18px; padding: 12px 15px; border: 1px solid rgba(255,255,255,.12); border-radius: 9px; color: #b9c3d8; background: rgba(15,20,35,.75); }
+        .notice[hidden] { display: none; }
+        .notice.error { color: #ffb7bd; border-color: rgba(255,98,110,.4); }
+        .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 26px 0 13px; }
+        .section-heading h2 { margin: 0; font-size: 17px; }
+        .section-heading p { margin: 0; color: #8d99b3; font-size: 13px; }
+        .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; }
+        .filter-bar label { display: flex; align-items: center; gap: 7px; color: #8d99b3; font-size: 12px; }
+        .filter-bar select { max-width: 190px; border: 1px solid rgba(255,255,255,.14); border-radius: 7px; padding: 8px 10px; color: #e6ecf8; background: #141c2f; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+        .kpi-card, .panel { min-width: 0; border: 1px solid rgba(255,255,255,.09); border-radius: 12px; background: linear-gradient(145deg, rgba(20,28,47,.96), rgba(13,18,32,.95)); box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+        .kpi-card { padding: 17px 18px; }
+        .kpi-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #9ba7c2; font-size: 12px; text-transform: uppercase; letter-spacing: .6px; }
+        .kpi-label i { color: #00d98b; font-size: 17px; }
+        .kpi-value { margin: 14px 0 2px; font-size: 30px; line-height: 1.1; font-weight: 700; }
+        .kpi-subtitle { margin: 7px 0 0; color: #8d99b3; font-size: 12px; }
+        .layer-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+        .layer-card { padding: 14px 16px; border-left: 3px solid var(--layer-color); }
+        .layer-name { color: #aab4cc; font-size: 13px; }
+        .layer-count { margin-top: 6px; font-size: 22px; font-weight: 650; }
+        .charts-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+        .panel { padding: 17px; }
+        .panel h3 { margin: 0 0 14px; font-size: 15px; color: #dce4f4; }
+        .chart-wrap { position: relative; height: 245px; }
+        .chart-empty { display: grid; place-items: center; min-height: 220px; color: #8d99b3; text-align: center; }
+        .chart-empty i { display: block; margin-bottom: 10px; color: #53617d; font-size: 23px; }
+        .experiment-layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(260px, .8fr); gap: 14px; }
+        .table-scroll { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+        th, td { padding: 11px 10px; border-bottom: 1px solid rgba(255,255,255,.07); white-space: nowrap; }
+        th { color: #8d99b3; font-weight: 550; }
+        td { color: #dce4f4; }
+        .status-pill { display: inline-block; padding: 4px 8px; border-radius: 999px; color: #9ba7c2; background: rgba(155,167,194,.1); font-size: 11px; }
+        .status-pill.completed { color: #55e6aa; background: rgba(0,217,139,.12); }
+        .status-pill.in_progress { color: #ffd27a; background: rgba(255,180,60,.12); }
+        .alert-list { display: grid; gap: 10px; }
+        .alert-item { padding: 11px 12px; border-left: 3px solid #6f7d98; border-radius: 6px; background: rgba(255,255,255,.035); }
+        .alert-item.warning { border-left-color: #ffb43c; }
+        .alert-item.info { border-left-color: #00aaff; }
+        .alert-item strong { display: block; margin-bottom: 4px; font-size: 13px; }
+        .alert-item span { color: #aab4cc; font-size: 12px; line-height: 1.45; }
+        .empty-row { color: #8d99b3; text-align: center; }
+        @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .experiment-layout { grid-template-columns: 1fr; } }
+        @media (max-width: 650px) { .dashboard-container { padding: 16px 13px; } .dashboard-header { flex-direction: column; } .header-actions { justify-content: flex-start; } .charts-grid { grid-template-columns: 1fr; } .layer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .chart-wrap { height: 220px; } .kpi-card { padding: 14px; } .kpi-value { font-size: 26px; } }
+    </style>
+</head>
+<body>
+    <main class="dashboard-container">
+        <header class="dashboard-header">
+            <div>
+                <h1><i class="fa-solid fa-chart-pie"></i> SAGSIN Dashboard</h1>
+                <p id="dashboard-context">Network topology and federated learning overview</p>
+            </div>
+            <div class="header-actions">
+                <span id="connection-state" class="connection-state" data-state="loading" role="status">Connecting…</span>
+                <span id="updated-at" class="updated-at">Not updated yet</span>
+                <button id="refresh-dashboard" class="refresh-btn" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
+            </div>
+        </header>
+
+        <div id="dashboard-notice" class="notice" role="status">Loading dashboard data…</div>
+
+        <section aria-labelledby="overview-title">
+            <div class="section-heading"><h2 id="overview-title">System overview</h2><p>Values reflect records currently stored in the database</p></div>
+            <div class="kpi-grid">
+                <article class="kpi-card"><div class="kpi-label">Total nodes <i class="fa-solid fa-circle-nodes"></i></div><p class="kpi-value" id="kpi-total">—</p><p class="kpi-subtitle">Configured in topology</p></article>
+                <article class="kpi-card"><div class="kpi-label">Network links <i class="fa-solid fa-share-nodes"></i></div><p class="kpi-value" id="kpi-links">—</p><p class="kpi-subtitle" id="kpi-links-note">Active status unavailable</p></article>
+                <article class="kpi-card"><div class="kpi-label">Participants <i class="fa-solid fa-users"></i></div><p class="kpi-value" id="kpi-participants">—</p><p class="kpi-subtitle" id="kpi-participants-note">Selected: —</p></article>
+                <article class="kpi-card"><div class="kpi-label">Latest experiment <i class="fa-solid fa-brain"></i></div><p class="kpi-value" id="kpi-accuracy">—</p><p class="kpi-subtitle" id="kpi-experiment-note">No experiment recorded</p></article>
+            </div>
+        </section>
+
+        <section aria-labelledby="layers-title">
+            <div class="section-heading"><h2 id="layers-title">Nodes by network layer</h2></div>
+            <div class="layer-grid">
+                <article class="panel layer-card" style="--layer-color:#ffad42"><div class="layer-name">Space</div><div class="layer-count" id="kpi-space">—</div></article>
+                <article class="panel layer-card" style="--layer-color:#48d9ff"><div class="layer-name">Air</div><div class="layer-count" id="kpi-air">—</div></article>
+                <article class="panel layer-card" style="--layer-color:#50e28c"><div class="layer-name">Ground</div><div class="layer-count" id="kpi-ground">—</div></article>
+                <article class="panel layer-card" style="--layer-color:#559bff"><div class="layer-name">Sea</div><div class="layer-count" id="kpi-sea">—</div></article>
+            </div>
+        </section>
+
+        <section aria-labelledby="training-title">
+            <div class="section-heading">
+                <div><h2 id="training-title">Latest experiment metrics</h2><p id="experiment-summary">Charts show the most recent experiment</p></div>
+                <div class="filter-bar">
+                    <label for="scenario-filter">Scenario <select id="scenario-filter"><option value="">All scenarios</option></select></label>
+                    <label for="algorithm-filter">Algorithm <select id="algorithm-filter"><option value="">All algorithms</option></select></label>
+                </div>
+            </div>
+            <div id="charts-grid" class="charts-grid">
+                <article class="panel"><h3>Global model accuracy (%)</h3><div class="chart-wrap"><canvas id="accuracyChart" aria-label="Model accuracy by round"></canvas></div></article>
+                <article class="panel"><h3>Model loss</h3><div class="chart-wrap"><canvas id="lossChart" aria-label="Model loss by round"></canvas></div></article>
+                <article class="panel"><h3>Communication latency (ms)</h3><div class="chart-wrap"><canvas id="latencyChart" aria-label="Average communication latency by round"></canvas></div></article>
+                <article class="panel"><h3>Energy consumption (recorded value)</h3><div class="chart-wrap"><canvas id="energyChart" aria-label="Average recorded energy consumption by round"></canvas></div></article>
+            </div>
+            <div id="charts-empty" class="panel chart-empty" hidden><div><i class="fa-solid fa-chart-line"></i><strong>No training rounds yet</strong><br>Experiment charts will appear after round metrics are saved.</div></div>
+        </section>
+
+        <section>
+            <div class="section-heading"><h2>Recent experiments</h2><p>Progress is inferred from saved rounds and configured target rounds</p></div>
+            <div class="experiment-layout">
+                <div class="panel table-scroll">
+                    <table>
+                        <thead><tr><th>Scenario</th><th>Algorithm</th><th>Progress</th><th>Final accuracy</th><th>Status</th></tr></thead>
+                        <tbody id="experiment-rows"><tr><td class="empty-row" colspan="5">Loading experiments…</td></tr></tbody>
+                    </table>
+                </div>
+                <aside class="panel"><h3>Network notices</h3><div id="alerts-list" class="alert-list"><div class="chart-empty">Loading notices…</div></div></aside>
+            </div>
+        </section>
+    </main>
+    <script type="module" src="/js/dashboard.js"></script>
+</body>
+</html>

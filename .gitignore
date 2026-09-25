@@ -2,3 +2,4 @@ document/
 .venv/
 __pycache__/
 *.pyc
+.agents/
