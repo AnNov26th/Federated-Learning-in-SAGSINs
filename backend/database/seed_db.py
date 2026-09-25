@@ -2,6 +2,8 @@ import random
 from backend.database.database import SessionLocal, engine, Base
 from backend.models.scenario import Scenario
 from backend.models.network import Node, NetworkLink
+from backend.models.simulation import Experiment, FLRound, Metric
+from backend.models.participant import Participant
 
 def seed_db():
     print("Seeding database with SAGSIN-50 scenario...")
@@ -62,65 +64,65 @@ def seed_db():
         # GEO (2)
         for i in range(1, 3):
             lat, lng = get_any_coord()
-            nodes.append(Node(id=f"GEO-{i:02d}", type="SPACE", lat=lat, lng=lng, alt=35786, bandwidth=100.0, latency=250.0, energy=100.0))
+            nodes.append(Node(id=f"GEO-{i:02d}", type="SPACE", lat=lat, lng=lng, alt=35786, bandwidth=100.0, latency=250.0, battery_percent=100.0))
         # MEO (3)
         for i in range(1, 4):
             lat, lng = get_any_coord()
-            nodes.append(Node(id=f"MEO-{i:02d}", type="SPACE", lat=lat, lng=lng, alt=10000, bandwidth=150.0, latency=100.0, energy=90.0))
+            nodes.append(Node(id=f"MEO-{i:02d}", type="SPACE", lat=lat, lng=lng, alt=10000, bandwidth=150.0, latency=100.0, battery_percent=90.0))
         # LEO (5)
         for i in range(1, 6):
             lat, lng = get_any_coord()
-            nodes.append(Node(id=f"LEO-{i:02d}", type="SPACE", lat=lat, lng=lng, alt=600, bandwidth=50.0, latency=30.0, energy=85.0))
+            nodes.append(Node(id=f"LEO-{i:02d}", type="SPACE", lat=lat, lng=lng, alt=600, bandwidth=50.0, latency=30.0, battery_percent=85.0))
             
         # 3. AIR (12 nodes)
         # HAP (2)
         for i in range(1, 3):
             lat, lng = get_any_coord()
-            nodes.append(Node(id=f"HAP-{i:02d}", type="AIR", lat=lat, lng=lng, alt=20, bandwidth=30.0, latency=15.0, energy=70.0))
+            nodes.append(Node(id=f"HAP-{i:02d}", type="AIR", lat=lat, lng=lng, alt=20, bandwidth=30.0, latency=15.0, battery_percent=70.0))
         # Aircraft (3)
         for i in range(1, 4):
             lat, lng = get_any_coord()
-            nodes.append(Node(id=f"AIR-{i:02d}", type="AIR", lat=lat, lng=lng, alt=10, bandwidth=20.0, latency=10.0, energy=80.0))
+            nodes.append(Node(id=f"AIR-{i:02d}", type="AIR", lat=lat, lng=lng, alt=10, bandwidth=20.0, latency=10.0, battery_percent=80.0))
         # UAV (5)
         for i in range(1, 6):
             lat, lng = get_land_coord() # UAVs typically over land
-            nodes.append(Node(id=f"UAV-{i:02d}", type="AIR", lat=lat, lng=lng, alt=1, bandwidth=10.0, latency=5.0, energy=50.0))
+            nodes.append(Node(id=f"UAV-{i:02d}", type="AIR", lat=lat, lng=lng, alt=1, bandwidth=10.0, latency=5.0, battery_percent=50.0))
         # eVTOL (2)
         for i in range(1, 3):
             lat, lng = get_land_coord() # eVTOL over land
-            nodes.append(Node(id=f"EVT-{i:02d}", type="AIR", lat=lat, lng=lng, alt=0.5, bandwidth=15.0, latency=2.0, energy=60.0))
+            nodes.append(Node(id=f"EVT-{i:02d}", type="AIR", lat=lat, lng=lng, alt=0.5, bandwidth=15.0, latency=2.0, battery_percent=60.0))
             
         # 4. GROUND (23 nodes)
         # Base Station (5)
         for i in range(1, 6):
             lat, lng = get_land_coord()
-            nodes.append(Node(id=f"BS-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.05, bandwidth=500.0, latency=1.0, energy=100.0))
+            nodes.append(Node(id=f"BS-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.05, bandwidth=500.0, latency=1.0, battery_percent=100.0))
         # Edge Server (3)
         for i in range(1, 4):
             lat, lng = get_land_coord()
-            nodes.append(Node(id=f"EDGE-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.0, bandwidth=1000.0, latency=0.5, energy=100.0))
+            nodes.append(Node(id=f"EDGE-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.0, bandwidth=1000.0, latency=0.5, battery_percent=100.0))
         # Vehicle (8)
         for i in range(1, 9):
             lat, lng = get_land_coord()
-            nodes.append(Node(id=f"VEH-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.0, bandwidth=5.0, latency=10.0, energy=40.0))
+            nodes.append(Node(id=f"VEH-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.0, bandwidth=5.0, latency=10.0, battery_percent=40.0))
         # IoT Device (7)
         for i in range(1, 8):
             lat, lng = get_land_coord()
-            nodes.append(Node(id=f"IOT-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.0, bandwidth=1.0, latency=20.0, energy=20.0))
+            nodes.append(Node(id=f"IOT-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.0, bandwidth=1.0, latency=20.0, battery_percent=20.0))
             
         # 5. SEA (5 nodes)
         # Buoy (2)
         for i in range(1, 3):
             lat, lng = get_sea_coord()
-            nodes.append(Node(id=f"BUOY-{i:02d}", type="SEA", lat=lat, lng=lng, alt=0.0, bandwidth=2.0, latency=50.0, energy=30.0))
+            nodes.append(Node(id=f"BUOY-{i:02d}", type="SEA", lat=lat, lng=lng, alt=0.0, bandwidth=2.0, latency=50.0, battery_percent=30.0))
         # Vessel (2)
         for i in range(1, 3):
             lat, lng = get_sea_coord()
-            nodes.append(Node(id=f"VES-{i:02d}", type="SEA", lat=lat, lng=lng, alt=0.0, bandwidth=10.0, latency=35.0, energy=80.0))
+            nodes.append(Node(id=f"VES-{i:02d}", type="SEA", lat=lat, lng=lng, alt=0.0, bandwidth=10.0, latency=35.0, battery_percent=80.0))
         # Shallow-water (1)
         for i in range(1, 2):
             lat, lng = get_sea_coord()
-            nodes.append(Node(id=f"SHA-{i:02d}", type="SEA", lat=lat, lng=lng, alt=-0.1, bandwidth=1.0, latency=80.0, energy=25.0))
+            nodes.append(Node(id=f"SHA-{i:02d}", type="SEA", lat=lat, lng=lng, alt=-0.1, bandwidth=1.0, latency=80.0, battery_percent=25.0))
 
         db.add_all(nodes)
         db.flush() # Commit nodes to DB to resolve foreign key constraints

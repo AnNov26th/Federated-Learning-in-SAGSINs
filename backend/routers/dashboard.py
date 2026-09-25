@@ -93,8 +93,8 @@ def get_dashboard_stats(
                     FLRound.accuracy,
                     FLRound.loss,
                     FLRound.participants_count,
-                    func.avg(Metric.latency),
-                    func.avg(Metric.energy_consumption),
+                    func.avg(Metric.latency_ms),
+                    func.avg(Metric.energy_j),
                 )
                 .outerjoin(Metric, Metric.round_id == FLRound.id)
                 .filter(FLRound.experiment_id == latest_experiment.id)
@@ -114,8 +114,8 @@ def get_dashboard_stats(
                     "accuracy": accuracy,
                     "loss": loss,
                     "participants": participant_count,
-                    "latency": latency,
-                    "energy": energy,
+                    "latency_ms": latency or 0.0,
+                    "energy_j": energy or 0.0,
                 })
 
         inactive_links = topology["links"] - topology["active_links"]

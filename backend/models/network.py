@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime
 from backend.database.database import Base
+from datetime import datetime, timezone
 
 class Node(Base):
     __tablename__ = "nodes"
@@ -11,7 +12,9 @@ class Node(Base):
     alt = Column(Float, nullable=False, default=0.0) # Altitude (km)
     bandwidth = Column(Float, nullable=False) # Mbps
     latency = Column(Float, nullable=False) # ms
-    energy = Column(Float, nullable=False) # %
+    battery_percent = Column(Float, nullable=False, default=100.0) # %
+    status = Column(String(20), default="ACTIVE") # ACTIVE, INACTIVE, OFFLINE, FAILED
+    last_heartbeat = Column(DateTime, nullable=True)
 
 class NetworkLink(Base):
     __tablename__ = "network_links"
@@ -23,3 +26,4 @@ class NetworkLink(Base):
     bandwidth = Column(Float, nullable=False) # Mbps
     latency = Column(Float, nullable=False) # ms
     status = Column(String(20), default="ACTIVE")
+    last_heartbeat = Column(DateTime, nullable=True)

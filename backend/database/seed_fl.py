@@ -47,13 +47,15 @@ def seed_fl():
             scenario_id=scenario.id,
             algorithm="FedAvg",
             rounds=20,
-            learning_rate=0.01
+            learning_rate=0.01,
+            status="COMPLETED",
+            is_simulation=True
         )
         db.add(exp)
         db.flush()
 
         # 4. Simulate Rounds & Metrics
-        current_acc = 10.0
+        current_acc = 0.10
         current_loss = 2.5
         
         rounds_data = []
@@ -61,10 +63,10 @@ def seed_fl():
         
         for r in range(1, 21):
             # Simulate FedAvg progress
-            acc_gain = random.uniform(2.0, 5.0) * (math.exp(-r/10))
+            acc_gain = random.uniform(0.02, 0.05) * (math.exp(-r/10))
             loss_drop = random.uniform(0.05, 0.2) * (math.exp(-r/10))
             
-            current_acc = min(98.5, current_acc + acc_gain)
+            current_acc = min(0.985, current_acc + acc_gain)
             current_loss = max(0.1, current_loss - loss_drop)
             
             round_obj = FLRound(
@@ -73,7 +75,7 @@ def seed_fl():
                 participants_count=len(selected_nodes),
                 accuracy=current_acc,
                 loss=current_loss,
-                time=random.uniform(5.0, 15.0)
+                round_duration_s=random.uniform(5.0, 15.0)
             )
             db.add(round_obj)
             db.flush()
@@ -81,12 +83,12 @@ def seed_fl():
             # Metrics
             m = Metric(
                 round_id=round_obj.id,
-                latency=random.uniform(20.0, 100.0),
-                communication_time=random.uniform(2.0, 8.0),
-                energy_consumption=random.uniform(10.0, 30.0),
-                bandwidth_usage=random.uniform(50.0, 200.0),
-                data_transferred=random.uniform(10.0, 50.0),
-                packet_loss=random.uniform(0.0, 2.0)
+                latency_ms=random.uniform(20.0, 100.0),
+                communication_time_ms=random.uniform(2.0, 8.0) * 1000,
+                energy_j=random.uniform(10.0, 30.0),
+                bandwidth_mbps=random.uniform(50.0, 200.0),
+                data_transferred_mb=random.uniform(10.0, 50.0),
+                packet_loss_ratio=random.uniform(0.0, 0.02)
             )
             metrics_data.append(m)
             

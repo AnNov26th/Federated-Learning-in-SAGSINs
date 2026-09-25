@@ -74,7 +74,7 @@ function renderExperiments(experiments) {
     tbody.innerHTML = experiments.map((experiment) => {
         const status = experiment.status || "not_started";
         const accuracy = experiment.accuracy === null || experiment.accuracy === undefined
-            ? "—" : `${formatNumber(experiment.accuracy, 1)}%`;
+            ? "—" : `${formatNumber(experiment.accuracy * 100, 1)}%`;
         return `<tr>
             <td>${escapeHtml(experiment.scenario)}</td>
             <td>${escapeHtml(experiment.algorithm)}</td>
@@ -128,7 +128,7 @@ function renderDashboard(data) {
 
     if (experiment) {
         setText("kpi-accuracy", experiment.accuracy === null || experiment.accuracy === undefined
-            ? "—" : `${formatNumber(experiment.accuracy, 1)}%`);
+            ? "—" : `${formatNumber(experiment.accuracy * 100, 1)}%`);
         setText("kpi-experiment-note", `${experiment.algorithm} · ${experiment.status.replaceAll("_", " ")}`);
         setText("dashboard-context", `${experiment.scenario} · ${experiment.algorithm} · Experiment #${experiment.id}`);
         setText("experiment-summary", `${formatNumber(experiment.completed_rounds)} of ${formatNumber(experiment.target_rounds)} rounds recorded`);
@@ -162,10 +162,10 @@ function renderDashboard(data) {
     const labels = rounds.map((round) => `Round ${round.round}`);
     const common = { labels };
     const chartReady = [
-        renderChart("accuracyChart", "line", "Accuracy (%)", rounds.map((r) => r.accuracy), "#00d98b", { ...common, fill: true, percent: true }),
+        renderChart("accuracyChart", "line", "Accuracy (%)", rounds.map((r) => r.accuracy * 100), "#00d98b", { ...common, fill: true, percent: true }),
         renderChart("lossChart", "line", "Loss", rounds.map((r) => r.loss), "#ff626e", { ...common, fill: true }),
-        renderChart("latencyChart", "bar", "Latency (ms)", rounds.map((r) => r.latency), "#42b8ff", { ...common }),
-        renderChart("energyChart", "line", "Recorded energy", rounds.map((r) => r.energy), "#ffb43c", { ...common, fill: true }),
+        renderChart("latencyChart", "bar", "Latency (ms)", rounds.map((r) => r.latency_ms), "#42b8ff", { ...common }),
+        renderChart("energyChart", "line", "Recorded energy (J)", rounds.map((r) => r.energy_j), "#ffb43c", { ...common, fill: true }),
     ].every(Boolean);
     return chartReady;
 }

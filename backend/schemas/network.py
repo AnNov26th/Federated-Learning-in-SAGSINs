@@ -10,7 +10,7 @@ class NodeBase(BaseModel):
     alt: float
     bandwidth: float
     latency: float
-    energy: float
+    battery_percent: float = 100.0
 
 class NodeCreate(NodeBase):
     pass
