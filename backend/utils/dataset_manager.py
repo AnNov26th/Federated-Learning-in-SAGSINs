@@ -1,99 +1,53 @@
+"""MNIST loading and deterministic, exhaustive client partitions."""
 import os
+
 import numpy as np
-import torch
+from torch.utils.data import Subset
 from torchvision import datasets, transforms
-from torch.utils.data import DataLoader, Dataset, Subset
+
 
 class MNISTDatasetManager:
-    def __init__(self, data_dir="../data/mnist"):
+    def __init__(self, data_dir=None):
+        if data_dir is None:
+            data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "mnist"))
         self.data_dir = data_dir
         self.transform = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.1307,), (0.3081,))
+            transforms.Normalize((0.1307,), (0.3081,)),
         ])
         self.train_dataset = None
         self.test_dataset = None
-        
-        # Ensure data directory exists
-        os.makedirs(self.data_dir, exist_ok=True)
 
     def load_data(self):
-        """Tải dữ liệu MNIST từ torchvision."""
-        print(f"Loading MNIST dataset into {self.data_dir}...")
-        self.train_dataset = datasets.MNIST(
-            root=self.data_dir, train=True, download=True, transform=self.transform
-        )
-        self.test_dataset = datasets.MNIST(
-            root=self.data_dir, train=False, download=True, transform=self.transform
-        )
-        print(f"Loaded {len(self.train_dataset)} training samples and {len(self.test_dataset)} testing samples.")
+        self.train_dataset = datasets.MNIST(root=self.data_dir, train=True, download=True, transform=self.transform)
+        self.test_dataset = datasets.MNIST(root=self.data_dir, train=False, download=True, transform=self.transform)
+        return self.train_dataset, self.test_dataset
 
-    def partition_iid(self, num_clients):
-        """Phân chia dữ liệu theo dạng IID (Independent and Identically Distributed)."""
-        if self.train_dataset is None:
+    def partition_iid(self, num_clients, seed=42):
+        self._ensure_data()
+        if num_clients < 1 or num_clients > len(self.train_dataset):
+            raise ValueError("num_clients must be between 1 and the number of training samples.")
+        indices = np.random.default_rng(seed).permutation(len(self.train_dataset))
+        return [Subset(self.train_dataset, chunk.tolist()) for chunk in np.array_split(indices, num_clients)]
+
+    def partition_non_iid(self, num_clients, num_classes_per_client=2, seed=42):
+        """Partition all samples into label-sorted shards assigned to clients."""
+        self._ensure_data()
+        if num_clients < 1 or num_clients > len(self.train_dataset):
+            raise ValueError("num_clients must be between 1 and the number of training samples.")
+        labels = np.asarray(self.train_dataset.targets)
+        rng = np.random.default_rng(seed)
+        indices = np.arange(len(labels))
+        # Shards preserve label skew while assigning every training example once.
+        ordered = indices[np.argsort(labels, kind="stable")]
+        shard_count = min(max(num_clients * max(1, num_classes_per_client), num_clients), len(ordered))
+        shards = [chunk for chunk in np.array_split(ordered, shard_count) if len(chunk)]
+        shard_order = rng.permutation(len(shards)).tolist()
+        client_shards = [[] for _ in range(num_clients)]
+        for shard_index, position in enumerate(shard_order):
+            client_shards[shard_index % num_clients].extend(shards[position].tolist())
+        return [Subset(self.train_dataset, shard_indices) for shard_indices in client_shards]
+
+    def _ensure_data(self):
+        if self.train_dataset is None or self.test_dataset is None:
             self.load_data()
-            
-        num_items = int(len(self.train_dataset) / num_clients)
-        client_datasets = []
-        all_idxs = np.arange(len(self.train_dataset))
-        np.random.shuffle(all_idxs)
-        
-        for i in range(num_clients):
-            idxs = all_idxs[i * num_items : (i + 1) * num_items]
-            client_datasets.append(Subset(self.train_dataset, idxs))
-            
-        return client_datasets
-
-    def partition_non_iid(self, num_clients, num_classes_per_client=2):
-        """Phân chia dữ liệu theo dạng Non-IID (mỗi client chỉ có một số label nhất định)."""
-        if self.train_dataset is None:
-            self.load_data()
-
-        # Lấy targets
-        targets = self.train_dataset.targets.numpy()
-        num_classes = 10
-        
-        # Nhóm index theo class
-        class_idxs = {i: np.where(targets == i)[0] for i in range(num_classes)}
-        for i in range(num_classes):
-            np.random.shuffle(class_idxs[i])
-            
-        client_datasets = []
-        
-        # Phân phối class cho mỗi client
-        for i in range(num_clients):
-            # Chọn ngẫu nhiên num_classes_per_client cho client này
-            classes = np.random.choice(num_classes, num_classes_per_client, replace=False)
-            idxs = []
-            for c in classes:
-                # Lấy một phần dữ liệu của class c
-                # Để đơn giản, chia đều số mẫu của class cho số lượng client có thể nhận class này
-                # Ở đây ta lấy ngẫu nhiên 500 mẫu cho mỗi class (tùy chỉnh)
-                num_samples = int(len(class_idxs[c]) / (num_clients * num_classes_per_client / num_classes))
-                # Tránh lỗi nếu num_samples vượt quá số lượng còn lại
-                num_samples = min(num_samples, len(class_idxs[c]))
-                
-                selected_idxs = class_idxs[c][:num_samples]
-                class_idxs[c] = class_idxs[c][num_samples:] # Loại bỏ các mẫu đã lấy
-                idxs.extend(selected_idxs)
-                
-            client_datasets.append(Subset(self.train_dataset, idxs))
-            
-        return client_datasets
-
-if __name__ == "__main__":
-    # Test script
-    manager = MNISTDatasetManager(data_dir="f:/CNTT/PBL4 Dự án hệ điều hành và lập trình mạng/Federated Learning in SAGSINs/data/mnist")
-    manager.load_data()
-    
-    print("\nTesting IID Partitioning (10 clients):")
-    iid_parts = manager.partition_iid(10)
-    for i, part in enumerate(iid_parts):
-        print(f"Client {i}: {len(part)} samples")
-        
-    print("\nTesting Non-IID Partitioning (10 clients, 2 classes each):")
-    non_iid_parts = manager.partition_non_iid(10, 2)
-    for i, part in enumerate(non_iid_parts):
-        # Lấy label để kiểm chứng (lấy 10 mẫu đầu tiên)
-        sample_labels = [manager.train_dataset.targets[idx].item() for idx in part.indices[:10]]
-        print(f"Client {i}: {len(part)} samples, Sample labels: {set(sample_labels)}")

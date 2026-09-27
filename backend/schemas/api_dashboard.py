@@ -31,9 +31,10 @@ class ExperimentSummary(BaseModel):
     target_rounds: int
     completed_rounds: int
     current_round: int
-    accuracy: float
+    accuracy: Optional[float] = None
     status: str
     is_simulation: bool
+    metrics_source: Optional[str] = None
 
 class AlertInfo(BaseModel):
     severity: str

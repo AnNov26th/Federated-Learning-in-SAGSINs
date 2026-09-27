@@ -12,9 +12,10 @@ app = FastAPI(
     version="0.1.0"
 )
 
-from backend.routers import network, participants, simulations, dashboard
+from backend.routers import network, participants, simulations, dashboard, federated_learning
 
 app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard"])
+app.include_router(federated_learning.router, prefix="/api/fl", tags=["Federated Learning"])
 app.include_router(network.router, prefix="/api", tags=["Network"])
 app.include_router(participants.router, prefix="/api/participants", tags=["Participants"])
 app.include_router(simulations.router, prefix="/api/simulations", tags=["Simulations"])

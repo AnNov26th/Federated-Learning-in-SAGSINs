@@ -32,7 +32,7 @@ def get_dashboard_stats(
             "sea": node_counts.get("SEA", 0),
             "links": db.query(NetworkLink).count(),
             "active_links": db.query(NetworkLink).filter(func.upper(NetworkLink.status) == "ACTIVE").count(),
-            "average_link_latency": db.query(func.avg(NetworkLink.latency)).scalar(),
+            "average_link_latency_ms": db.query(func.avg(NetworkLink.latency)).scalar() or 0.0,
         }
 
         participant_stats = db.query(
@@ -68,12 +68,13 @@ def get_dashboard_stats(
                 .limit(1)
                 .scalar()
             )
-            if completed_rounds >= experiment.rounds:
-                status = "completed"
-            elif completed_rounds:
+            status = (experiment.status or "QUEUED").lower()
+            if status == "queued":
+                status = "queued"
+            elif status == "running":
+                status = "running"
+            elif status == "completed" and completed_rounds < experiment.rounds:
                 status = "in_progress"
-            else:
-                status = "not_started"
             recent_experiments.append({
                 "id": experiment.id,
                 "scenario": scenario_name or "Unknown scenario",
@@ -83,6 +84,8 @@ def get_dashboard_stats(
                 "current_round": current_round or 0,
                 "accuracy": final_accuracy,
                 "status": status,
+                "is_simulation": bool(experiment.is_simulation),
+                "metrics_source": (experiment.config_json or {}).get("metrics_source", "unknown"),
             })
 
         fl_rounds = []

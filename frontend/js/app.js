@@ -276,7 +276,7 @@ sidebarLinks.forEach(link => {
             if(nodeLegend) nodeLegend.style.display = 'block';
             if(topHeader) topHeader.style.display = 'block';
             
-        } else if (menuName === "Dashboard") {
+        } else if (["Dashboard", "FL Training", "Experiments", "Results"].includes(menuName)) {
             // Hide 3D globe and panels
             if(simulationDiv) simulationDiv.style.display = 'none';
             if(actionPanel) actionPanel.style.display = 'none';
@@ -285,7 +285,13 @@ sidebarLinks.forEach(link => {
             
             // Show iframe
             if(pageFrame) {
-                pageFrame.src = "/dashboard.html";
+                const pages = {
+                    "Dashboard": "/dashboard.html",
+                    "FL Training": "/fl.html",
+                    "Experiments": "/fl.html",
+                    "Results": "/fl.html",
+                };
+                pageFrame.src = pages[menuName];
                 pageFrame.style.display = 'block';
             }
         } else {

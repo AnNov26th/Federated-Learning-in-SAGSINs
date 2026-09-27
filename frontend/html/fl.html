@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Federated Learning | SAGSIN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { color-scheme: dark; font-family: Inter, Segoe UI, sans-serif; background:#080c16; color:#e6ecf8; }
+        * { box-sizing:border-box; } body { margin:0; padding:22px; background:#080c16; }
+        main { max-width:1120px; margin:auto; } h1,h2,h3,p { margin-top:0; }
+        h1 { font-size:24px; margin-bottom:7px; } h2 { font-size:17px; margin-bottom:13px; }
+        .muted,.hint { color:#9ba7c2; line-height:1.5; } .muted { margin-bottom:21px; }
+        .panel { background:#11192a; border:1px solid rgba(255,255,255,.09); border-radius:12px; padding:18px; margin-bottom:16px; }
+        .grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+        label { display:grid; gap:6px; color:#b9c3d8; font-size:12px; }
+        input,select { width:100%; border:1px solid rgba(255,255,255,.14); border-radius:7px; padding:10px; color:#e6ecf8; background:#0b1221; }
+        input:focus,select:focus { outline:2px solid #00d98b; outline-offset:1px; }
+        .actions { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:15px; }
+        button { border:0; border-radius:7px; padding:10px 15px; color:#06130e; background:#00d98b; font-weight:700; cursor:pointer; }
+        button:disabled { opacity:.55; cursor:wait; }
+        #message { min-height:20px; color:#9ba7c2; font-size:13px; } #message.error { color:#ff858c; }
+        .note { font-size:12px; margin:12px 0 0; color:#9ba7c2; }
+        .summary { display:flex; gap:18px; flex-wrap:wrap; color:#cbd5e8; font-size:13px; }
+        .summary strong { color:#00d98b; }
+        .rounds { display:grid; gap:9px; margin-top:14px; }
+        .round { display:grid; grid-template-columns:100px 1fr auto; align-items:center; gap:14px; padding:12px; background:#0b1221; border-radius:8px; font-size:13px; }
+        .round progress { width:100%; height:10px; accent-color:#00d98b; }
+        table { width:100%; border-collapse:collapse; font-size:12px; } th,td { padding:9px 7px; border-bottom:1px solid rgba(255,255,255,.07); text-align:left; }
+        th { color:#9ba7c2; font-weight:500; } .scroll { overflow-x:auto; }
+        @media(max-width:760px) { body{padding:14px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.round{grid-template-columns:75px 1fr}.round span:last-child{grid-column:1/-1} }
+        @media(max-width:460px) { .grid{grid-template-columns:1fr} }
+    </style>
+</head>
+<body>
+<main>
+    <h1><i class="fa-solid fa-brain"></i> MNIST FedAvg experiment</h1>
+    <p class="muted">Train a shared CNN on client partitions. Test accuracy and loss are measured on MNIST's separate test split after every aggregation round.</p>
+    <section class="panel">
+        <h2>Experiment settings</h2>
+        <form id="experiment-form">
+            <div class="grid">
+                <label>Scenario<select id="scenario" name="scenario_id" required><option value="">Loading scenarios…</option></select></label>
+                <label>Training mode<select name="algorithm"><option value="FedAvg" selected>FedAvg</option><option value="Centralized">Centralized baseline</option></select></label>
+                <label>Rounds<input name="rounds" type="number" min="1" max="100" value="3" required></label>
+                <label>Clients<input name="client_count" type="number" min="2" max="50" value="5" required></label>
+                <label>Local epochs<input name="local_epochs" type="number" min="1" max="20" value="1" required></label>
+                <label>Learning rate<input name="learning_rate" type="number" min="0.0001" max="1" step="0.0001" value="0.01" required></label>
+                <label>Batch size<select name="batch_size"><option>32</option><option selected>64</option><option>128</option></select></label>
+                <label>Data split<select name="partition"><option value="iid">IID (balanced random split)</option><option value="non_iid">Non-IID (label-sorted shards)</option></select></label>
+                <label>Network profile<select name="network_profile"><option value="normal">Normal</option><option value="high_latency">High latency (10×)</option><option value="low_bandwidth">Low bandwidth (0.1×)</option></select></label>
+                <label>Client dropout probability<input name="dropout_probability" type="number" min="0" max="0.95" step="0.05" value="0" required></label>
+                <label>Client timeout (ms)<input name="timeout_ms" type="number" min="10" max="120000" step="10" value="30000" required></label>
+                <label>Random seed<input name="seed" type="number" min="0" value="42" required></label>
+            </div>
+            <div class="actions"><button id="start-button" type="submit"><i class="fa-solid fa-play"></i> Start training</button><span id="message" role="status"></span></div>
+            <p class="note">If participant records are selected, training uses those active nodes. Otherwise, it selects active topology nodes at random. Network delay, bandwidth, packet loss and energy are modeled values; model training and test metrics come from PyTorch.</p>
+        </form>
+    </section>
+    <section class="panel">
+        <h2>Run progress</h2>
+        <div id="summary" class="summary">No experiment started in this session.</div>
+        <div id="rounds" class="rounds"></div>
+    </section>
+    <section class="panel">
+        <h2>Client outcomes in latest round</h2>
+        <div class="scroll"><table><thead><tr><th>Node</th><th>Status</th><th>Samples</th><th>Local accuracy</th><th>Host train time</th><th>Estimated network time</th></tr></thead><tbody id="clients"><tr><td colspan="6" class="hint">Client results appear after the first round.</td></tr></tbody></table></div>
+    </section>
+</main>
+<script type="module" src="/js/fl.js"></script>
+</body>
+</html>

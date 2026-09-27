@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Boolean, JSON
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Boolean, JSON, Index
 from backend.database.database import Base
 from datetime import datetime, timezone
 
@@ -41,3 +41,22 @@ class Metric(Base):
     bandwidth_mbps = Column(Float, nullable=False) # Mbps
     data_transferred_mb = Column(Float, nullable=False) # MB
     packet_loss_ratio = Column(Float, nullable=False) # 0.0 - 1.0
+
+
+class FLClientRound(Base):
+    """Per-client outcome for an FL round; contains metrics, never private data."""
+    __tablename__ = "fl_client_rounds"
+    __table_args__ = (Index("ix_fl_client_rounds_round_client", "round_id", "client_id", unique=True),)
+
+    id = Column(Integer, primary_key=True, index=True)
+    round_id = Column(Integer, ForeignKey("fl_rounds.id", ondelete="CASCADE"), nullable=False)
+    client_id = Column(String(50), ForeignKey("nodes.id"), nullable=False)
+    status = Column(String(20), nullable=False)  # COMPLETED, DROPPED, TIMEOUT
+    samples_used = Column(Integer, nullable=False, default=0)
+    local_accuracy = Column(Float, nullable=True)
+    local_loss = Column(Float, nullable=True)
+    training_duration_s = Column(Float, nullable=False, default=0.0)
+    latency_ms = Column(Float, nullable=False, default=0.0)
+    communication_time_ms = Column(Float, nullable=False, default=0.0)
+    data_transferred_mb = Column(Float, nullable=False, default=0.0)
+    failure_reason = Column(String(255), nullable=True)

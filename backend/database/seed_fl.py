@@ -49,7 +49,11 @@ def seed_fl():
             rounds=20,
             learning_rate=0.01,
             status="COMPLETED",
-            is_simulation=True
+            is_simulation=True,
+            config_json={
+                "metrics_source": "synthetic_seed_data",
+                "warning": "Demo-only generated metrics; not produced by model training.",
+            },
         )
         db.add(exp)
         db.flush()

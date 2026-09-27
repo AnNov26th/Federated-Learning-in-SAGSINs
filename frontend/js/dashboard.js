@@ -77,7 +77,7 @@ function renderExperiments(experiments) {
             ? "—" : `${formatNumber(experiment.accuracy * 100, 1)}%`;
         return `<tr>
             <td>${escapeHtml(experiment.scenario)}</td>
-            <td>${escapeHtml(experiment.algorithm)}</td>
+            <td>${escapeHtml(experiment.algorithm)}${experiment.metrics_source === "synthetic_seed_data" ? " · demo data" : ""}</td>
             <td>${formatNumber(experiment.completed_rounds)} / ${formatNumber(experiment.target_rounds)}</td>
             <td>${accuracy}</td>
             <td><span class="status-pill ${escapeHtml(status)}">${escapeHtml(status.replaceAll("_", " "))}</span></td>
@@ -165,7 +165,7 @@ function renderDashboard(data) {
         renderChart("accuracyChart", "line", "Accuracy (%)", rounds.map((r) => r.accuracy * 100), "#00d98b", { ...common, fill: true, percent: true }),
         renderChart("lossChart", "line", "Loss", rounds.map((r) => r.loss), "#ff626e", { ...common, fill: true }),
         renderChart("latencyChart", "bar", "Latency (ms)", rounds.map((r) => r.latency_ms), "#42b8ff", { ...common }),
-        renderChart("energyChart", "line", "Recorded energy (J)", rounds.map((r) => r.energy_j), "#ffb43c", { ...common, fill: true }),
+        renderChart("energyChart", "line", "Estimated energy (J)", rounds.map((r) => r.energy_j), "#ffb43c", { ...common, fill: true }),
     ].every(Boolean);
     return chartReady;
 }

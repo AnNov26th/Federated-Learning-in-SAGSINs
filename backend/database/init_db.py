@@ -4,7 +4,7 @@ from backend.database.database import engine, Base
 from backend.models.scenario import Scenario
 from backend.models.network import Node, NetworkLink
 from backend.models.participant import Participant
-from backend.models.simulation import Experiment, FLRound, Metric
+from backend.models.simulation import Experiment, FLRound, Metric, FLClientRound
 
 def init_db():
     print("Creating database tables...")

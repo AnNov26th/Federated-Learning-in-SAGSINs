@@ -58,6 +58,8 @@
         .status-pill { display: inline-block; padding: 4px 8px; border-radius: 999px; color: #9ba7c2; background: rgba(155,167,194,.1); font-size: 11px; }
         .status-pill.completed { color: #55e6aa; background: rgba(0,217,139,.12); }
         .status-pill.in_progress { color: #ffd27a; background: rgba(255,180,60,.12); }
+        .status-pill.running, .status-pill.queued { color: #8fd6ff; background: rgba(66,184,255,.12); }
+        .status-pill.failed, .status-pill.cancelled { color: #ff858c; background: rgba(255,98,110,.12); }
         .alert-list { display: grid; gap: 10px; }
         .alert-item { padding: 11px 12px; border-left: 3px solid #6f7d98; border-radius: 6px; background: rgba(255,255,255,.035); }
         .alert-item.warning { border-left-color: #ffb43c; }
@@ -117,7 +119,7 @@
                 <article class="panel"><h3>Global model accuracy (%)</h3><div class="chart-wrap"><canvas id="accuracyChart" aria-label="Model accuracy by round"></canvas></div></article>
                 <article class="panel"><h3>Model loss</h3><div class="chart-wrap"><canvas id="lossChart" aria-label="Model loss by round"></canvas></div></article>
                 <article class="panel"><h3>Communication latency (ms)</h3><div class="chart-wrap"><canvas id="latencyChart" aria-label="Average communication latency by round"></canvas></div></article>
-                <article class="panel"><h3>Energy consumption (recorded value)</h3><div class="chart-wrap"><canvas id="energyChart" aria-label="Average recorded energy consumption by round"></canvas></div></article>
+                <article class="panel"><h3>Estimated energy (J)</h3><div class="chart-wrap"><canvas id="energyChart" aria-label="Estimated energy by round"></canvas></div></article>
             </div>
             <div id="charts-empty" class="panel chart-empty" hidden><div><i class="fa-solid fa-chart-line"></i><strong>No training rounds yet</strong><br>Experiment charts will appear after round metrics are saved.</div></div>
         </section>
