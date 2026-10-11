@@ -42,9 +42,10 @@ class FedAvgRuntimeTests(unittest.TestCase):
         with TEST_SESSION() as db:
             scenario = Scenario(name="Test SAGSIN", total_nodes=2, ground=2)
             db.add(scenario)
+            db.flush()
             db.add_all([
-                Node(id="TEST-01", type="GROUND", lat=0, lng=0, alt=0, bandwidth=100, latency=2, battery_percent=100, status="ACTIVE"),
-                Node(id="TEST-02", type="GROUND", lat=0, lng=1, alt=0, bandwidth=100, latency=3, battery_percent=100, status="ACTIVE"),
+                Node(id="TEST-01", type="GROUND", lat=0, lng=0, alt=0, bandwidth=100, latency=2, battery_percent=100, status="ACTIVE", scenario_id=scenario.id),
+                Node(id="TEST-02", type="GROUND", lat=0, lng=1, alt=0, bandwidth=100, latency=3, battery_percent=100, status="ACTIVE", scenario_id=scenario.id),
             ])
             db.commit()
 
@@ -105,6 +106,60 @@ class FedAvgRuntimeTests(unittest.TestCase):
             self.assertEqual(db.query(FLClientRound).count(), 2)
             self.assertEqual(db.query(Metric).count(), 1)
             self.assertEqual(db.query(Participant).count(), 2)
+
+    def test_round_timeout_is_counted_in_duration_and_energy(self):
+        def load_tiny_dataset(manager):
+            generator = torch.Generator().manual_seed(23)
+            manager.train_dataset = TensorDataset(
+                torch.randn(64, 1, 28, 28, generator=generator),
+                torch.arange(64) % 10,
+            )
+            manager.test_dataset = TensorDataset(
+                torch.randn(32, 1, 28, 28, generator=generator),
+                torch.arange(32) % 10,
+            )
+            return manager.train_dataset, manager.test_dataset
+
+        def fast_local_train(global_state, dataset, config, seed):
+            return global_state, len(dataset), 0.5, 0.6, 0.001
+
+        with TEST_SESSION() as db:
+            nodes = {node.id: node for node in db.query(Node).all()}
+            nodes["TEST-01"].bandwidth = 1_000_000
+            nodes["TEST-02"].bandwidth = 1
+            db.commit()
+
+        payload = {
+            "rounds": 1,
+            "client_count": 2,
+            "local_epochs": 1,
+            "batch_size": 16,
+            "learning_rate": 0.01,
+            "partition": "iid",
+            "seed": 31,
+            "network_profile": "high_latency",
+            "dropout_probability": 0,
+            "timeout_ms": 50,
+        }
+        with patch.object(MNISTDatasetManager, "load_data", load_tiny_dataset), \
+             patch.object(fl_service, "_train_local", fast_local_train):
+            client = TestClient(app)
+            response = client.post("/api/fl/experiments", json=payload)
+            self.assertEqual(response.status_code, 202, response.text)
+            experiment_id = response.json()["data"]["id"]
+            result = client.get(f"/api/fl/experiments/{experiment_id}")
+
+        self.assertEqual(result.status_code, 200, result.text)
+        round_result = result.json()["data"]["rounds"][0]
+        outcomes = {row["status"]: row for row in round_result["clients"]}
+        self.assertIn("COMPLETED", outcomes)
+        self.assertIn("TIMEOUT", outcomes)
+        self.assertEqual(outcomes["TIMEOUT"]["communication_time_ms"], 50)
+        self.assertGreaterEqual(round_result["round_duration_s"], 0.05)
+        with TEST_SESSION() as db:
+            metric = db.query(Metric).order_by(Metric.id.desc()).first()
+            self.assertGreaterEqual(metric.energy_j, 0.5)
+            self.assertAlmostEqual(metric.communication_time_ms, 50, delta=1)
 
 
 if __name__ == "__main__":

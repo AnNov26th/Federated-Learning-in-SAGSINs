@@ -1,0 +1,154 @@
+# ================================
+#
+#
+# CountryCodes:
+# ============
+#
+# The official ISO country code for the United Kingdom is 'GB'. The code 'UK' is reserved.
+#
+# A list of dependent countries is available here:
+# https://spreadsheets.google.com/ccc?key=pJpyPy-J5JSNhe7F_KxwiCA&hl=en
+#
+#
+# The countrycode XK temporarily stands for Kosvo:
+# http://geonames.wordpress.com/2010/03/08/xk-country-code-for-kosovo/
+#
+#
+# CS (Serbia and Montenegro) with geonameId = 8505033 no longer exists.
+# AN (the Netherlands Antilles) with geonameId = 8505032 was dissolved on 10 October 2010.
+#
+#
+# Currencies :
+# ============
+#
+# A number of territories are not included in ISO 4217, because their currencies are not per se an independent currency,
+# but a variant of another currency. These currencies are:
+#
+# 1. FO : Faroese krona (1:1 pegged to the Danish krone)
+# 2. GG : Guernsey pound (1:1 pegged to the pound sterling)
+# 3. JE : Jersey pound (1:1 pegged to the pound sterling)
+# 4. IM : Isle of Man pound (1:1 pegged to the pound sterling)
+# 5. TV : Tuvaluan dollar (1:1 pegged to the Australian dollar).
+# 6. CK : Cook Islands dollar (1:1 pegged to the New Zealand dollar).
+#
+# The following non-ISO codes are, however, sometimes used: GGP for the Guernsey pound,
+# JEP for the Jersey pound and IMP for the Isle of Man pound (http://en.wikipedia.org/wiki/ISO_4217)
+#
+#
+# A list of currency symbols is available here : http://forum.geonames.org/gforum/posts/list/437.page
+# another list with fractional units is here: http://forum.geonames.org/gforum/posts/list/1961.page
+#
+#
+# Languages :
+# ===========
+#
+# The column 'languages' lists the languages spoken in a country ordered by the number of speakers. The language code is a 'locale'
+# where any two-letter primary-tag is an ISO-639 language abbreviation and any two-letter initial subtag is an ISO-3166 country code.
+#
+# Example : es-AR is the Spanish variant spoken in Argentina.
+#
+#ISO	ISO3	ISO-Numeric	fips	Country	Capital	Area(in sq km)	Population	Continent	tld	CurrencyCode	CurrencyName	Phone	Postal Code Format	Postal Code Regex	Languages	geonameid	neighbours	EquivalentFipsCode
+AD	AND	020	AN	Andorra	Andorra la Vella	468	77006	EU	.ad	EUR	Euro	376	AD###	^(?:AD)*(\d{3})$	ca	3041565	ES,FR
+AE	ARE	784	AE	United Arab Emirates	Abu Dhabi	82880	9630959	AS	.ae	AED	Dirham	971	##### #####	^\d{5}-\d{5}$	ar-AE,fa,en,hi,ur	290557	SA,OM
+AF	AFG	004	AF	Afghanistan	Kabul	647500	37172386	AS	.af	AFN	Afghani	93			fa-AF,ps,uz-AF,tk	1149361	TM,CN,IR,TJ,PK,UZ
+AG	ATG	028	AC	Antigua and Barbuda	St. John's	443	96286	NA	.ag	XCD	Dollar	+1-268			en-AG	3576396
+GT	GTM	320	GT	Guatemala	Guatemala City	108890	17247807	NA	.gt	GTQ	Quetzal	502	#####	^(\d{5})$	es-GT	3595528	MX,HN,BZ,SV
+GU	GUM	316	GQ	Guam	Hagatna	549	165768	OC	.gu	USD	Dollar	+1-671	969##	^(969\d{2})$	en-GU,ch-GU	4043988
+GW	GNB	624	PU	Guinea-Bissau	Bissau	36120	1874309	AF	.gw	XOF	Franc	245	####	^(\d{4})$	pt-GW,pov	2372248	SN,GN
+GY	GUY	328	GY	Guyana	Georgetown	214970	779004	SA	.gy	GYD	Dollar	592			en-GY	3378535	SR,BR,VE
+HK	HKG	344	HK	Hong Kong	Hong Kong	1092	7396076	AS	.hk	HKD	Dollar	852	######	^(\d{6})$	zh-HK,yue,zh,en	1819730
+HM	HMD	334	HM	Heard Island and McDonald Islands		412	0	AN	.hm	AUD	Dollar	 	####	^(\d{4})$		1547314
+HN	HND	340	HO	Honduras	Tegucigalpa	112090	9587522	NA	.hn	HNL	Lempira	504	#####	^(\d{6})$	es-HN,cab,miq	3608932	GT,NI,SV
+HR	HRV	191	HR	Croatia	Zagreb	56542	3871833	EU	.hr	EUR	Euro	385	#####	^(?:HR)*(\d{5})$	hr-HR,sr	3202326	HU,SI,BA,ME,RS
+HT	HTI	332	HA	Haiti	Port-au-Prince	27750	11123176	NA	.ht	HTG	Gourde	509	HT####	^(?:HT)*(\d{4})$	ht,fr-HT	3723988	DO
+HU	HUN	348	HU	Hungary	Budapest	93030	9768785	EU	.hu	HUF	Forint	36	####	^(\d{4})$	hu-HU	719819	SK,SI,RO,UA,HR,AT,RS
+ID	IDN	360	ID	Indonesia	Jakarta	1919440	267663435	AS	.id	IDR	Rupiah	62	#####	^(\d{5})$	id,en,nl,jv	1643084	PG,TL,MY
+IE	IRL	372	EI	Ireland	Dublin	70280	4853506	EU	.ie	EUR	Euro	353	@@@ @@@@	^(D6W|[AC-FHKNPRTV-Y][0-9]{2})\s?([AC-FHKNPRTV-Y0-9]{4})	en-IE,ga-IE	2963597	GB
+IL	ISR	376	IS	Israel	Jerusalem	20770	8883800	AS	.il	ILS	Shekel	972	#######	^(\d{7}|\d{5})$	he,ar-IL,en-IL,	294640	SY,JO,LB,EG,PS
+IM	IMN	833	IM	Isle of Man	Douglas	572	84077	EU	.im	GBP	Pound	+44-1624	@# #@@|@## #@@|@@# #@@|@@## #@@|@#@ #@@|@@#@ #@@|GIR0AA	^((?:(?:[A-PR-UWYZ][A-HK-Y]\d[ABEHMNPRV-Y0-9]|[A-PR-UWYZ]\d[A-HJKPS-UW0-9])\s\d[ABD-HJLNP-UW-Z]{2})|GIR\s?0AA)$	en,gv	3042225
+IN	IND	356	IN	India	New Delhi	3287590	1352617328	AS	.in	INR	Rupee	91	######	^(\d{6})$	en-IN,hi,bn,te,mr,ta,ur,gu,kn,ml,or,pa,as,bh,sat,ks,ne,sd,kok,doi,mni,sit,sa,fr,lus,inc	1269750	CN,NP,MM,BT,PK,BD
+IO	IOT	086	IO	British Indian Ocean Territory	Diego Garcia	60	4000	AS	.io	USD	Dollar	246	BBND 1ZZ	BBND 1ZZ	en-IO	1282588
+IQ	IRQ	368	IZ	Iraq	Baghdad	437072	38433600	AS	.iq	IQD	Dinar	964	#####	^(\d{5})$	ar-IQ,ku,hy	99237	SY,SA,IR,JO,TR,KW
+IR	IRN	364	IR	Iran	Tehran	1648000	81800269	AS	.ir	IRR	Rial	98	##########	^(\d{10})$	fa-IR,ku	130758	TM,AF,IQ,AM,PK,AZ,TR
+IS	ISL	352	IC	Iceland	Reykjavik	103000	353574	EU	.is	ISK	Krona	354	###	^(\d{3})$	is,en,de,da,sv,no	2629691
+IT	ITA	380	IT	Italy	Rome	301230	60431283	EU	.it	EUR	Euro	39	#####	^(\d{5})$	it-IT,de-IT,fr-IT,sc,ca,co,sl	3175395	CH,VA,SI,SM,FR,AT
+JE	JEY	832	JE	Jersey	Saint Helier	116	90812	EU	.je	GBP	Pound	+44-1534	@# #@@|@## #@@|@@# #@@|@@## #@@|@#@ #@@|@@#@ #@@|GIR0AA	^((?:(?:[A-PR-UWYZ][A-HK-Y]\d[ABEHMNPRV-Y0-9]|[A-PR-UWYZ]\d[A-HJKPS-UW0-9])\s\d[ABD-HJLNP-UW-Z]{2})|GIR\s?0AA)$	en,fr,nrf	3042142
+JM	JAM	388	JM	Jamaica	Kingston	10991	2934855	NA	.jm	JMD	Dollar	+1-876			en-JM	3489940
+JO	JOR	400	JO	Jordan	Amman	92300	9956011	AS	.jo	JOD	Dinar	962	#####	^(\d{5})$	ar-JO,en	248816	SY,SA,IQ,IL,PS
+JP	JPN	392	JA	Japan	Tokyo	377835	126529100	AS	.jp	JPY	Yen	81	###-####	^\d{3}-\d{4}$	ja	1861060
+KE	KEN	404	KE	Kenya	Nairobi	582650	51393010	AF	.ke	KES	Shilling	254	#####	^(\d{5})$	en-KE,sw-KE	192950	ET,TZ,SS,SO,UG
+KG	KGZ	417	KG	Kyrgyzstan	Bishkek	198500	6315800	AS	.kg	KGS	Som	996	######	^(\d{6})$	ky,uz,ru	1527747	CN,TJ,UZ,KZ
+KH	KHM	116	CB	Cambodia	Phnom Penh	181040	16249798	AS	.kh	KHR	Riels	855	#####	^(\d{5})$	km,fr,en	1831722	LA,TH,VN
+KI	KIR	296	KR	Kiribati	Tarawa	811	115847	OC	.ki	AUD	Dollar	686			en-KI,gil	4030945
+KM	COM	174	CN	Comoros	Moroni	2170	832322	AF	.km	KMF	Franc	269			ar,fr-KM	921929
+KN	KNA	659	SC	Saint Kitts and Nevis	Basseterre	261	52441	NA	.kn	XCD	Dollar	+1-869			en-KN	3575174
+KP	PRK	408	KN	North Korea	Pyongyang	120540	25549819	AS	.kp	KPW	Won	850	###-###	^(\d{6})$	ko-KP	1873107	CN,KR,RU
+KR	KOR	410	KS	South Korea	Seoul	98480	51635256	AS	.kr	KRW	Won	82	#####	^(\d{5})$	ko-KR,en	1835841	KP
+NU	NIU	570	NE	Niue	Alofi	260	2166	OC	.nu	NZD	Dollar	683	####	^(\d{4})$	niu,en-NU	4036232
+NZ	NZL	554	NZ	New Zealand	Wellington	268680	4885500	OC	.nz	NZD	Dollar	64	####	^(\d{4})$	en-NZ,mi	2186224
+OM	OMN	512	MU	Oman	Muscat	212460	4829483	AS	.om	OMR	Rial	968	###	^(\d{3})$	ar-OM,en,bal,ur	286963	SA,YE,AE
+PA	PAN	591	PM	Panama	Panama City	78200	4176873	NA	.pa	PAB	Balboa	507	#####	^(\d{5})$	es-PA,en	3703430	CR,CO
+PE	PER	604	PE	Peru	Lima	1285220	31989256	SA	.pe	PEN	Sol	51	#####	^(\d{5})$	es-PE,qu,ay	3932488	EC,CL,BO,BR,CO
+PF	PYF	258	FP	French Polynesia	Papeete	4167	277679	OC	.pf	XPF	Franc	689	#####	^((97|98)7\d{2})$	fr-PF,ty	4030656
+PG	PNG	598	PP	Papua New Guinea	Port Moresby	462840	8606316	OC	.pg	PGK	Kina	675	###	^(\d{3})$	en-PG,ho,meu,tpi	2088628	ID
+PH	PHL	608	RP	Philippines	Manila	300000	106651922	AS	.ph	PHP	Peso	63	####	^(\d{4})$	tl,en-PH,fil,ceb,ilo,hil,war,pam,bik,bcl,pag,mrw,tsg,mdh,cbk,krj,sgd,msb,akl,ibg,yka,mta,abx	1694008
+PK	PAK	586	PK	Pakistan	Islamabad	803940	212215030	AS	.pk	PKR	Rupee	92	#####	^(\d{5})$	ur-PK,en-PK,pa,sd,ps,brh	1168579	CN,AF,IR,IN
+PL	POL	616	PL	Poland	Warsaw	312685	37978548	EU	.pl	PLN	Zloty	48	##-###	^\d{2}-\d{3}$	pl	798544	DE,LT,SK,CZ,BY,UA,RU
+PM	SPM	666	SB	Saint Pierre and Miquelon	Saint-Pierre	242	7012	NA	.pm	EUR	Euro	508	#####	^(97500)$	fr-PM	3424932
+PN	PCN	612	PC	Pitcairn	Adamstown	47	46	OC	.pn	NZD	Dollar	870	PCRN 1ZZ	PCRN 1ZZ	en-PN	4030699
+PR	PRI	630	RQ	Puerto Rico	San Juan	9104	3195153	NA	.pr	USD	Dollar	+1-787 and 1-939	#####-####	^00[679]\d{2}(?:-\d{4})?$	en-PR,es-PR	4566966
+PS	PSE	275	WE	Palestinian Territory	East Jerusalem	5970	4569087	AS	.ps	ILS	Shekel	970			ar-PS	6254930	JO,IL,EG
+PT	PRT	620	PO	Portugal	Lisbon	92391	10281762	EU	.pt	EUR	Euro	351	####-###	^\d{4}-\d{3}\s?[a-zA-Z]{0,25}$	pt-PT,mwl	2264397	ES
+PW	PLW	585	PS	Palau	Melekeok	458	17907	OC	.pw	USD	Dollar	680	96940	^(96940)$	pau,sov,en-PW,tox,ja,fil,zh	1559582
+PY	PRY	600	PA	Paraguay	Asuncion	406750	6956071	SA	.py	PYG	Guarani	595	####	^(\d{4})$	es-PY,gn	3437598	BO,BR,AR
+QA	QAT	634	QA	Qatar	Doha	11437	2781677	AS	.qa	QAR	Rial	974			ar-QA,es	289688	SA
+RE	REU	638	RE	Reunion	Saint-Denis	2517	776948	AF	.re	EUR	Euro	262	#####	^((97|98)(4|7|8)\d{2})$	fr-RE	935317
+RO	ROU	642	RO	Romania	Bucharest	237500	19473936	EU	.ro	RON	Leu	40	######	^(\d{6})$	ro,hu,rom	798549	MD,HU,UA,BG,RS
+RS	SRB	688	RI	Serbia	Belgrade	88361	6982084	EU	.rs	RSD	Dinar	381	#####	^(\d{5})$	sr,hu,bs,rom	6290252	AL,HU,MK,RO,HR,BA,BG,ME,XK
+RU	RUS	643	RS	Russia	Moscow	17100000	144478050	EU	.ru	RUB	Ruble	7	######	^(\d{6})$	ru,tt,xal,cau,ady,kv,ce,tyv,cv,udm,tut,mns,bua,myv,mdf,chm,ba,inh,kbd,krc,av,sah,nog	2017370	GE,CN,BY,UA,KZ,LV,PL,EE,LT,FI,MN,NO,AZ,KP
+RW	RWA	646	RW	Rwanda	Kigali	26338	12301939	AF	.rw	RWF	Franc	250			rw,en-RW,fr-RW,sw	49518	TZ,CD,BI,UG
+SA	SAU	682	SA	Saudi Arabia	Riyadh	1960582	33699947	AS	.sa	SAR	Rial	966	#####	^(\d{5})$	ar-SA	102358	QA,OM,IQ,YE,JO,AE,KW
+SB	SLB	090	BP	Solomon Islands	Honiara	28450	652858	OC	.sb	SBD	Dollar	677			en-SB,tpi	2103350
+SC	SYC	690	SE	Seychelles	Victoria	455	96762	AF	.sc	SCR	Rupee	248			en-SC,fr-SC	241170
+SD	SDN	729	SU	Sudan	Khartoum	1861484	41801533	AF	.sd	SDG	Pound	249	#####	^(\d{5})$	ar-SD,en,fia	366755	SS,TD,EG,ET,ER,LY,CF
+SS	SSD	728	OD	South Sudan	Juba	644329	8260490	AF	.ss	SSP	Pound	211			en	7909807	CD,CF,ET,KE,SD,UG
+SE	SWE	752	SW	Sweden	Stockholm	449964	10183175	EU	.se	SEK	Krona	46	### ##	^(?:SE)?\d{3}\s\d{2}$	sv-SE,se,sma,fi-SE	2661886	NO,FI
+SG	SGP	702	SN	Singapore	Singapore	692.7	5638676	AS	.sg	SGD	Dollar	65	######	^(\d{6})$	cmn,en-SG,ms-SG,ta-SG,zh-SG	1880251
+SH	SHN	654	SH	Saint Helena	Jamestown	410	7460	AF	.sh	SHP	Pound	290	STHL 1ZZ	^(STHL1ZZ)$	en-SH	3370751
+SI	SVN	705	SI	Slovenia	Ljubljana	20273	2067372	EU	.si	EUR	Euro	386	####	^(?:SI)*(\d{4})$	sl,sh	3190538	HU,IT,HR,AT
+SJ	SJM	744	SV	Svalbard and Jan Mayen	Longyearbyen	62049	2550	EU	.sj	NOK	Krone	47	####	^(\d{4})$	no,ru	607072
+SK	SVK	703	LO	Slovakia	Bratislava	48845	5447011	EU	.sk	EUR	Euro	421	### ##	^\d{3}\s?\d{2}$	sk,hu	3057568	PL,HU,CZ,UA,AT
+SL	SLE	694	SL	Sierra Leone	Freetown	71740	7650154	AF	.sl	SLE	Leone	232			en-SL,men,tem	2403846	LR,GN
+SM	SMR	674	SM	San Marino	San Marino	61.2	33785	EU	.sm	EUR	Euro	378	4789#	^(4789\d)$	it-SM	3168068	IT
+SN	SEN	686	SG	Senegal	Dakar	196190	15854360	AF	.sn	XOF	Franc	221	#####	^(\d{5})$	fr-SN,wo,fuc,mnk	2245662	GN,MR,GW,GM,ML
+SO	SOM	706	SO	Somalia	Mogadishu	637657	15008154	AF	.so	SOS	Shilling	252	@@  #####	^([A-Z]{2}\d{5})$	so-SO,ar-SO,it,en-SO	51537	ET,KE,DJ
+SR	SUR	740	NS	Suriname	Paramaribo	163270	575991	SA	.sr	SRD	Dollar	597			nl-SR,en,srn,hns,jv	3382998	GY,BR,GF
+ST	STP	678	TP	Sao Tome and Principe	Sao Tome	1001	197700	AF	.st	STN	Dobra	239			pt-ST	2410758
+SV	SLV	222	ES	El Salvador	San Salvador	21040	6420744	NA	.sv	USD	Dollar	503	CP ####	^(?:CP)*(\d{4})$	es-SV	3585968	GT,HN
+SX	SXM	534	NN	Sint Maarten	Philipsburg	21	40654	NA	.sx	XCG	Guilder	599			nl,en	7609695	MF
+SY	SYR	760	SY	Syria	Damascus	185180	16906283	AS	.sy	SYP	Pound	963			ar-SY,ku,hy,arc,fr,en	163843	IQ,JO,IL,TR,LB
+SZ	SWZ	748	WZ	Eswatini	Mbabane	17363	1136191	AF	.sz	SZL	Lilangeni	268	@###	^([A-Z]\d{3})$	en-SZ,ss-SZ	934841	ZA,MZ
+TC	TCA	796	TK	Turks and Caicos Islands	Cockburn Town	430	37665	NA	.tc	USD	Dollar	+1-649	TKCA 1ZZ	^(TKCA 1ZZ)$	en-TC	3576916
+TD	TCD	148	CD	Chad	N'Djamena	1284000	15477751	AF	.td	XAF	Franc	235	TKCA 1ZZ	^(TKCA 1ZZ)$	fr-TD,ar-TD,sre	2434508	NE,LY,CF,SD,CM,NG
+TF	ATF	260	FS	French Southern Territories	Port-aux-Francais	7829	140	AN	.tf	EUR	Euro				fr	1546748
+TG	TGO	768	TO	Togo	Lome	56785	7889094	AF	.tg	XOF	Franc	228			fr-TG,ee,hna,kbp,dag,ha	2363686	BJ,GH,BF
+TH	THA	764	TH	Thailand	Bangkok	514000	69428524	AS	.th	THB	Baht	66	#####	^(\d{5})$	th,en	1605651	LA,MM,KH,MY
+TJ	TJK	762	TI	Tajikistan	Dushanbe	143100	9100837	AS	.tj	TJS	Somoni	992	######	^(\d{6})$	tg,ru	1220409	CN,AF,KG,UZ
+TK	TKL	772	TL	Tokelau		10	1466	OC	.tk	NZD	Dollar	690			tkl,en-TK	4031074
+TL	TLS	626	TT	Timor Leste	Dili	15007	1267972	OC	.tl	USD	Dollar	670			tet,pt-TL,id,en	1966436	ID
+TM	TKM	795	TX	Turkmenistan	Ashgabat	488100	5850908	AS	.tm	TMT	Manat	993	######	^(\d{6})$	tk,ru,uz	1218197	AF,IR,UZ,KZ
+TN	TUN	788	TS	Tunisia	Tunis	163610	11565204	AF	.tn	TND	Dinar	216	####	^(\d{4})$	ar-TN,fr	2464461	DZ,LY
+TO	TON	776	TN	Tonga	Nuku'alofa	748	103197	OC	.to	TOP	Pa'anga	676			to,en-TO	4032283
+TR	TUR	792	TU	Turkey	Ankara	780580	82319724	AS	.tr	TRY	Lira	90	#####	^(\d{5})$	tr-TR,ku,diq,az,av	298795	SY,GE,IQ,IR,GR,AM,AZ,BG
+TT	TTO	780	TD	Trinidad and Tobago	Port of Spain	5128	1389858	NA	.tt	TTD	Dollar	+1-868			en-TT,hns,fr,es,zh	3573591
+TV	TUV	798	TV	Tuvalu	Funafuti	26	11508	OC	.tv	AUD	Dollar	688			tvl,en,sm,gil	2110297
+TW	TWN	158	TW	Taiwan	Taipei	35980	23451837	AS	.tw	TWD	Dollar	886	#####	^(\d{5})$	zh-TW,zh,nan,hak	1668284
+TZ	TZA	834	TZ	Tanzania	Dodoma	945087	56318348	AF	.tz	TZS	Shilling	255			sw-TZ,en,ar	149590	MZ,KE,CD,RW,ZM,BI,UG,MW
+UA	UKR	804	UP	Ukraine	Kyiv	603700	40000000	EU	.ua	UAH	Hryvnia	380	#####	^(\d{5})$	uk,ru-UA,rom,pl,hu	690791	PL,MD,HU,SK,BY,RO,RU
+UG	UGA	800	UG	Uganda	Kampala	236040	42723139	AF	.ug	UGX	Shilling	256			en-UG,lg,sw,ar	226074	TZ,KE,SS,CD,RW
+UM	UMI	581		United States Minor Outlying Islands		0	0	OC	.um	USD	Dollar	1			en-UM	5854968
+US	USA	840	US	United States	Washington	9629091	327167434	NA	.us	USD	Dollar	1	#####-####	^\d{5}(-\d{4})?$	en-US,es-US,haw,fr	6252001	CA,MX,CU
+UY	URY	858	UY	Uruguay	Montevideo	176220	3449299	SA	.uy	UYU	Peso	598	#####	^(\d{5})$	es-UY	3439705	BR,AR
+UZ	UZB	860	UZ	Uzbekistan	Tashkent	447400	32955400	AS	.uz	UZS	Som	998	######	^(\d{6})$	uz,ru,tg	1512440	TM,AF,KG,TJ,KZ
+VA	VAT	336	VT	Vatican	Vatican City	0.44	921	EU	.va	EUR	Euro	379	#####	^(\d{5})$	la,it,fr	3164670	IT
+VC	VCT	670	VC	Saint Vincent and the Grenadines	Kingstown	389	110211	NA	.vc	XCD	Dollar	+1-784			en-VC,fr	3577815

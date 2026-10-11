@@ -1,0 +1,13 @@
+node_id,location_name,latitude,longitude
+UAV-001,North America relay,40.00,-100.00
+UAV-002,Central America relay,15.00,-90.00
+UAV-003,South America relay,-15.00,-60.00
+UAV-004,Western Europe relay,50.00,5.00
+UAV-005,West Africa relay,5.00,0.00
+UAV-006,East Africa relay,-2.00,38.00
+UAV-007,Middle East relay,25.00,50.00
+UAV-008,South Asia relay,22.00,80.00
+UAV-009,East Asia relay,35.00,110.00
+UAV-010,Southeast Asia relay,5.00,115.00
+UAV-011,Oceania relay,-25.00,135.00
+UAV-012,North Asia relay,55.00,100.00

@@ -1,0 +1,21 @@
+node_id,location_name,corridor,latitude,longitude
+SHIP-001,Malacca Strait,East and Southeast Asia,2.20,101.20
+SHIP-002,South China Sea,East and Southeast Asia,12.00,114.00
+SHIP-003,East China Sea,East and Southeast Asia,28.00,126.00
+SHIP-004,Philippine Sea,East and Southeast Asia,18.00,128.00
+SHIP-005,Java Sea,East and Southeast Asia,-5.00,111.00
+SHIP-006,Gulf of Aden,Indian Ocean and Red Sea,12.00,48.00
+SHIP-007,Red Sea,Indian Ocean and Red Sea,20.00,38.00
+SHIP-008,Arabian Sea,Indian Ocean and Red Sea,14.00,63.00
+SHIP-009,Central Indian Ocean,Indian Ocean and Red Sea,-10.00,72.00
+SHIP-010,Western Mediterranean,Mediterranean,36.00,10.00
+SHIP-011,Eastern Mediterranean,Mediterranean,35.00,28.00
+SHIP-012,North Atlantic,Atlantic,-5.00,-30.00
+SHIP-013,Central Atlantic,Atlantic,20.00,-45.00
+SHIP-014,South Atlantic,Atlantic,-20.00,-20.00
+SHIP-015,Southwest Atlantic,Atlantic,-35.00,-35.00
+SHIP-016,North Pacific,Pacific,30.00,160.00
+SHIP-017,Central North Pacific,Pacific,15.00,-160.00
+SHIP-018,Equatorial Pacific,Pacific,0.00,-150.00
+SHIP-019,South Pacific,Pacific,-25.00,-130.00
+SHIP-020,Southwest Pacific,Pacific,-15.00,170.00

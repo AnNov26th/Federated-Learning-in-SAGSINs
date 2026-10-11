@@ -55,6 +55,7 @@ class FLRoundResult(BaseModel):
     selected_count: int
     dropped_count: int
     round_duration_s: float
+    metrics: Optional[dict] = None
     clients: list[FLClientRoundResult]
 
 

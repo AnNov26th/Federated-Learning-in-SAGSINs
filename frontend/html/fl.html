@@ -17,6 +17,8 @@
         input,select { width:100%; border:1px solid rgba(255,255,255,.14); border-radius:7px; padding:10px; color:#e6ecf8; background:#0b1221; }
         input:focus,select:focus { outline:2px solid #00d98b; outline-offset:1px; }
         .actions { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:15px; }
+        .page-links { display:flex; gap:9px; flex-wrap:wrap; margin:0 0 18px; }
+        .page-links a { display:inline-flex; align-items:center; gap:7px; border:1px solid rgba(255,255,255,.14); border-radius:7px; padding:8px 11px; color:#dce4f4; background:#11192a; text-decoration:none; font-size:13px; }
         button { border:0; border-radius:7px; padding:10px 15px; color:#06130e; background:#00d98b; font-weight:700; cursor:pointer; }
         button:disabled { opacity:.55; cursor:wait; }
         #message { min-height:20px; color:#9ba7c2; font-size:13px; } #message.error { color:#ff858c; }
@@ -36,6 +38,7 @@
 <main>
     <h1><i class="fa-solid fa-brain"></i> MNIST FedAvg experiment</h1>
     <p class="muted">Train a shared CNN on client partitions. Test accuracy and loss are measured on MNIST's separate test split after every aggregation round.</p>
+    <nav class="page-links" aria-label="Federated learning pages"><a href="/experiments.html"><i class="fa-solid fa-flask"></i> Experiment history</a><a href="/results.html"><i class="fa-solid fa-chart-line"></i> Results analysis</a><a href="/participants.html"><i class="fa-solid fa-users"></i> Participant pool</a></nav>
     <section class="panel">
         <h2>Experiment settings</h2>
         <form id="experiment-form">

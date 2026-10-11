@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { createScene } from "./3d/scene.js";
 import { fetchNodes } from "./api.js";
+import { latLngToVector3 } from "./3d/coordinates.js";
 
 const container = document.getElementById("earth-container");
 
@@ -9,10 +10,6 @@ const scene3D = createScene(container);
 // --- ACTION PANEL EVENT LISTENERS ---
 
 // System Actions
-document.getElementById('btn-toggle-3d').addEventListener('click', () => {
-    alert('Chức năng chuyển đổi 3D / 2D đang được phát triển!');
-});
-
 document.getElementById('btn-reset-cam').addEventListener('click', () => {
     if (scene3D.camera && scene3D.controls) {
         scene3D.camera.position.set(0, 0, 6);
@@ -84,36 +81,6 @@ function createMarker(colorHex, r, g, b, sizeScale = 1.0) {
     return group;
 }
 
-// Hàm chuyển đổi Toạ độ (Lat, Lng, Alt) sang Vector3 trên mặt cầu 3D
-function latLngToVector3(lat, lng, altKm) {
-    const EARTH_RADIUS = 2; // from earth.js
-    
-    // Scale down altitude (Mô phỏng khoảng cách xa hơn cho dễ nhìn)
-    let altUnits = 0;
-    if (altKm > 0) {
-        if (altKm < 50) { // Tầng Air (UAV, HAP, Aircraft...)
-            altUnits = 0.05 + (altKm / 50) * 0.15; // Nổi nhẹ (0.05 -> 0.2 units)
-        } else if (altKm <= 2000) { // LEO
-            altUnits = 0.3 + (altKm / 2000) * 0.3; // Nổi vừa phải (0.3 -> 0.6 units)
-        } else if (altKm <= 20000) { // MEO
-            altUnits = 0.7 + (altKm / 20000) * 0.5; // Xa hơn (0.7 -> 1.2 units)
-        } else { // GEO
-            altUnits = 1.3 + (altKm / 40000) * 1.5; // Rất xa (> 1.3 units)
-        }
-    }
-    
-    const r = EARTH_RADIUS + altUnits + 0.01; // Thêm 0.01 để nổi lên trên bề mặt trái đất
-    
-    const phi = (90 - lat) * (Math.PI / 180);
-    const theta = (lng + 180) * (Math.PI / 180);
-    
-    const x = - (r) * Math.sin(phi) * Math.cos(theta);
-    const y = (r) * Math.cos(phi);
-    const z = (r) * Math.sin(phi) * Math.sin(theta);
-    
-    return new THREE.Vector3(x, y, z);
-}
-
 // Lấy danh sách nodes từ backend và vẽ lên bản đồ
 const nodeMarkers = []; // Mảng chứa các marker thiết bị để raycast hover
 async function plotDatabaseNodes() {
@@ -155,6 +122,13 @@ plotDatabaseNodes();
 
 // --- TOOLTIP LOGIC ---
 const tooltip = document.getElementById('node-tooltip');
+const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+})[character]);
 
 container.addEventListener('mousemove', (event) => {
     // Chỉ check hover nếu không đang chọn action
@@ -182,8 +156,18 @@ container.addEventListener('mousemove', (event) => {
         if (object.userData && object.userData.id) {
             const data = object.userData;
             tooltip.innerHTML = `
-                <h4>${data.id}</h4>
-                <p><span>Type:</span> <span class="tt-val">${data.type}</span></p>
+                <h4>${escapeHtml(data.id)}</h4>
+                <p><span>Type:</span> <span class="tt-val">${escapeHtml(data.type)}</span></p>
+                ${data.platform ? `<p><span>Platform:</span> <span class="tt-val">${escapeHtml(data.platform)}</span></p>` : ""}
+                ${data.country_name ? `<p><span>Country:</span> <span class="tt-val">${escapeHtml(data.country_name)}</span></p>` : ""}
+                ${data.continent ? `<p><span>Continent:</span> <span class="tt-val">${escapeHtml(data.continent)}</span></p>` : ""}
+                ${data.location_name ? `<p><span>Representative location:</span> <span class="tt-val">${escapeHtml(data.location_name)}</span></p>` : ""}
+                <p><span>Coordinates:</span> <span class="tt-val">${Number(data.lat).toFixed(4)}, ${Number(data.lng).toFixed(4)}</span></p>
+                ${data.is_simulated ? `<p><span>Location type:</span> <span class="tt-val">${data.type === "GROUND" ? "Simulated city representative" : "Simulated position"}</span></p>` : ""}
+                ${data.orbit_inclination_deg != null ? `<p><span>Inclination:</span> <span class="tt-val">${data.orbit_inclination_deg}°</span></p>` : ""}
+                ${data.orbit_plane != null ? `<p><span>Orbit plane:</span> <span class="tt-val">${data.orbit_plane}</span></p>` : ""}
+                ${data.orbit_phase_deg != null ? `<p><span>Orbit phase:</span> <span class="tt-val">${data.orbit_phase_deg}°</span></p>` : ""}
+                ${data.epoch_utc ? `<p><span>Epoch (UTC):</span> <span class="tt-val">${escapeHtml(data.epoch_utc)}</span></p>` : ""}
                 <p><span>Alt:</span> <span class="tt-val">${data.alt} km</span></p>
                 <p><span>Bandwidth:</span> <span class="tt-val">${data.bandwidth} Mbps</span></p>
                 <p><span>Latency:</span> <span class="tt-val">${data.latency} ms</span></p>
@@ -252,6 +236,14 @@ const nodeLegend = document.getElementById('node-legend');
 const topHeader = document.getElementById('top-header');
 
 const sidebarLinks = document.querySelectorAll('.sidebar-link');
+const pageRoutes = {
+    "Dashboard": "/dashboard.html",
+    "Network": "/network.html",
+    "Participants": "/participants.html",
+    "FL Training": "/fl.html",
+    "Experiments": "/experiments.html",
+    "Results": "/results.html",
+};
 sidebarLinks.forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -276,7 +268,7 @@ sidebarLinks.forEach(link => {
             if(nodeLegend) nodeLegend.style.display = 'block';
             if(topHeader) topHeader.style.display = 'block';
             
-        } else if (["Dashboard", "FL Training", "Experiments", "Results"].includes(menuName)) {
+        } else if (pageRoutes[menuName]) {
             // Hide 3D globe and panels
             if(simulationDiv) simulationDiv.style.display = 'none';
             if(actionPanel) actionPanel.style.display = 'none';
@@ -285,19 +277,27 @@ sidebarLinks.forEach(link => {
             
             // Show iframe
             if(pageFrame) {
-                const pages = {
-                    "Dashboard": "/dashboard.html",
-                    "FL Training": "/fl.html",
-                    "Experiments": "/fl.html",
-                    "Results": "/fl.html",
-                };
-                pageFrame.src = pages[menuName];
+                pageFrame.src = pageRoutes[menuName];
                 pageFrame.style.display = 'block';
             }
         } else {
             alert(`Sắp tới sẽ load giao diện chức năng: ${menuName}`);
         }
     });
+});
+
+window.addEventListener('message', (event) => {
+    if (event.origin !== window.location.origin || event.data?.type !== 'sagsin:navigate') return;
+    const pageName = Object.keys(pageRoutes).find((name) => pageRoutes[name] === event.data.href);
+    const targetLink = [...sidebarLinks].find((link) => link.querySelector('.link-text')?.innerText.trim() === pageName);
+    if (targetLink) targetLink.click();
+});
+
+window.addEventListener('message', (event) => {
+    if (event.origin !== window.location.origin || event.data?.type !== 'sagsin:navigate') return;
+    const pageName = Object.keys(pageRoutes).find((name) => pageRoutes[name] === event.data.href);
+    const targetLink = [...sidebarLinks].find((link) => link.querySelector('.link-text')?.innerText.trim() === pageName);
+    if (targetLink) targetLink.click();
 });
 
 // Xóa tất cả điểm Drop

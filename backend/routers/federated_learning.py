@@ -7,7 +7,7 @@ from backend.database.database import get_db
 from backend.models.network import Node
 from backend.models.participant import Participant
 from backend.models.scenario import Scenario
-from backend.models.simulation import Experiment, FLClientRound, FLRound
+from backend.models.simulation import Experiment, FLClientRound, FLRound, Metric
 from backend.schemas.base import APIResponse
 from backend.schemas.fl import FLExperimentCreate, FLExperimentDetail, FLExperimentSummary, FLRoundResult
 from backend.services.fl_service import run_experiment
@@ -47,9 +47,10 @@ def create_experiment(
 
     client_ids = []
     if request.algorithm == "FedAvg":
-        active_nodes = db.query(Node).filter(Node.status == "ACTIVE").all()
+        scenario_nodes = db.query(Node).filter(Node.scenario_id == scenario.id)
+        active_nodes = scenario_nodes.filter(Node.status == "ACTIVE").all()
         if not active_nodes:
-            active_nodes = db.query(Node).all()
+            active_nodes = scenario_nodes.all()
         by_id = {node.id: node for node in active_nodes}
         selected_rows = (
             db.query(Participant)
@@ -120,6 +121,7 @@ def get_experiment(experiment_id: int, db: Session = Depends(get_db)):
     round_results = []
     for round_row in rounds:
         clients = db.query(FLClientRound).filter(FLClientRound.round_id == round_row.id).order_by(FLClientRound.client_id.asc()).all()
+        metric = db.query(Metric).filter(Metric.round_id == round_row.id).first()
         round_results.append({
             "round": round_row.round,
             "accuracy": round_row.accuracy,
@@ -128,6 +130,14 @@ def get_experiment(experiment_id: int, db: Session = Depends(get_db)):
             "selected_count": len(clients),
             "dropped_count": sum(client.status != "COMPLETED" for client in clients),
             "round_duration_s": round_row.round_duration_s,
+            "metrics": ({
+                "latency_ms": metric.latency_ms,
+                "communication_time_ms": metric.communication_time_ms,
+                "energy_j": metric.energy_j,
+                "bandwidth_mbps": metric.bandwidth_mbps,
+                "data_transferred_mb": metric.data_transferred_mb,
+                "packet_loss_ratio": metric.packet_loss_ratio,
+            } if metric else None),
             "clients": clients,
         })
     config = dict(experiment.config_json or {})

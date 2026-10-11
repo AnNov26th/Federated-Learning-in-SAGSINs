@@ -1,6 +1,13 @@
 const chartInstances = [];
 let dashboardRequestId = 0;
 
+document.querySelectorAll(".detail-links a").forEach((link) => {
+    link.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.parent.postMessage({ type: "sagsin:navigate", href: link.getAttribute("href") }, window.location.origin);
+    });
+});
+
 const byId = (id) => document.getElementById(id);
 const setText = (id, value) => { byId(id).textContent = value; };
 const formatNumber = (value, digits = 0) => {

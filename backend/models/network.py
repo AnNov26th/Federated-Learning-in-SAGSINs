@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Boolean
 from backend.database.database import Base
 from datetime import datetime, timezone
 
@@ -15,6 +15,19 @@ class Node(Base):
     battery_percent = Column(Float, nullable=False, default=100.0) # %
     status = Column(String(20), default="ACTIVE") # ACTIVE, INACTIVE, OFFLINE, FAILED
     last_heartbeat = Column(DateTime, nullable=True)
+    scenario_id = Column(Integer, ForeignKey("scenarios.id"), nullable=True, index=True)
+    country_code = Column(String(3), nullable=True, index=True)
+    country_name = Column(String(100), nullable=True)
+    continent = Column(String(20), nullable=True)
+    land_area_km2 = Column(Float, nullable=True)
+    location_name = Column(String(120), nullable=True)
+    coordinate_source = Column(String(80), nullable=True)
+    is_simulated = Column(Boolean, nullable=False, default=False)
+    platform = Column(String(30), nullable=True)
+    orbit_inclination_deg = Column(Float, nullable=True)
+    orbit_plane = Column(Integer, nullable=True)
+    orbit_phase_deg = Column(Float, nullable=True)
+    epoch_utc = Column(String(32), nullable=True)
 
 class NetworkLink(Base):
     __tablename__ = "network_links"

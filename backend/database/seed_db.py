@@ -1,148 +1,163 @@
-import random
-from backend.database.database import SessionLocal, engine, Base
-from backend.models.scenario import Scenario
+"""Replace demo topology with the deterministic global multi-layer scenario.
+
+Run from the repository root after building the inventory:
+    python -m backend.database.build_global_multilayer_inventory
+    python -m backend.database.seed_db
+"""
+
+import csv
+from pathlib import Path
+
+from sqlalchemy import inspect, text
+
+from backend.database.database import Base, SessionLocal, engine
 from backend.models.network import Node, NetworkLink
-from backend.models.simulation import Experiment, FLRound, Metric
 from backend.models.participant import Participant
+from backend.models.scenario import Scenario
+from backend.models.simulation import Experiment, FLClientRound, FLRound, Metric
+
+
+ROOT = Path(__file__).resolve().parents[2]
+INVENTORY = ROOT / "data" / "global_ground_nodes" / "global_multilayer_nodes_106.csv"
+SCENARIO_NAME = "SAGSIN-Global-Multilayer-106"
+
+
+def migrate_node_metadata():
+    """Add metadata columns to an existing nodes table without dropping data."""
+    inspector = inspect(engine)
+    columns = {column["name"] for column in inspector.get_columns("nodes")}
+    additions = {
+        "scenario_id": "INTEGER NULL",
+        "country_code": "VARCHAR(3) NULL",
+        "country_name": "VARCHAR(100) NULL",
+        "continent": "VARCHAR(20) NULL",
+        "land_area_km2": "FLOAT NULL",
+        "location_name": "VARCHAR(120) NULL",
+        "coordinate_source": "VARCHAR(80) NULL",
+        "is_simulated": "BOOLEAN NOT NULL DEFAULT FALSE",
+        "platform": "VARCHAR(30) NULL",
+        "orbit_inclination_deg": "FLOAT NULL",
+        "orbit_plane": "INTEGER NULL",
+        "orbit_phase_deg": "FLOAT NULL",
+        "epoch_utc": "VARCHAR(32) NULL",
+    }
+    with engine.begin() as connection:
+        for name, ddl in additions.items():
+            if name not in columns:
+                connection.execute(text(f"ALTER TABLE nodes ADD COLUMN {name} {ddl}"))
+
+    if engine.dialect.name == "mysql":
+        foreign_keys = inspect(engine).get_foreign_keys("nodes")
+        if not any(
+            "scenario_id" in fk.get("constrained_columns", [])
+            and fk.get("referred_table") == "scenarios"
+            for fk in foreign_keys
+        ):
+            with engine.begin() as connection:
+                connection.execute(text(
+                    "ALTER TABLE nodes ADD CONSTRAINT fk_nodes_scenario_id "
+                    "FOREIGN KEY (scenario_id) REFERENCES scenarios (id)"
+                ))
+
+    for index_name, column_name in (
+        ("ix_nodes_scenario_id", "scenario_id"),
+        ("ix_nodes_country_code", "country_code"),
+    ):
+        existing = {index["name"] for index in inspect(engine).get_indexes("nodes")}
+        if index_name not in existing:
+            with engine.begin() as connection:
+                connection.execute(text(
+                    f"CREATE INDEX {index_name} ON nodes ({column_name})"
+                ))
+
+
+def load_inventory():
+    if not INVENTORY.exists():
+        raise FileNotFoundError(
+            f"Missing {INVENTORY}; run backend.database.build_global_multilayer_inventory first"
+        )
+    with INVENTORY.open(encoding="utf-8-sig", newline="") as source:
+        rows = list(csv.DictReader(source))
+    if len(rows) != 106:
+        raise ValueError(f"Inventory must contain exactly 106 nodes, found {len(rows)}")
+    if len({row["id"] for row in rows}) != len(rows):
+        raise ValueError("Inventory contains duplicate node ids")
+    expected = {"GROUND": 50, "SEA": 20, "AIR": 12, "SPACE": 24}
+    actual = {}
+    for row in rows:
+        actual[row["type"]] = actual.get(row["type"], 0) + 1
+    if actual != expected:
+        raise ValueError(f"Inventory layer counts must be {expected}, found {actual}")
+    return rows
+
 
 def seed_db():
-    print("Seeding database with SAGSIN-50 scenario...")
-    
-    # 0. Drop and recreate tables to ensure clean slate
-    print("Resetting tables...")
-    from sqlalchemy import text
-    with engine.connect() as conn:
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-        Base.metadata.drop_all(bind=engine)
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+    rows = load_inventory()
     Base.metadata.create_all(bind=engine)
-    
+    migrate_node_metadata()
     db = SessionLocal()
     try:
-        # 1. Create Scenario
+        # The user identified all previous topology and FL records as test data.
+        # Delete dependent rows first so every backend supported FK remains valid.
+        db.query(FLClientRound).delete(synchronize_session=False)
+        db.query(Metric).delete(synchronize_session=False)
+        db.query(FLRound).delete(synchronize_session=False)
+        db.query(Experiment).delete(synchronize_session=False)
+        db.query(Participant).delete(synchronize_session=False)
+        db.query(NetworkLink).delete(synchronize_session=False)
+        db.query(Node).delete(synchronize_session=False)
+        db.query(Scenario).delete(synchronize_session=False)
+        db.flush()
+
         scenario = Scenario(
-            name="SAGSIN-50",
-            total_nodes=50,
-            space=10,
-            air=12,
-            ground=23,
-            sea=5
+            name=SCENARIO_NAME,
+            total_nodes=len(rows),
+            space=sum(row["type"] == "SPACE" for row in rows),
+            air=sum(row["type"] == "AIR" for row in rows),
+            ground=sum(row["type"] == "GROUND" for row in rows),
+            sea=sum(row["type"] == "SEA" for row in rows),
         )
         db.add(scenario)
-        
-        nodes = []
-        
-        # Helper functions to generate realistic coordinates
-        def get_any_coord():
-            return random.uniform(-60, 60), random.uniform(-180, 180)
+        db.flush()
 
-        def get_land_coord():
-            # Bounding boxes for major landmasses (min_lat, max_lat, min_lng, max_lng)
-            land_zones = [
-                (30, 50, -120, -80),   # North America
-                (-30, 0, -70, -50),    # South America
-                (40, 60, 0, 30),       # Europe
-                (-20, 20, 10, 30),     # Africa
-                (20, 50, 70, 120),     # Asia
-                (-30, -20, 120, 150)   # Australia
-            ]
-            zone = random.choice(land_zones)
-            return random.uniform(zone[0], zone[1]), random.uniform(zone[2], zone[3])
-
-        def get_sea_coord():
-            # Bounding boxes for major oceans
-            sea_zones = [
-                (-30, 30, 150, 180),   # Pacific West
-                (-30, 30, -180, -130), # Pacific East
-                (-40, 40, -40, -20),   # Atlantic
-                (-30, 0, 60, 90)       # Indian Ocean
-            ]
-            zone = random.choice(sea_zones)
-            return random.uniform(zone[0], zone[1]), random.uniform(zone[2], zone[3])
-
-        # 2. SPACE (10 nodes)
-        # GEO (2)
-        for i in range(1, 3):
-            lat, lng = get_any_coord()
-            nodes.append(Node(id=f"GEO-{i:02d}", type="SPACE", lat=lat, lng=lng, alt=35786, bandwidth=100.0, latency=250.0, battery_percent=100.0))
-        # MEO (3)
-        for i in range(1, 4):
-            lat, lng = get_any_coord()
-            nodes.append(Node(id=f"MEO-{i:02d}", type="SPACE", lat=lat, lng=lng, alt=10000, bandwidth=150.0, latency=100.0, battery_percent=90.0))
-        # LEO (5)
-        for i in range(1, 6):
-            lat, lng = get_any_coord()
-            nodes.append(Node(id=f"LEO-{i:02d}", type="SPACE", lat=lat, lng=lng, alt=600, bandwidth=50.0, latency=30.0, battery_percent=85.0))
-            
-        # 3. AIR (12 nodes)
-        # HAP (2)
-        for i in range(1, 3):
-            lat, lng = get_any_coord()
-            nodes.append(Node(id=f"HAP-{i:02d}", type="AIR", lat=lat, lng=lng, alt=20, bandwidth=30.0, latency=15.0, battery_percent=70.0))
-        # Aircraft (3)
-        for i in range(1, 4):
-            lat, lng = get_any_coord()
-            nodes.append(Node(id=f"AIR-{i:02d}", type="AIR", lat=lat, lng=lng, alt=10, bandwidth=20.0, latency=10.0, battery_percent=80.0))
-        # UAV (5)
-        for i in range(1, 6):
-            lat, lng = get_land_coord() # UAVs typically over land
-            nodes.append(Node(id=f"UAV-{i:02d}", type="AIR", lat=lat, lng=lng, alt=1, bandwidth=10.0, latency=5.0, battery_percent=50.0))
-        # eVTOL (2)
-        for i in range(1, 3):
-            lat, lng = get_land_coord() # eVTOL over land
-            nodes.append(Node(id=f"EVT-{i:02d}", type="AIR", lat=lat, lng=lng, alt=0.5, bandwidth=15.0, latency=2.0, battery_percent=60.0))
-            
-        # 4. GROUND (23 nodes)
-        # Base Station (5)
-        for i in range(1, 6):
-            lat, lng = get_land_coord()
-            nodes.append(Node(id=f"BS-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.05, bandwidth=500.0, latency=1.0, battery_percent=100.0))
-        # Edge Server (3)
-        for i in range(1, 4):
-            lat, lng = get_land_coord()
-            nodes.append(Node(id=f"EDGE-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.0, bandwidth=1000.0, latency=0.5, battery_percent=100.0))
-        # Vehicle (8)
-        for i in range(1, 9):
-            lat, lng = get_land_coord()
-            nodes.append(Node(id=f"VEH-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.0, bandwidth=5.0, latency=10.0, battery_percent=40.0))
-        # IoT Device (7)
-        for i in range(1, 8):
-            lat, lng = get_land_coord()
-            nodes.append(Node(id=f"IOT-{i:02d}", type="GROUND", lat=lat, lng=lng, alt=0.0, bandwidth=1.0, latency=20.0, battery_percent=20.0))
-            
-        # 5. SEA (5 nodes)
-        # Buoy (2)
-        for i in range(1, 3):
-            lat, lng = get_sea_coord()
-            nodes.append(Node(id=f"BUOY-{i:02d}", type="SEA", lat=lat, lng=lng, alt=0.0, bandwidth=2.0, latency=50.0, battery_percent=30.0))
-        # Vessel (2)
-        for i in range(1, 3):
-            lat, lng = get_sea_coord()
-            nodes.append(Node(id=f"VES-{i:02d}", type="SEA", lat=lat, lng=lng, alt=0.0, bandwidth=10.0, latency=35.0, battery_percent=80.0))
-        # Shallow-water (1)
-        for i in range(1, 2):
-            lat, lng = get_sea_coord()
-            nodes.append(Node(id=f"SHA-{i:02d}", type="SEA", lat=lat, lng=lng, alt=-0.1, bandwidth=1.0, latency=80.0, battery_percent=25.0))
-
+        nodes = [Node(
+            id=row["id"],
+            type=row["type"],
+            lat=float(row["lat"]),
+            lng=float(row["lng"]),
+            alt=float(row["alt_km"]),
+            bandwidth=float(row["bandwidth_mbps"]),
+            latency=float(row["latency_ms"]),
+            battery_percent=float(row["battery_percent"]),
+            status=row["status"],
+            scenario_id=scenario.id,
+            country_code=row["country_code"] or None,
+            country_name=row["country_name"] or None,
+            continent=row["continent"] or None,
+            land_area_km2=float(row["land_area_km2"]) if row["land_area_km2"] else None,
+            location_name=row["location_name"] or None,
+            coordinate_source=row["coordinate_source"] or None,
+            is_simulated=row["is_simulated"].lower() == "true",
+            platform=row["platform"] or None,
+            orbit_inclination_deg=(float(row["orbit_inclination_deg"])
+                                   if row["orbit_inclination_deg"] else None),
+            orbit_plane=int(row["orbit_plane"]) if row["orbit_plane"] else None,
+            orbit_phase_deg=(float(row["orbit_phase_deg"])
+                             if row["orbit_phase_deg"] else None),
+            epoch_utc=row["epoch_utc"] or None,
+        ) for row in rows]
         db.add_all(nodes)
-        db.flush() # Commit nodes to DB to resolve foreign key constraints
-        
-        # 6. Create some random Network Links (just a few for visual testing)
-        links = []
-        for i in range(20): # create 20 random links
-            source = random.choice(nodes)
-            target = random.choice(nodes)
-            if source.id != target.id:
-                links.append(NetworkLink(source=source.id, target=target.id, distance=random.uniform(10, 1000), bandwidth=random.uniform(5, 50), latency=random.uniform(1, 100)))
-        db.add_all(links)
-        
         db.commit()
-        print(f"Database seeded successfully with {len(nodes)} nodes in scenario SAGSIN-50!")
-    except Exception as e:
-        print(f"Error seeding database: {e}")
+        print(
+            f"Inserted {len(nodes)} nodes (GROUND=50, SEA=20, AIR=12, SPACE=24) "
+            f"in {SCENARIO_NAME}."
+        )
+    except Exception:
         db.rollback()
+        raise
     finally:
         db.close()
+
 
 if __name__ == "__main__":
     seed_db()

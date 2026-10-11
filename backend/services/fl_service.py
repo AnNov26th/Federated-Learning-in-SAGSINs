@@ -139,25 +139,31 @@ def run_experiment(experiment_id):
                 transfer_ms = model_mb * 8 * 1000 / bandwidth_mbps
                 communication_ms = 2 * latency_ms + 2 * transfer_ms
                 selected_latencies.append(latency_ms)
-                selected_comm_times.append(communication_ms)
 
+                # A simulated dropout occurs before communication starts, so it
+                # contributes to the selected-client loss ratio but not round wait.
                 if rng.random() < config["dropout_probability"]:
                     outcomes.append(FLClientRound(
                         client_id=client_id, status="DROPPED", samples_used=0,
                         training_duration_s=0, latency_ms=latency_ms,
-                        communication_time_ms=communication_ms,
+                        communication_time_ms=0,
                         data_transferred_mb=0, failure_reason="Simulated client dropout",
                     ))
                     continue
                 if communication_ms > config["timeout_ms"]:
+                    # The worker waits until the configured deadline, not for
+                    # the full transfer estimate that caused the timeout.
+                    timeout_elapsed_ms = float(config["timeout_ms"])
+                    selected_comm_times.append(timeout_elapsed_ms)
                     outcomes.append(FLClientRound(
                         client_id=client_id, status="TIMEOUT", samples_used=0,
                         training_duration_s=0, latency_ms=latency_ms,
-                        communication_time_ms=communication_ms,
+                        communication_time_ms=timeout_elapsed_ms,
                         data_transferred_mb=0, failure_reason="Estimated model transfer exceeded the configured timeout",
                     ))
                     continue
 
+                selected_comm_times.append(communication_ms)
                 state, samples, accuracy, loss, duration = _train_local(
                     global_state, partition, config,
                     seed + round_number * 100_003 + client_index,
@@ -183,8 +189,9 @@ def run_experiment(experiment_id):
                 round_duration_s = elapsed
             else:
                 round_duration_s = max((
-                    outcome.training_duration_s + outcome.communication_time_ms / 1000
-                    for outcome in outcomes if outcome.status == "COMPLETED"
+                    (outcome.training_duration_s if outcome.status == "COMPLETED" else 0.0)
+                    + outcome.communication_time_ms / 1000
+                    for outcome in outcomes
                 ), default=0.0)
             fl_round = FLRound(
                 experiment_id=experiment.id,

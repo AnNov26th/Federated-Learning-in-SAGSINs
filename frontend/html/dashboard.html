@@ -17,6 +17,8 @@
         .dashboard-header h1 { margin: 0; color: #00ff88; font-size: clamp(22px, 3vw, 30px); letter-spacing: .3px; }
         .dashboard-header p { margin: 7px 0 0; color: #9ba7c2; }
         .header-actions { display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: 12px; }
+        .detail-links { display:flex; gap:8px; flex-wrap:wrap; margin:0 0 18px; }
+        .detail-links a { padding:7px 10px; border:1px solid rgba(255,255,255,.12); border-radius:7px; color:#dce4f4; background:rgba(255,255,255,.04); text-decoration:none; font-size:12px; }
         .connection-state, .updated-at { color: #aab4cc; font-size: 13px; }
         .connection-state::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; background: #78839b; }
         .connection-state[data-state="connected"]::before { background: #00d98b; box-shadow: 0 0 10px #00d98b; }
@@ -84,6 +86,14 @@
                 <button id="refresh-dashboard" class="refresh-btn" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
             </div>
         </header>
+
+        <nav class="detail-links" aria-label="Detailed project pages">
+            <a href="/network.html"><i class="fa-solid fa-network-wired"></i> Network</a>
+            <a href="/participants.html"><i class="fa-solid fa-users"></i> Participants</a>
+            <a href="/fl.html"><i class="fa-solid fa-brain"></i> FL Training</a>
+            <a href="/experiments.html"><i class="fa-solid fa-flask"></i> Experiments</a>
+            <a href="/results.html"><i class="fa-solid fa-chart-line"></i> Results</a>
+        </nav>
 
         <div id="dashboard-notice" class="notice" role="status">Loading dashboard data…</div>
 
