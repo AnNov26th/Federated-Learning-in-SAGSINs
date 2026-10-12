@@ -20,6 +20,7 @@
         .page-links { display:flex; gap:9px; flex-wrap:wrap; margin:0 0 18px; }
         .page-links a { display:inline-flex; align-items:center; gap:7px; border:1px solid rgba(255,255,255,.14); border-radius:7px; padding:8px 11px; color:#dce4f4; background:#11192a; text-decoration:none; font-size:13px; }
         button { border:0; border-radius:7px; padding:10px 15px; color:#06130e; background:#00d98b; font-weight:700; cursor:pointer; }
+        button.secondary { color:#dce4f4; background:#26334a; border:1px solid rgba(255,255,255,.14); }
         button:disabled { opacity:.55; cursor:wait; }
         #message { min-height:20px; color:#9ba7c2; font-size:13px; } #message.error { color:#ff858c; }
         .note { font-size:12px; margin:12px 0 0; color:#9ba7c2; }
@@ -33,21 +34,22 @@
         @media(max-width:760px) { body{padding:14px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.round{grid-template-columns:75px 1fr}.round span:last-child{grid-column:1/-1} }
         @media(max-width:460px) { .grid{grid-template-columns:1fr} }
     </style>
+    <link rel="stylesheet" href="/css/function-pages.css?v=20261012b">
+    <link rel="stylesheet" href="/css/macos-pages.css?v=20261013">
 </head>
-<body>
+<body class="page-fl">
 <main>
-    <h1><i class="fa-solid fa-brain"></i> MNIST FedAvg experiment</h1>
-    <p class="muted">Train a shared CNN on client partitions. Test accuracy and loss are measured on MNIST's separate test split after every aggregation round.</p>
+    <header class="page-header"><div><h1><i class="fa-solid fa-brain"></i> Federated learning experiments</h1><p class="page-subtitle">Train a shared CNN. Paired comparison runs FedAvg and Delay-Aware on the same scenario, candidate pool, seed, and training settings; only per-round client scheduling differs.</p></div></header>
     <nav class="page-links" aria-label="Federated learning pages"><a href="/experiments.html"><i class="fa-solid fa-flask"></i> Experiment history</a><a href="/results.html"><i class="fa-solid fa-chart-line"></i> Results analysis</a><a href="/participants.html"><i class="fa-solid fa-users"></i> Participant pool</a></nav>
     <section class="panel">
         <h2>Experiment settings</h2>
         <form id="experiment-form">
             <div class="grid">
                 <label>Scenario<select id="scenario" name="scenario_id" required><option value="">Loading scenarios…</option></select></label>
-                <label>Training mode<select name="algorithm"><option value="FedAvg" selected>FedAvg</option><option value="Centralized">Centralized baseline</option></select></label>
+                <label>Training mode<select name="algorithm"><option value="FedAvg" selected>FedAvg</option><option value="DelayAware">Delay-Aware FL</option><option value="Centralized">Centralized baseline</option></select></label>
                 <label>Rounds<input name="rounds" type="number" min="1" max="100" value="3" required></label>
                 <label>Clients<input name="client_count" type="number" min="2" max="50" value="5" required></label>
-                <label>Local epochs<input name="local_epochs" type="number" min="1" max="20" value="1" required></label>
+                <label>Fallback local epochs<input name="local_epochs" type="number" min="1" max="20" value="1" required><small class="hint">Selected participants use their own Local epochs setting; this value applies to nodes without a participant-specific setting.</small></label>
                 <label>Learning rate<input name="learning_rate" type="number" min="0.0001" max="1" step="0.0001" value="0.01" required></label>
                 <label>Batch size<select name="batch_size"><option>32</option><option selected>64</option><option>128</option></select></label>
                 <label>Data split<select name="partition"><option value="iid">IID (balanced random split)</option><option value="non_iid">Non-IID (label-sorted shards)</option></select></label>
@@ -56,12 +58,12 @@
                 <label>Client timeout (ms)<input name="timeout_ms" type="number" min="10" max="120000" step="10" value="30000" required></label>
                 <label>Random seed<input name="seed" type="number" min="0" value="42" required></label>
             </div>
-            <div class="actions"><button id="start-button" type="submit"><i class="fa-solid fa-play"></i> Start training</button><span id="message" role="status"></span></div>
-            <p class="note">If participant records are selected, training uses those active nodes. Otherwise, it selects active topology nodes at random. Network delay, bandwidth, packet loss and energy are modeled values; model training and test metrics come from PyTorch.</p>
+            <div class="actions"><button id="start-button" type="submit"><i class="fa-solid fa-play"></i> Start single run</button><button id="compare-button" type="button" class="secondary"><i class="fa-solid fa-code-compare"></i> Compare FedAvg vs Delay-Aware</button><span id="message" role="status"></span></div>
+            <p class="note">FedAvg samples clients uniformly from the ACTIVE candidate pool on each round. Delay-Aware selects the lowest estimated communication time. If participant records are selected, they define the candidate pool; otherwise all ACTIVE scenario nodes are eligible. Client failure ratio counts timeout/dropout outcomes; it is not packet loss. Network and energy metrics are estimates.</p>
         </form>
     </section>
     <section class="panel">
-        <h2>Run progress</h2>
+        <h2>Run progress / paired comparison</h2>
         <div id="summary" class="summary">No experiment started in this session.</div>
         <div id="rounds" class="rounds"></div>
     </section>
@@ -70,6 +72,6 @@
         <div class="scroll"><table><thead><tr><th>Node</th><th>Status</th><th>Samples</th><th>Local accuracy</th><th>Host train time</th><th>Estimated network time</th></tr></thead><tbody id="clients"><tr><td colspan="6" class="hint">Client results appear after the first round.</td></tr></tbody></table></div>
     </section>
 </main>
-<script type="module" src="/js/fl.js"></script>
+<script type="module" src="/js/fl.js?v=20261012b"></script>
 </body>
 </html>

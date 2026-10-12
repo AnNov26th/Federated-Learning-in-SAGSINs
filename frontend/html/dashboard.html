@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGSIN Dashboard</title>
+    <title>Tổng quan | SAGSIN Studio</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -72,81 +72,82 @@
         @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .experiment-layout { grid-template-columns: 1fr; } }
         @media (max-width: 650px) { .dashboard-container { padding: 16px 13px; } .dashboard-header { flex-direction: column; } .header-actions { justify-content: flex-start; } .charts-grid { grid-template-columns: 1fr; } .layer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .chart-wrap { height: 220px; } .kpi-card { padding: 14px; } .kpi-value { font-size: 26px; } }
     </style>
+    <link rel="stylesheet" href="/css/macos-pages.css?v=20261013">
 </head>
-<body>
+<body class="page-dashboard">
     <main class="dashboard-container">
         <header class="dashboard-header">
             <div>
-                <h1><i class="fa-solid fa-chart-pie"></i> SAGSIN Dashboard</h1>
-                <p id="dashboard-context">Network topology and federated learning overview</p>
+                <h1><i class="fa-solid fa-chart-pie"></i> Tổng quan hệ thống</h1>
+                <p id="dashboard-context">Topology mạng và trạng thái Federated Learning</p>
             </div>
             <div class="header-actions">
-                <span id="connection-state" class="connection-state" data-state="loading" role="status">Connecting…</span>
-                <span id="updated-at" class="updated-at">Not updated yet</span>
-                <button id="refresh-dashboard" class="refresh-btn" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                <span id="connection-state" class="connection-state" data-state="loading" role="status">Đang kết nối…</span>
+                <span id="updated-at" class="updated-at">Chưa cập nhật</span>
+                <button id="refresh-dashboard" class="refresh-btn" type="button"><i class="fa-solid fa-rotate"></i> Làm mới</button>
             </div>
         </header>
 
-        <nav class="detail-links" aria-label="Detailed project pages">
+        <nav class="detail-links" aria-label="Các trang chức năng">
             <a href="/network.html"><i class="fa-solid fa-network-wired"></i> Network</a>
-            <a href="/participants.html"><i class="fa-solid fa-users"></i> Participants</a>
+            <a href="/participants.html"><i class="fa-solid fa-users"></i> Người tham gia</a>
             <a href="/fl.html"><i class="fa-solid fa-brain"></i> FL Training</a>
             <a href="/experiments.html"><i class="fa-solid fa-flask"></i> Experiments</a>
             <a href="/results.html"><i class="fa-solid fa-chart-line"></i> Results</a>
         </nav>
 
-        <div id="dashboard-notice" class="notice" role="status">Loading dashboard data…</div>
+        <div id="dashboard-notice" class="notice" role="status">Đang tải dữ liệu tổng quan…</div>
 
         <section aria-labelledby="overview-title">
-            <div class="section-heading"><h2 id="overview-title">System overview</h2><p>Values reflect records currently stored in the database</p></div>
+            <div class="section-heading"><h2 id="overview-title">Tổng quan topology</h2><p>Số liệu lấy từ các bản ghi hiện có trong database</p></div>
             <div class="kpi-grid">
-                <article class="kpi-card"><div class="kpi-label">Total nodes <i class="fa-solid fa-circle-nodes"></i></div><p class="kpi-value" id="kpi-total">—</p><p class="kpi-subtitle">Configured in topology</p></article>
-                <article class="kpi-card"><div class="kpi-label">Network links <i class="fa-solid fa-share-nodes"></i></div><p class="kpi-value" id="kpi-links">—</p><p class="kpi-subtitle" id="kpi-links-note">Active status unavailable</p></article>
-                <article class="kpi-card"><div class="kpi-label">Participants <i class="fa-solid fa-users"></i></div><p class="kpi-value" id="kpi-participants">—</p><p class="kpi-subtitle" id="kpi-participants-note">Selected: —</p></article>
-                <article class="kpi-card"><div class="kpi-label">Latest experiment <i class="fa-solid fa-brain"></i></div><p class="kpi-value" id="kpi-accuracy">—</p><p class="kpi-subtitle" id="kpi-experiment-note">No experiment recorded</p></article>
+                <article class="kpi-card"><div class="kpi-label">Tổng node <i class="fa-solid fa-circle-nodes"></i></div><p class="kpi-value" id="kpi-total">—</p><p class="kpi-subtitle">Được cấu hình trong topology</p></article>
+                <article class="kpi-card"><div class="kpi-label">Liên kết mạng <i class="fa-solid fa-share-nodes"></i></div><p class="kpi-value" id="kpi-links">—</p><p class="kpi-subtitle" id="kpi-links-note">Chưa có trạng thái</p></article>
+                <article class="kpi-card"><div class="kpi-label">Người tham gia <i class="fa-solid fa-users"></i></div><p class="kpi-value" id="kpi-participants">—</p><p class="kpi-subtitle" id="kpi-participants-note">Đã chọn: —</p></article>
+                <article class="kpi-card"><div class="kpi-label">Thí nghiệm mới nhất <i class="fa-solid fa-brain"></i></div><p class="kpi-value" id="kpi-accuracy">—</p><p class="kpi-subtitle" id="kpi-experiment-note">Chưa có thí nghiệm</p></article>
             </div>
         </section>
 
         <section aria-labelledby="layers-title">
-            <div class="section-heading"><h2 id="layers-title">Nodes by network layer</h2></div>
+            <div class="section-heading"><h2 id="layers-title">Node theo lớp mạng</h2></div>
             <div class="layer-grid">
-                <article class="panel layer-card" style="--layer-color:#ffad42"><div class="layer-name">Space</div><div class="layer-count" id="kpi-space">—</div></article>
-                <article class="panel layer-card" style="--layer-color:#48d9ff"><div class="layer-name">Air</div><div class="layer-count" id="kpi-air">—</div></article>
-                <article class="panel layer-card" style="--layer-color:#50e28c"><div class="layer-name">Ground</div><div class="layer-count" id="kpi-ground">—</div></article>
-                <article class="panel layer-card" style="--layer-color:#559bff"><div class="layer-name">Sea</div><div class="layer-count" id="kpi-sea">—</div></article>
+                <article class="panel layer-card" style="--layer-color:#ffad42"><div class="layer-name">Space · Vệ tinh</div><div class="layer-count" id="kpi-space">—</div></article>
+                <article class="panel layer-card" style="--layer-color:#48d9ff"><div class="layer-name">Air · UAV / HAP</div><div class="layer-count" id="kpi-air">—</div></article>
+                <article class="panel layer-card" style="--layer-color:#50e28c"><div class="layer-name">Ground · Mặt đất</div><div class="layer-count" id="kpi-ground">—</div></article>
+                <article class="panel layer-card" style="--layer-color:#559bff"><div class="layer-name">Sea · Trên biển</div><div class="layer-count" id="kpi-sea">—</div></article>
             </div>
         </section>
 
         <section aria-labelledby="training-title">
             <div class="section-heading">
-                <div><h2 id="training-title">Latest experiment metrics</h2><p id="experiment-summary">Charts show the most recent experiment</p></div>
+                <div><h2 id="training-title">Chỉ số thí nghiệm gần nhất</h2><p id="experiment-summary">Biểu đồ của thí nghiệm mới nhất</p></div>
                 <div class="filter-bar">
-                    <label for="scenario-filter">Scenario <select id="scenario-filter"><option value="">All scenarios</option></select></label>
-                    <label for="algorithm-filter">Algorithm <select id="algorithm-filter"><option value="">All algorithms</option></select></label>
+                    <label for="scenario-filter">Scenario <select id="scenario-filter"><option value="">Tất cả scenario</option></select></label>
+                    <label for="algorithm-filter">Thuật toán <select id="algorithm-filter"><option value="">Tất cả thuật toán</option></select></label>
                 </div>
             </div>
             <div id="charts-grid" class="charts-grid">
-                <article class="panel"><h3>Global model accuracy (%)</h3><div class="chart-wrap"><canvas id="accuracyChart" aria-label="Model accuracy by round"></canvas></div></article>
-                <article class="panel"><h3>Model loss</h3><div class="chart-wrap"><canvas id="lossChart" aria-label="Model loss by round"></canvas></div></article>
-                <article class="panel"><h3>Communication latency (ms)</h3><div class="chart-wrap"><canvas id="latencyChart" aria-label="Average communication latency by round"></canvas></div></article>
-                <article class="panel"><h3>Estimated energy (J)</h3><div class="chart-wrap"><canvas id="energyChart" aria-label="Estimated energy by round"></canvas></div></article>
+                <article class="panel"><h3>Độ chính xác mô hình toàn cục (%)</h3><div class="chart-wrap"><canvas id="accuracyChart" aria-label="Độ chính xác mô hình theo round"></canvas></div></article>
+                <article class="panel"><h3>Loss mô hình</h3><div class="chart-wrap"><canvas id="lossChart" aria-label="Loss mô hình theo round"></canvas></div></article>
+                <article class="panel"><h3>Độ trễ truyền ước tính (ms)</h3><div class="chart-wrap"><canvas id="latencyChart" aria-label="Độ trễ truyền trung bình theo round"></canvas></div></article>
+                <article class="panel"><h3>Năng lượng ước tính (J)</h3><div class="chart-wrap"><canvas id="energyChart" aria-label="Năng lượng ước tính theo round"></canvas></div></article>
             </div>
-            <div id="charts-empty" class="panel chart-empty" hidden><div><i class="fa-solid fa-chart-line"></i><strong>No training rounds yet</strong><br>Experiment charts will appear after round metrics are saved.</div></div>
+            <div id="charts-empty" class="panel chart-empty" hidden><div><i class="fa-solid fa-chart-line"></i><strong>Chưa có round huấn luyện</strong><br>Biểu đồ sẽ xuất hiện sau khi có metric được lưu.</div></div>
         </section>
 
         <section>
-            <div class="section-heading"><h2>Recent experiments</h2><p>Progress is inferred from saved rounds and configured target rounds</p></div>
+            <div class="section-heading"><h2>Thí nghiệm gần đây</h2><p>Tiến độ được tính từ round đã lưu và tổng round cấu hình</p></div>
             <div class="experiment-layout">
                 <div class="panel table-scroll">
                     <table>
-                        <thead><tr><th>Scenario</th><th>Algorithm</th><th>Progress</th><th>Final accuracy</th><th>Status</th></tr></thead>
-                        <tbody id="experiment-rows"><tr><td class="empty-row" colspan="5">Loading experiments…</td></tr></tbody>
+                        <thead><tr><th>Scenario</th><th>Thuật toán</th><th>Tiến độ</th><th>Độ chính xác cuối</th><th>Trạng thái</th></tr></thead>
+                        <tbody id="experiment-rows"><tr><td class="empty-row" colspan="5">Đang tải thí nghiệm…</td></tr></tbody>
                     </table>
                 </div>
-                <aside class="panel"><h3>Network notices</h3><div id="alerts-list" class="alert-list"><div class="chart-empty">Loading notices…</div></div></aside>
+                <aside class="panel"><h3>Cảnh báo Network</h3><div id="alerts-list" class="alert-list"><div class="chart-empty">Đang tải thông báo…</div></div></aside>
             </div>
         </section>
     </main>
-    <script type="module" src="/js/dashboard.js"></script>
+    <script type="module" src="/js/dashboard.js?v=20261012b"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 
     <title>Federated Learning in SAGSINs</title>
 
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=20261013c">
     
     <!-- FontAwesome cho Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -36,12 +36,16 @@
 
     <!-- Floating Header -->
     <header id="top-header">
-        <h1>Federated Learning in SAGSINs</h1>
-        <p>Space–Air–Ground–Sea Integrated Network</p>
+        <div class="brand-mark"><i class="fa-solid fa-globe"></i></div>
+        <div>
+            <h1>SAGSIN Studio</h1>
+            <p>Space · Air · Ground · Sea network</p>
+        </div>
     </header>
 
     <!-- Main Collapsible Sidebar -->
-    <nav id="main-sidebar">
+    <nav id="main-sidebar" aria-label="Điều hướng chính">
+        <div class="sidebar-brand" aria-label="SAGSIN Studio"><i class="fa-solid fa-orbit"></i><span class="link-text">SAGSIN</span></div>
         <ul>
             <li>
                 <a href="#" class="sidebar-link" data-tooltip="Dashboard">
@@ -98,28 +102,55 @@
     <!-- Action Panel (Page specific Toolbar) -->
     <aside id="action-panel">
         <div class="panel-header">
-            <h3><i class="fa-solid fa-earth-americas"></i> 3D Globe Actions</h3>
+            <div class="panel-title-icon"><i class="fa-solid fa-earth-americas"></i></div>
+            <div><h3>Globe controls</h3><p>Thao tác trên mô hình</p></div>
         </div>
         
-        <div class="panel-section">
-            <h4>Select Action</h4>
+        <div class="panel-section event-section">
+            <h4>Đặt điểm sự kiện</h4>
             <select id="action-select" class="action-dropdown">
-                <option value="">-- Choose an action --</option>
+                <option value="">Chọn loại sự kiện</option>
                 <option value="Video Call">Video Call</option>
                 <option value="Watch Video">Watch Video</option>
                 <option value="Emergency">Emergency</option>
                 <option value="Message">Message</option>
                 <option value="Gaming">Gaming</option>
             </select>
-            <p id="action-hint" style="color: #00ff88; font-size: 12px; display: none; margin-top: 10px;">
-                * Click on the 3D globe to select the event location.
+            <p id="action-hint" class="action-hint" style="display: none;">
+                <i class="fa-solid fa-crosshairs"></i> Nhấn lên địa cầu để đặt điểm.
             </p>
         </div>
 
-        <div class="panel-section">
-            <h4>System Actions</h4>
-            <button id="btn-reset-cam" class="action-btn"><i class="fa-solid fa-camera-rotate"></i> Reset Camera</button>
+        <div class="panel-section control-section">
+            <h4>Điều khiển</h4>
+            <button id="btn-reset-cam" class="action-btn"><i class="fa-solid fa-camera-rotate"></i> Đặt lại góc nhìn</button>
+            <p id="selected-node-summary" class="selected-node-summary">Nhấn vào node trên địa cầu để xem gần hơn.</p>
         </div>
+
+        <section class="panel-section attack-section" aria-labelledby="attack-title">
+            <h4 id="attack-title"><i class="fa-solid fa-shield-virus"></i> Mô phỏng AI tấn công</h4>
+            <label class="attack-label" for="attack-target-layer">Lớp node mục tiêu</label>
+            <select id="attack-target-layer" class="action-dropdown">
+                <option value="ANY">AI tự chọn mục tiêu</option>
+                <option value="GROUND">Ground</option>
+                <option value="SEA">Sea</option>
+                <option value="AIR">Air</option>
+                <option value="SPACE">Space</option>
+            </select>
+            <button id="btn-simulate-attack" class="attack-btn" type="button"><i class="fa-solid fa-bolt"></i> Chạy mô phỏng đánh cắp</button>
+            <div id="attack-status" class="attack-status" role="status" aria-live="polite">Mô phỏng luồng tấn công và rò rỉ dữ liệu giả lập trên topology.</div>
+            <small class="attack-disclaimer">Chỉ là trực quan hóa: không quét node, không gửi traffic và không truy cập dữ liệu thật.</small>
+        </section>
+
+        <section class="drop-section" aria-labelledby="drop-section-title">
+            <div class="drop-section-heading">
+                <div><h4 id="drop-section-title">Điểm đã thả</h4><p id="drop-count">0 điểm</p></div>
+                <span class="drop-live-dot" aria-hidden="true"></span>
+            </div>
+            <div id="drop-list" class="drop-list" role="list" aria-live="polite">
+                <div class="drop-empty"><i class="fa-solid fa-location-dot"></i><span>Chưa có điểm nào</span><small>Chọn sự kiện rồi nhấn lên địa cầu</small></div>
+            </div>
+        </section>
     </aside>
 
     <!-- Status -->
@@ -138,15 +169,14 @@
 
     <!-- Node Legend Panel -->
     <div id="node-legend">
-        <h4>Các lớp thiết bị (Layers)</h4>
+        <h4>Các lớp thiết bị</h4>
         <ul>
             <li><span class="legend-color" style="background: orange; box-shadow: 0 0 10px orange;"></span> 🛰️ Space (Vệ tinh)</li>
             <li><span class="legend-color" style="background: cyan; box-shadow: 0 0 10px cyan;"></span> ✈️ Air (UAV, HAP)</li>
             <li><span class="legend-color" style="background: lime; box-shadow: 0 0 10px lime;"></span> 🌍 Ground (Server, BS)</li>
             <li><span class="legend-color" style="background: blue; box-shadow: 0 0 10px blue;"></span> 🌊 Sea (Tàu, Phao)</li>
-            <li><span class="legend-color" style="background: #ff00ff; box-shadow: 0 0 10px #ff00ff;"></span> 📍 Điểm đánh dấu (Drop)</li>
+            <li><span class="legend-color" style="background: #ff5ec4; box-shadow: 0 0 10px #ff5ec4;"></span> 📍 Điểm sự kiện</li>
         </ul>
-        <button id="btn-clear-drops" class="action-btn" style="margin-top: 10px; width: 100%;"><i class="fa-solid fa-trash"></i> Xóa tất cả điểm Drop</button>
     </div>
 
     <!-- Node Tooltip (Hover info) -->
@@ -154,7 +184,7 @@
         <!-- Content will be injected by app.js -->
     </div>
 
-    <script type="module" src="/js/app.js"></script>
+    <script type="module" src="/js/app.js?v=20261013e"></script>
 
 </body>
 

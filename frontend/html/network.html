@@ -1,9 +1,117 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Network | SAGSIN</title><link rel="stylesheet" href="/css/function-pages.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
-<body><main>
-    <header class="page-header"><div><h1><i class="fa-solid fa-network-wired"></i> Network inventory</h1><p class="page-subtitle">Topology records currently stored in the selected project database.</p></div><div class="page-actions"><button id="refresh-network" class="secondary" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button></div></header>
-    <div id="network-notice" class="notice" role="status">Loading network data…</div>
-    <section class="kpi-grid"><article class="kpi"><span>Total nodes</span><strong id="node-total">—</strong></article><article class="kpi"><span>Active nodes</span><strong id="node-active">—</strong></article><article class="kpi"><span>Stored links</span><strong id="link-total">—</strong></article><article class="kpi"><span>Active links</span><strong id="link-active">—</strong></article></section>
-    <section class="panel"><h2>Nodes</h2><div class="toolbar"><input id="node-search" type="search" placeholder="Search ID, country, platform or location"><select id="node-type"><option value="">All layers</option><option>SPACE</option><option>AIR</option><option>GROUND</option><option>SEA</option></select><select id="node-status"><option value="">All statuses</option><option>ACTIVE</option><option>INACTIVE</option><option>OFFLINE</option><option>FAILED</option></select></div><div class="table-scroll"><table><thead><tr><th>Node</th><th>Layer / platform</th><th>Country / location</th><th>Coordinates (WGS84)</th><th>Altitude</th><th>Network profile</th><th>Status</th></tr></thead><tbody id="nodes-body"><tr><td colspan="7" class="empty">Loading nodes…</td></tr></tbody></table></div></section>
-    <section class="panel"><h2>Stored network links</h2><p class="muted">Only links persisted in the database are shown. This page does not infer connectivity from proximity.</p><div class="table-scroll"><table><thead><tr><th>Source</th><th>Target</th><th>Distance</th><th>Bandwidth</th><th>Latency</th><th>Status</th></tr></thead><tbody id="links-body"><tr><td colspan="6" class="empty">Loading links…</td></tr></tbody></table></div></section>
-</main><script type="module" src="/js/network.js"></script></body></html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Network | SAGSIN Studio</title>
+    <link rel="stylesheet" href="/css/function-pages.css?v=20261012b">
+    <link rel="stylesheet" href="/css/macos-pages.css?v=20261013">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="page-network">
+<main class="workspace network-workspace">
+    <header class="workspace-header">
+        <div class="workspace-heading">
+            <div class="workspace-icon"><i class="fa-solid fa-network-wired"></i></div>
+            <div><p class="eyebrow">SAGSIN · QUẢN LÝ HẠ TẦNG</p><h1>Network</h1><p class="page-subtitle">Theo dõi thiết bị và các kết nối được lưu trong topology.</p></div>
+        </div>
+        <div class="page-actions">
+            <button id="export-nodes" class="secondary" type="button"><i class="fa-solid fa-file-export"></i> Xuất CSV</button>
+            <button id="add-node" class="secondary" type="button"><i class="fa-solid fa-plus"></i> Thêm node</button>
+            <button id="refresh-network" type="button"><i class="fa-solid fa-rotate"></i> Làm mới</button>
+        </div>
+    </header>
+
+    <div id="network-notice" class="notice" role="status" aria-live="polite">Đang tải dữ liệu mạng…</div>
+
+    <section class="network-kpis" aria-label="Tổng quan topology">
+        <article class="kpi"><span>Tổng node</span><strong id="node-total">—</strong><small id="node-scenario-note">Trong topology hiện tại</small></article>
+        <article class="kpi"><span>Đang hoạt động</span><strong id="node-active">—</strong><small id="node-health-note">—</small></article>
+        <article class="kpi"><span>Liên kết đã lưu</span><strong id="link-total">—</strong><small>Không tự suy luận từ khoảng cách</small></article>
+        <article class="kpi"><span>Liên kết hoạt động</span><strong id="link-active">—</strong><small id="link-health-note">—</small></article>
+    </section>
+
+    <section class="management-card page-panel" aria-labelledby="nodes-title">
+        <div class="section-title-row">
+            <div><p class="eyebrow">THIẾT BỊ</p><h2 id="nodes-title">Node inventory</h2><p class="muted">Chọn node để xem chi tiết, chỉnh cấu hình mạng hoặc cập nhật trạng thái.</p></div>
+            <div class="inventory-count"><span id="visible-node-count">—</span><small>đang hiển thị</small></div>
+        </div>
+        <div class="toolbar network-toolbar">
+            <label class="search-field"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input id="node-search" type="search" placeholder="Tìm ID, quốc gia, nền tảng, vị trí…" aria-label="Tìm node"></label>
+            <select id="node-scenario" aria-label="Lọc theo scenario"><option value="">Tất cả scenario</option></select>
+            <select id="node-type" aria-label="Lọc theo layer"><option value="">Tất cả layer</option><option value="SPACE">SPACE</option><option value="AIR">AIR</option><option value="GROUND">GROUND</option><option value="SEA">SEA</option></select>
+            <select id="node-status" aria-label="Lọc theo trạng thái"><option value="">Tất cả trạng thái</option><option>ACTIVE</option><option>INACTIVE</option><option>OFFLINE</option><option>FAILED</option></select>
+        </div>
+        <div class="bulk-toolbar" id="bulk-toolbar">
+            <label class="select-visible"><input id="select-visible" type="checkbox"> Chọn các dòng đang hiển thị</label>
+            <span id="selection-count">0 node được chọn</span>
+            <div class="bulk-actions"><select id="bulk-status" aria-label="Trạng thái áp dụng"><option value="">Đổi trạng thái thành…</option><option>ACTIVE</option><option>INACTIVE</option><option>OFFLINE</option><option>FAILED</option></select><button id="apply-bulk-status" class="secondary" type="button" disabled><i class="fa-solid fa-check"></i> Áp dụng</button><button id="clear-selection" class="quiet" type="button">Bỏ chọn</button></div>
+        </div>
+        <div class="table-scroll network-table-scroll">
+            <table class="network-table">
+                <thead><tr><th class="check-cell"><span class="sr-only">Chọn</span></th><th>Node</th><th>Layer / platform</th><th>Quốc gia / vị trí</th><th>Tọa độ WGS84</th><th>Network profile</th><th>Trạng thái</th><th><span class="sr-only">Thao tác</span></th></tr></thead>
+                <tbody id="nodes-body"><tr><td colspan="8" class="empty">Đang tải node…</td></tr></tbody>
+            </table>
+        </div>
+        <p class="table-footnote"><i class="fa-solid fa-circle-info"></i> Đổi trạng thái sang INACTIVE/OFFLINE/FAILED sẽ khiến node không được chọn cho các round FL mới. Node và dữ liệu lịch sử không bị xóa.</p>
+    </section>
+
+    <section class="management-card page-panel" aria-labelledby="links-title">
+        <div class="section-title-row">
+            <div><p class="eyebrow">KẾT NỐI</p><h2 id="links-title">Stored network links</h2><p class="muted">Khoảng cách được tính từ tọa độ và độ cao; bandwidth, latency là cấu hình người dùng nhập.</p></div>
+            <button id="add-link" class="secondary" type="button"><i class="fa-solid fa-link"></i> Tạo liên kết</button>
+        </div>
+        <div class="table-scroll">
+            <table><thead><tr><th>Source</th><th>Target</th><th>Khoảng cách 3D</th><th>Bandwidth</th><th>Latency</th><th>Trạng thái</th><th>Thao tác</th></tr></thead><tbody id="links-body"><tr><td colspan="7" class="empty">Đang tải liên kết…</td></tr></tbody></table>
+        </div>
+    </section>
+</main>
+
+<dialog id="node-dialog" class="editor-dialog">
+    <form id="node-form">
+        <div class="dialog-heading"><div><p class="eyebrow" id="node-dialog-eyebrow">NETWORK INVENTORY</p><h2 id="node-dialog-title">Thêm node</h2></div><button class="icon-button" type="button" data-close-dialog="node-dialog" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button></div>
+        <p id="node-form-hint" class="muted">Nhập thông tin node sẽ được thêm vào database.</p>
+        <div class="form-grid">
+            <label>ID node<input name="id" id="form-node-id" maxlength="50" required></label>
+            <label>Layer<select name="type" id="form-node-type" required><option value="GROUND">GROUND</option><option value="AIR">AIR</option><option value="SEA">SEA</option><option value="SPACE">SPACE</option></select></label>
+            <label>Latitude<input name="lat" id="form-node-lat" type="number" min="-90" max="90" step="any" required></label>
+            <label>Longitude<input name="lng" id="form-node-lng" type="number" min="-180" max="180" step="any" required></label>
+            <label>Độ cao (km)<input name="alt" id="form-node-alt" type="number" min="0" step="any" value="0" required></label>
+            <label>Scenario<select name="scenario_id" id="form-node-scenario"><option value="">Không gắn scenario</option></select></label>
+            <label>Bandwidth (Mbps)<input name="bandwidth" id="form-node-bandwidth" type="number" min="0.001" step="any" value="100" required></label>
+            <label>Latency (ms)<input name="latency" id="form-node-latency" type="number" min="0" step="any" value="10" required></label>
+            <label>Pin (%)<input name="battery_percent" id="form-node-battery" type="number" min="0" max="100" step="any" value="100" required></label>
+            <label>Trạng thái<select name="status" id="form-node-status"><option>ACTIVE</option><option>INACTIVE</option><option>OFFLINE</option><option>FAILED</option></select></label>
+            <label>Quốc gia<input name="country_name" id="form-node-country" maxlength="100"></label>
+            <label>Vị trí / nền tảng<input name="location_name" id="form-node-location" maxlength="120"></label>
+        </div>
+        <div id="node-form-error" class="form-error" role="alert" hidden></div>
+        <div class="dialog-actions"><button class="secondary" type="button" data-close-dialog="node-dialog">Hủy</button><button id="save-node" type="submit"><i class="fa-solid fa-check"></i> Lưu node</button></div>
+    </form>
+</dialog>
+
+<dialog id="node-detail-dialog" class="editor-dialog detail-dialog">
+    <div class="dialog-heading"><div><p class="eyebrow">NODE DETAILS</p><h2 id="detail-node-title">Node</h2></div><button class="icon-button" type="button" data-close-dialog="node-detail-dialog" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button></div>
+    <div id="node-detail-content" class="node-detail-grid"></div>
+    <div class="dialog-actions"><button id="edit-detail-node" class="secondary" type="button"><i class="fa-solid fa-pen"></i> Chỉnh sửa node</button><button class="secondary" type="button" data-close-dialog="node-detail-dialog">Đóng</button></div>
+</dialog>
+
+<dialog id="link-dialog" class="editor-dialog">
+    <form id="link-form">
+        <div class="dialog-heading"><div><p class="eyebrow">NETWORK TOPOLOGY</p><h2>Tạo liên kết</h2></div><button class="icon-button" type="button" data-close-dialog="link-dialog" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button></div>
+        <p class="muted">Khoảng cách 3D được tính từ vị trí node. Các thông số mạng bên dưới là cấu hình mô phỏng do bạn cung cấp.</p>
+        <div class="form-grid">
+            <label>Source node<select name="source" id="form-link-source" required></select></label>
+            <label>Target node<select name="target" id="form-link-target" required></select></label>
+            <label>Bandwidth (Mbps)<input name="bandwidth" type="number" min="0.001" step="any" value="100" required></label>
+            <label>Latency (ms)<input name="latency" type="number" min="0" step="any" value="10" required></label>
+            <label>Trạng thái<select name="status"><option>ACTIVE</option><option>INACTIVE</option></select></label>
+        </div>
+        <div id="link-form-error" class="form-error" role="alert" hidden></div>
+        <div class="dialog-actions"><button class="secondary" type="button" data-close-dialog="link-dialog">Hủy</button><button id="save-link" type="submit"><i class="fa-solid fa-link"></i> Tạo liên kết</button></div>
+    </form>
+</dialog>
+
+<script type="module" src="/js/network.js?v=20261012b"></script>
+</body>
+</html>

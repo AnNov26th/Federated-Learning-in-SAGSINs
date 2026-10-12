@@ -1,7 +1,6 @@
 
-from pydantic import BaseModel
-from typing import Optional
-from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Literal, Optional
 from datetime import datetime
 
 class NodeBase(BaseModel):
@@ -13,8 +12,6 @@ class NodeBase(BaseModel):
     bandwidth: float
     latency: float
     battery_percent: float = 100.0
-    status: str = "ACTIVE"
-    last_heartbeat: Optional[datetime] = None
     status: str = "ACTIVE"
     last_heartbeat: Optional[datetime] = None
     scenario_id: Optional[int] = None
@@ -34,6 +31,21 @@ class NodeBase(BaseModel):
 class NodeCreate(NodeBase):
     pass
 
+class NodeUpdate(BaseModel):
+    status: Optional[Literal["ACTIVE", "INACTIVE", "OFFLINE", "FAILED"]] = None
+    bandwidth: Optional[float] = Field(default=None, gt=0)
+    latency: Optional[float] = Field(default=None, ge=0)
+    battery_percent: Optional[float] = Field(default=None, ge=0, le=100)
+
+class NetworkLinkCreate(BaseModel):
+    source: str = Field(min_length=1, max_length=50)
+    target: str = Field(min_length=1, max_length=50)
+    bandwidth: float = Field(gt=0)
+    latency: float = Field(ge=0)
+    status: Literal["ACTIVE", "INACTIVE"] = "ACTIVE"
+
+class NetworkLinkUpdate(BaseModel):
+    status: Literal["ACTIVE", "INACTIVE"]
+
 class Node(NodeBase):
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

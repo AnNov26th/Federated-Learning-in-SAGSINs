@@ -12,6 +12,19 @@ function render() {
         return (!algorithm || run.algorithm === algorithm) && (!status || run.status === status) && (!query || `${run.id} ${scenario} ${run.algorithm}`.toLowerCase().includes(query));
     });
     $("experiments-body").innerHTML = rows.length ? rows.map((run) => `<tr><td><strong>#${run.id}</strong></td><td>${esc(scenarios.get(run.scenario_id) || `Scenario ${run.scenario_id}`)}</td><td>${esc(run.algorithm)}</td><td>${run.completed_rounds}/${run.target_rounds} rounds</td><td>${run.latest_accuracy == null ? "—" : `${(run.latest_accuracy*100).toFixed(1)}%`}<small>test set</small></td><td><span class="status ${esc(String(run.status).toLowerCase())}">${esc(run.status)}</span>${run.error_message ? `<small>${esc(run.error_message)}</small>` : ""}</td><td><a href="/results.html?experiment_id=${encodeURIComponent(run.id)}">Analyze <i class="fa-solid fa-arrow-up-right-from-square"></i></a></td></tr>`).join("") : '<tr><td colspan="7" class="empty">No experiments match these filters.</td></tr>';
+    $("runs-total").textContent = experiments.length;
+    $("runs-completed").textContent = experiments.filter((run) => run.status === "COMPLETED").length;
+    $("runs-active").textContent = experiments.filter((run) => ["QUEUED","RUNNING"].includes(run.status)).length;
+    $("runs-unsuccessful").textContent = experiments.filter((run) => ["FAILED","CANCELLED"].includes(run.status)).length;
+}
+function exportCsv() {
+    const quote = (value) => `"${String(value ?? "").replaceAll('"','""')}"`;
+    const header = ["experiment_id","scenario","algorithm","status","completed_rounds","target_rounds","latest_test_accuracy","actual_duration_s","error"];
+    const lines = [header, ...experiments.map((run) => [run.id,scenarios.get(run.scenario_id) || run.scenario_id,run.algorithm,run.status,run.completed_rounds,run.target_rounds,run.latest_accuracy,run.actual_duration_s,run.error_message])].map((row) => row.map(quote).join(","));
+    const blob = new Blob(["\uFEFF",lines.join("\r\n")], {type:"text/csv;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const link = Object.assign(document.createElement("a"), {href:url,download:"sagsin-experiments.csv"});
+    link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 async function load() {
     notice("Loading saved runs…");
@@ -32,4 +45,5 @@ $("experiment-search").addEventListener("input", render);
 $("experiment-algorithm").addEventListener("change", render);
 $("experiment-status").addEventListener("change", render);
 $("refresh-experiments").addEventListener("click", load);
+$("export-experiments").addEventListener("click", exportCsv);
 load();

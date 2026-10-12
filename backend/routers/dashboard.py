@@ -122,12 +122,25 @@ def get_dashboard_stats(
                 })
 
         inactive_links = topology["links"] - topology["active_links"]
+        unavailable_nodes = db.query(Node).filter(func.upper(Node.status) != "ACTIVE").count()
         alerts = []
+        if topology["links"] == 0 and topology["total"] > 0:
+            alerts.append({
+                "severity": "info",
+                "title": "No stored network links",
+                "message": "The topology contains nodes, but no explicit links are stored. Network connectivity is not inferred automatically.",
+            })
         if inactive_links > 0:
             alerts.append({
                 "severity": "warning",
                 "title": "Inactive network links",
                 "message": f"{inactive_links} of {topology['links']} links are not marked ACTIVE.",
+            })
+        if unavailable_nodes > 0:
+            alerts.append({
+                "severity": "warning",
+                "title": "Nodes need attention",
+                "message": f"{unavailable_nodes} of {topology['total']} nodes are not marked ACTIVE.",
             })
         if topology["total"] == 0:
             alerts.append({

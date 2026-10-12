@@ -17,6 +17,7 @@ const formatNumber = (value, digits = 0) => {
 const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
 }[char]));
+const statusLabel = (status) => ({completed:"Hoàn tất",in_progress:"Đang thực hiện",running:"Đang chạy",queued:"Đang chờ",failed:"Thất bại",cancelled:"Đã hủy"}[status] || status.replaceAll("_", " "));
 
 function setConnection(state, label) {
     const element = byId("connection-state");
@@ -75,7 +76,7 @@ function renderChart(canvasId, type, label, values, color, options = {}) {
 function renderExperiments(experiments) {
     const tbody = byId("experiment-rows");
     if (!experiments.length) {
-        tbody.innerHTML = '<tr><td class="empty-row" colspan="5">No experiments have been recorded.</td></tr>';
+        tbody.innerHTML = '<tr><td class="empty-row" colspan="5">Chưa có thí nghiệm nào được ghi nhận.</td></tr>';
         return;
     }
     tbody.innerHTML = experiments.map((experiment) => {
@@ -87,7 +88,7 @@ function renderExperiments(experiments) {
             <td>${escapeHtml(experiment.algorithm)}${experiment.metrics_source === "synthetic_seed_data" ? " · demo data" : ""}</td>
             <td>${formatNumber(experiment.completed_rounds)} / ${formatNumber(experiment.target_rounds)}</td>
             <td>${accuracy}</td>
-            <td><span class="status-pill ${escapeHtml(status)}">${escapeHtml(status.replaceAll("_", " "))}</span></td>
+            <td><span class="status-pill ${escapeHtml(status)}">${escapeHtml(statusLabel(status))}</span></td>
         </tr>`;
     }).join("");
 }
@@ -95,11 +96,15 @@ function renderExperiments(experiments) {
 function renderAlerts(alerts) {
     const list = byId("alerts-list");
     if (!alerts.length) {
-        list.innerHTML = '<div class="alert-item info"><strong>No network notices</strong><span>No inactive links or missing topology data were reported.</span></div>';
+        list.innerHTML = '<div class="alert-item info"><strong>Không có cảnh báo mới</strong><span>Chưa phát hiện trạng thái cần xử lý.</span></div>';
         return;
     }
+    const titles = {"No stored network links":"Chưa có liên kết mạng","Inactive network links":"Liên kết không hoạt động","Nodes need attention":"Node cần kiểm tra","No topology data":"Chưa có topology"};
+    const messages = {
+        "The topology contains nodes, but no explicit links are stored. Network connectivity is not inferred automatically.":"Topology có node nhưng chưa lưu liên kết tường minh. Hệ thống không tự suy diễn kết nối.",
+    };
     list.innerHTML = alerts.map((alert) => `<div class="alert-item ${escapeHtml(alert.severity)}">
-        <strong>${escapeHtml(alert.title)}</strong><span>${escapeHtml(alert.message)}</span>
+        <strong>${escapeHtml(titles[alert.title] || alert.title)}</strong><span>${escapeHtml(messages[alert.message] || alert.message)}</span>
     </div>`).join("");
 }
 
@@ -108,10 +113,10 @@ function updateFilters(filters = {}) {
     const algorithmSelect = byId("algorithm-filter");
     const selectedScenario = scenarioSelect.value;
     const selectedAlgorithm = algorithmSelect.value;
-    scenarioSelect.innerHTML = '<option value="">All scenarios</option>' + (filters.scenarios || []).map((scenario) =>
+    scenarioSelect.innerHTML = '<option value="">Tất cả scenario</option>' + (filters.scenarios || []).map((scenario) =>
         `<option value="${escapeHtml(scenario.id)}">${escapeHtml(scenario.name)}</option>`
     ).join("");
-    algorithmSelect.innerHTML = '<option value="">All algorithms</option>' + (filters.algorithms || []).map((algorithm) =>
+    algorithmSelect.innerHTML = '<option value="">Tất cả thuật toán</option>' + (filters.algorithms || []).map((algorithm) =>
         `<option value="${escapeHtml(algorithm)}">${escapeHtml(algorithm)}</option>`
     ).join("");
     if ([...scenarioSelect.options].some((option) => option.value === selectedScenario)) scenarioSelect.value = selectedScenario;
@@ -125,9 +130,9 @@ function renderDashboard(data) {
 
     setText("kpi-total", formatNumber(topology.total));
     setText("kpi-links", formatNumber(topology.links));
-    setText("kpi-links-note", `${formatNumber(topology.active_links)} marked active · ${formatNumber(topology.links)} total`);
+    setText("kpi-links-note", `${formatNumber(topology.active_links)} đang hoạt động · ${formatNumber(topology.links)} tổng`);
     setText("kpi-participants", formatNumber(participants.total));
-    setText("kpi-participants-note", `${formatNumber(participants.selected)} selected`);
+    setText("kpi-participants-note", `${formatNumber(participants.selected)} đã chọn`);
     setText("kpi-space", formatNumber(topology.space));
     setText("kpi-air", formatNumber(topology.air));
     setText("kpi-ground", formatNumber(topology.ground));
@@ -136,14 +141,14 @@ function renderDashboard(data) {
     if (experiment) {
         setText("kpi-accuracy", experiment.accuracy === null || experiment.accuracy === undefined
             ? "—" : `${formatNumber(experiment.accuracy * 100, 1)}%`);
-        setText("kpi-experiment-note", `${experiment.algorithm} · ${experiment.status.replaceAll("_", " ")}`);
-        setText("dashboard-context", `${experiment.scenario} · ${experiment.algorithm} · Experiment #${experiment.id}`);
-        setText("experiment-summary", `${formatNumber(experiment.completed_rounds)} of ${formatNumber(experiment.target_rounds)} rounds recorded`);
+        setText("kpi-experiment-note", `${experiment.algorithm} · ${statusLabel(experiment.status)}`);
+        setText("dashboard-context", `${experiment.scenario} · ${experiment.algorithm} · Thí nghiệm #${experiment.id}`);
+        setText("experiment-summary", `Đã ghi nhận ${formatNumber(experiment.completed_rounds)} / ${formatNumber(experiment.target_rounds)} round`);
     } else {
         setText("kpi-accuracy", "—");
-        setText("kpi-experiment-note", "No experiment recorded");
-        setText("dashboard-context", "Network topology and federated learning overview");
-        setText("experiment-summary", "No experiment has been recorded yet");
+        setText("kpi-experiment-note", "Chưa có thí nghiệm");
+        setText("dashboard-context", "Topology mạng và trạng thái Federated Learning");
+        setText("experiment-summary", "Chưa có thí nghiệm nào được ghi nhận");
     }
 
     renderExperiments(data.recent_experiments || []);
@@ -151,7 +156,7 @@ function renderDashboard(data) {
     updateFilters(data.filters);
 
     const updated = data.generated_at ? new Date(data.generated_at) : new Date();
-    setText("updated-at", `Updated ${updated.toLocaleString()}`);
+    setText("updated-at", `Cập nhật ${updated.toLocaleString()}`);
 
     const rounds = data.fl_training || [];
     clearCharts();
@@ -162,7 +167,7 @@ function renderDashboard(data) {
     if (typeof Chart === "undefined") {
         byId("charts-grid").hidden = true;
         byId("charts-empty").hidden = false;
-        byId("charts-empty").innerHTML = '<div><i class="fa-solid fa-triangle-exclamation"></i><strong>Charts could not be rendered</strong><br>Round data exists, but Chart.js could not be loaded.</div>';
+        byId("charts-empty").innerHTML = '<div><i class="fa-solid fa-triangle-exclamation"></i><strong>Không thể vẽ biểu đồ</strong><br>Có dữ liệu round nhưng không tải được Chart.js.</div>';
         return false;
     }
 
@@ -181,8 +186,8 @@ async function loadDashboard() {
     const requestId = ++dashboardRequestId;
     const button = byId("refresh-dashboard");
     button.disabled = true;
-    setConnection("loading", "Connecting…");
-    showNotice("Loading dashboard data…");
+        setConnection("loading", "Đang kết nối…");
+    showNotice("Đang tải dữ liệu tổng quan…");
     try {
         const query = new URLSearchParams();
         if (byId("scenario-filter").value) query.set("scenario_id", byId("scenario-filter").value);
@@ -195,15 +200,15 @@ async function loadDashboard() {
         if (requestId !== dashboardRequestId) return;
         if (result.status !== "success" || !result.data) throw new Error(result.message || "Dashboard data is unavailable.");
         const chartsAvailable = renderDashboard(result.data);
-        setConnection("connected", "Data connected");
-        showNotice(chartsAvailable ? "" : "Dashboard data loaded, but charts could not load. Check access to the Chart.js CDN.", chartsAvailable ? "info" : "error");
+        setConnection("connected", "Đã kết nối dữ liệu");
+        showNotice(chartsAvailable ? "" : "Đã tải dữ liệu nhưng chưa tải được Chart.js để vẽ biểu đồ.", chartsAvailable ? "info" : "error");
     } catch (error) {
         if (requestId !== dashboardRequestId) return;
         console.error("Unable to load dashboard:", error);
-        setConnection("error", "Data unavailable");
-        showNotice("Could not load dashboard data. Check that the backend and database are reachable, then refresh.", "error");
-        byId("experiment-rows").innerHTML = '<tr><td class="empty-row" colspan="5">Experiment data could not be loaded.</td></tr>';
-        byId("alerts-list").innerHTML = '<div class="alert-item warning"><strong>Dashboard data unavailable</strong><span>Backend or database connection failed.</span></div>';
+        setConnection("error", "Không có dữ liệu");
+        showNotice("Không tải được dữ liệu. Hãy kiểm tra backend/database rồi thử làm mới.", "error");
+        byId("experiment-rows").innerHTML = '<tr><td class="empty-row" colspan="5">Không tải được dữ liệu thí nghiệm.</td></tr>';
+        byId("alerts-list").innerHTML = '<div class="alert-item warning"><strong>Không kết nối được dashboard</strong><span>Backend hoặc database không phản hồi.</span></div>';
     } finally {
         if (requestId === dashboardRequestId) button.disabled = false;
     }

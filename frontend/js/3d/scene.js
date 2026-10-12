@@ -84,16 +84,22 @@ export function createScene(container) {
 
 
     // Animation
+    const clock = new THREE.Clock();
+    // Time-lapse spin for visibility (about 30 minutes per turn).
+    // The directional light remains scene-level and does not rotate with the Earth.
+    const EARTH_ROTATION_RAD_PER_SECOND = (2 * Math.PI) / (30 * 60);
     function animate() {
 
         requestAnimationFrame(animate);
+        const elapsedSeconds = Math.min(clock.getDelta(), 0.1);
 
-        // Rotate the earth and clouds (rất chậm)
-        earth.rotation.y += 0.0001;
-        // The clouds can rotate slightly faster for a parallax effect
+        // Keep a slow, visible Earth spin while the camera flies around the fixed globe center.
+        if (!earth.userData.rotationPaused) earth.rotation.y += EARTH_ROTATION_RAD_PER_SECOND * elapsedSeconds;
         if (earth.userData.clouds) {
-            earth.userData.clouds.rotation.y += 0.00015;
+            earth.userData.clouds.rotation.y += EARTH_ROTATION_RAD_PER_SECOND * elapsedSeconds * 1.08;
         }
+
+        earth.userData.advanceDevices?.(elapsedSeconds);
 
         controls.update();
 
