@@ -14,6 +14,7 @@ def select_clients(
     round_number,
     model_size_mb,
     network_profile="normal",
+    predicted_delays=None,
 ):
     """Select ACTIVE clients with either uniform FedAvg or delay-aware policy."""
     active_ids = sorted({
@@ -27,6 +28,15 @@ def select_clients(
     if algorithm == "FedAvg":
         rng = random.Random(int(seed) + int(round_number) * 100_003)
         return rng.sample(active_ids, client_count)
+
+    if algorithm == "Predictive":
+        import math
+        if predicted_delays is None or any(
+            client not in predicted_delays or not math.isfinite(predicted_delays[client]) or predicted_delays[client] < 0
+            for client in active_ids
+        ):
+            raise ValueError("Predictive scheduling requires finite, nonnegative predictions for every ACTIVE client.")
+        return sorted(active_ids, key=lambda client: (predicted_delays[client], client))[:client_count]
 
     if algorithm == "DelayAware":
         ranked = sorted(active_ids, key=lambda client_id: (

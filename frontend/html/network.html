@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Network | SAGSIN Studio</title>
-    <link rel="stylesheet" href="/css/function-pages.css?v=20261012b">
+    <link rel="stylesheet" href="/css/function-pages.css?v=20261013a">
     <link rel="stylesheet" href="/css/macos-pages.css?v=20261013">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -58,9 +58,10 @@
 
     <section class="management-card page-panel" aria-labelledby="links-title">
         <div class="section-title-row">
-            <div><p class="eyebrow">KẾT NỐI</p><h2 id="links-title">Stored network links</h2><p class="muted">Khoảng cách được tính từ tọa độ và độ cao; bandwidth, latency là cấu hình người dùng nhập.</p></div>
-            <button id="add-link" class="secondary" type="button"><i class="fa-solid fa-link"></i> Tạo liên kết</button>
+            <div><p class="eyebrow">KẾT NỐI</p><h2 id="links-title">Stored network links</h2><p class="muted">Có thể nhập link thủ công hoặc tự sinh link ACTIVE giữa node gần nhau trong cùng scenario.</p></div>
+            <div class="page-actions"><button id="generate-nearby-links" class="secondary" type="button" title="Tạo tối đa 2 kết nối gần nhất cho mỗi node ACTIVE, trong cùng scenario và dưới 1.500 km"><i class="fa-solid fa-wand-magic-sparkles"></i> Tự sinh link lân cận</button><button id="add-link" class="secondary" type="button"><i class="fa-solid fa-link"></i> Tạo liên kết</button></div>
         </div>
+        <p class="table-footnote"><i class="fa-solid fa-circle-info"></i> Link tự sinh là cấu hình mô phỏng: tối đa 2 node lân cận trong bán kính 1.500 km; bandwidth lấy theo node yếu hơn, latency ước tính theo khoảng cách và tốc độ truyền ánh sáng. Node ở scenario khác nhau không được nối. Link đã có sẽ không bị ghi đè hoặc tự kích hoạt.</p>
         <div class="table-scroll">
             <table><thead><tr><th>Source</th><th>Target</th><th>Khoảng cách 3D</th><th>Bandwidth</th><th>Latency</th><th>Trạng thái</th><th>Thao tác</th></tr></thead><tbody id="links-body"><tr><td colspan="7" class="empty">Đang tải liên kết…</td></tr></tbody></table>
         </div>
@@ -112,6 +113,6 @@
     </form>
 </dialog>
 
-<script type="module" src="/js/network.js?v=20261012b"></script>
+<script type="module" src="/js/network.js?v=20261013a"></script>
 </body>
 </html>

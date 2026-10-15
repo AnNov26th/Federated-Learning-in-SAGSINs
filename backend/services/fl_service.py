@@ -2,6 +2,7 @@
 import hashlib
 import random
 import time
+import threading
 from datetime import datetime, timezone
 
 from backend.database.database import SessionLocal
@@ -71,15 +72,22 @@ def _train_local(global_state, dataset, config, seed):
     return state, len(dataset), accuracy, loss, elapsed
 
 
+_training_lock = threading.Lock()
+
+
 def run_experiment(experiment_id):
+    # PyTorch CPU RNG/thread settings are process-wide. Keep experiment workers
+    # serial in this process so matched runs cannot corrupt each other's seed.
+    with _training_lock:
+        _run_experiment(experiment_id)
+
+
+def _run_experiment(experiment_id):
     """Train an experiment, persisting every attempted round and its outcomes."""
     db = SessionLocal()
     try:
         import numpy as np
         import torch
-        from backend.algorithms.fedavg import FedAvg
-        from backend.algorithms.mnist_model import MNISTCNN
-        from backend.utils.dataset_manager import MNISTDatasetManager
 
         experiment = db.query(Experiment).filter(Experiment.id == experiment_id).first()
         if experiment is None:
@@ -88,6 +96,18 @@ def run_experiment(experiment_id):
         experiment.status = "RUNNING"
         experiment.started_at = datetime.now(timezone.utc)
         db.commit()
+
+        if config.get("task") == "network_delay":
+            from backend.services.network_prediction_service import run_network_experiment
+            run_network_experiment(db, experiment)
+            experiment.status = "COMPLETED"
+            experiment.completed_at = datetime.now(timezone.utc)
+            db.commit()
+            return
+
+        from backend.algorithms.fedavg import FedAvg
+        from backend.algorithms.mnist_model import MNISTCNN
+        from backend.utils.dataset_manager import MNISTDatasetManager
 
         seed = int(config["seed"])
         random.seed(seed)

@@ -10,6 +10,7 @@ from backend.models.network import NetworkLink, Node
 from backend.models.participant import Participant
 from backend.models.scenario import Scenario
 from backend.models.simulation import Experiment, FLRound, Metric
+from backend.models.network_learning import NetworkRoundEvaluation
 from backend.schemas.base import APIResponse
 
 router = APIRouter()
@@ -56,6 +57,9 @@ def get_dashboard_stats(
         algorithms = [row[0] for row in db.query(Experiment.algorithm).distinct().order_by(Experiment.algorithm.asc()).all()]
 
         for experiment, scenario_name in experiment_rows:
+            network_task = (experiment.config_json or {}).get("task") == "network_delay"
+            latest_quality = (db.query(NetworkRoundEvaluation).join(FLRound, FLRound.id == NetworkRoundEvaluation.round_id)
+                              .filter(FLRound.experiment_id == experiment.id).order_by(FLRound.round.desc()).first()) if network_task else None
             progress = db.query(
                 func.count(FLRound.id),
                 func.max(FLRound.round),
@@ -82,7 +86,9 @@ def get_dashboard_stats(
                 "target_rounds": experiment.rounds,
                 "completed_rounds": completed_rounds,
                 "current_round": current_round or 0,
-                "accuracy": final_accuracy,
+                "accuracy": None if network_task else final_accuracy,
+                "task": (experiment.config_json or {}).get("task", "mnist"),
+                "mae_ms": latest_quality.mae_ms if latest_quality else None,
                 "status": status,
                 "is_simulation": bool(experiment.is_simulation),
                 "metrics_source": (experiment.config_json or {}).get("metrics_source", "unknown"),
@@ -112,9 +118,12 @@ def get_dashboard_stats(
                 .all()
             )
             for round_number, accuracy, loss, participant_count, latency, energy in rows:
+                evaluation = (db.query(NetworkRoundEvaluation).join(FLRound, FLRound.id == NetworkRoundEvaluation.round_id)
+                              .filter(FLRound.experiment_id == latest_experiment.id, FLRound.round == round_number).first()) if (latest_experiment.config_json or {}).get("task") == "network_delay" else None
                 fl_rounds.append({
                     "round": round_number,
-                    "accuracy": accuracy,
+                    "accuracy": None if evaluation else accuracy,
+                    "mae_ms": evaluation.mae_ms if evaluation else None,
                     "loss": loss,
                     "participants": participant_count,
                     "latency_ms": latency or 0.0,

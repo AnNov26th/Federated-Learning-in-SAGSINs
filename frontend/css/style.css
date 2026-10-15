@@ -481,7 +481,22 @@ body {
 .action-btn { min-height:40px;width:100%;margin:0;padding:0 12px;justify-content:flex-start;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.065);box-shadow:none;color:#e5e9f1;font-size:12px;letter-spacing:0; }
 .action-btn i { width:17px;text-align:center;color:#adbfff; }
 .action-btn:hover { transform:none;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.17);box-shadow:none; }
+.generate-links-btn { margin-top:8px;border-color:rgba(99,217,255,.2);color:#c8f3fb; }
+.generate-links-btn i { color:#63d9ff; }
+.generate-links-btn:disabled { opacity:.65;cursor:progress; }
 .selected-node-summary { margin:8px 0 0;padding:7px 9px;border-radius:8px;background:rgba(167,139,250,.09);color:#c8baff;font-size:10px;line-height:1.45; }
+#earth-speed-panel { position:fixed;top:112px;right:24px;z-index:20;width:252px;padding:13px 14px;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:linear-gradient(145deg,rgba(26,34,52,.82),rgba(20,25,39,.76));backdrop-filter:blur(24px) saturate(155%);-webkit-backdrop-filter:blur(24px) saturate(155%);box-shadow:0 12px 36px rgba(0,0,0,.26),inset 0 1px rgba(255,255,255,.08); }
+.earth-speed-heading { display:flex;align-items:center;justify-content:space-between;color:#e8edf8;font-size:12px;font-weight:650; }
+.earth-speed-heading span { display:flex;align-items:center;gap:8px; }
+.earth-speed-heading i { color:#9bb8ff; }
+.earth-speed-heading small { padding:3px 6px;border:1px solid rgba(147,172,235,.16);border-radius:6px;background:rgba(118,147,213,.08);color:#94a5c5;font-size:8px;letter-spacing:.7px; }
+.earth-speed-options { display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin-top:10px;padding:4px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:rgba(7,10,18,.5); }
+.earth-speed-options button { min-height:36px;border:1px solid transparent;border-radius:8px;background:transparent;color:#a4afc2;font-size:12px;font-weight:700;cursor:pointer;transition:background .16s ease,border-color .16s ease,color .16s ease,transform .16s ease,box-shadow .16s ease; }
+.earth-speed-options button:hover { transform:translateY(-1px);background:rgba(255,255,255,.08);color:#f2f5fc; }
+.earth-speed-options button[aria-pressed="true"] { border-color:rgba(139,172,255,.34);background:linear-gradient(145deg,rgba(82,133,239,.48),rgba(130,103,221,.38));color:#fff;box-shadow:inset 0 1px rgba(255,255,255,.19),0 4px 12px rgba(65,102,191,.2); }
+.earth-speed-options button:focus-visible { outline:2px solid #a9c8ff;outline-offset:2px; }
+#earth-speed-status { display:flex;align-items:center;gap:7px;margin:9px 2px 0;color:#aebbd2;font-size:10px; }
+#earth-speed-status i { color:#86d8cf; }
 .attack-section { padding:11px 11px 10px;border:1px solid rgba(255,105,128,.23);border-radius:13px;background:linear-gradient(135deg,rgba(110,39,62,.2),rgba(45,31,54,.23)); }
 .attack-section h4 { color:#ffb1c0; }
 .attack-section h4 i { margin-right:5px;color:#ff6f8b; }
@@ -512,6 +527,10 @@ body {
 .drop-name { overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;font-weight:600;color:#f0f2f7; }
 .drop-status { flex:none;color:#94dfbb;font-size:9px; }
 .drop-detail { display:block;margin-top:4px;color:#939daf;font-size:10px;line-height:1.4;overflow-wrap:anywhere; }
+.route-detail { display:block;margin-top:7px;padding:7px 8px;border:1px solid rgba(99,217,255,.16);border-radius:8px;background:rgba(36,139,170,.09);color:#b7eaf5;font-size:10px;line-height:1.55;overflow-wrap:anywhere; }
+.route-detail i { color:#63d9ff; }
+.route-mode { display:block;margin-top:4px;color:#d7b9ff;font-size:9px; }
+.route-unavailable { border-color:rgba(255,181,100,.16);background:rgba(176,112,45,.09);color:#f0c793; }
 .drop-delete { width:36px;height:36px;border:0;border-radius:10px;background:transparent;color:#8993a5;cursor:pointer; }
 .drop-delete:hover { background:rgba(255,104,116,.14);color:#ff969f; }
 #node-legend { right:18px;bottom:62px;width:260px;padding:16px 17px;border:1px solid rgba(255,255,255,.13);border-radius:16px;background:linear-gradient(145deg,rgba(26,32,48,.82),rgba(18,22,32,.76));backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 12px 36px rgba(0,0,0,.24); }
@@ -541,6 +560,7 @@ body {
     .sidebar-link::after { display:none; }
     #action-panel { top:auto;bottom:86px;left:12px;width:min(320px,calc(100vw - 24px));height:min(58vh,520px);padding:13px;border-radius:17px; }
     #top-header { top:12px;right:12px;left:auto;padding:9px 12px; }
+    #earth-speed-panel { top:102px;right:12px;width:min(228px,calc(100vw - 104px));padding:11px 12px; }
     #node-legend { right:12px;top:auto;bottom:86px;width:min(230px,calc(100vw - 104px));max-width:none;padding:12px 13px; }
     #node-legend ul { font-size:11px; }
     #node-legend .legend-color { margin-right:7px; }

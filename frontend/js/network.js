@@ -277,6 +277,23 @@ async function changeLinkStatus(id, status) {
     } catch (error) { notice(error.message || "Không thể cập nhật liên kết.", "error"); }
 }
 
+async function generateNearbyLinks() {
+    const button = $("generate-nearby-links");
+    button.disabled = true;
+    try {
+        notice("Đang tìm các node ACTIVE ở gần nhau…");
+        const result = await apiRequest("/api/links/generate-nearby?neighbors_per_node=2&max_distance_km=1500", {method:"POST"});
+        await load(false);
+        notice(result.created_count
+            ? `Đã lưu ${result.created_count} link ACTIVE ước tính từ ${result.active_node_count} node. Các link cũ được giữ nguyên.`
+            : "Không tạo thêm link: không có cặp node phù hợp hoặc các link lân cận đã tồn tại.", result.created_count ? "success" : "");
+    } catch (error) {
+        notice(error.message || "Không thể tự sinh link lân cận.", "error");
+    } finally {
+        button.disabled = false;
+    }
+}
+
 async function removeLink(id) {
     const link = links.find((item) => Number(item.id) === Number(id));
     if (!link || !window.confirm(`Xóa liên kết ${link.source} ↔ ${link.target}? Node và dữ liệu huấn luyện không bị xóa.`)) return;
@@ -309,6 +326,7 @@ $("bulk-status").addEventListener("change", () => updateSelectionControls(visibl
 $("refresh-network").addEventListener("click", () => load());
 $("export-nodes").addEventListener("click", exportCsv);
 $("add-node").addEventListener("click", () => setNodeFormMode());
+$("generate-nearby-links").addEventListener("click", generateNearbyLinks);
 $("add-link").addEventListener("click", () => {
     $("link-form").reset();
     showError("link-form-error", "");

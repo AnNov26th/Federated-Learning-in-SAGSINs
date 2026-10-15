@@ -81,7 +81,7 @@ function renderExperiments(experiments) {
     }
     tbody.innerHTML = experiments.map((experiment) => {
         const status = experiment.status || "not_started";
-        const accuracy = experiment.accuracy === null || experiment.accuracy === undefined
+        const accuracy = experiment.task === "network_delay" ? `${formatNumber(experiment.mae_ms)} ms MAE` : experiment.accuracy === null || experiment.accuracy === undefined
             ? "—" : `${formatNumber(experiment.accuracy * 100, 1)}%`;
         return `<tr>
             <td>${escapeHtml(experiment.scenario)}</td>
@@ -139,7 +139,7 @@ function renderDashboard(data) {
     setText("kpi-sea", formatNumber(topology.sea));
 
     if (experiment) {
-        setText("kpi-accuracy", experiment.accuracy === null || experiment.accuracy === undefined
+        setText("kpi-accuracy", experiment.task === "network_delay" ? `${formatNumber(experiment.mae_ms)} ms MAE` : experiment.accuracy === null || experiment.accuracy === undefined
             ? "—" : `${formatNumber(experiment.accuracy * 100, 1)}%`);
         setText("kpi-experiment-note", `${experiment.algorithm} · ${statusLabel(experiment.status)}`);
         setText("dashboard-context", `${experiment.scenario} · ${experiment.algorithm} · Thí nghiệm #${experiment.id}`);
@@ -173,8 +173,10 @@ function renderDashboard(data) {
 
     const labels = rounds.map((round) => `Round ${round.round}`);
     const common = { labels };
+    const networkTask = experiment?.task === "network_delay";
+    byId("accuracyChart").closest("article").querySelector("h3").textContent = networkTask ? "Sai số dự đoán toàn cục MAE (ms)" : "Độ chính xác mô hình toàn cục (%)";
     const chartReady = [
-        renderChart("accuracyChart", "line", "Accuracy (%)", rounds.map((r) => r.accuracy * 100), "#00d98b", { ...common, fill: true, percent: true }),
+        renderChart("accuracyChart", "line", networkTask ? "MAE (ms)" : "Accuracy (%)", rounds.map((r) => networkTask ? r.mae_ms : r.accuracy * 100), "#00d98b", { ...common, fill: true, percent: !networkTask }),
         renderChart("lossChart", "line", "Loss", rounds.map((r) => r.loss), "#ff626e", { ...common, fill: true }),
         renderChart("latencyChart", "bar", "Latency (ms)", rounds.map((r) => r.latency_ms), "#42b8ff", { ...common }),
         renderChart("energyChart", "line", "Estimated energy (J)", rounds.map((r) => r.energy_j), "#ffb43c", { ...common, fill: true }),

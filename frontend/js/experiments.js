@@ -11,7 +11,7 @@ function render() {
         const scenario = scenarios.get(run.scenario_id) || `Scenario ${run.scenario_id}`;
         return (!algorithm || run.algorithm === algorithm) && (!status || run.status === status) && (!query || `${run.id} ${scenario} ${run.algorithm}`.toLowerCase().includes(query));
     });
-    $("experiments-body").innerHTML = rows.length ? rows.map((run) => `<tr><td><strong>#${run.id}</strong></td><td>${esc(scenarios.get(run.scenario_id) || `Scenario ${run.scenario_id}`)}</td><td>${esc(run.algorithm)}</td><td>${run.completed_rounds}/${run.target_rounds} rounds</td><td>${run.latest_accuracy == null ? "—" : `${(run.latest_accuracy*100).toFixed(1)}%`}<small>test set</small></td><td><span class="status ${esc(String(run.status).toLowerCase())}">${esc(run.status)}</span>${run.error_message ? `<small>${esc(run.error_message)}</small>` : ""}</td><td><a href="/results.html?experiment_id=${encodeURIComponent(run.id)}">Analyze <i class="fa-solid fa-arrow-up-right-from-square"></i></a></td></tr>`).join("") : '<tr><td colspan="7" class="empty">No experiments match these filters.</td></tr>';
+    $("experiments-body").innerHTML = rows.length ? rows.map((run) => `<tr><td><strong>#${run.id}</strong></td><td>${esc(scenarios.get(run.scenario_id) || `Scenario ${run.scenario_id}`)}</td><td>${esc(run.algorithm)}<small>${esc(run.task)}</small></td><td>${run.completed_rounds}/${run.target_rounds} rounds</td><td>${run.task === "network_delay" ? (run.latest_mae_ms == null ? "—" : `${run.latest_mae_ms.toFixed(2)} ms MAE`) : run.latest_accuracy == null ? "—" : `${(run.latest_accuracy*100).toFixed(1)}%`}<small>future / test set</small></td><td><span class="status ${esc(String(run.status).toLowerCase())}">${esc(run.status)}</span>${run.error_message ? `<small>${esc(run.error_message)}</small>` : ""}</td><td><a href="/results.html?experiment_id=${encodeURIComponent(run.id)}">Analyze <i class="fa-solid fa-arrow-up-right-from-square"></i></a></td></tr>`).join("") : '<tr><td colspan="7" class="empty">No experiments match these filters.</td></tr>';
     $("runs-total").textContent = experiments.length;
     $("runs-completed").textContent = experiments.filter((run) => run.status === "COMPLETED").length;
     $("runs-active").textContent = experiments.filter((run) => ["QUEUED","RUNNING"].includes(run.status)).length;
@@ -19,8 +19,8 @@ function render() {
 }
 function exportCsv() {
     const quote = (value) => `"${String(value ?? "").replaceAll('"','""')}"`;
-    const header = ["experiment_id","scenario","algorithm","status","completed_rounds","target_rounds","latest_test_accuracy","actual_duration_s","error"];
-    const lines = [header, ...experiments.map((run) => [run.id,scenarios.get(run.scenario_id) || run.scenario_id,run.algorithm,run.status,run.completed_rounds,run.target_rounds,run.latest_accuracy,run.actual_duration_s,run.error_message])].map((row) => row.map(quote).join(","));
+    const header = ["experiment_id","scenario","task","algorithm","status","completed_rounds","target_rounds","latest_test_accuracy","latest_mae_ms","latest_rmse_ms","actual_duration_s","error"];
+    const lines = [header, ...experiments.map((run) => [run.id,scenarios.get(run.scenario_id) || run.scenario_id,run.task,run.algorithm,run.status,run.completed_rounds,run.target_rounds,run.latest_accuracy,run.latest_mae_ms,run.latest_rmse_ms,run.actual_duration_s,run.error_message])].map((row) => row.map(quote).join(","));
     const blob = new Blob(["\uFEFF",lines.join("\r\n")], {type:"text/csv;charset=utf-8"});
     const url = URL.createObjectURL(blob);
     const link = Object.assign(document.createElement("a"), {href:url,download:"sagsin-experiments.csv"});

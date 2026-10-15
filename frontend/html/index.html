@@ -8,7 +8,7 @@
 
     <title>Federated Learning in SAGSINs</title>
 
-    <link rel="stylesheet" href="/css/style.css?v=20261013c">
+    <link rel="stylesheet" href="/css/style.css?v=20261013h">
     
     <!-- FontAwesome cho Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -42,6 +42,18 @@
             <p>Space · Air · Ground · Sea network</p>
         </div>
     </header>
+
+    <section id="earth-speed-panel" aria-label="Điều chỉnh tốc độ xoay trái đất">
+        <div class="earth-speed-heading"><span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Tốc độ xoay</span><small>EARTH</small></div>
+        <div id="earth-speed-options" class="earth-speed-options" role="group" aria-label="Tốc độ xoay trái đất">
+            <button type="button" data-earth-speed="1" aria-pressed="true">1×</button>
+            <button type="button" data-earth-speed="2" aria-pressed="false">2×</button>
+            <button type="button" data-earth-speed="3" aria-pressed="false">3×</button>
+            <button type="button" data-earth-speed="4" aria-pressed="false">4×</button>
+            <button type="button" data-earth-speed="5" aria-pressed="false">5×</button>
+        </div>
+        <p id="earth-speed-status" aria-live="polite"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Đang xoay ở tốc độ 1×</p>
+    </section>
 
     <!-- Main Collapsible Sidebar -->
     <nav id="main-sidebar" aria-label="Điều hướng chính">
@@ -116,8 +128,10 @@
                 <option value="Message">Message</option>
                 <option value="Gaming">Gaming</option>
             </select>
+            <button id="btn-generate-links" class="action-btn generate-links-btn" type="button"><i class="fa-solid fa-wand-magic-sparkles"></i> Tự sinh link lân cận</button>
+            <p id="generate-links-status" class="action-hint" role="status" aria-live="polite">Tạo link ACTIVE ước tính giữa các node gần nhau.</p>
             <p id="action-hint" class="action-hint" style="display: none;">
-                <i class="fa-solid fa-crosshairs"></i> Nhấn lên địa cầu để đặt điểm.
+                <i class="fa-solid fa-crosshairs"></i> Thả điểm để định tuyến theo link ACTIVE; nếu thiếu, hệ thống ước tính kết nối từ vị trí node.
             </p>
         </div>
 
@@ -184,7 +198,7 @@
         <!-- Content will be injected by app.js -->
     </div>
 
-    <script type="module" src="/js/app.js?v=20261013e"></script>
+    <script type="module" src="/js/app.js?v=20261013l"></script>
 
 </body>
 

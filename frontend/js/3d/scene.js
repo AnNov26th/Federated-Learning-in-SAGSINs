@@ -94,9 +94,10 @@ export function createScene(container) {
         const elapsedSeconds = Math.min(clock.getDelta(), 0.1);
 
         // Keep a slow, visible Earth spin while the camera flies around the fixed globe center.
-        if (!earth.userData.rotationPaused) earth.rotation.y += EARTH_ROTATION_RAD_PER_SECOND * elapsedSeconds;
+        const rotationSpeed = Number(earth.userData.rotationSpeedMultiplier) || 1;
+        if (!earth.userData.rotationPaused) earth.rotation.y += EARTH_ROTATION_RAD_PER_SECOND * rotationSpeed * elapsedSeconds;
         if (earth.userData.clouds) {
-            earth.userData.clouds.rotation.y += EARTH_ROTATION_RAD_PER_SECOND * elapsedSeconds * 1.08;
+            earth.userData.clouds.rotation.y += EARTH_ROTATION_RAD_PER_SECOND * rotationSpeed * elapsedSeconds * 1.08;
         }
 
         earth.userData.advanceDevices?.(elapsedSeconds);

@@ -1,3 +1,4 @@
+import { renderNetworkDataset, renderNetworkPredictions } from "./network-results.js";
 const $ = (id) => document.getElementById(id);
 const esc = (value) => String(value ?? "—").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const num = (value, digits = 2) => value == null || !Number.isFinite(Number(value)) ? "—" : Number(value).toFixed(digits);
@@ -16,9 +17,14 @@ function renderCharts(rounds) {
     charts = [];
     if (typeof Chart === "undefined" || !rounds.length) return;
     const labels = rounds.map((round) => `Round ${round.round}`);
+    const network = experiment?.task === "network_delay";
+    $("accuracy-chart").closest("article").querySelector("span").textContent = network ? "Future test MAE (ms)" : "Test accuracy (%)";
+    $("loss-chart").closest("article").querySelector("span").textContent = network ? "Future test RMSE (ms)" : "Test loss";
+    $("accuracy-chart").setAttribute("aria-label", network ? "Future test MAE in milliseconds per round" : "Test accuracy per round");
+    $("loss-chart").setAttribute("aria-label", network ? "Future test RMSE in milliseconds per round" : "Test loss per round");
     const series = [
-        ["accuracy-chart", rounds.map((round) => round.accuracy * 100), "#00d98b"],
-        ["loss-chart", rounds.map((round) => round.loss), "#ffb43c"],
+        ["accuracy-chart", rounds.map((round) => network ? round.prediction_metrics?.mae_ms : round.accuracy * 100), "#00d98b"],
+        ["loss-chart", rounds.map((round) => network ? round.prediction_metrics?.rmse_ms : round.loss), "#ffb43c"],
         ["communication-chart", rounds.map((round) => round.metrics?.communication_time_ms ?? null), "#48d9ff"],
         ["energy-chart", rounds.map((round) => round.metrics?.energy_j ?? null), "#bb8cff"],
     ];
@@ -30,17 +36,27 @@ function renderCharts(rounds) {
 }
 function renderRound(round) {
     const clients = round?.clients || [];
+    const network = experiment?.task === "network_delay";
+    $("client-results").closest("table").querySelectorAll("th")[3].textContent = network ? "Local log-MSE loss" : "Local accuracy";
     $("client-results").innerHTML = clients.length ? clients.map((client) => `<tr><td>${esc(client.client_id)}</td><td><span class="status ${esc(String(client.status).toLowerCase())}">${esc(client.status)}</span></td><td>${Number(client.samples_used || 0).toLocaleString()}</td><td>${client.local_accuracy == null ? "—" : `${num(client.local_accuracy*100,1)}%`}</td><td>${num(client.training_duration_s)} s</td><td>${num(client.latency_ms,1)} ms</td><td>${num(client.communication_time_ms,1)} ms</td><td>${esc(client.failure_reason)}</td></tr>`).join("") : '<tr><td colspan="8" class="empty">No client outcome rows were saved for this round.</td></tr>';
+    if (network) [...$("client-results").rows].forEach((row,index) => { if (clients[index]) row.cells[3].textContent = num(clients[index].local_loss,5); });
+    renderNetworkPredictions(experiment, round);
 }
 function render(data) {
     experiment = data;
     const rounds = data.rounds || [];
     const config = data.config || {};
+    const network = data.task === "network_delay";
+    const section = $("round-results").closest("section");
+    section.querySelector("p").textContent = network ? "Quality is evaluated on future network test data after all online ticks. Communication follows generated temporal traces. Model loss is MSE in log1p delay; energy is an estimate. Training duration is measured on the backend host." : "Accuracy/loss use the MNIST test set. Network completion and energy are simulation estimates.";
+    const headers = $("round-results").closest("table").querySelectorAll("th");
+    headers[1].textContent = network ? "Future test MAE" : "Test accuracy";
+    headers[2].textContent = network ? "Future test RMSE" : "Test loss";
     $("result-config-link").href = `/experiments.html?experiment_id=${encodeURIComponent(data.id)}`;
     $("result-summary").innerHTML = `<strong>Experiment #${data.id}</strong> · ${esc(data.algorithm)} · ${esc(data.status)} · ${data.completed_rounds}/${data.target_rounds} rounds · Scenario ${data.scenario_id} · worker wall time ${num(data.actual_duration_s)} s<br><small>Seed ${esc(config.seed)} · ${esc(config.partition)} partition · Network profile ${esc(config.network_profile)} · Metrics: ${esc(config.metrics_source || "not specified")}</small>`;
     $("round-results").innerHTML = rounds.length ? rounds.map((round) => {
         const metrics = round.metrics || {};
-        return `<tr><td>${round.round}</td><td>${num(round.accuracy*100,1)}%</td><td>${num(round.loss,4)}</td><td>${round.participants_count}/${round.selected_count}</td><td>${num(round.round_duration_s)} s</td><td>${num(metrics.communication_time_ms,1)} ms</td><td>${num(metrics.energy_j,2)} J</td><td>${num(metrics.data_transferred_mb,2)} MB</td><td>${num(metrics.client_failure_ratio == null ? null : metrics.client_failure_ratio*100,1)}%</td></tr>`;
+        return `<tr><td>${round.round}</td><td>${network ? num(round.prediction_metrics?.mae_ms)+" ms" : num(round.accuracy*100,1)+"%"}</td><td>${network ? num(round.prediction_metrics?.rmse_ms)+" ms" : num(round.loss,4)}</td><td>${round.participants_count}/${round.selected_count}</td><td>${num(round.round_duration_s)} s</td><td>${num(metrics.communication_time_ms,1)} ms</td><td>${num(metrics.energy_j,2)} J</td><td>${num(metrics.data_transferred_mb,4)} MB</td><td>${num(metrics.client_failure_ratio == null ? null : metrics.client_failure_ratio*100,1)}%</td></tr>`;
     }).join("") : '<tr><td colspan="9" class="empty">No rounds have been saved for this experiment yet.</td></tr>';
     renderCharts(rounds);
     const roundSelect = $("result-round");
@@ -50,20 +66,21 @@ function render(data) {
         roundSelect.value = String(rounds.at(-1).round);
         renderRound(rounds.at(-1));
     } else renderRound(null);
+    renderNetworkDataset(data);
     notice(`Loaded experiment #${data.id} results.`);
 }
 function exportRounds() {
     if (!experiment) return notice("Choose an experiment before exporting rounds.", "error");
-    const rows = (experiment.rounds || []).map((round) => [experiment.id,round.round,round.accuracy,round.loss,round.participants_count,round.selected_count,round.round_duration_s,round.metrics?.communication_time_ms,round.metrics?.energy_j,round.metrics?.data_transferred_mb,round.metrics?.client_failure_ratio]);
-    downloadCsv(`sagsin-experiment-${experiment.id}-rounds.csv`,["experiment_id","round","test_accuracy","test_loss","clients_completed","clients_selected","round_duration_s","communication_time_ms","energy_j","data_transferred_mb","client_failure_ratio"],rows);
+    const rows = (experiment.rounds || []).map((round) => [experiment.id,experiment.task,round.round,round.accuracy,round.loss,round.prediction_metrics?.mae_ms,round.prediction_metrics?.rmse_ms,round.prediction_metrics?.r2,round.participants_count,round.selected_count,round.round_duration_s,round.metrics?.communication_time_ms]);
+    downloadCsv(`sagsin-experiment-${experiment.id}-rounds.csv`,["experiment_id","task","round","test_accuracy","test_loss","mae_ms","rmse_ms","r2","clients_completed","clients_selected","round_duration_s","communication_time_ms"],rows);
 }
 function exportClients() {
     if (!experiment) return notice("Choose an experiment before exporting clients.", "error");
     const roundNumber = Number($("result-round").value);
     const round = experiment.rounds?.find((item) => item.round === roundNumber);
     if (!round) return notice("There are no client outcomes for this round.", "error");
-    const rows = (round.clients || []).map((client) => [experiment.id,round.round,client.client_id,client.status,client.samples_used,client.local_accuracy,client.training_duration_s,client.latency_ms,client.communication_time_ms,client.failure_reason]);
-    downloadCsv(`sagsin-experiment-${experiment.id}-round-${round.round}-clients.csv`,["experiment_id","round","client_id","outcome","samples","local_accuracy","training_duration_s","latency_ms","communication_time_ms","failure_reason"],rows);
+    const rows = (round.clients || []).map((client) => [experiment.id,round.round,client.client_id,client.status,client.samples_used,client.local_accuracy,client.local_loss,client.training_duration_s,client.latency_ms,client.communication_time_ms,client.failure_reason]);
+    downloadCsv(`sagsin-experiment-${experiment.id}-round-${round.round}-clients.csv`,["experiment_id","round","client_id","outcome","samples","local_accuracy","local_loss","training_duration_s","latency_ms","communication_time_ms","failure_reason"],rows);
 }
 async function loadExperiment(id) {
     if (!id) return;
@@ -107,18 +124,11 @@ async function loadComparison(comparisonId, summaries) {
         if (!response.ok || result.status !== "success") throw new Error(result.detail || "Could not load comparison.");
         const data = result.data;
         const fedavg = data.experiments.find((run) => run.algorithm === "FedAvg");
-        const delay = data.experiments.find((run) => run.algorithm === "DelayAware");
-        if (!fedavg || !delay) throw new Error("The comparison is missing one of its paired runs.");
-        const rounds = new Map();
-        for (const run of [fedavg, delay]) for (const round of run.rounds) {
-            if (!rounds.has(round.round)) rounds.set(round.round, {});
-            rounds.get(round.round)[run.algorithm] = round;
-        }
-        const rows = [...rounds.entries()].sort((a,b) => a[0]-b[0]).map(([roundNumber, pair]) => {
-            const f = pair.FedAvg, d = pair.DelayAware;
-            return `<tr><td>${roundNumber}</td><td>${num(f?.accuracy*100,1)}%</td><td>${num(d?.accuracy*100,1)}%</td><td>${num(f?.round_duration_s)} s</td><td>${num(d?.round_duration_s)} s</td><td>${num(f?.metrics?.communication_time_ms,1)} ms</td><td>${num(d?.metrics?.communication_time_ms,1)} ms</td><td>${num(f?.metrics?.energy_j,2)} J</td><td>${num(d?.metrics?.energy_j,2)} J</td></tr>`;
-        }).join("");
-        $("comparison-audit").textContent = `Comparison ${comparisonId} · ${data.status}. Same candidate pool: ${data.same_candidate_pool}; same seed: ${data.same_seed}; same training config: ${data.same_training_config}. Worker wall time: FedAvg ${num(fedavg.actual_duration_s)} s, Delay-Aware ${num(delay.actual_duration_s)} s. Only the client scheduling policy differs.`;
+        if (!fedavg) throw new Error("The comparison has no random-selection baseline.");
+        const rows = data.experiments.flatMap((run) => run.rounds.map((round) => ({run,round})))
+            .sort((a,b) => a.round.round-b.round.round || a.run.id-b.run.id)
+            .map(({run,round:r}) => `<tr><td>${r.round}</td><td><a href="/results.html?experiment_id=${run.id}">${esc(run.algorithm)}</a></td><td>${run.task === "network_delay" ? num(r.prediction_metrics?.mae_ms)+" ms" : num(r.accuracy*100,1)+"%"}</td><td>${num(r.prediction_metrics?.rmse_ms)}</td><td>${num(r.prediction_metrics?.r2,4)}</td><td>${num(r.round_duration_s)} s</td><td>${num(r.metrics?.communication_time_ms)} ms</td><td>${r.participants_count}/${r.selected_count}</td><td>${num(r.loss,5)}</td></tr>`).join("");
+        $("comparison-audit").textContent = `Comparison ${comparisonId} · ${data.status}. Same candidate pool: ${data.same_candidate_pool}; same dataset: ${data.same_dataset}; same seed: ${data.same_seed}; same training config: ${data.same_training_config}. Scheduling changes which clients contribute updates and new local samples.`;
         $("comparison-round-results").innerHTML = rows || '<tr><td colspan="9" class="empty">No paired rounds saved yet.</td></tr>';
         $("comparison-panel").hidden = false;
         const fedavgSummary = summaries.find((run) => run.id === fedavg.id);
@@ -133,7 +143,8 @@ async function loadComparison(comparisonId, summaries) {
 $("result-experiment").addEventListener("change", (event) => {
     const id = event.target.value;
     if (id) {
-        const url = new URL(location.href); url.searchParams.set("experiment_id", id); history.replaceState(null, "", url);
+        $("comparison-panel").hidden = true;
+        const url = new URL(location.href); url.searchParams.delete("comparison_id"); url.searchParams.set("experiment_id", id); history.replaceState(null, "", url);
         loadExperiment(id);
     }
 });

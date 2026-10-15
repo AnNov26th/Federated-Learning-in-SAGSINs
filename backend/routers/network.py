@@ -1,6 +1,6 @@
 
 import math
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 from typing import List
@@ -35,6 +35,89 @@ def get_links(db: Session = Depends(get_db)):
         "status": link.status,
         "last_heartbeat": link.last_heartbeat,
     } for link in links])
+
+def _distance_km(source: Node, target: Node) -> float:
+    lat1, lat2 = math.radians(source.lat), math.radians(target.lat)
+    delta_lat = lat2 - lat1
+    delta_lng = math.radians(target.lng - source.lng)
+    haversine = math.sin(delta_lat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(delta_lng / 2) ** 2
+    central_angle = 2 * math.asin(min(1.0, math.sqrt(haversine)))
+    radius_source = 6371.0 + source.alt
+    radius_target = 6371.0 + target.alt
+    return math.sqrt(max(0.0, radius_source**2 + radius_target**2 - 2 * radius_source * radius_target * math.cos(central_angle)))
+
+@router.post("/links/generate-nearby", response_model=APIResponse[dict])
+def generate_nearby_links(
+    neighbors_per_node: int = Query(default=2, ge=1, le=5),
+    max_distance_km: float = Query(default=1500, gt=0, le=20000),
+    db: Session = Depends(get_db),
+):
+    """Persist estimated active links between nearby active nodes in the same scenario."""
+    nodes = db.query(Node).filter(Node.status.ilike("ACTIVE")).order_by(Node.id.asc()).all()
+    links = db.query(NetworkLink).all()
+    existing_pairs = {frozenset((link.source, link.target)) for link in links}
+    candidate_pairs = {}
+
+    by_scenario = {}
+    for node in nodes:
+        by_scenario.setdefault(node.scenario_id, []).append(node)
+    for scenario_nodes in by_scenario.values():
+        if len(scenario_nodes) < 2:
+            continue
+        for source in scenario_nodes:
+            nearest = sorted(
+                (
+                    (_distance_km(source, target), target)
+                    for target in scenario_nodes
+                    if target.id != source.id
+                ),
+                key=lambda item: (item[0], item[1].id),
+            )
+            for distance, target in nearest:
+                if distance > max_distance_km:
+                    break
+                pair = frozenset((source.id, target.id))
+                candidate_pairs.setdefault(pair, (distance, source, target))
+                if sum(1 for key in candidate_pairs if source.id in key) >= neighbors_per_node:
+                    break
+
+    created = []
+    for pair, (distance, source, target) in sorted(
+        candidate_pairs.items(), key=lambda item: (item[1][0], sorted(item[0]))
+    ):
+        if pair in existing_pairs:
+            continue
+        link = NetworkLink(
+            source=source.id,
+            target=target.id,
+            distance=distance,
+            bandwidth=max(0.001, min(float(source.bandwidth), float(target.bandwidth))),
+            latency=max(1.0, distance / 299.792458),
+            status="ACTIVE",
+        )
+        db.add(link)
+        created.append(link)
+
+    try:
+        db.commit()
+        return APIResponse(data={
+            "created_count": len(created),
+            "existing_count": len(links),
+            "active_node_count": len(nodes),
+            "neighbors_per_node": neighbors_per_node,
+            "max_distance_km": max_distance_km,
+            "links": [{
+                "source": link.source,
+                "target": link.target,
+                "distance": link.distance,
+                "bandwidth": link.bandwidth,
+                "latency": link.latency,
+                "status": link.status,
+            } for link in created],
+        }, message="Nearby active links generated and saved.")
+    except Exception as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="Could not generate nearby network links.") from exc
 
 @router.post("/links", response_model=APIResponse[dict])
 def create_link(link: NetworkLinkCreate, db: Session = Depends(get_db)):

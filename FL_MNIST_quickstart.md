@@ -1,5 +1,7 @@
 # MNIST FedAvg quick start
 
+The main FL page now defaults to network-delay prediction. See [the network prediction guide](docs/fl-du-doan-mang-huong-dan.md). Select **MNIST classification demo** to use the workflow below.
+
 This implementation trains a small CNN on MNIST. The test split is held out and used to report global accuracy and loss after each round. Data partitions are reproducible from the configured random seed.
 
 ## Install and prepare the database
@@ -10,7 +12,7 @@ From the project root, install dependencies:
 python -m pip install -r requirements.txt
 ```
 
-Set `DATABASE_URL` in `.env` to the project's MySQL connection string. Initialize missing tables, including the new per-client round table, without dropping existing data:
+Set `DATABASE_URL` in `.env` to the project's MySQL connection string. The main application's startup creates missing tables automatically. To initialize them manually before starting:
 
 ```powershell
 python -m backend.database.init_db

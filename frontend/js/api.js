@@ -27,3 +27,15 @@ export async function fetchNodes() {
         return [];
     }
 }
+
+export async function fetchLinks() {
+    try {
+        const response = await fetch("/api/links");
+        if (!response.ok) throw new Error("Failed to fetch network links");
+        const data = await response.json();
+        return data.status === "success" ? data.data : [];
+    } catch (error) {
+        console.error("API fetchLinks error:", error);
+        return [];
+    }
+}

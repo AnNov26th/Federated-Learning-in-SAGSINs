@@ -18,7 +18,8 @@ class ParticipantStats(BaseModel):
 
 class FLRoundMetric(BaseModel):
     round: int
-    accuracy: float
+    accuracy: Optional[float] = None
+    mae_ms: Optional[float] = None
     loss: float
     participants: int
     latency_ms: float
@@ -32,6 +33,8 @@ class ExperimentSummary(BaseModel):
     completed_rounds: int
     current_round: int
     accuracy: Optional[float] = None
+    task: str = "mnist"
+    mae_ms: Optional[float] = None
     status: str
     is_simulation: bool
     metrics_source: Optional[str] = None

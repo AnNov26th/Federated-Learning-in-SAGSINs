@@ -3,3 +3,6 @@ document/
 __pycache__/
 *.pyc
 .agents/
+data/network_demo/
+data/network_benchmarks/
+docs/
