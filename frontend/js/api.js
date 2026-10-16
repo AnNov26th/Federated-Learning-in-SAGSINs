@@ -14,28 +14,32 @@ export async function checkBackend() {
     }
 }
 
-export async function fetchNodes() {
+export async function fetchNodes({ strict = false } = {}) {
     try {
         const response = await fetch("/api/nodes");
         if (!response.ok) {
             throw new Error("Failed to fetch nodes");
         }
         const data = await response.json();
-        return data.status === "success" ? data.data : [];
+        if (data.status !== "success" || !Array.isArray(data.data)) throw new Error("Dữ liệu node không hợp lệ.");
+        return data.data;
     } catch (error) {
         console.error("API fetchNodes error:", error);
+        if (strict) throw error;
         return [];
     }
 }
 
-export async function fetchLinks() {
+export async function fetchLinks({ strict = false } = {}) {
     try {
         const response = await fetch("/api/links");
         if (!response.ok) throw new Error("Failed to fetch network links");
         const data = await response.json();
-        return data.status === "success" ? data.data : [];
+        if (data.status !== "success" || !Array.isArray(data.data)) throw new Error("Dữ liệu link không hợp lệ.");
+        return data.data;
     } catch (error) {
         console.error("API fetchLinks error:", error);
+        if (strict) throw error;
         return [];
     }
 }

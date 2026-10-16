@@ -50,10 +50,14 @@ def _distance_km(source: Node, target: Node) -> float:
 def generate_nearby_links(
     neighbors_per_node: int = Query(default=2, ge=1, le=5),
     max_distance_km: float = Query(default=1500, gt=0, le=20000),
+    scenario_id: int | None = Query(default=None, ge=1),
     db: Session = Depends(get_db),
 ):
     """Persist estimated active links between nearby active nodes in the same scenario."""
-    nodes = db.query(Node).filter(Node.status.ilike("ACTIVE")).order_by(Node.id.asc()).all()
+    node_query = db.query(Node).filter(Node.status.ilike("ACTIVE"))
+    if scenario_id is not None:
+        node_query = node_query.filter(Node.scenario_id == scenario_id)
+    nodes = node_query.order_by(Node.id.asc()).all()
     links = db.query(NetworkLink).all()
     existing_pairs = {frozenset((link.source, link.target)) for link in links}
     candidate_pairs = {}

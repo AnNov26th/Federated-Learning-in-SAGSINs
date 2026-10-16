@@ -8,7 +8,8 @@
 
     <title>Federated Learning in SAGSINs</title>
 
-    <link rel="stylesheet" href="/css/style.css?v=20261013h">
+    <link rel="stylesheet" href="/css/style.css?v=20261016d">
+    <link rel="stylesheet" href="/css/routing.css?v=20261016d">
     
     <!-- FontAwesome cho Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -28,32 +29,6 @@
 </head>
 
 <body>
-
-    <!-- 3D Simulation Full Screen -->
-    <div id="simulation">
-        <div id="earth-container"></div>
-    </div>
-
-    <!-- Floating Header -->
-    <header id="top-header">
-        <div class="brand-mark"><i class="fa-solid fa-globe"></i></div>
-        <div>
-            <h1>SAGSIN Studio</h1>
-            <p>Space · Air · Ground · Sea network</p>
-        </div>
-    </header>
-
-    <section id="earth-speed-panel" aria-label="Điều chỉnh tốc độ xoay trái đất">
-        <div class="earth-speed-heading"><span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Tốc độ xoay</span><small>EARTH</small></div>
-        <div id="earth-speed-options" class="earth-speed-options" role="group" aria-label="Tốc độ xoay trái đất">
-            <button type="button" data-earth-speed="1" aria-pressed="true">1×</button>
-            <button type="button" data-earth-speed="2" aria-pressed="false">2×</button>
-            <button type="button" data-earth-speed="3" aria-pressed="false">3×</button>
-            <button type="button" data-earth-speed="4" aria-pressed="false">4×</button>
-            <button type="button" data-earth-speed="5" aria-pressed="false">5×</button>
-        </div>
-        <p id="earth-speed-status" aria-live="polite"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Đang xoay ở tốc độ 1×</p>
-    </section>
 
     <!-- Main Collapsible Sidebar -->
     <nav id="main-sidebar" aria-label="Điều hướng chính">
@@ -111,38 +86,84 @@
         </ul>
     </nav>
 
+    <main id="simulation-workspace" aria-label="Không gian mô phỏng mạng">
+        <section id="simulation" aria-label="Mô phỏng địa cầu 3D">
+            <div id="earth-container"></div>
+            <header id="top-header">
+                <div class="brand-mark"><i class="fa-solid fa-globe" aria-hidden="true"></i></div>
+                <div><h1>SAGSIN Studio</h1><p>Mô phỏng mạng Space · Air · Ground · Sea</p></div>
+            </header>
+            <div id="simulation-toolbar" aria-label="Điều khiển mô phỏng">
+                <div class="simulation-controls">
+                    <label class="toolbar-field event-picker" for="action-select"><span>Sự kiện</span>
+                        <select id="action-select" class="action-dropdown" aria-label="Sự kiện" aria-describedby="action-hint">
+                            <option value="">Chọn để đặt điểm</option>
+                            <option value="Video Call">Video Call</option><option value="Watch Video">Watch Video</option>
+                            <option value="Emergency">Emergency</option><option value="Message">Message</option><option value="Gaming">Gaming</option>
+                        </select>
+                    </label>
+                    <label class="toolbar-field speed-picker" for="earth-speed"><span>Tốc độ xoay</span>
+                        <select id="earth-speed" class="action-dropdown" aria-label="Tốc độ xoay"><option value="1">1×</option><option value="2">2×</option><option value="3">3×</option><option value="4">4×</option><option value="5">5×</option></select>
+                    </label>
+                    <button id="btn-toggle-rotation" class="toolbar-button icon-control" type="button" aria-label="Tạm dừng xoay địa cầu" aria-pressed="false" title="Tạm dừng xoay địa cầu"><i class="fa-solid fa-pause" aria-hidden="true"></i></button>
+                    <button id="btn-reset-cam" class="toolbar-button icon-control" type="button" aria-label="Đặt lại góc nhìn" title="Đặt lại góc nhìn"><i class="fa-solid fa-camera-rotate" aria-hidden="true"></i></button>
+                    <div class="panel-toggles">
+                        <button class="toolbar-button" type="button" data-simulation-panel="config" aria-expanded="false" aria-controls="action-panel"><i class="fa-solid fa-sliders" aria-hidden="true"></i><span>Thiết lập</span></button>
+                        <button class="toolbar-button" type="button" data-simulation-panel="route" aria-expanded="false" aria-controls="route-inspector"><i class="fa-solid fa-route" aria-hidden="true"></i><span>Phân tích tuyến</span></button>
+                    </div>
+                </div>
+                <div class="simulation-context">
+                    <p id="route-summary" role="status" aria-live="polite">Chọn sự kiện rồi nhấn lên địa cầu để bắt đầu.</p>
+                    <p id="action-hint" class="action-hint" style="display:none;">Nhấn lên địa cầu để đặt điểm · Esc để hủy.</p>
+                    <p id="selected-node-summary" class="selected-node-summary">Kéo để xoay · Cuộn để thu phóng</p>
+                </div>
+            </div>
+        </section>
+        <div id="simulation-dock" hidden>
+            <button id="btn-close-panel" class="toolbar-button icon-control" type="button" aria-label="Đóng bảng chi tiết" title="Đóng bảng chi tiết"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
     <!-- Action Panel (Page specific Toolbar) -->
-    <aside id="action-panel">
+    <aside id="action-panel" aria-label="Thiết lập mô phỏng" hidden>
         <div class="panel-header">
             <div class="panel-title-icon"><i class="fa-solid fa-earth-americas"></i></div>
-            <div><h3>Globe controls</h3><p>Thao tác trên mô hình</p></div>
+            <div><h3>Thiết lập mô phỏng</h3><p>Chọn scenario và đặt sự kiện trên địa cầu</p></div>
         </div>
         
         <div class="panel-section event-section">
-            <h4>Đặt điểm sự kiện</h4>
-            <select id="action-select" class="action-dropdown">
-                <option value="">Chọn loại sự kiện</option>
-                <option value="Video Call">Video Call</option>
-                <option value="Watch Video">Watch Video</option>
-                <option value="Emergency">Emergency</option>
-                <option value="Message">Message</option>
-                <option value="Gaming">Gaming</option>
+            <label for="routing-scenario">Scenario</label>
+            <select id="routing-scenario" class="action-dropdown"><option value="">Đang tải scenario…</option></select>
+            <details class="routing-advanced">
+                <summary>Định tuyến nâng cao</summary>
+            <label for="routing-policy">Cách đánh giá tuyến</label>
+            <select id="routing-policy" class="action-dropdown">
+                <option value="predictive">Dự đoán bằng model FL</option>
+                <option value="static">Công thức tĩnh (đối chứng)</option>
             </select>
-            <button id="btn-generate-links" class="action-btn generate-links-btn" type="button"><i class="fa-solid fa-wand-magic-sparkles"></i> Tự sinh link lân cận</button>
-            <p id="generate-links-status" class="action-hint" role="status" aria-live="polite">Tạo link ACTIVE ước tính giữa các node gần nhau.</p>
-            <p id="action-hint" class="action-hint" style="display: none;">
-                <i class="fa-solid fa-crosshairs"></i> Thả điểm để định tuyến theo link ACTIVE; nếu thiếu, hệ thống ước tính kết nối từ vị trí node.
-            </p>
+            <label for="routing-model">Checkpoint đã huấn luyện</label>
+            <select id="routing-model" class="action-dropdown"><option value="">Tự chọn checkpoint mới nhất</option></select>
+            <p id="routing-model-status" class="routing-help" role="status">Đang kiểm tra model…</p>
+            <label for="routing-target">Node GROUND đích</label>
+            <select id="routing-target" class="action-dropdown"><option value="">Tự chọn GROUND có chi phí thấp nhất</option></select>
+
+                <label for="routing-topology">Nguồn kết nối</label>
+                <select id="routing-topology" class="action-dropdown"><option value="configured">Link ACTIVE đã lưu</option><option value="estimated">Ước tính phủ sóng (không lưu)</option></select>
+                <label for="routing-radius">Bán kính tiếp cận tối đa (km)</label>
+                <input id="routing-radius" type="number" min="1" max="5000" step="1" value="1500">
+                <label for="routing-load">Tải mô phỏng: <output id="routing-load-value">35%</output></label>
+                <input id="routing-load" type="range" min="0" max="94" value="35">
+                <p class="routing-help">Tải dùng chung để so sánh hai chính sách. Băng thông tối thiểu là giả định theo loại sự kiện.</p>
+                <form id="routing-coordinate-form">
+                    <div class="coordinate-fields"><label for="event-lat">Vĩ độ<input id="event-lat" type="number" min="-90" max="90" step="any" value="16.0544" required></label><label for="event-lng">Kinh độ<input id="event-lng" type="number" min="-180" max="180" step="any" value="108.2022" required></label></div>
+                    <button class="action-btn" type="submit">Đặt điểm theo tọa độ</button>
+                </form>
+                <button id="btn-generate-links" class="action-btn generate-links-btn" type="button"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Sinh & lưu link lân cận</button>
+                <p id="generate-links-status" class="routing-help" role="status">Tạo link ước tính trong database; dùng chung với trang Network.</p>
+            </details>
+            <button id="routing-refresh" class="action-btn" type="button"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i> Cập nhật mạng & tính lại</button>
+            <p id="routing-status" class="routing-help" role="status" aria-live="polite">Chọn sự kiện rồi nhấn lên địa cầu.</p>
         </div>
 
-        <div class="panel-section control-section">
-            <h4>Điều khiển</h4>
-            <button id="btn-reset-cam" class="action-btn"><i class="fa-solid fa-camera-rotate"></i> Đặt lại góc nhìn</button>
-            <p id="selected-node-summary" class="selected-node-summary">Nhấn vào node trên địa cầu để xem gần hơn.</p>
-        </div>
-
-        <section class="panel-section attack-section" aria-labelledby="attack-title">
-            <h4 id="attack-title"><i class="fa-solid fa-shield-virus"></i> Mô phỏng AI tấn công</h4>
+        <details class="panel-section attack-section">
+            <summary id="attack-title">Mô phỏng AI tấn công</summary>
             <label class="attack-label" for="attack-target-layer">Lớp node mục tiêu</label>
             <select id="attack-target-layer" class="action-dropdown">
                 <option value="ANY">AI tự chọn mục tiêu</option>
@@ -154,18 +175,27 @@
             <button id="btn-simulate-attack" class="attack-btn" type="button"><i class="fa-solid fa-bolt"></i> Chạy mô phỏng đánh cắp</button>
             <div id="attack-status" class="attack-status" role="status" aria-live="polite">Mô phỏng luồng tấn công và rò rỉ dữ liệu giả lập trên topology.</div>
             <small class="attack-disclaimer">Chỉ là trực quan hóa: không quét node, không gửi traffic và không truy cập dữ liệu thật.</small>
-        </section>
+        </details>
 
         <section class="drop-section" aria-labelledby="drop-section-title">
             <div class="drop-section-heading">
                 <div><h4 id="drop-section-title">Điểm đã thả</h4><p id="drop-count">0 điểm</p></div>
                 <span class="drop-live-dot" aria-hidden="true"></span>
             </div>
-            <div id="drop-list" class="drop-list" role="list" aria-live="polite">
+            <div id="drop-list" class="drop-list" role="list">
                 <div class="drop-empty"><i class="fa-solid fa-location-dot"></i><span>Chưa có điểm nào</span><small>Chọn sự kiện rồi nhấn lên địa cầu</small></div>
             </div>
         </section>
     </aside>
+
+    <section id="route-inspector" aria-labelledby="route-inspector-title" hidden>
+        <div class="inspector-heading"><div><small>PHÂN TÍCH TUYẾN</small><h2 id="route-inspector-title">Từ sự kiện đến GROUND</h2></div><span id="route-state" class="route-badge">Chờ điểm đặt</span></div>
+        <div id="route-inspector-content"><div class="routing-empty"><i class="fa-solid fa-route" aria-hidden="true"></i><h3>Quan sát cách mạng chọn đường</h3><p>Chọn loại sự kiện trên thanh điều khiển, rồi nhấn lên địa cầu để quan sát tuyến truyền.</p></div></div>
+        <details class="routing-explanation"><summary>Khi thả một điểm, hệ thống làm gì?</summary><ol><li>Chọn node ACTIVE gần nhất trong vùng tiếp cận và cùng scenario.</li><li>Lọc link và node hợp lệ, loại chặng thiếu băng thông theo dịch vụ.</li><li>Model FL dự đoán chi phí từng hướng truyền từ trạng thái mô phỏng hiện tại.</li><li>Dijkstra chọn tổng chi phí nhỏ nhất tới GROUND. Công thức tĩnh chạy trên cùng mạng để đối chiếu.</li></ol><p>Chế độ dự đoán yêu cầu checkpoint FL hoàn tất của scenario. Không có đường đi sẽ được báo rõ. Topology ước tính không tự nối các vùng mất kết nối.</p></details>
+    </section>
+
+        </div>
+    </main>
 
     <!-- Status -->
     <div id="status">
@@ -198,7 +228,7 @@
         <!-- Content will be injected by app.js -->
     </div>
 
-    <script type="module" src="/js/app.js?v=20261013l"></script>
+    <script type="module" src="/js/app.js?v=20261016d"></script>
 
 </body>
 

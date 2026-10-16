@@ -96,11 +96,12 @@ export function createScene(container) {
         // Keep a slow, visible Earth spin while the camera flies around the fixed globe center.
         const rotationSpeed = Number(earth.userData.rotationSpeedMultiplier) || 1;
         if (!earth.userData.rotationPaused) earth.rotation.y += EARTH_ROTATION_RAD_PER_SECOND * rotationSpeed * elapsedSeconds;
-        if (earth.userData.clouds) {
+        if (earth.userData.clouds && !earth.userData.rotationPaused) {
             earth.userData.clouds.rotation.y += EARTH_ROTATION_RAD_PER_SECOND * rotationSpeed * elapsedSeconds * 1.08;
         }
 
         earth.userData.advanceDevices?.(elapsedSeconds);
+        earth.userData.advanceRoutes?.(elapsedSeconds);
 
         controls.update();
 
@@ -114,7 +115,8 @@ export function createScene(container) {
 
 
     // Resize
-    window.addEventListener("resize", () => {
+    // The simulation also resizes when a detail panel takes its own column.
+    const resizeObserver = new ResizeObserver(() => {
 
         const width =
             container.clientWidth;
@@ -122,8 +124,15 @@ export function createScene(container) {
         const height =
             container.clientHeight;
 
+        if (!width || !height) return;
+
         camera.aspect =
             width / height;
+
+        // Keep the globe in view in a narrow canvas without changing the user's zoom.
+        camera.fov = THREE.MathUtils.radToDeg(2 * Math.atan(
+            Math.tan(THREE.MathUtils.degToRad(45) / 2) / Math.min(camera.aspect, 1)
+        ));
 
         camera.updateProjectionMatrix();
 
@@ -132,6 +141,7 @@ export function createScene(container) {
             height
         );
     });
+    resizeObserver.observe(container);
 
 
     return {

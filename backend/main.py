@@ -26,12 +26,13 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-from backend.routers import network, participants, simulations, dashboard, federated_learning, network_learning
+from backend.routers import network, participants, simulations, dashboard, federated_learning, network_learning, routing
 
 app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard"])
 app.include_router(federated_learning.router, prefix="/api/fl", tags=["Federated Learning"])
 app.include_router(network_learning.router, prefix="/api/fl", tags=["Network prediction"])
 app.include_router(network.router, prefix="/api", tags=["Network"])
+app.include_router(routing.router, prefix="/api/routing", tags=["Predictive routing"])
 app.include_router(participants.router, prefix="/api/participants", tags=["Participants"])
 app.include_router(simulations.router, prefix="/api/simulations", tags=["Simulations"])
 
@@ -73,3 +74,4 @@ app.mount("/css", StaticFiles(directory=frontend / "css"), name="css")
 app.mount("/js", StaticFiles(directory=frontend / "js"), name="js")
 app.mount("/assets", StaticFiles(directory=frontend / "assets"), name="assets")
 app.mount("/", StaticFiles(directory=frontend / "html", html=True), name="frontend")
+# uvicorn backend.main:app --reload

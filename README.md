@@ -19,4 +19,5 @@ Chức năng chính đều thuộc `backend.main:app`. `backend.network_demo` ch
 - [Hướng dẫn dự đoán mạng và API](docs/fl-du-doan-mang-huong-dan.md)
 - [Kế hoạch triển khai](docs/ke-hoach-trien-khai-fl-du-doan-mang.md)
 - [Kết quả kiểm tra và giới hạn](docs/nghiem-thu-fl-du-doan-mang.md)
+- [Logic định tuyến sự kiện dựa trên model FL](ROUTING.md)
 - [Demo MNIST tùy chọn](FL_MNIST_quickstart.md)

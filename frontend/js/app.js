@@ -1,7 +1,8 @@
 import * as THREE from "three";
-import { createScene } from "./3d/scene.js?v=20261013d";
-import { fetchNodes, fetchLinks } from "./api.js";
+import { createScene } from "./3d/scene.js?v=20261016d";
+import { fetchNodes } from "./api.js";
 import { latLngToVector3 } from "./3d/coordinates.js";
+import { setupRouting } from "./routing.js?v=20261016d";
 
 const container = document.getElementById("earth-container");
 
@@ -12,6 +13,7 @@ function resetGlobeView() {
     cameraFlightToken += 1;
     scene3D.controls.enabled = true;
     scene3D.earth.userData.rotationPaused = false;
+    syncRotationControl();
     scene3D.camera.position.set(0, 0, 6);
     scene3D.controls.target.set(0, 0, 0);
     scene3D.controls.update();
@@ -26,15 +28,21 @@ document.getElementById('btn-reset-cam').addEventListener('click', () => {
     if (scene3D.camera && scene3D.controls) resetGlobeView();
 });
 
-document.getElementById('earth-speed-options')?.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-earth-speed]');
-    if (!button) return;
-    const multiplier = Number(button.dataset.earthSpeed);
-    scene3D.earth.userData.rotationSpeedMultiplier = multiplier;
-    document.querySelectorAll('[data-earth-speed]').forEach((option) => {
-        option.setAttribute('aria-pressed', String(option === button));
-    });
-    document.getElementById('earth-speed-status').textContent = `Đang xoay ở tốc độ ${multiplier}×`;
+document.getElementById('earth-speed').addEventListener('change', event => {
+    scene3D.earth.userData.rotationSpeedMultiplier = Number(event.target.value);
+});
+
+function syncRotationControl() {
+    const paused = Boolean(scene3D.earth.userData.rotationPaused);
+    const button = document.getElementById('btn-toggle-rotation');
+    button.setAttribute('aria-pressed', String(paused));
+    button.setAttribute('aria-label', paused ? 'Tiếp tục xoay địa cầu' : 'Tạm dừng xoay địa cầu');
+    button.title = button.getAttribute('aria-label');
+    button.querySelector('i').className = `fa-solid fa-${paused ? 'play' : 'pause'}`;
+}
+document.getElementById('btn-toggle-rotation').addEventListener('click', () => {
+    scene3D.earth.userData.rotationPaused = !scene3D.earth.userData.rotationPaused;
+    syncRotationControl();
 });
 
 // Select Action Combobox
@@ -47,7 +55,9 @@ generateLinksButton?.addEventListener('click', async () => {
     generateLinksButton.disabled = true;
     generateLinksStatus.textContent = 'Đang tìm node ACTIVE lân cận…';
     try {
-        const response = await fetch('/api/links/generate-nearby?neighbors_per_node=2&max_distance_km=1500', { method: 'POST' });
+        const scenarioId = document.getElementById('routing-scenario').value;
+        if (!scenarioId) throw new Error('Chọn scenario trước khi tạo link.');
+        const response = await fetch(`/api/links/generate-nearby?neighbors_per_node=2&max_distance_km=1500&scenario_id=${encodeURIComponent(scenarioId)}`, { method: 'POST' });
         const payload = await response.json();
         if (!response.ok || payload.status !== 'success') {
             throw new Error(payload.detail || payload.message || 'Không thể tạo link lân cận.');
@@ -125,8 +135,6 @@ function createMarker(colorHex, r, g, b, sizeScale = 1.0) {
 
 // Lấy danh sách nodes từ backend và vẽ lên bản đồ
 const nodeMarkers = []; // Mảng chứa các marker thiết bị để raycast hover
-let networkLinks = [];
-const routeLines = new Map();
 const movingDevices = [];
 const orbitLineMaterial = new THREE.LineBasicMaterial({ color: 0xffbd69, transparent: true, opacity: 0.75 });
 let selectedOrbitLine = null;
@@ -156,6 +164,7 @@ function createDeviceMotion(node, initialPosition) {
 }
 
 function advanceMovingDevices(elapsedSeconds) {
+    if (scene3D.earth.userData.routingSnapshot) return;
     for (const device of movingDevices) {
         device.phase = (device.phase || 0) + elapsedSeconds * device.angularSpeed;
         if (device.type === 'SPACE') {
@@ -192,8 +201,7 @@ function showSatelliteOrbit(marker) {
 }
 
 async function plotDatabaseNodes() {
-    const [nodes, links] = await Promise.all([fetchNodes(), fetchLinks()]);
-    networkLinks = links;
+    const nodes = await fetchNodes({ strict: true });
     nodes.forEach(node => {
         let colorHex, r, g, b;
         switch(node.type) {
@@ -231,6 +239,33 @@ async function plotDatabaseNodes() {
 
 // Khởi chạy vẽ nodes
 const topologyReady = plotDatabaseNodes();
+async function syncDatabaseNodes() {
+    const nodes = await fetchNodes({ strict: true });
+    const byId = new Map(nodeMarkers.map(marker => [marker.userData.id, marker]));
+    movingDevices.length = 0;
+    for (const node of nodes) {
+        let marker = byId.get(node.id);
+        if (!marker) {
+            const colors = { SPACE: [0xffa500,255,165,0], AIR: [0x00ffff,0,255,255], GROUND: [0x00ff00,0,255,0], SEA: [0x6688ff,102,136,255] };
+            marker = createMarker(...(colors[node.type] || [0xffffff,255,255,255]), 1.2);
+            scene3D.earth.add(marker);
+            nodeMarkers.push(marker);
+        }
+        marker.userData = node;
+        const position = latLngToVector3(node.lat, node.lng, node.alt);
+        marker.position.copy(position);
+        const motion = createDeviceMotion(node, position);
+        marker.userData.motion = motion;
+        if (motion) movingDevices.push({ marker, ...motion, phase: 0 });
+        byId.delete(node.id);
+    }
+    for (const marker of byId.values()) {
+        scene3D.earth.remove(marker);
+        marker.traverse(object => { object.geometry?.dispose(); object.material?.map?.dispose(); object.material?.dispose(); });
+        nodeMarkers.splice(nodeMarkers.indexOf(marker), 1);
+    }
+    removeSelectedOrbit();
+}
 
 // --- TOOLTIP LOGIC ---
 const tooltip = document.getElementById('node-tooltip');
@@ -300,279 +335,12 @@ container.addEventListener('mousemove', (event) => {
 
 // Mỗi điểm được lưu cùng marker và thông tin hiển thị trên sidebar.
 const droppedMarkers = [];
-let nextDropId = 1;
-const dropList = document.getElementById('drop-list');
-const dropCount = document.getElementById('drop-count');
 
-const SERVICE_PROFILES = {
-    Message: { latencyWeight: 0.55, capacityWeight: 0.1, label: 'ưu tiên tin cậy, chấp nhận trễ vừa' },
-    'Video Call': { latencyWeight: 0.45, capacityWeight: 0.4, label: 'cân bằng độ trễ và băng thông' },
-    'Watch Video': { latencyWeight: 0.2, capacityWeight: 0.75, label: 'ưu tiên băng thông' },
-    Gaming: { latencyWeight: 0.8, capacityWeight: 0.08, label: 'ưu tiên độ trễ thấp' },
-    Emergency: { latencyWeight: 1, capacityWeight: 0.15, label: 'ưu tiên cao nhất và độ trễ thấp' },
-};
-
-function disposeRoute(dropId) {
-    const line = routeLines.get(dropId);
-    if (!line) return;
-    scene3D.earth.remove(line);
-    line.geometry.dispose();
-    line.material.dispose();
-    routeLines.delete(dropId);
-}
-
-function routePathCost(path, adjacency, profile) {
-    let latency = 0;
-    let bottleneck = Infinity;
-    for (let index = 1; index < path.length; index += 1) {
-        const edge = adjacency.get(path[index - 1]).get(path[index]);
-        latency += Number(edge.latency) || 0;
-        bottleneck = Math.min(bottleneck, Number(edge.bandwidth) || 0);
-    }
-    for (const id of path) {
-        const node = nodeMarkers.find((marker) => marker.userData.id === id)?.userData;
-        latency += Number(node?.latency) || 0;
-    }
-    // The bandwidth term penalizes a narrow bottleneck; latency remains in ms.
-    const capacityPenalty = bottleneck > 0 ? (100 / bottleneck) * profile.capacityWeight : Infinity;
-    return { cost: latency * profile.latencyWeight + capacityPenalty, latency, bottleneck };
-}
-
-function findBestRoute(startId, targetIds, profile, links) {
-    const active = new Map(nodeMarkers
-        .filter((marker) => String(marker.userData.status).toUpperCase() === 'ACTIVE')
-        .map((marker) => [marker.userData.id, marker.userData]));
-    const adjacency = new Map([...active.keys()].map((id) => [id, new Map()]));
-    for (const link of links) {
-        if (String(link.status).toUpperCase() !== 'ACTIVE' || !active.has(link.source) || !active.has(link.target)) continue;
-        adjacency.get(link.source).set(link.target, link);
-        adjacency.get(link.target).set(link.source, link);
-    }
-
-    const distances = new Map([[startId, 0]]);
-    const previous = new Map();
-    const remaining = new Set(active.keys());
-    while (remaining.size) {
-        let current = null;
-        for (const id of remaining) {
-            if (current === null || (distances.get(id) ?? Infinity) < (distances.get(current) ?? Infinity)) current = id;
-        }
-        if (current === null || !Number.isFinite(distances.get(current))) break;
-        remaining.delete(current);
-        if (targetIds.includes(current)) {
-            const path = [current];
-            while (previous.has(path[0])) path.unshift(previous.get(path[0]));
-            return { path, ...routePathCost(path, adjacency, profile) };
-        }
-        for (const [neighbor, link] of adjacency.get(current) || []) {
-            if (!remaining.has(neighbor)) continue;
-            const nodeLatency = Number(active.get(neighbor)?.latency) || 0;
-            const edgeCost = (Number(link.latency) + nodeLatency) * profile.latencyWeight
-                + (100 / Math.max(Number(link.bandwidth), 0.001)) * profile.capacityWeight;
-            const next = distances.get(current) + edgeCost;
-            if (next < (distances.get(neighbor) ?? Infinity)) {
-                distances.set(neighbor, next);
-                previous.set(neighbor, current);
-            }
-        }
-    }
-    return null;
-}
-
-function virtualDistanceKm(first, second) {
-    const toCartesian = (node) => {
-        const lat = THREE.MathUtils.degToRad(Number(node.lat));
-        const lng = THREE.MathUtils.degToRad(Number(node.lng));
-        const radius = 6371 + Math.max(0, Number(node.alt) || 0);
-        return new THREE.Vector3(
-            radius * Math.cos(lat) * Math.cos(lng),
-            radius * Math.sin(lat),
-            -radius * Math.cos(lat) * Math.sin(lng)
-        );
-    };
-    return toCartesian(first).distanceTo(toCartesian(second));
-}
-
-function buildVirtualLinks(activeMarkers) {
-    const nodes = activeMarkers.map((marker) => marker.userData);
-    const candidates = [];
-    for (let first = 0; first < nodes.length; first += 1) {
-        for (let second = first + 1; second < nodes.length; second += 1) {
-            candidates.push({ first, second, distance: virtualDistanceKm(nodes[first], nodes[second]) });
-        }
-    }
-    candidates.sort((a, b) => a.distance - b.distance);
-
-    const parent = nodes.map((_, index) => index);
-    const find = (index) => {
-        while (parent[index] !== index) {
-            parent[index] = parent[parent[index]];
-            index = parent[index];
-        }
-        return index;
-    };
-    const links = [];
-    const connectedPairs = new Set();
-    const addLink = (candidate) => {
-        const source = nodes[candidate.first];
-        const target = nodes[candidate.second];
-        const pairKey = `${source.id}\u0000${target.id}`;
-        if (connectedPairs.has(pairKey)) return;
-        connectedPairs.add(pairKey);
-        links.push({
-            source: source.id,
-            target: target.id,
-            distance: candidate.distance,
-            bandwidth: Math.max(0.1, Math.min(Number(source.bandwidth) || 0.1, Number(target.bandwidth) || 0.1)),
-            latency: Math.max(1, candidate.distance / 299.792458),
-            status: 'ACTIVE',
-            synthetic: true,
-        });
-        const firstRoot = find(candidate.first);
-        const secondRoot = find(candidate.second);
-        if (firstRoot !== secondRoot) parent[secondRoot] = firstRoot;
-    };
-
-    // Give every node its two nearest neighbors, then bridge any remaining components.
-    nodes.forEach((_, index) => {
-        candidates.filter((edge) => edge.first === index || edge.second === index)
-            .slice(0, 2)
-            .forEach(addLink);
-    });
-    for (const candidate of candidates) {
-        if (find(candidate.first) !== find(candidate.second)) addLink(candidate);
-    }
-    return links;
-}
-
-function drawRoute(drop) {
-    disposeRoute(drop.id);
-    if (!drop.route?.path?.length) return;
-    const routePositions = [drop.marker.position.clone()];
-    for (const id of drop.route.path) {
-        const marker = nodeMarkers.find((item) => item.userData.id === id);
-        if (marker) routePositions.push(marker.position.clone());
-    }
-    if (routePositions.length < 2) return;
-
-    const points = [];
-    for (let segment = 0; segment < routePositions.length - 1; segment += 1) {
-        const from = routePositions[segment];
-        const to = routePositions[segment + 1];
-        const fromDirection = from.clone().normalize();
-        const toDirection = to.clone().normalize();
-        const angle = fromDirection.angleTo(toDirection);
-        const steps = Math.max(8, Math.ceil(angle * 20));
-        for (let step = segment === 0 ? 0 : 1; step <= steps; step += 1) {
-            const t = step / steps;
-            const direction = fromDirection.clone().lerp(toDirection, t).normalize();
-            const radius = THREE.MathUtils.lerp(from.length(), to.length(), t) + 0.055;
-            points.push(direction.multiplyScalar(radius));
-        }
-    }
-    const emergency = drop.action === 'Emergency';
-    const line = new THREE.Line(
-        new THREE.BufferGeometry().setFromPoints(points),
-        new THREE.LineBasicMaterial({ color: emergency ? 0xff596d : 0x63d9ff, transparent: true, opacity: 0.95 })
-    );
-    line.userData.isEventRoute = true;
-    scene3D.earth.add(line);
-    routeLines.set(drop.id, line);
-}
-
-function haversineKm(lat1, lng1, lat2, lng2) {
-    const radians = (degrees) => degrees * Math.PI / 180;
-    const dLat = radians(lat2 - lat1);
-    const dLng = radians(lng2 - lng1);
-    const a = Math.sin(dLat / 2) ** 2 + Math.cos(radians(lat1)) * Math.cos(radians(lat2)) * Math.sin(dLng / 2) ** 2;
-    return 6371 * 2 * Math.asin(Math.min(1, Math.sqrt(a)));
-}
-
-function calculateEventRoute(drop) {
-    drop.route = null;
-    const activeMarkers = nodeMarkers.filter((marker) => String(marker.userData.status).toUpperCase() === 'ACTIVE');
-    if (!activeMarkers.length) {
-        drop.status = 'Không có node ACTIVE';
-        drop.route = null;
-        return;
-    }
-    const source = activeMarkers.reduce((nearest, marker) => {
-        const distance = haversineKm(drop.lat, drop.lng, Number(marker.userData.lat), Number(marker.userData.lng));
-        return !nearest || distance < nearest.distance ? { marker, distance } : nearest;
-    }, null);
-    const groundNodes = activeMarkers.filter((marker) => marker.userData.type === 'GROUND' && marker !== source.marker);
-    if (!groundNodes.length) {
-        drop.status = 'Cần node GROUND làm đích';
-        drop.route = null;
-        return;
-    }
-    const profile = SERVICE_PROFILES[drop.action] || SERVICE_PROFILES.Message;
-    const activeLinks = networkLinks.filter((link) => String(link.status).toUpperCase() === 'ACTIVE');
-    let routeMode = activeLinks.length ? 'configured' : 'estimated';
-    let routingLinks = activeLinks.length ? activeLinks : buildVirtualLinks(activeMarkers);
-    const targetIds = groundNodes
-        .slice()
-        .sort((a, b) => Number(b.userData.bandwidth) - Number(a.userData.bandwidth))
-        .map((marker) => marker.userData.id);
-    const searchTargets = () => {
-        for (const targetId of targetIds) {
-            const route = findBestRoute(source.marker.userData.id, [targetId], profile, routingLinks);
-            if (route) return route;
-        }
-        return null;
-    };
-    let result = searchTargets();
-    if (!result && routeMode === 'configured') {
-        routeMode = 'estimated';
-        routingLinks = buildVirtualLinks(activeMarkers);
-        result = searchTargets();
-    }
-    if (!result) {
-        drop.status = `Không tìm thấy tuyến tới GROUND (${source.marker.userData.id})`;
-        drop.route = null;
-        return;
-    }
-    drop.route = {
-        ...result,
-        sourceId: source.marker.userData.id,
-        targetId: result.path[result.path.length - 1],
-        accessDistanceKm: source.distance,
-        profile: profile.label,
-        mode: routeMode,
-    };
-    drop.status = `${routeMode === 'estimated' ? 'Tuyến ước tính · ' : ''}${result.path.length - 1} hop · ${drop.route.targetId}`;
-}
-
-async function refreshDroppedRoutes() {
-    await topologyReady;
-    networkLinks = await fetchLinks();
-    droppedMarkers.forEach((drop) => {
-        calculateEventRoute(drop);
-        drawRoute(drop);
-    });
-    renderDroppedMarkers();
-}
-
-function renderDroppedMarkers() {
-    if (!dropList || !dropCount) return;
-    dropCount.textContent = `${droppedMarkers.length} điểm`;
-    if (droppedMarkers.length === 0) {
-        dropList.innerHTML = '<div class="drop-empty"><i class="fa-solid fa-location-dot"></i><span>Chưa có điểm nào</span><small>Chọn sự kiện rồi nhấn lên địa cầu</small></div>';
-        return;
-    }
-
-    dropList.innerHTML = droppedMarkers.map((drop) => `
-        <article class="drop-item${drop.focused ? ' selected' : ''}" role="listitem" data-drop-id="${drop.id}">
-            <button class="drop-focus" type="button" data-focus-drop="${drop.id}" aria-label="Focus ${escapeHtml(drop.name)}"><i class="fa-solid fa-location-crosshairs"></i></button>
-            <button class="drop-info" type="button" data-focus-drop="${drop.id}" aria-label="Focus vào ${escapeHtml(drop.name)}">
-                <span class="drop-name-row"><span class="drop-name">${escapeHtml(drop.name)} · ${escapeHtml(drop.action)}</span><span class="drop-status">${drop.focused ? 'Đang xem' : 'Đã đặt'}</span></span>
-                <span class="drop-detail">${drop.lat.toFixed(4)}°, ${drop.lng.toFixed(4)}° · ${escapeHtml(drop.status)}</span>
-                ${drop.route ? `<span class="route-detail"><i class="fa-solid fa-route" aria-hidden="true"></i> ${drop.route.path.map(escapeHtml).join(' → ')}<br>${drop.route.latency.toFixed(1)} ms · ${Number.isFinite(drop.route.bottleneck) ? drop.route.bottleneck.toFixed(1) : '—'} Mbps bottleneck · tiếp cận ${drop.route.accessDistanceKm.toFixed(1)} km<br>${escapeHtml(drop.route.profile)}<small class="route-mode">${drop.route.mode === 'estimated' ? 'Topology ảo ước tính · chưa lưu link' : 'Định tuyến theo link ACTIVE'}</small></span>` : `<span class="route-detail route-unavailable">${escapeHtml(drop.status)}</span>`}
-            </button>
-            <button class="drop-delete" type="button" data-delete-drop="${drop.id}" aria-label="Xóa ${escapeHtml(drop.name)}"><i class="fa-solid fa-trash-can"></i></button>
-        </article>
-    `).join('');
-}
+// Routing decisions are computed server-side against a single DB snapshot.
+const routing = setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarker,
+    flyGlobeToMarker, resetGlobeView, selectedNodeSummary, actionSelect, actionHint,
+    container, topologyReady, refreshNodes: syncDatabaseNodes });
+const { disposeRoute, renderDroppedMarkers, refreshDroppedRoutes, focusDroppedMarker } = routing;
 
 let cameraFlightToken = 0;
 function flyGlobeToMarker(marker, distance = 4.65) {
@@ -587,7 +355,7 @@ function flyGlobeToMarker(marker, distance = 4.65) {
     const flightRotation = new THREE.Quaternion().setFromUnitVectors(startDirection, targetDirection);
     const startDistance = scene3D.camera.position.distanceTo(center);
     const startedAt = performance.now();
-    const duration = 1350;
+    const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 1 : 1350;
     scene3D.controls.enabled = false;
 
     return new Promise((resolve) => {
@@ -610,13 +378,6 @@ function flyGlobeToMarker(marker, distance = 4.65) {
         };
         requestAnimationFrame(frame);
     });
-}
-
-function focusDroppedMarker(drop) {
-    droppedMarkers.forEach((item) => { item.focused = item.id === drop.id; });
-    if (selectedNodeSummary) selectedNodeSummary.textContent = `${drop.name} · ${drop.action} · ${drop.lat.toFixed(3)}°, ${drop.lng.toFixed(3)}°`;
-    flyGlobeToMarker(drop.marker, 4.75);
-    renderDroppedMarkers();
 }
 
 function markerRoot(object) {
@@ -727,45 +488,10 @@ attackButton?.addEventListener('click', () => {
     });
 });
 
-function disposeDroppedMarker(drop) {
-    scene3D.earth.remove(drop.marker);
-    drop.marker.traverse((object) => {
-        object.geometry?.dispose();
-        if (Array.isArray(object.material)) object.material.forEach((material) => {
-            material.map?.dispose();
-            material.dispose();
-        });
-        else if (object.material) {
-            object.material.map?.dispose();
-            object.material.dispose();
-        }
-    });
-}
-
-dropList?.addEventListener('click', (event) => {
-    const deleteButton = event.target.closest('[data-delete-drop]');
-    if (deleteButton) {
-        const index = droppedMarkers.findIndex((drop) => drop.id === Number(deleteButton.dataset.deleteDrop));
-        if (index < 0) return;
-        const wasFocused = droppedMarkers[index].focused;
-        disposeRoute(droppedMarkers[index].id);
-        disposeDroppedMarker(droppedMarkers[index]);
-        droppedMarkers.splice(index, 1);
-        if (wasFocused) {
-            resetGlobeView();
-        }
-        renderDroppedMarkers();
-        return;
-    }
-
-    const focusButton = event.target.closest('[data-focus-drop]');
-    if (focusButton) {
-        const drop = droppedMarkers.find((item) => item.id === Number(focusButton.dataset.focusDrop));
-        if (drop) focusDroppedMarker(drop);
-    }
-});
-
+let pointerStart = null;
+container.addEventListener('pointerdown', event => { pointerStart = { x: event.clientX, y: event.clientY }; });
 container.addEventListener('click', async (event) => {
+    if (pointerStart && Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y) > 6) return;
     if (actionSelect.value === "") {
         const rect = container.getBoundingClientRect();
         mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -806,37 +532,15 @@ container.addEventListener('click', async (event) => {
         const radius = localPoint.length();
         const latitude = THREE.MathUtils.radToDeg(Math.asin(localPoint.y / radius));
         const longitude = THREE.MathUtils.radToDeg(Math.atan2(-localPoint.z, localPoint.x));
-        const dropId = nextDropId++;
-        const drop = {
-            id: dropId,
-            name: `Điểm ${String(dropId).padStart(2, '0')}`,
-            action: actionName,
-            lat: latitude,
-            lng: longitude,
-            status: 'Đang tính tuyến…',
-            marker: newMarker,
-            focused: false,
-        };
-        droppedMarkers.push(drop);
-        actionSelect.value = "";
-        actionHint.style.display = 'none';
-        container.style.cursor = 'default';
-        renderDroppedMarkers();
-        await topologyReady;
-        networkLinks = await fetchLinks();
-        calculateEventRoute(drop);
-        drawRoute(drop);
-        renderDroppedMarkers();
+        await routing.addEvent(latitude, longitude, actionName, newMarker);
     }
 });
 
 // Main Sidebar Menu interaction
 const pageFrame = document.getElementById('page-frame');
-const simulationDiv = document.getElementById('simulation');
-const actionPanel = document.getElementById('action-panel');
+const simulationDiv = document.getElementById('simulation-workspace');
 const nodeLegend = document.getElementById('node-legend');
 const topHeader = document.getElementById('top-header');
-const earthSpeedPanel = document.getElementById('earth-speed-panel');
 const uiBuild = '20261013c';
 
 const sidebarLinks = document.querySelectorAll('.sidebar-link');
@@ -849,6 +553,7 @@ const pageRoutes = {
     "Results": "/results.html",
 };
 sidebarLinks.forEach(link => {
+    link.setAttribute('aria-label', link.querySelector('.link-text')?.textContent.trim() || link.dataset.tooltip);
     link.addEventListener('click', (e) => {
         e.preventDefault();
         // Remove active class from all
@@ -867,22 +572,20 @@ sidebarLinks.forEach(link => {
                 pageFrame.src = "";
             }
             // Show 3D globe and panels
-            if(simulationDiv) simulationDiv.style.display = 'block';
-            if(actionPanel) actionPanel.style.display = 'block';
+            if(simulationDiv) simulationDiv.hidden = false;
             if(nodeLegend) nodeLegend.style.display = 'block';
-            if(topHeader) topHeader.style.display = 'block';
-            if(earthSpeedPanel) earthSpeedPanel.style.display = 'block';
+            if(topHeader) topHeader.style.display = 'flex';
+            routing.setVisible(true);
             refreshDroppedRoutes().catch((error) => {
                 console.error('Could not refresh event routes:', error);
             });
             
         } else if (pageRoutes[menuName]) {
             // Hide 3D globe and panels
-            if(simulationDiv) simulationDiv.style.display = 'none';
-            if(actionPanel) actionPanel.style.display = 'none';
+            if(simulationDiv) simulationDiv.hidden = true;
             if(nodeLegend) nodeLegend.style.display = 'none';
             if(topHeader) topHeader.style.display = 'none';
-            if(earthSpeedPanel) earthSpeedPanel.style.display = 'none';
+            routing.setVisible(false);
             
             // Show iframe
             if(pageFrame) {
@@ -894,13 +597,6 @@ sidebarLinks.forEach(link => {
             alert(`Sắp tới sẽ load giao diện chức năng: ${menuName}`);
         }
     });
-});
-
-window.addEventListener('message', (event) => {
-    if (event.origin !== window.location.origin || event.data?.type !== 'sagsin:navigate') return;
-    const pageName = Object.keys(pageRoutes).find((name) => pageRoutes[name] === event.data.href);
-    const targetLink = [...sidebarLinks].find((link) => link.querySelector('.link-text')?.textContent.trim() === pageName);
-    if (targetLink) targetLink.click();
 });
 
 window.addEventListener('message', (event) => {
