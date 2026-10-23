@@ -11,8 +11,9 @@ from sqlalchemy import text
 
 @asynccontextmanager
 async def lifespan(application):
-    # create_all only adds missing tables. Existing topology, datasets,
-    # experiments and checkpoints survive both startup and --reload.
+    application.state.database_ready = False
+    # Add missing schema and apply versioned, additive inventory upgrades.
+    # Existing topology, datasets, experiments and checkpoints survive reload.
     await run_in_threadpool(init_db, bind=engine)
     application.state.database_ready = True
     try:
@@ -25,6 +26,15 @@ app = FastAPI(
     version="0.2.0",
     lifespan=lifespan,
 )
+
+
+@app.middleware("http")
+async def revalidate_frontend(request, call_next):
+    response = await call_next(request)
+    path = request.url.path
+    if path == "/" or path.endswith(".html") or path.startswith(("/css/", "/js/")):
+        response.headers["Cache-Control"] = "no-cache"
+    return response
 
 from backend.routers import network, participants, simulations, dashboard, federated_learning, network_learning, routing
 

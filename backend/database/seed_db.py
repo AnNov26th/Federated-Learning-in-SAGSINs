@@ -1,4 +1,4 @@
-"""Replace demo topology with the deterministic global multi-layer scenario.
+"""Initialize or upgrade the deterministic global multi-layer scenario safely.
 
 Run from the repository root after building the inventory:
     python -m backend.database.build_global_multilayer_inventory
@@ -10,11 +10,7 @@ from pathlib import Path
 
 from sqlalchemy import inspect, text
 
-from backend.database.database import Base, SessionLocal, engine
-from backend.models.network import Node, NetworkLink
-from backend.models.participant import Participant
-from backend.models.scenario import Scenario
-from backend.models.simulation import Experiment, FLClientRound, FLRound, Metric
+from backend.database.database import engine as default_engine
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -22,8 +18,9 @@ INVENTORY = ROOT / "data" / "global_ground_nodes" / "global_multilayer_nodes_106
 SCENARIO_NAME = "SAGSIN-Global-Multilayer-106"
 
 
-def migrate_node_metadata():
+def migrate_node_metadata(bind=None):
     """Add metadata columns to an existing nodes table without dropping data."""
+    engine = bind if bind is not None else default_engine
     inspector = inspect(engine)
     columns = {column["name"] for column in inspector.get_columns("nodes")}
     additions = {
@@ -39,6 +36,7 @@ def migrate_node_metadata():
         "orbit_inclination_deg": "FLOAT NULL",
         "orbit_plane": "INTEGER NULL",
         "orbit_phase_deg": "FLOAT NULL",
+        "orbit_raan_deg": "FLOAT NULL",
         "epoch_utc": "VARCHAR(32) NULL",
     }
     with engine.begin() as connection:
@@ -92,71 +90,9 @@ def load_inventory():
 
 
 def seed_db():
-    rows = load_inventory()
-    Base.metadata.create_all(bind=engine)
-    migrate_node_metadata()
-    db = SessionLocal()
-    try:
-        # The user identified all previous topology and FL records as test data.
-        # Delete dependent rows first so every backend supported FK remains valid.
-        db.query(FLClientRound).delete(synchronize_session=False)
-        db.query(Metric).delete(synchronize_session=False)
-        db.query(FLRound).delete(synchronize_session=False)
-        db.query(Experiment).delete(synchronize_session=False)
-        db.query(Participant).delete(synchronize_session=False)
-        db.query(NetworkLink).delete(synchronize_session=False)
-        db.query(Node).delete(synchronize_session=False)
-        db.query(Scenario).delete(synchronize_session=False)
-        db.flush()
-
-        scenario = Scenario(
-            name=SCENARIO_NAME,
-            total_nodes=len(rows),
-            space=sum(row["type"] == "SPACE" for row in rows),
-            air=sum(row["type"] == "AIR" for row in rows),
-            ground=sum(row["type"] == "GROUND" for row in rows),
-            sea=sum(row["type"] == "SEA" for row in rows),
-        )
-        db.add(scenario)
-        db.flush()
-
-        nodes = [Node(
-            id=row["id"],
-            type=row["type"],
-            lat=float(row["lat"]),
-            lng=float(row["lng"]),
-            alt=float(row["alt_km"]),
-            bandwidth=float(row["bandwidth_mbps"]),
-            latency=float(row["latency_ms"]),
-            battery_percent=float(row["battery_percent"]),
-            status=row["status"],
-            scenario_id=scenario.id,
-            country_code=row["country_code"] or None,
-            country_name=row["country_name"] or None,
-            continent=row["continent"] or None,
-            land_area_km2=float(row["land_area_km2"]) if row["land_area_km2"] else None,
-            location_name=row["location_name"] or None,
-            coordinate_source=row["coordinate_source"] or None,
-            is_simulated=row["is_simulated"].lower() == "true",
-            platform=row["platform"] or None,
-            orbit_inclination_deg=(float(row["orbit_inclination_deg"])
-                                   if row["orbit_inclination_deg"] else None),
-            orbit_plane=int(row["orbit_plane"]) if row["orbit_plane"] else None,
-            orbit_phase_deg=(float(row["orbit_phase_deg"])
-                             if row["orbit_phase_deg"] else None),
-            epoch_utc=row["epoch_utc"] or None,
-        ) for row in rows]
-        db.add_all(nodes)
-        db.commit()
-        print(
-            f"Inserted {len(nodes)} nodes (GROUND=50, SEA=20, AIR=12, SPACE=24) "
-            f"in {SCENARIO_NAME}."
-        )
-    except Exception:
-        db.rollback()
-        raise
-    finally:
-        db.close()
+    """Compatibility entry point: additive upgrades, never reset existing data."""
+    from backend.database.init_db import init_db
+    init_db()
 
 
 if __name__ == "__main__":

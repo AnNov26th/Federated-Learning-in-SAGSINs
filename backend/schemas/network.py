@@ -26,6 +26,7 @@ class NodeBase(BaseModel):
     orbit_inclination_deg: Optional[float] = None
     orbit_plane: Optional[int] = None
     orbit_phase_deg: Optional[float] = None
+    orbit_raan_deg: Optional[float] = None
     epoch_utc: Optional[str] = None
 
 class NodeCreate(NodeBase):

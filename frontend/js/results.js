@@ -47,6 +47,18 @@ function render(data) {
     const rounds = data.rounds || [];
     const config = data.config || {};
     const network = data.task === "network_delay";
+    const last = rounds.at(-1), quality = last?.prediction_metrics;
+    const selected = rounds.reduce((total, r) => total + r.selected_count, 0);
+    const completed = rounds.reduce((total, r) => total + r.participants_count, 0);
+    const transferred = rounds.reduce((total, r) => total + (r.metrics?.data_transferred_mb || 0), 0);
+    const qualityChange = quality?.persistence_mae_ms > 0 ? (1 - quality.mae_ms / quality.persistence_mae_ms) * 100 : null;
+    $("application-outcomes").hidden = !rounds.length;
+    $("application-outcomes").innerHTML = [
+        [network ? "MAE vòng cuối trên tập test" : "Độ chính xác vòng cuối", network ? `${num(quality?.mae_ms)} ms` : `${num(last?.accuracy * 100, 1)}%`, network ? "Sai số dự đoán độ trễ; thấp hơn tốt hơn" : "Đánh giá trên tập test"],
+        ["So với persistence", qualityChange == null ? "—" : Math.abs(qualityChange) < .001 ? "≈ 0%" : `${num(qualityChange, 3)}%`, "Mức giảm MAE; số âm là model kém hơn đối chứng"],
+        ["Client hoàn tất / được chọn", `${completed} / ${selected}`, "Tổng lượt qua các vòng, có thể lặp client"],
+        ["Payload FL đã ghi nhận", `${num(transferred, 4)} MiB`, "Chưa có baseline truyền dữ liệu thô để kết luận tiết kiệm"],
+    ].map(([label,value,note]) => `<article class="outcome-card"><span>${esc(label)}</span><strong>${esc(value)}</strong><small>${esc(note)}</small></article>`).join("");
     const section = $("round-results").closest("section");
     section.querySelector("p").textContent = network ? "Quality is evaluated on future network test data after all online ticks. Communication follows generated temporal traces. Model loss is MSE in log1p delay; energy is an estimate. Training duration is measured on the backend host." : "Accuracy/loss use the MNIST test set. Network completion and energy are simulation estimates.";
     const headers = $("round-results").closest("table").querySelectorAll("th");

@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { createScene } from "./3d/scene.js?v=20261016d";
+import { createScene } from "./3d/scene.js?v=20261023f";
 import { fetchNodes } from "./api.js";
 import { latLngToVector3 } from "./3d/coordinates.js";
-import { setupRouting } from "./routing.js?v=20261016d";
+import { setupRouting } from "./routing.js?v=20261023f";
 
 const container = document.getElementById("earth-container");
 
@@ -141,10 +141,15 @@ let selectedOrbitLine = null;
 
 function createDeviceMotion(node, initialPosition) {
     const radial = initialPosition.clone().normalize();
-    const inclination = THREE.MathUtils.degToRad(Number(node.orbit_inclination_deg) || 53);
+    const inclination = THREE.MathUtils.degToRad(node.orbit_inclination_deg == null ? 53 : Number(node.orbit_inclination_deg));
     const plane = Math.max(0, Number(node.orbit_plane || 1) - 1);
-    const raan = plane * Math.PI / 3;
-    const orbitNormal = new THREE.Vector3(Math.sin(inclination) * Math.sin(raan), Math.cos(inclination), Math.sin(inclination) * Math.cos(raan));
+    const raan = node.orbit_raan_deg == null ? plane * Math.PI / 3 : THREE.MathUtils.degToRad(Number(node.orbit_raan_deg));
+    // Orbit metadata is inertial; the seed lat/lng is Earth-fixed at epoch.
+    const epoch = Date.parse(node.epoch_utc || '2026-10-11T00:00:00Z');
+    const jd = epoch / 86400000 + 2440587.5, centuries = (jd - 2451545) / 36525;
+    const gmst = THREE.MathUtils.degToRad((280.46061837 + 360.98564736629 * (jd - 2451545) + .000387933 * centuries**2 - centuries**3 / 38710000) % 360);
+    const nx = Math.sin(inclination) * Math.sin(raan), ny = -Math.sin(inclination) * Math.cos(raan);
+    const orbitNormal = new THREE.Vector3(Math.cos(gmst)*nx + Math.sin(gmst)*ny, Math.cos(inclination), Math.sin(gmst)*nx - Math.cos(gmst)*ny);
     let tangent = new THREE.Vector3().crossVectors(orbitNormal, radial);
     if (tangent.lengthSq() < 1e-8) tangent = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), radial);
     tangent.normalize();
@@ -319,6 +324,9 @@ container.addEventListener('mousemove', (event) => {
                 ${data.epoch_utc ? `<p><span>Epoch (UTC):</span> <span class="tt-val">${escapeHtml(data.epoch_utc)}</span></p>` : ""}
                 <p><span>Alt:</span> <span class="tt-val">${data.alt} km</span></p>
                 <p><span>Bandwidth:</span> <span class="tt-val">${data.bandwidth} Mbps</span></p>
+                <p><span>Điểm đang dùng:</span> <span class="tt-val">${data.event_connections || 0}</span></p>
+                <p><span>Đã giữ:</span> <span class="tt-val">${Number(data.reserved_bandwidth_mbps || 0).toFixed(1)} Mbps</span></p>
+                <p><span>Còn trước tải nền:</span> <span class="tt-val">${Number(data.remaining_bandwidth_mbps ?? data.bandwidth).toFixed(1)} Mbps</span></p>
                 <p><span>Latency:</span> <span class="tt-val">${data.latency} ms</span></p>
             `;
             
@@ -390,103 +398,6 @@ function isNodeHitVisible(hit) {
     const globeHit = raycaster.intersectObject(scene3D.earth.userData.earth, false)[0];
     return !globeHit || hit.distance <= globeHit.distance + 0.035;
 }
-
-const attackButton = document.getElementById('btn-simulate-attack');
-const attackTargetLayer = document.getElementById('attack-target-layer');
-const attackStatus = document.getElementById('attack-status');
-let attackRunToken = 0;
-let attackEffects = [];
-
-function syntheticExposureScore(node) {
-    // Stable demo score to make the simulation repeatable; it is not a security assessment.
-    let hash = 0;
-    for (const character of String(node.id)) hash = (hash * 31 + character.charCodeAt(0)) >>> 0;
-    return 55 + (hash % 45);
-}
-
-function clearAttackEffects() {
-    for (const effect of attackEffects) {
-        effect.geometry?.dispose();
-        effect.material?.dispose();
-        scene3D.scene.remove(effect);
-    }
-    attackEffects = [];
-}
-
-function animateAttackPulse(start, end, color, duration, runToken) {
-    const pulse = new THREE.Mesh(
-        new THREE.SphereGeometry(0.035, 12, 12),
-        new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.95 })
-    );
-    scene3D.scene.add(pulse);
-    attackEffects.push(pulse);
-    const began = performance.now();
-    return new Promise((resolve) => {
-        const frame = (now) => {
-            if (runToken !== attackRunToken) { resolve(false); return; }
-            const progress = Math.min(1, (now - began) / duration);
-            const eased = 1 - (1 - progress) ** 3;
-            pulse.position.lerpVectors(start, end, eased);
-            if (progress < 1) requestAnimationFrame(frame);
-            else resolve(true);
-        };
-        requestAnimationFrame(frame);
-    });
-}
-
-async function runAttackSimulation() {
-    const requestedLayer = attackTargetLayer.value;
-    const candidates = nodeMarkers
-        .filter((marker) => requestedLayer === 'ANY' || String(marker.userData.type).toUpperCase() === requestedLayer)
-        .sort((a, b) => syntheticExposureScore(b.userData) - syntheticExposureScore(a.userData));
-    if (!candidates.length) {
-        attackStatus.textContent = 'Không có node phù hợp để mô phỏng trong lớp đã chọn.';
-        return;
-    }
-
-    const runToken = ++attackRunToken;
-    clearAttackEffects();
-    attackButton.disabled = true;
-    const target = candidates[0];
-    const targetData = target.userData;
-    const score = syntheticExposureScore(targetData);
-    attackStatus.textContent = `AI đang chọn mục tiêu mô phỏng… ${targetData.id} · điểm phơi nhiễm giả lập ${score}/100.`;
-    if (selectedNodeSummary) selectedNodeSummary.textContent = `Mục tiêu mô phỏng: ${targetData.id} · ${targetData.type}`;
-    const arrived = await flyGlobeToMarker(target);
-    if (!arrived || runToken !== attackRunToken) {
-        if (runToken === attackRunToken) attackButton.disabled = false;
-        return;
-    }
-
-    scene3D.earth.updateMatrixWorld(true);
-    const targetPosition = target.getWorldPosition(new THREE.Vector3());
-    const externalPosition = targetPosition.clone().normalize().multiplyScalar(targetPosition.length() + 1.15);
-    const route = new THREE.Line(
-        new THREE.BufferGeometry().setFromPoints([externalPosition, targetPosition]),
-        new THREE.LineBasicMaterial({ color: 0xff5470, transparent: true, opacity: 0.88 })
-    );
-    scene3D.scene.add(route);
-    attackEffects.push(route);
-
-    attackStatus.textContent = `Đang mô phỏng AI truy cập node ${targetData.id}…`;
-    if (!await animateAttackPulse(externalPosition, targetPosition, 0xff5470, 900, runToken)) return;
-    attackStatus.textContent = `Đang mô phỏng đánh cắp dữ liệu thử nghiệm từ ${targetData.id}…`;
-    if (!await animateAttackPulse(targetPosition, externalPosition, 0xffb45e, 1500, runToken)) return;
-
-    const syntheticMb = (2.4 + (score % 17) * 0.35).toFixed(1);
-    attackStatus.textContent = `Mô phỏng hoàn tất: ${syntheticMb} MB dữ liệu giả lập được đánh cắp từ ${targetData.id}. Đây là sự kiện minh họa, không phải dữ liệu thật.`;
-    attackButton.disabled = false;
-    window.setTimeout(() => {
-        if (runToken === attackRunToken) clearAttackEffects();
-    }, 2200);
-}
-
-attackButton?.addEventListener('click', () => {
-    runAttackSimulation().catch((error) => {
-        attackStatus.textContent = `Không thể chạy mô phỏng: ${error.message}`;
-        attackButton.disabled = false;
-    });
-});
 
 let pointerStart = null;
 container.addEventListener('pointerdown', event => { pointerStart = { x: event.clientX, y: event.clientY }; });
@@ -576,8 +487,8 @@ sidebarLinks.forEach(link => {
             if(nodeLegend) nodeLegend.style.display = 'block';
             if(topHeader) topHeader.style.display = 'flex';
             routing.setVisible(true);
-            refreshDroppedRoutes().catch((error) => {
-                console.error('Could not refresh event routes:', error);
+            routing.reloadSavedEvents().catch((error) => {
+                console.error('Could not reload saved events:', error);
             });
             
         } else if (pageRoutes[menuName]) {

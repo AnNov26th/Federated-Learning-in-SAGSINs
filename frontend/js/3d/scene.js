@@ -85,9 +85,9 @@ export function createScene(container) {
 
     // Animation
     const clock = new THREE.Clock();
-    // Time-lapse spin for visibility (about 30 minutes per turn).
+    // Time-lapse spin: the new 1× matches the previous 5× (6 minutes per turn).
     // The directional light remains scene-level and does not rotate with the Earth.
-    const EARTH_ROTATION_RAD_PER_SECOND = (2 * Math.PI) / (30 * 60);
+    const EARTH_ROTATION_RAD_PER_SECOND = (2 * Math.PI) / (6 * 60);
     function animate() {
 
         requestAnimationFrame(animate);
@@ -115,7 +115,7 @@ export function createScene(container) {
 
 
     // Resize
-    // The simulation also resizes when a detail panel takes its own column.
+    // Floating controls keep the canvas size stable when a detail panel opens.
     const resizeObserver = new ResizeObserver(() => {
 
         const width =

@@ -54,6 +54,7 @@ def generate_nearby_links(
     db: Session = Depends(get_db),
 ):
     """Persist estimated active links between nearby active nodes in the same scenario."""
+    from backend.services.topology_service import feasible_pair
     node_query = db.query(Node).filter(Node.status.ilike("ACTIVE"))
     if scenario_id is not None:
         node_query = node_query.filter(Node.scenario_id == scenario_id)
@@ -73,7 +74,7 @@ def generate_nearby_links(
                 (
                     (_distance_km(source, target), target)
                     for target in scenario_nodes
-                    if target.id != source.id
+                    if target.id != source.id and feasible_pair(source, target, allow_ground_backbone=True)
                 ),
                 key=lambda item: (item[0], item[1].id),
             )

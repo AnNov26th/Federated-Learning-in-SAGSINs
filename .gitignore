@@ -4,5 +4,7 @@ __pycache__/
 *.pyc
 .agents/
 data/network_demo/
+data/training_reset_backups/
+data/database_backups/
 data/network_benchmarks/
 docs/

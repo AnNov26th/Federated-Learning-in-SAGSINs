@@ -1,0 +1,24 @@
+{
+  "epoch_utc": "2026-10-11T00:00:00Z",
+  "analytical": {
+    "satellites_added": 72,
+    "planes": 6,
+    "satellites_per_plane": 12,
+    "altitude_km": 1200.0,
+    "inclination_deg": 90.0,
+    "required_min_elevation_deg": 10.0,
+    "maximum_nearest_satellite_angle_bound_deg": 21.090581178999095,
+    "minimum_best_elevation_bound_deg": 14.268493502436025,
+    "footprint_angle_at_required_elevation_deg": 24.03291642643403,
+    "continuous_geometric_coverage": true,
+    "assumptions": "All 72 satellites ACTIVE; ideal circular polar orbits, spherical Earth. Coverage is geometric, not a capacity/link-budget or end-to-end routing guarantee."
+  },
+  "sampled": {
+    "grid_deg": 5,
+    "step_s": 300,
+    "duration_s": 86400,
+    "point_time_samples": 769896,
+    "uncovered_samples": 0,
+    "minimum_best_elevation_deg": 16.592464343532683
+  }
+}

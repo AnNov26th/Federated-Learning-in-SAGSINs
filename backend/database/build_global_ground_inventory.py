@@ -258,7 +258,7 @@ def build_inventory():
             "claim actual device/station locations. Database altitude is 0 km.\n"
             "Three.js SphereGeometry radius=2: x=r*cos(lat)*cos(lng), y=r*sin(lat), z=-r*cos(lat)*sin(lng).\n"
             "Ground markers use visual radius 2.01; bandwidth 100 Mbps and latency 10 ms are sim defaults.\n"
-            "Sources and attribution: data/global_ground_nodes/README.md.\n\n"
+            "Sources and attribution: README.md (data sources section).\n\n"
             "Regional totals: "
             + ", ".join(f"{region}={region_counts.get(region, 0)}" for region in CONTINENT_NAMES.values())
             + "\n\n"

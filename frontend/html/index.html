@@ -8,8 +8,8 @@
 
     <title>Federated Learning in SAGSINs</title>
 
-    <link rel="stylesheet" href="/css/style.css?v=20261016d">
-    <link rel="stylesheet" href="/css/routing.css?v=20261016d">
+    <link rel="stylesheet" href="/css/style.css?v=20261023f">
+    <link rel="stylesheet" href="/css/routing.css?v=20261023f">
     
     <!-- FontAwesome cho Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -26,13 +26,14 @@
             }
         }
     </script>
+<link rel="stylesheet" href="/css/research-studio.css?v=20261023f">
 </head>
 
 <body>
 
     <!-- Main Collapsible Sidebar -->
     <nav id="main-sidebar" aria-label="Điều hướng chính">
-        <div class="sidebar-brand" aria-label="SAGSIN Studio"><i class="fa-solid fa-orbit"></i><span class="link-text">SAGSIN</span></div>
+        <div class="sidebar-brand" aria-label="SAGSIN Studio"><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i><span class="link-text">SAGSIN</span></div>
         <ul>
             <li>
                 <a href="#" class="sidebar-link" data-tooltip="Dashboard">
@@ -93,7 +94,11 @@
                 <div class="brand-mark"><i class="fa-solid fa-globe" aria-hidden="true"></i></div>
                 <div><h1>SAGSIN Studio</h1><p>Mô phỏng mạng Space · Air · Ground · Sea</p></div>
             </header>
-            <div id="simulation-toolbar" aria-label="Điều khiển mô phỏng">
+            <aside id="simulation-toolbar" aria-label="Điều khiển mô phỏng">
+                <h2 class="controls-heading">Điều khiển mô phỏng</h2>
+                <p id="routing-readiness" class="routing-help" role="status">Đang kiểm tra model…</p>
+                <label class="topology-toggle" for="show-topology"><input id="show-topology" type="checkbox" checked> Hiện liên kết mạng mờ</label>
+                <p id="topology-caption" class="routing-help">Nét liền: link đã lưu · nét đứt: link ước tính.</p>
                 <div class="simulation-controls">
                     <label class="toolbar-field event-picker" for="action-select"><span>Sự kiện</span>
                         <select id="action-select" class="action-dropdown" aria-label="Sự kiện" aria-describedby="action-hint">
@@ -117,7 +122,7 @@
                     <p id="action-hint" class="action-hint" style="display:none;">Nhấn lên địa cầu để đặt điểm · Esc để hủy.</p>
                     <p id="selected-node-summary" class="selected-node-summary">Kéo để xoay · Cuộn để thu phóng</p>
                 </div>
-            </div>
+            </aside>
         </section>
         <div id="simulation-dock" hidden>
             <button id="btn-close-panel" class="toolbar-button icon-control" type="button" aria-label="Đóng bảng chi tiết" title="Đóng bảng chi tiết"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
@@ -141,15 +146,25 @@
             <label for="routing-model">Checkpoint đã huấn luyện</label>
             <select id="routing-model" class="action-dropdown"><option value="">Tự chọn checkpoint mới nhất</option></select>
             <p id="routing-model-status" class="routing-help" role="status">Đang kiểm tra model…</p>
+            <label class="routing-check" for="routing-auto-train"><input id="routing-auto-train" type="checkbox" checked> Tự huấn luyện FL khi chưa có checkpoint</label>
             <label for="routing-target">Node GROUND đích</label>
             <select id="routing-target" class="action-dropdown"><option value="">Tự chọn GROUND có chi phí thấp nhất</option></select>
 
                 <label for="routing-topology">Nguồn kết nối</label>
-                <select id="routing-topology" class="action-dropdown"><option value="configured">Link ACTIVE đã lưu</option><option value="estimated">Ước tính phủ sóng (không lưu)</option></select>
-                <label for="routing-radius">Bán kính tiếp cận tối đa (km)</label>
-                <input id="routing-radius" type="number" min="1" max="5000" step="1" value="1500">
+                <select id="routing-topology" class="action-dropdown"><option value="adaptive" selected>Tự tìm tuyến mô phỏng tốt nhất</option><option value="configured">Chỉ dùng link ACTIVE đã lưu</option><option value="estimated">Chỉ dùng link phủ sóng ước tính</option></select>
+                <label class="routing-check" for="routing-global"><input id="routing-global" type="checkbox" checked> Tìm điểm tiếp cận trên toàn scenario</label>
+                <label for="routing-radius">Bán kính tiếp cận khi giới hạn (km)</label>
+                <input id="routing-radius" type="number" min="1" max="20040" step="1" value="1500" disabled>
+                <p class="routing-help">Đặt điểm ở bất kỳ đâu. Kết nối vẫn xét vùng phủ và tầm nhìn; nếu thiếu kết nối, so sánh thời gian điều động vệ tinh/UAV/tàu hoặc chuỗi vệ tinh về GROUND.</p>
+                <label for="routing-mobility-boost">Hệ số tăng tốc phương tiện</label>
+                <input id="routing-mobility-boost" type="number" min="1" max="5" step="0.1" value="2">
+                <p class="routing-help">Tốc độ di chuyển là giả định mô phỏng. Model FL chấm RTT tuyến; thời gian tiếp cận tính riêng từ quãng đường và tốc độ.</p>
+                <label for="routing-demand">Nhu cầu băng thông tối thiểu (Mbps)</label>
+                <input id="routing-demand" type="number" min="0.001" max="1000000" step="any" placeholder="Tự chọn theo dịch vụ">
+                <p class="routing-help">Để trống để dùng mức mặc định của dịch vụ. Tuyến mới chỉ dùng băng thông còn lại sau các điểm đã lưu; xóa điểm sẽ giải phóng phần đã cấp.</p>
                 <label for="routing-load">Tải mô phỏng: <output id="routing-load-value">35%</output></label>
                 <input id="routing-load" type="range" min="0" max="94" value="35">
+                <label class="routing-check" for="routing-reduce-load"><input id="routing-reduce-load" type="checkbox"> Cho phép hạ tải để tìm phương án khả thi</label>
                 <p class="routing-help">Tải dùng chung để so sánh hai chính sách. Băng thông tối thiểu là giả định theo loại sự kiện.</p>
                 <form id="routing-coordinate-form">
                     <div class="coordinate-fields"><label for="event-lat">Vĩ độ<input id="event-lat" type="number" min="-90" max="90" step="any" value="16.0544" required></label><label for="event-lng">Kinh độ<input id="event-lng" type="number" min="-180" max="180" step="any" value="108.2022" required></label></div>
@@ -162,20 +177,7 @@
             <p id="routing-status" class="routing-help" role="status" aria-live="polite">Chọn sự kiện rồi nhấn lên địa cầu.</p>
         </div>
 
-        <details class="panel-section attack-section">
-            <summary id="attack-title">Mô phỏng AI tấn công</summary>
-            <label class="attack-label" for="attack-target-layer">Lớp node mục tiêu</label>
-            <select id="attack-target-layer" class="action-dropdown">
-                <option value="ANY">AI tự chọn mục tiêu</option>
-                <option value="GROUND">Ground</option>
-                <option value="SEA">Sea</option>
-                <option value="AIR">Air</option>
-                <option value="SPACE">Space</option>
-            </select>
-            <button id="btn-simulate-attack" class="attack-btn" type="button"><i class="fa-solid fa-bolt"></i> Chạy mô phỏng đánh cắp</button>
-            <div id="attack-status" class="attack-status" role="status" aria-live="polite">Mô phỏng luồng tấn công và rò rỉ dữ liệu giả lập trên topology.</div>
-            <small class="attack-disclaimer">Chỉ là trực quan hóa: không quét node, không gửi traffic và không truy cập dữ liệu thật.</small>
-        </details>
+
 
         <section class="drop-section" aria-labelledby="drop-section-title">
             <div class="drop-section-heading">
@@ -189,9 +191,11 @@
     </aside>
 
     <section id="route-inspector" aria-labelledby="route-inspector-title" hidden>
+        <button id="route-back" class="toolbar-button route-back" type="button" hidden><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Trở về danh sách tuyến</button>
         <div class="inspector-heading"><div><small>PHÂN TÍCH TUYẾN</small><h2 id="route-inspector-title">Từ sự kiện đến GROUND</h2></div><span id="route-state" class="route-badge">Chờ điểm đặt</span></div>
+        <button id="route-delete" class="toolbar-button route-delete-action" type="button" hidden><i class="fa-solid fa-trash-can" aria-hidden="true"></i><span>Xóa điểm</span></button>
         <div id="route-inspector-content"><div class="routing-empty"><i class="fa-solid fa-route" aria-hidden="true"></i><h3>Quan sát cách mạng chọn đường</h3><p>Chọn loại sự kiện trên thanh điều khiển, rồi nhấn lên địa cầu để quan sát tuyến truyền.</p></div></div>
-        <details class="routing-explanation"><summary>Khi thả một điểm, hệ thống làm gì?</summary><ol><li>Chọn node ACTIVE gần nhất trong vùng tiếp cận và cùng scenario.</li><li>Lọc link và node hợp lệ, loại chặng thiếu băng thông theo dịch vụ.</li><li>Model FL dự đoán chi phí từng hướng truyền từ trạng thái mô phỏng hiện tại.</li><li>Dijkstra chọn tổng chi phí nhỏ nhất tới GROUND. Công thức tĩnh chạy trên cùng mạng để đối chiếu.</li></ol><p>Chế độ dự đoán yêu cầu checkpoint FL hoàn tất của scenario. Không có đường đi sẽ được báo rõ. Topology ước tính không tự nối các vùng mất kết nối.</p></details>
+        <details class="routing-explanation"><summary>Khi thả một điểm, hệ thống làm gì?</summary><ol><li>Tìm thiết bị ACTIVE có vùng phủ và tầm nhìn tới điểm sự kiện, ở bất kỳ tọa độ nào.</li><li>Trừ băng thông các điểm đã lưu trên từng node và link. Dùng chung nếu còn đủ; chọn node hoặc tuyến khác khi thiếu, giữ phần đã cấp cho các điểm cũ.</li><li>Nếu chưa có tuyến, so sánh thời gian điều động vệ tinh, UAV hoặc tàu và điểm tuyến sau điều động. Phương tiện đang phục vụ tuyến cũ được giữ nguyên vị trí.</li><li>Chấm điểm tiếp cận và từng hop theo RTT dự đoán, băng thông còn lại và khoảng cách. Thiếu checkpoint có thể tự huấn luyện theo thiết lập.</li><li>Lưu điểm và tuyến để khôi phục khi tải lại. Các tuyến truyền đồng thời sau khi phương tiện tới nơi; xóa điểm sẽ giải phóng băng thông.</li></ol><p>Liên kết nền hiển thị mờ: nét liền là link đã lưu, nét đứt là link ước tính. Chỉ tuyến đang xem chi tiết được làm đậm; đóng bảng hoặc trở về danh sách đưa các tuyến về độ mờ nhẹ như nhau. Điều động theo cung cầu là giả định mô phỏng, chưa tính động lực học quỹ đạo hay hải trình. Vị trí điều động được lưu cùng điểm nhưng không thay đổi vị trí node hoặc link gốc. Nếu thiếu phương tiện hoặc băng thông, hệ thống nêu lý do chưa thể kết nối.</p></details>
     </section>
 
         </div>
@@ -208,7 +212,7 @@
     </div>
 
     <!-- Iframe Container for other pages (like Dashboard) -->
-    <iframe id="page-frame" style="position: absolute; top: 0; left: 60px; width: calc(100% - 60px); height: 100%; border: none; z-index: 50; display: none; background: transparent;"></iframe>
+    <iframe title="Trang chức năng SAGSIN" id="page-frame" style="display:none;"></iframe>
 
 
     <!-- Node Legend Panel -->
@@ -228,7 +232,7 @@
         <!-- Content will be injected by app.js -->
     </div>
 
-    <script type="module" src="/js/app.js?v=20261016d"></script>
+    <script type="module" src="/js/app.js?v=20261023f"></script>
 
 </body>
 

@@ -27,6 +27,7 @@ class Node(Base):
     orbit_inclination_deg = Column(Float, nullable=True)
     orbit_plane = Column(Integer, nullable=True)
     orbit_phase_deg = Column(Float, nullable=True)
+    orbit_raan_deg = Column(Float, nullable=True)
     epoch_utc = Column(String(32), nullable=True)
 
 class NetworkLink(Base):
