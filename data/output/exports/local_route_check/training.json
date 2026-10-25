@@ -1,0 +1,2868 @@
+{
+  "request": {
+    "scenario_id": 6,
+    "task": "network_delay",
+    "algorithm": "Predictive",
+    "pool_mode": "regional",
+    "region_radius_km": 1500,
+    "client_count": 9,
+    "rounds": 10,
+    "samples_per_client": 2000,
+    "online_steps": 10,
+    "local_epochs": 1,
+    "batch_size": 64,
+    "partition": "non_iid",
+    "seed": 42,
+    "network_profile": "normal"
+  },
+  "context": {
+    "scenario_id": 6,
+    "candidate_pool": [
+      "GND-IRN-001",
+      "GND-SAU-001",
+      "GND-SAU-002",
+      "GND-SDN-002",
+      "SAT-005",
+      "SAT-POLAR-026",
+      "SHIP-006",
+      "SHIP-007",
+      "UAV-007"
+    ],
+    "candidate_count": 9,
+    "local_epochs_by_client": {},
+    "training_region": {
+      "mode": "regional",
+      "center_lat": 24.65,
+      "center_lng": 46.7,
+      "radius_km": 1500.0,
+      "anchor_id": "GND-SAU-001",
+      "selection_source": "densest_eligible_snapshot_area",
+      "eligible_clients": 178,
+      "client_count": 9,
+      "max_center_distance_km": 1446.2162178073158,
+      "distances_km": {
+        "GND-IRN-001": 1309.2971747868394,
+        "GND-SAU-001": 0.0,
+        "GND-SAU-002": 844.587296303147,
+        "GND-SDN-002": 1125.3017452005902,
+        "SAT-005": 1446.2162178073158,
+        "SAT-POLAR-026": 860.5410244685531,
+        "SHIP-006": 1413.2573289712032,
+        "SHIP-007": 1033.0922005192585,
+        "UAV-007": 335.292991861648
+      },
+      "distance_definition": "ground_projected_great_circle_at_database_snapshot",
+      "note": "Geographic cohort only; membership does not prove RF links or reachability to an FL aggregator."
+    },
+    "client_types": {
+      "GND-IRN-001": "GROUND",
+      "GND-SAU-001": "GROUND",
+      "GND-SAU-002": "GROUND",
+      "GND-SDN-002": "GROUND",
+      "SAT-005": "SPACE",
+      "SAT-POLAR-026": "SPACE",
+      "SHIP-006": "SEA",
+      "SHIP-007": "SEA",
+      "UAV-007": "AIR"
+    }
+  },
+  "result": {
+    "id": 5,
+    "scenario_id": 6,
+    "algorithm": "Predictive",
+    "status": "COMPLETED",
+    "target_rounds": 10,
+    "completed_rounds": 10,
+    "latest_accuracy": null,
+    "latest_loss": 0.00529827,
+    "task": "network_delay",
+    "dataset_id": 5,
+    "latest_mae_ms": 4.70044,
+    "latest_rmse_ms": 6.6799,
+    "latest_r2": 0.991356,
+    "is_simulation": true,
+    "error_message": null,
+    "actual_duration_s": 28.0,
+    "config": {
+      "pool_mode": "regional",
+      "region_radius_km": 1500.0,
+      "region_lat": null,
+      "region_lng": null,
+      "task": "network_delay",
+      "dataset_id": 5,
+      "samples_per_client": 2000,
+      "online_steps": 10,
+      "rounds": 10,
+      "client_count": 9,
+      "local_epochs": 1,
+      "learning_rate": 0.01,
+      "batch_size": 64,
+      "partition": "non_iid",
+      "seed": 42,
+      "network_profile": "normal",
+      "dropout_probability": 0.0,
+      "timeout_ms": 30000,
+      "candidate_pool": [
+        "GND-IRN-001",
+        "GND-SAU-001",
+        "GND-SAU-002",
+        "GND-SDN-002",
+        "SAT-005",
+        "SAT-POLAR-026",
+        "SHIP-006",
+        "SHIP-007",
+        "UAV-007"
+      ],
+      "client_profiles": {
+        "GND-IRN-001": {
+          "layer": "GROUND",
+          "status": "ACTIVE",
+          "latency": 25.0,
+          "bandwidth": 100.0,
+          "distance_km": 1779.84,
+          "medium": "radio_frequency",
+          "link_id": 180,
+          "link_source": "stored_incident_link"
+        },
+        "GND-SAU-001": {
+          "layer": "GROUND",
+          "status": "ACTIVE",
+          "latency": 10.0,
+          "bandwidth": 100.0,
+          "distance_km": 843.969,
+          "medium": "radio_frequency",
+          "link_id": 63,
+          "link_source": "stored_incident_link"
+        },
+        "GND-SAU-002": {
+          "layer": "GROUND",
+          "status": "ACTIVE",
+          "latency": 10.0,
+          "bandwidth": 25.0,
+          "distance_km": 206.561,
+          "medium": "radio_frequency",
+          "link_id": 22,
+          "link_source": "stored_incident_link"
+        },
+        "GND-SDN-002": {
+          "layer": "GROUND",
+          "status": "ACTIVE",
+          "latency": 10.0,
+          "bandwidth": 25.0,
+          "distance_km": 92.4399,
+          "medium": "radio_frequency",
+          "link_id": 21,
+          "link_source": "stored_incident_link"
+        },
+        "SAT-005": {
+          "layer": "SPACE",
+          "status": "ACTIVE",
+          "latency": 25.0,
+          "bandwidth": 25.0,
+          "distance_km": 577.844,
+          "medium": "radio_frequency",
+          "link_id": 42,
+          "link_source": "stored_incident_link"
+        },
+        "SAT-POLAR-026": {
+          "layer": "SPACE",
+          "status": "ACTIVE",
+          "latency": 25.0,
+          "bandwidth": 100.0,
+          "distance_km": 1522.72,
+          "medium": "radio_frequency",
+          "link_id": 137,
+          "link_source": "stored_incident_link"
+        },
+        "SHIP-006": {
+          "layer": "SEA",
+          "status": "ACTIVE",
+          "latency": 80.0,
+          "bandwidth": 25.0,
+          "distance_km": 577.844,
+          "medium": "radio_frequency",
+          "link_id": 42,
+          "link_source": "stored_incident_link"
+        },
+        "SHIP-007": {
+          "layer": "SEA",
+          "status": "ACTIVE",
+          "latency": 80.0,
+          "bandwidth": 25.0,
+          "distance_km": 92.4399,
+          "medium": "radio_frequency",
+          "link_id": 21,
+          "link_source": "stored_incident_link"
+        },
+        "UAV-007": {
+          "layer": "AIR",
+          "status": "ACTIVE",
+          "latency": 30.0,
+          "bandwidth": 50.0,
+          "distance_km": 1609.16,
+          "medium": "radio_frequency",
+          "link_id": 154,
+          "link_source": "stored_incident_link"
+        }
+      },
+      "local_epochs_by_client": {},
+      "selection_policy": "round_sample",
+      "metrics_source": "held_out_future_network_observations",
+      "network_metrics_source": "generated_temporal_network_trace",
+      "training_region": {
+        "mode": "regional",
+        "center_lat": 24.65,
+        "center_lng": 46.7,
+        "radius_km": 1500.0,
+        "anchor_id": "GND-SAU-001",
+        "selection_source": "densest_eligible_snapshot_area",
+        "eligible_clients": 178,
+        "client_count": 9,
+        "max_center_distance_km": 1446.2162178073158,
+        "distances_km": {
+          "GND-IRN-001": 1309.2971747868394,
+          "GND-SAU-001": 0.0,
+          "GND-SAU-002": 844.587296303147,
+          "GND-SDN-002": 1125.3017452005902,
+          "SAT-005": 1446.2162178073158,
+          "SAT-POLAR-026": 860.5410244685531,
+          "SHIP-006": 1413.2573289712032,
+          "SHIP-007": 1033.0922005192585,
+          "UAV-007": 335.292991861648
+        },
+        "distance_definition": "ground_projected_great_circle_at_database_snapshot",
+        "note": "Geographic cohort only; membership does not prove RF links or reachability to an FL aggregator."
+      },
+      "dataset_fingerprint": "865d09d694deda70e2ca3c84c4a795d50f6c795f2a51d3679f784c80d75c1a92",
+      "generator_version": "sagsin-network-v1",
+      "feature_version": "network-features-v1",
+      "locality": "logical_client_partitions_in_shared_database",
+      "target": "next_tick_model_round_trip_ms",
+      "training_progress": {
+        "revision": 222,
+        "phase": "completed",
+        "updated_at": "2026-10-25T03:57:39.988229+00:00",
+        "events": [
+          {
+            "phase": "client_finished",
+            "round": 9,
+            "client_id": "GND-SAU-002",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:35.364498+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 9,
+            "client_id": "GND-SAU-001",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:35.430483+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 9,
+            "client_id": "GND-SAU-001",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:35.555313+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 9,
+            "client_id": "SAT-POLAR-026",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:35.629873+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 9,
+            "client_id": "SAT-POLAR-026",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:35.770391+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 9,
+            "client_id": "UAV-007",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:35.844137+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 9,
+            "client_id": "UAV-007",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:36.104612+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 9,
+            "client_id": "SAT-005",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:36.180336+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 9,
+            "client_id": "SAT-005",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:36.305016+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 9,
+            "client_id": "GND-IRN-001",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:36.375104+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 9,
+            "client_id": "GND-IRN-001",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:36.501733+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 9,
+            "client_id": "SHIP-007",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:36.572422+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 9,
+            "client_id": "SHIP-007",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:36.752337+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 9,
+            "client_id": "SHIP-006",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:36.857531+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 9,
+            "client_id": "SHIP-006",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:36.994133+00:00"
+          },
+          {
+            "phase": "aggregating",
+            "round": 9,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T03:57:37.070701+00:00"
+          },
+          {
+            "phase": "round_completed",
+            "round": 9,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T03:57:37.312052+00:00"
+          },
+          {
+            "phase": "selecting",
+            "round": 10,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T03:57:37.413462+00:00"
+          },
+          {
+            "phase": "selected",
+            "round": 10,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T03:57:37.495472+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 10,
+            "client_id": "GND-SAU-002",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:37.567990+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 10,
+            "client_id": "GND-SAU-002",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:37.712055+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 10,
+            "client_id": "GND-SDN-002",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:37.772073+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 10,
+            "client_id": "GND-SDN-002",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:37.896466+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 10,
+            "client_id": "GND-SAU-001",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:37.975529+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 10,
+            "client_id": "GND-SAU-001",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:38.144609+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 10,
+            "client_id": "SAT-POLAR-026",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:38.217591+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 10,
+            "client_id": "SAT-POLAR-026",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:38.345472+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 10,
+            "client_id": "SAT-005",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:38.413749+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 10,
+            "client_id": "SAT-005",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:38.549553+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 10,
+            "client_id": "UAV-007",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:38.624941+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 10,
+            "client_id": "UAV-007",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:38.793270+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 10,
+            "client_id": "GND-IRN-001",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:38.867571+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 10,
+            "client_id": "GND-IRN-001",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:38.994251+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 10,
+            "client_id": "SHIP-007",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:39.057381+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 10,
+            "client_id": "SHIP-007",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:39.204069+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 10,
+            "client_id": "SHIP-006",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T03:57:39.282814+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 10,
+            "client_id": "SHIP-006",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T03:57:39.557127+00:00"
+          },
+          {
+            "phase": "aggregating",
+            "round": 10,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T03:57:39.635937+00:00"
+          },
+          {
+            "phase": "round_completed",
+            "round": 10,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T03:57:39.829007+00:00"
+          },
+          {
+            "phase": "completed",
+            "round": 10,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T03:57:39.988229+00:00"
+          }
+        ],
+        "clients": {
+          "GND-SAU-002": {
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_loss": 0.00830912621176889,
+            "training_duration_s": 0.04734370000005583,
+            "communication_time_ms": 25.1712
+          },
+          "GND-SDN-002": {
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_loss": 0.008666664889967906,
+            "training_duration_s": 0.03453899999999521,
+            "communication_time_ms": 23.6209
+          },
+          "GND-SAU-001": {
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_loss": 0.009192603432955564,
+            "training_duration_s": 0.05894679999994423,
+            "communication_time_ms": 49.254
+          },
+          "SAT-POLAR-026": {
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_loss": 0.004449826120571854,
+            "training_duration_s": 0.03155279999998584,
+            "communication_time_ms": 78.5818
+          },
+          "SAT-005": {
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_loss": 0.004401851120547653,
+            "training_duration_s": 0.03937580000001617,
+            "communication_time_ms": 88.6735
+          },
+          "UAV-007": {
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_loss": 0.004055220256669421,
+            "training_duration_s": 0.06405789999996614,
+            "communication_time_ms": 95.2084
+          },
+          "GND-IRN-001": {
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_loss": 0.004190041718248042,
+            "training_duration_s": 0.037936600000080034,
+            "communication_time_ms": 98.8599
+          },
+          "SHIP-007": {
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_loss": 0.0024833828826082045,
+            "training_duration_s": 0.03961709999998675,
+            "communication_time_ms": 189.735
+          },
+          "SHIP-006": {
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_loss": 0.00252557548303741,
+            "training_duration_s": 0.1663292000000638,
+            "communication_time_ms": 210.708
+          }
+        },
+        "selected": [
+          "GND-SAU-002",
+          "GND-SDN-002",
+          "GND-SAU-001",
+          "SAT-POLAR-026",
+          "SAT-005",
+          "UAV-007",
+          "GND-IRN-001",
+          "SHIP-007",
+          "SHIP-006"
+        ],
+        "round": 10,
+        "selection_source": "global_model_previous_round",
+        "samples_used": 1209,
+        "local_loss": 0.00252557548303741,
+        "training_duration_s": 0.1663292000000638,
+        "communication_time_ms": 210.708,
+        "mae_ms": 4.700444635926141,
+        "validation_mae_ms": 4.833781267615425,
+        "completed_clients": 9
+      }
+    },
+    "created_at": "2026-10-25T03:57:11",
+    "rounds": [
+      {
+        "round": 1,
+        "accuracy": null,
+        "loss": 0.00530278,
+        "participants_count": 9,
+        "selected_count": 9,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.281334,
+        "metrics": {
+          "latency_ms": 49.5249,
+          "communication_time_ms": 243.046,
+          "energy_j": 2.81333,
+          "bandwidth_mbps": 36.0975,
+          "data_transferred_mb": 0.0659866,
+          "packet_loss_ratio": 0.00803959,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "GND-IRN-001",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.0042185,
+            "training_duration_s": 0.0406091,
+            "latency_ms": 48.1276,
+            "communication_time_ms": 102.392,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.00924056,
+            "training_duration_s": 0.0367967,
+            "latency_ms": 17.4633,
+            "communication_time_ms": 33.7864,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.00836185,
+            "training_duration_s": 0.0331589,
+            "latency_ms": 10.8297,
+            "communication_time_ms": 24.7743,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.00870575,
+            "training_duration_s": 0.0350441,
+            "latency_ms": 12.5453,
+            "communication_time_ms": 30.9334,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-005",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.00436608,
+            "training_duration_s": 0.0876774,
+            "latency_ms": 37.9068,
+            "communication_time_ms": 73.6187,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.00444653,
+            "training_duration_s": 0.0452198,
+            "latency_ms": 50.6296,
+            "communication_time_ms": 107.239,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-006",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.00251882,
+            "training_duration_s": 0.0362951,
+            "latency_ms": 104.856,
+            "communication_time_ms": 241.151,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-007",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.00248688,
+            "training_duration_s": 0.0382875,
+            "latency_ms": 122.046,
+            "communication_time_ms": 243.046,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "UAV-007",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.00407748,
+            "training_duration_s": 0.0407595,
+            "latency_ms": 41.3203,
+            "communication_time_ms": 84.771,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 4.70232,
+          "rmse_ms": 6.68422,
+          "r2": 0.991345,
+          "validation_mae_ms": 4.83731,
+          "persistence_mae_ms": 4.70241,
+          "test_samples": 3600,
+          "selection_source": "random_cold_start",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "GND-IRN-001",
+            "observation_id": 199685,
+            "predicted_delay_ms": 98.8902,
+            "observed_delay_ms": 102.392,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "observation_id": 201695,
+            "predicted_delay_ms": 35.9669,
+            "observed_delay_ms": 33.7864,
+            "rule_delay_ms": 20.5865,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "observation_id": 203705,
+            "predicted_delay_ms": 24.1451,
+            "observed_delay_ms": 24.7743,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "observation_id": 205715,
+            "predicted_delay_ms": 27.8244,
+            "observed_delay_ms": 30.9334,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "SAT-005",
+            "observation_id": 207725,
+            "predicted_delay_ms": 79.6158,
+            "observed_delay_ms": 73.6187,
+            "rule_delay_ms": 52.3462,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "observation_id": 209735,
+            "predicted_delay_ms": 104.3,
+            "observed_delay_ms": 107.239,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "SHIP-006",
+            "observation_id": 211745,
+            "predicted_delay_ms": 213.733,
+            "observed_delay_ms": 241.151,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "SHIP-007",
+            "observation_id": 213755,
+            "predicted_delay_ms": 250.662,
+            "observed_delay_ms": 243.046,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "UAV-007",
+            "observation_id": 215765,
+            "predicted_delay_ms": 84.5611,
+            "observed_delay_ms": 84.771,
+            "rule_delay_ms": 61.1731,
+            "selected": true,
+            "model_round": 0
+          }
+        ]
+      },
+      {
+        "round": 2,
+        "accuracy": null,
+        "loss": 0.00530226,
+        "participants_count": 9,
+        "selected_count": 9,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.289419,
+        "metrics": {
+          "latency_ms": 50.6682,
+          "communication_time_ms": 252.091,
+          "energy_j": 2.89419,
+          "bandwidth_mbps": 35.7166,
+          "data_transferred_mb": 0.0659866,
+          "packet_loss_ratio": 0.00855551,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "GND-IRN-001",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.00421546,
+            "training_duration_s": 0.0320533,
+            "latency_ms": 49.7492,
+            "communication_time_ms": 101.946,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.00923517,
+            "training_duration_s": 0.0375385,
+            "latency_ms": 16.4136,
+            "communication_time_ms": 38.3922,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.00835468,
+            "training_duration_s": 0.036763,
+            "latency_ms": 11.1222,
+            "communication_time_ms": 23.7497,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.00870646,
+            "training_duration_s": 0.0362153,
+            "latency_ms": 13.9978,
+            "communication_time_ms": 28.9819,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-005",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.00436682,
+            "training_duration_s": 0.0434423,
+            "latency_ms": 35.1076,
+            "communication_time_ms": 73.8574,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.00444298,
+            "training_duration_s": 0.0376608,
+            "latency_ms": 51.9818,
+            "communication_time_ms": 91.3144,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-006",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.00252847,
+            "training_duration_s": 0.035319,
+            "latency_ms": 117.674,
+            "communication_time_ms": 246.037,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-007",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.00248526,
+            "training_duration_s": 0.0373276,
+            "latency_ms": 118.548,
+            "communication_time_ms": 252.091,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "UAV-007",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.00407365,
+            "training_duration_s": 0.0368769,
+            "latency_ms": 41.4204,
+            "communication_time_ms": 82.0901,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 4.70193,
+          "rmse_ms": 6.68337,
+          "r2": 0.991347,
+          "validation_mae_ms": 4.83648,
+          "persistence_mae_ms": 4.70241,
+          "test_samples": 3600,
+          "selection_source": "global_model_previous_round",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "GND-IRN-001",
+            "observation_id": 199686,
+            "predicted_delay_ms": 102.393,
+            "observed_delay_ms": 101.946,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "observation_id": 201696,
+            "predicted_delay_ms": 33.7881,
+            "observed_delay_ms": 38.3922,
+            "rule_delay_ms": 20.5865,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "observation_id": 203706,
+            "predicted_delay_ms": 24.7764,
+            "observed_delay_ms": 23.7497,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "observation_id": 205716,
+            "predicted_delay_ms": 30.9355,
+            "observed_delay_ms": 28.9819,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "SAT-005",
+            "observation_id": 207726,
+            "predicted_delay_ms": 73.6238,
+            "observed_delay_ms": 73.8574,
+            "rule_delay_ms": 52.3462,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "observation_id": 209736,
+            "predicted_delay_ms": 107.241,
+            "observed_delay_ms": 91.3144,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "SHIP-006",
+            "observation_id": 211746,
+            "predicted_delay_ms": 241.153,
+            "observed_delay_ms": 246.037,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "SHIP-007",
+            "observation_id": 213756,
+            "predicted_delay_ms": 243.049,
+            "observed_delay_ms": 252.091,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "UAV-007",
+            "observation_id": 215766,
+            "predicted_delay_ms": 84.775,
+            "observed_delay_ms": 82.0901,
+            "rule_delay_ms": 61.1731,
+            "selected": true,
+            "model_round": 1
+          }
+        ]
+      },
+      {
+        "round": 3,
+        "accuracy": null,
+        "loss": 0.00530176,
+        "participants_count": 9,
+        "selected_count": 9,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.290504,
+        "metrics": {
+          "latency_ms": 50.498,
+          "communication_time_ms": 252.338,
+          "energy_j": 2.90504,
+          "bandwidth_mbps": 36.3373,
+          "data_transferred_mb": 0.0659866,
+          "packet_loss_ratio": 0.00812268,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "GND-IRN-001",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.00421155,
+            "training_duration_s": 0.0343422,
+            "latency_ms": 49.5433,
+            "communication_time_ms": 103.236,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.00923969,
+            "training_duration_s": 0.0383843,
+            "latency_ms": 18.6273,
+            "communication_time_ms": 39.4492,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.00834863,
+            "training_duration_s": 0.0309732,
+            "latency_ms": 10.6464,
+            "communication_time_ms": 25.0609,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.00870183,
+            "training_duration_s": 0.039838,
+            "latency_ms": 13.0861,
+            "communication_time_ms": 27.7483,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-005",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.00436268,
+            "training_duration_s": 0.0386378,
+            "latency_ms": 35.2195,
+            "communication_time_ms": 75.9217,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.00445978,
+            "training_duration_s": 0.0375831,
+            "latency_ms": 44.5942,
+            "communication_time_ms": 81.8183,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-006",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.00252637,
+            "training_duration_s": 0.0381659,
+            "latency_ms": 119.925,
+            "communication_time_ms": 252.338,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-007",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.00248397,
+            "training_duration_s": 0.0390658,
+            "latency_ms": 122.699,
+            "communication_time_ms": 232.56,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "UAV-007",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.00407063,
+            "training_duration_s": 0.0378141,
+            "latency_ms": 40.1405,
+            "communication_time_ms": 83.6983,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 4.70192,
+          "rmse_ms": 6.68324,
+          "r2": 0.991347,
+          "validation_mae_ms": 4.83652,
+          "persistence_mae_ms": 4.70241,
+          "test_samples": 3600,
+          "selection_source": "global_model_previous_round",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "GND-IRN-001",
+            "observation_id": 199687,
+            "predicted_delay_ms": 101.929,
+            "observed_delay_ms": 103.236,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "observation_id": 201697,
+            "predicted_delay_ms": 38.3875,
+            "observed_delay_ms": 39.4492,
+            "rule_delay_ms": 20.5865,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "observation_id": 203707,
+            "predicted_delay_ms": 23.7493,
+            "observed_delay_ms": 25.0609,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "observation_id": 205717,
+            "predicted_delay_ms": 28.9803,
+            "observed_delay_ms": 27.7483,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "SAT-005",
+            "observation_id": 207727,
+            "predicted_delay_ms": 73.855,
+            "observed_delay_ms": 75.9217,
+            "rule_delay_ms": 52.3462,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "observation_id": 209737,
+            "predicted_delay_ms": 91.3052,
+            "observed_delay_ms": 81.8183,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "SHIP-006",
+            "observation_id": 211747,
+            "predicted_delay_ms": 245.994,
+            "observed_delay_ms": 252.338,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "SHIP-007",
+            "observation_id": 213757,
+            "predicted_delay_ms": 252.048,
+            "observed_delay_ms": 232.56,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "UAV-007",
+            "observation_id": 215767,
+            "predicted_delay_ms": 82.0829,
+            "observed_delay_ms": 83.6983,
+            "rule_delay_ms": 61.1731,
+            "selected": true,
+            "model_round": 2
+          }
+        ]
+      },
+      {
+        "round": 4,
+        "accuracy": null,
+        "loss": 0.00530125,
+        "participants_count": 9,
+        "selected_count": 9,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.257588,
+        "metrics": {
+          "latency_ms": 49.6391,
+          "communication_time_ms": 221.619,
+          "energy_j": 2.57588,
+          "bandwidth_mbps": 36.8192,
+          "data_transferred_mb": 0.0659866,
+          "packet_loss_ratio": 0.00762555,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "GND-IRN-001",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.0042077,
+            "training_duration_s": 0.0331091,
+            "latency_ms": 50.1389,
+            "communication_time_ms": 95.2685,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.00923193,
+            "training_duration_s": 0.0372652,
+            "latency_ms": 19.1334,
+            "communication_time_ms": 39.9943,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.00834314,
+            "training_duration_s": 0.0376311,
+            "latency_ms": 11.2556,
+            "communication_time_ms": 24.0453,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.00869553,
+            "training_duration_s": 0.0329507,
+            "latency_ms": 12.5097,
+            "communication_time_ms": 28.2619,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-005",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.00435922,
+            "training_duration_s": 0.0349478,
+            "latency_ms": 36.1853,
+            "communication_time_ms": 94.5293,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.00446535,
+            "training_duration_s": 0.034628,
+            "latency_ms": 40.1167,
+            "communication_time_ms": 82.1312,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-006",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.00252444,
+            "training_duration_s": 0.0359687,
+            "latency_ms": 122.812,
+            "communication_time_ms": 221.619,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-007",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.00248692,
+            "training_duration_s": 0.0362535,
+            "latency_ms": 113.691,
+            "communication_time_ms": 213.188,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "UAV-007",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.00406721,
+            "training_duration_s": 0.0435926,
+            "latency_ms": 40.9088,
+            "communication_time_ms": 82.1749,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 4.70166,
+          "rmse_ms": 6.68268,
+          "r2": 0.991349,
+          "validation_mae_ms": 4.83603,
+          "persistence_mae_ms": 4.70241,
+          "test_samples": 3600,
+          "selection_source": "global_model_previous_round",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "GND-IRN-001",
+            "observation_id": 199688,
+            "predicted_delay_ms": 103.227,
+            "observed_delay_ms": 95.2685,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "observation_id": 201698,
+            "predicted_delay_ms": 39.4487,
+            "observed_delay_ms": 39.9943,
+            "rule_delay_ms": 20.5865,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "observation_id": 203708,
+            "predicted_delay_ms": 25.0641,
+            "observed_delay_ms": 24.0453,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "observation_id": 205718,
+            "predicted_delay_ms": 27.7513,
+            "observed_delay_ms": 28.2619,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "SAT-005",
+            "observation_id": 207728,
+            "predicted_delay_ms": 75.9278,
+            "observed_delay_ms": 94.5293,
+            "rule_delay_ms": 52.3462,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "observation_id": 209738,
+            "predicted_delay_ms": 81.8205,
+            "observed_delay_ms": 82.1312,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "SHIP-006",
+            "observation_id": 211748,
+            "predicted_delay_ms": 252.31,
+            "observed_delay_ms": 221.619,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "SHIP-007",
+            "observation_id": 213758,
+            "predicted_delay_ms": 232.546,
+            "observed_delay_ms": 213.188,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "UAV-007",
+            "observation_id": 215768,
+            "predicted_delay_ms": 83.7005,
+            "observed_delay_ms": 82.1749,
+            "rule_delay_ms": 61.1731,
+            "selected": true,
+            "model_round": 3
+          }
+        ]
+      },
+      {
+        "round": 5,
+        "accuracy": null,
+        "loss": 0.00530074,
+        "participants_count": 9,
+        "selected_count": 9,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.263174,
+        "metrics": {
+          "latency_ms": 47.5283,
+          "communication_time_ms": 223.597,
+          "energy_j": 2.63174,
+          "bandwidth_mbps": 37.4906,
+          "data_transferred_mb": 0.0659866,
+          "packet_loss_ratio": 0.00697941,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "GND-IRN-001",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.00420921,
+            "training_duration_s": 0.0482981,
+            "latency_ms": 46.4427,
+            "communication_time_ms": 96.131,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.00922371,
+            "training_duration_s": 0.0362056,
+            "latency_ms": 19.3941,
+            "communication_time_ms": 42.439,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.00833698,
+            "training_duration_s": 0.0426574,
+            "latency_ms": 10.7834,
+            "communication_time_ms": 24.6156,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.00868768,
+            "training_duration_s": 0.0378236,
+            "latency_ms": 12.7497,
+            "communication_time_ms": 29.8389,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-005",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.00439408,
+            "training_duration_s": 0.0380429,
+            "latency_ms": 44.7663,
+            "communication_time_ms": 92.1499,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.00446114,
+            "training_duration_s": 0.0461065,
+            "latency_ms": 40.2652,
+            "communication_time_ms": 80.3839,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-006",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.00253585,
+            "training_duration_s": 0.039577,
+            "latency_ms": 108.574,
+            "communication_time_ms": 223.597,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-007",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.00249077,
+            "training_duration_s": 0.0381019,
+            "latency_ms": 104.598,
+            "communication_time_ms": 206.549,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "UAV-007",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.00406355,
+            "training_duration_s": 0.0365784,
+            "latency_ms": 40.181,
+            "communication_time_ms": 88.7483,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 4.70133,
+          "rmse_ms": 6.68198,
+          "r2": 0.99135,
+          "validation_mae_ms": 4.83538,
+          "persistence_mae_ms": 4.70241,
+          "test_samples": 3600,
+          "selection_source": "global_model_previous_round",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "GND-IRN-001",
+            "observation_id": 199689,
+            "predicted_delay_ms": 95.2559,
+            "observed_delay_ms": 96.131,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "observation_id": 201699,
+            "predicted_delay_ms": 39.9913,
+            "observed_delay_ms": 42.439,
+            "rule_delay_ms": 20.5865,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "observation_id": 203709,
+            "predicted_delay_ms": 24.0487,
+            "observed_delay_ms": 24.6156,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "observation_id": 205719,
+            "predicted_delay_ms": 28.2643,
+            "observed_delay_ms": 29.8389,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "SAT-005",
+            "observation_id": 207729,
+            "predicted_delay_ms": 94.5261,
+            "observed_delay_ms": 92.1499,
+            "rule_delay_ms": 52.3462,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "observation_id": 209739,
+            "predicted_delay_ms": 82.1305,
+            "observed_delay_ms": 80.3839,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "SHIP-006",
+            "observation_id": 211749,
+            "predicted_delay_ms": 221.59,
+            "observed_delay_ms": 223.597,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "SHIP-007",
+            "observation_id": 213759,
+            "predicted_delay_ms": 213.171,
+            "observed_delay_ms": 206.549,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "UAV-007",
+            "observation_id": 215769,
+            "predicted_delay_ms": 82.1743,
+            "observed_delay_ms": 88.7483,
+            "rule_delay_ms": 61.1731,
+            "selected": true,
+            "model_round": 4
+          }
+        ]
+      },
+      {
+        "round": 6,
+        "accuracy": null,
+        "loss": 0.00530024,
+        "participants_count": 9,
+        "selected_count": 9,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.265311,
+        "metrics": {
+          "latency_ms": 47.7021,
+          "communication_time_ms": 224.919,
+          "energy_j": 2.65311,
+          "bandwidth_mbps": 37.0267,
+          "data_transferred_mb": 0.0659866,
+          "packet_loss_ratio": 0.00724439,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "GND-IRN-001",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.00420534,
+            "training_duration_s": 0.0430468,
+            "latency_ms": 46.8447,
+            "communication_time_ms": 97.6359,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.00921812,
+            "training_duration_s": 0.0368231,
+            "latency_ms": 20.5609,
+            "communication_time_ms": 44.387,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.00833013,
+            "training_duration_s": 0.0404345,
+            "latency_ms": 11.0484,
+            "communication_time_ms": 23.3176,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.00868208,
+            "training_duration_s": 0.0544879,
+            "latency_ms": 13.4866,
+            "communication_time_ms": 28.7854,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-005",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.00439043,
+            "training_duration_s": 0.0342385,
+            "latency_ms": 43.6819,
+            "communication_time_ms": 104.068,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.0044573,
+            "training_duration_s": 0.0382146,
+            "latency_ms": 39.4358,
+            "communication_time_ms": 86.4084,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-006",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.00253346,
+            "training_duration_s": 0.0401125,
+            "latency_ms": 109.504,
+            "communication_time_ms": 224.919,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-007",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.00248917,
+            "training_duration_s": 0.0599118,
+            "latency_ms": 101.446,
+            "communication_time_ms": 205.399,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "UAV-007",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.00406465,
+            "training_duration_s": 0.0588385,
+            "latency_ms": 43.3114,
+            "communication_time_ms": 85.4588,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 4.7012,
+          "rmse_ms": 6.68165,
+          "r2": 0.991351,
+          "validation_mae_ms": 4.83517,
+          "persistence_mae_ms": 4.70241,
+          "test_samples": 3600,
+          "selection_source": "global_model_previous_round",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "GND-IRN-001",
+            "observation_id": 199690,
+            "predicted_delay_ms": 96.1051,
+            "observed_delay_ms": 97.6359,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "observation_id": 201700,
+            "predicted_delay_ms": 42.4298,
+            "observed_delay_ms": 44.387,
+            "rule_delay_ms": 20.5865,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "observation_id": 203710,
+            "predicted_delay_ms": 24.6172,
+            "observed_delay_ms": 23.3176,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "observation_id": 205720,
+            "predicted_delay_ms": 29.8383,
+            "observed_delay_ms": 28.7854,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "SAT-005",
+            "observation_id": 207730,
+            "predicted_delay_ms": 92.1393,
+            "observed_delay_ms": 104.068,
+            "rule_delay_ms": 52.3462,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "observation_id": 209740,
+            "predicted_delay_ms": 80.3767,
+            "observed_delay_ms": 86.4084,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "SHIP-006",
+            "observation_id": 211750,
+            "predicted_delay_ms": 223.54,
+            "observed_delay_ms": 224.919,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "SHIP-007",
+            "observation_id": 213760,
+            "predicted_delay_ms": 206.511,
+            "observed_delay_ms": 205.399,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "UAV-007",
+            "observation_id": 215770,
+            "predicted_delay_ms": 88.7354,
+            "observed_delay_ms": 85.4588,
+            "rule_delay_ms": 61.1731,
+            "selected": true,
+            "model_round": 5
+          }
+        ]
+      },
+      {
+        "round": 7,
+        "accuracy": null,
+        "loss": 0.00529974,
+        "participants_count": 9,
+        "selected_count": 9,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.278861,
+        "metrics": {
+          "latency_ms": 48.5116,
+          "communication_time_ms": 217.351,
+          "energy_j": 2.78861,
+          "bandwidth_mbps": 36.3451,
+          "data_transferred_mb": 0.0659866,
+          "packet_loss_ratio": 0.00810352,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "GND-IRN-001",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.00420144,
+            "training_duration_s": 0.080451,
+            "latency_ms": 47.545,
+            "communication_time_ms": 97.3071,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.0092114,
+            "training_duration_s": 0.064919,
+            "latency_ms": 21.4877,
+            "communication_time_ms": 43.4072,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.00832446,
+            "training_duration_s": 0.0418249,
+            "latency_ms": 10.4464,
+            "communication_time_ms": 23.2315,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.0086752,
+            "training_duration_s": 0.0363501,
+            "latency_ms": 12.9943,
+            "communication_time_ms": 26.5735,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-005",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.00439832,
+            "training_duration_s": 0.0338679,
+            "latency_ms": 49.0742,
+            "communication_time_ms": 104.419,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.0044574,
+            "training_duration_s": 0.0467784,
+            "latency_ms": 42.2877,
+            "communication_time_ms": 81.3621,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-006",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.00253107,
+            "training_duration_s": 0.0615103,
+            "latency_ms": 110.123,
+            "communication_time_ms": 217.351,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-007",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.00248684,
+            "training_duration_s": 0.0410349,
+            "latency_ms": 100.898,
+            "communication_time_ms": 192.645,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "UAV-007",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.00406189,
+            "training_duration_s": 0.0380967,
+            "latency_ms": 41.748,
+            "communication_time_ms": 83.6428,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 4.7011,
+          "rmse_ms": 6.68134,
+          "r2": 0.991352,
+          "validation_mae_ms": 4.835,
+          "persistence_mae_ms": 4.70241,
+          "test_samples": 3600,
+          "selection_source": "global_model_previous_round",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "GND-IRN-001",
+            "observation_id": 199691,
+            "predicted_delay_ms": 97.6099,
+            "observed_delay_ms": 97.3071,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "observation_id": 201701,
+            "predicted_delay_ms": 44.3781,
+            "observed_delay_ms": 43.4072,
+            "rule_delay_ms": 20.5865,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "observation_id": 203711,
+            "predicted_delay_ms": 23.3219,
+            "observed_delay_ms": 23.2315,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "observation_id": 205721,
+            "predicted_delay_ms": 28.7873,
+            "observed_delay_ms": 26.5735,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "SAT-005",
+            "observation_id": 207731,
+            "predicted_delay_ms": 104.051,
+            "observed_delay_ms": 104.419,
+            "rule_delay_ms": 52.3462,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "observation_id": 209741,
+            "predicted_delay_ms": 86.4003,
+            "observed_delay_ms": 81.3621,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "SHIP-006",
+            "observation_id": 211751,
+            "predicted_delay_ms": 224.861,
+            "observed_delay_ms": 217.351,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "SHIP-007",
+            "observation_id": 213761,
+            "predicted_delay_ms": 205.368,
+            "observed_delay_ms": 192.645,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "UAV-007",
+            "observation_id": 215771,
+            "predicted_delay_ms": 85.4509,
+            "observed_delay_ms": 83.6428,
+            "rule_delay_ms": 61.1731,
+            "selected": true,
+            "model_round": 6
+          }
+        ]
+      },
+      {
+        "round": 8,
+        "accuracy": null,
+        "loss": 0.00529925,
+        "participants_count": 9,
+        "selected_count": 9,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.24634,
+        "metrics": {
+          "latency_ms": 46.9051,
+          "communication_time_ms": 211.005,
+          "energy_j": 2.4634,
+          "bandwidth_mbps": 37.2534,
+          "data_transferred_mb": 0.0659866,
+          "packet_loss_ratio": 0.00731383,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "GND-IRN-001",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.00419773,
+            "training_duration_s": 0.0361086,
+            "latency_ms": 47.3921,
+            "communication_time_ms": 98.665,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.00920352,
+            "training_duration_s": 0.0372766,
+            "latency_ms": 21.0218,
+            "communication_time_ms": 43.6471,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.00831687,
+            "training_duration_s": 0.0547405,
+            "latency_ms": 10.4067,
+            "communication_time_ms": 25.6112,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.0086723,
+            "training_duration_s": 0.0339877,
+            "latency_ms": 11.961,
+            "communication_time_ms": 24.9123,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-005",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.0043943,
+            "training_duration_s": 0.0639603,
+            "latency_ms": 49.2317,
+            "communication_time_ms": 94.781,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.00445603,
+            "training_duration_s": 0.0618094,
+            "latency_ms": 39.9003,
+            "communication_time_ms": 81.1813,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-006",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.00252967,
+            "training_duration_s": 0.0353355,
+            "latency_ms": 106.565,
+            "communication_time_ms": 211.005,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-007",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.00248776,
+            "training_duration_s": 0.0344171,
+            "latency_ms": 94.7852,
+            "communication_time_ms": 196.773,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "UAV-007",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.00405844,
+            "training_duration_s": 0.038881,
+            "latency_ms": 40.8823,
+            "communication_time_ms": 82.5873,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 4.70086,
+          "rmse_ms": 6.68083,
+          "r2": 0.991353,
+          "validation_mae_ms": 4.83455,
+          "persistence_mae_ms": 4.70241,
+          "test_samples": 3600,
+          "selection_source": "global_model_previous_round",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "GND-IRN-001",
+            "observation_id": 199692,
+            "predicted_delay_ms": 97.2818,
+            "observed_delay_ms": 98.665,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "observation_id": 201702,
+            "predicted_delay_ms": 43.3998,
+            "observed_delay_ms": 43.6471,
+            "rule_delay_ms": 20.5865,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "observation_id": 203712,
+            "predicted_delay_ms": 23.2378,
+            "observed_delay_ms": 25.6112,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "observation_id": 205722,
+            "predicted_delay_ms": 26.5783,
+            "observed_delay_ms": 24.9123,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "SAT-005",
+            "observation_id": 207732,
+            "predicted_delay_ms": 104.406,
+            "observed_delay_ms": 94.781,
+            "rule_delay_ms": 52.3462,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "observation_id": 209742,
+            "predicted_delay_ms": 81.3619,
+            "observed_delay_ms": 81.1813,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "SHIP-006",
+            "observation_id": 211752,
+            "predicted_delay_ms": 217.308,
+            "observed_delay_ms": 211.005,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "SHIP-007",
+            "observation_id": 213762,
+            "predicted_delay_ms": 192.636,
+            "observed_delay_ms": 196.773,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "UAV-007",
+            "observation_id": 215772,
+            "predicted_delay_ms": 83.6408,
+            "observed_delay_ms": 82.5873,
+            "rule_delay_ms": 61.1731,
+            "selected": true,
+            "model_round": 7
+          }
+        ]
+      },
+      {
+        "round": 9,
+        "accuracy": null,
+        "loss": 0.00529876,
+        "participants_count": 9,
+        "selected_count": 9,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.26317,
+        "metrics": {
+          "latency_ms": 46.3628,
+          "communication_time_ms": 208.586,
+          "energy_j": 2.6317,
+          "bandwidth_mbps": 37.3076,
+          "data_transferred_mb": 0.0659866,
+          "packet_loss_ratio": 0.00682989,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "GND-IRN-001",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.00419373,
+            "training_duration_s": 0.0350304,
+            "latency_ms": 48.023,
+            "communication_time_ms": 97.1509,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.00919539,
+            "training_duration_s": 0.0385348,
+            "latency_ms": 21.1359,
+            "communication_time_ms": 47.4519,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.00831662,
+            "training_duration_s": 0.06024,
+            "latency_ms": 11.512,
+            "communication_time_ms": 25.6969,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.00866767,
+            "training_duration_s": 0.0371267,
+            "latency_ms": 11.1864,
+            "communication_time_ms": 27.3896,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-005",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.00439766,
+            "training_duration_s": 0.0329444,
+            "latency_ms": 44.8808,
+            "communication_time_ms": 85.6387,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.00445186,
+            "training_duration_s": 0.039252,
+            "latency_ms": 39.8145,
+            "communication_time_ms": 77.1215,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-006",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.00252787,
+            "training_duration_s": 0.0408071,
+            "latency_ms": 103.563,
+            "communication_time_ms": 208.586,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-007",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.00248574,
+            "training_duration_s": 0.0674317,
+            "latency_ms": 96.7712,
+            "communication_time_ms": 195.738,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "UAV-007",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.00405477,
+            "training_duration_s": 0.0575094,
+            "latency_ms": 40.3781,
+            "communication_time_ms": 88.6896,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 4.70083,
+          "rmse_ms": 6.68059,
+          "r2": 0.991354,
+          "validation_mae_ms": 4.83448,
+          "persistence_mae_ms": 4.70241,
+          "test_samples": 3600,
+          "selection_source": "global_model_previous_round",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "GND-IRN-001",
+            "observation_id": 199693,
+            "predicted_delay_ms": 98.6322,
+            "observed_delay_ms": 97.1509,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "observation_id": 201703,
+            "predicted_delay_ms": 43.6371,
+            "observed_delay_ms": 47.4519,
+            "rule_delay_ms": 20.5865,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "observation_id": 203713,
+            "predicted_delay_ms": 25.616,
+            "observed_delay_ms": 25.6969,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "observation_id": 205723,
+            "predicted_delay_ms": 24.9181,
+            "observed_delay_ms": 27.3896,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "SAT-005",
+            "observation_id": 207733,
+            "predicted_delay_ms": 94.7719,
+            "observed_delay_ms": 85.6387,
+            "rule_delay_ms": 52.3462,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "observation_id": 209743,
+            "predicted_delay_ms": 81.1786,
+            "observed_delay_ms": 77.1215,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "SHIP-006",
+            "observation_id": 211753,
+            "predicted_delay_ms": 210.96,
+            "observed_delay_ms": 208.586,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "SHIP-007",
+            "observation_id": 213763,
+            "predicted_delay_ms": 196.755,
+            "observed_delay_ms": 195.738,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "UAV-007",
+            "observation_id": 215773,
+            "predicted_delay_ms": 82.5831,
+            "observed_delay_ms": 88.6896,
+            "rule_delay_ms": 61.1731,
+            "selected": true,
+            "model_round": 8
+          }
+        ]
+      },
+      {
+        "round": 10,
+        "accuracy": null,
+        "loss": 0.00529827,
+        "participants_count": 9,
+        "selected_count": 9,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.377037,
+        "metrics": {
+          "latency_ms": 46.0782,
+          "communication_time_ms": 210.708,
+          "energy_j": 3.77037,
+          "bandwidth_mbps": 37.1791,
+          "data_transferred_mb": 0.0659866,
+          "packet_loss_ratio": 0.00666424,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "GND-IRN-001",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.00419004,
+            "training_duration_s": 0.0379366,
+            "latency_ms": 47.3194,
+            "communication_time_ms": 98.8599,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.0091926,
+            "training_duration_s": 0.0589468,
+            "latency_ms": 22.9406,
+            "communication_time_ms": 49.254,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.00830913,
+            "training_duration_s": 0.0473437,
+            "latency_ms": 11.552,
+            "communication_time_ms": 25.1712,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.00866667,
+            "training_duration_s": 0.034539,
+            "latency_ms": 12.3421,
+            "communication_time_ms": 23.6209,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-005",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.00440185,
+            "training_duration_s": 0.0393758,
+            "latency_ms": 40.6948,
+            "communication_time_ms": 88.6735,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.00444983,
+            "training_duration_s": 0.0315528,
+            "latency_ms": 37.8823,
+            "communication_time_ms": 78.5818,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-006",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.00252558,
+            "training_duration_s": 0.166329,
+            "latency_ms": 102.415,
+            "communication_time_ms": 210.708,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "SHIP-007",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.00248338,
+            "training_duration_s": 0.0396171,
+            "latency_ms": 96.274,
+            "communication_time_ms": 189.735,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "UAV-007",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.00405522,
+            "training_duration_s": 0.0640579,
+            "latency_ms": 43.2835,
+            "communication_time_ms": 95.2084,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 4.70044,
+          "rmse_ms": 6.6799,
+          "r2": 0.991356,
+          "validation_mae_ms": 4.83378,
+          "persistence_mae_ms": 4.70241,
+          "test_samples": 3600,
+          "selection_source": "global_model_previous_round",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "GND-IRN-001",
+            "observation_id": 199694,
+            "predicted_delay_ms": 97.1263,
+            "observed_delay_ms": 98.8599,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "GND-SAU-001",
+            "observation_id": 201704,
+            "predicted_delay_ms": 47.4417,
+            "observed_delay_ms": 49.254,
+            "rule_delay_ms": 20.5865,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "GND-SAU-002",
+            "observation_id": 203714,
+            "predicted_delay_ms": 25.7047,
+            "observed_delay_ms": 25.1712,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "GND-SDN-002",
+            "observation_id": 205724,
+            "predicted_delay_ms": 27.3967,
+            "observed_delay_ms": 23.6209,
+            "rule_delay_ms": 22.3462,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "SAT-005",
+            "observation_id": 207734,
+            "predicted_delay_ms": 85.6447,
+            "observed_delay_ms": 88.6735,
+            "rule_delay_ms": 52.3462,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "SAT-POLAR-026",
+            "observation_id": 209744,
+            "predicted_delay_ms": 77.128,
+            "observed_delay_ms": 78.5818,
+            "rule_delay_ms": 50.5865,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "SHIP-006",
+            "observation_id": 211754,
+            "predicted_delay_ms": 208.556,
+            "observed_delay_ms": 210.708,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "SHIP-007",
+            "observation_id": 213764,
+            "predicted_delay_ms": 195.736,
+            "observed_delay_ms": 189.735,
+            "rule_delay_ms": 162.346,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "UAV-007",
+            "observation_id": 215774,
+            "predicted_delay_ms": 88.6868,
+            "observed_delay_ms": 95.2084,
+            "rule_delay_ms": 61.1731,
+            "selected": true,
+            "model_round": 9
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -52,6 +52,52 @@ class NetworkLearningTests(unittest.TestCase):
                 "rounds":3, "client_count":2, "local_epochs":2, "batch_size":16,
                 "learning_rate":.03, "samples_per_client":40, "partition":"non_iid", "seed":19, **kwargs}
 
+    def test_regional_preview_and_training_use_only_nearby_clients_including_ground(self):
+        from backend.models.network_learning import NetworkDataset
+        with self.session() as db:
+            db.get(Node, "SEA").lng = 120
+            db.commit()
+        settings = self.payload(region_lat=0, region_lng=0, region_radius_km=130,
+                                rounds=1, online_steps=1, local_epochs=1)
+        context = self.client.get(f"/api/fl/training-context?scenario_id={self.scenario_id}&region_lat=0&region_lng=0&region_radius_km=130").json()["data"]
+        self.assertEqual(set(context["candidate_pool"]), {"GROUND", "AIR"})
+        preview = self.client.post("/api/fl/preview", json=settings)
+        self.assertEqual(preview.status_code, 200, preview.text)
+        self.assertEqual(preview.json()["data"]["dataset_total"], 2 * 41)
+        for _ in range(2):
+            response = self.client.post("/api/fl/experiments", json=settings)
+            self.assertEqual(response.status_code, 202, response.text)
+            run = self.client.get(f"/api/fl/experiments/{response.json()['data']['id']}").json()["data"]
+            self.assertEqual(run["status"], "COMPLETED", run["error_message"])
+            self.assertEqual(set(run["config"]["candidate_pool"]), {"GROUND", "AIR"})
+            self.assertEqual({row["client_id"] for row in run["rounds"][0]["clients"]}, {"GROUND", "AIR"})
+            with self.session() as db:
+                self.assertEqual(set(db.get(NetworkDataset, run["dataset_id"]).config_json["profiles"]), {"GROUND", "AIR"})
+        rejected = self.client.post("/api/fl/experiments", json={**settings, "client_count": 3})
+        self.assertEqual(rejected.status_code, 400)
+        all_pool = self.client.get(f"/api/fl/training-context?scenario_id={self.scenario_id}&pool_mode=all").json()["data"]
+        self.assertEqual(all_pool["candidate_count"], 4)
+
+    def test_regional_selection_is_deterministic_respects_active_and_participant_pool(self):
+        from backend.models.participant import Participant
+        from backend.services.regional_pool_service import choose_region, ground_distance
+        self.assertAlmostEqual(ground_distance(0, 179, 0, -179), 222.38985, places=3)
+        with self.session() as db:
+            nodes = db.query(Node).all()
+            first, region = choose_region(nodes, radius_km=130)
+            second, _ = choose_region(list(reversed(nodes)), radius_km=130)
+            self.assertEqual([n.id for n in first], [n.id for n in second])
+            self.assertIn("GROUND", [n.id for n in first])
+            self.assertLessEqual(region["max_center_distance_km"], 130)
+            db.get(Node, "SEA").status = "OFFLINE"
+            db.add_all([Participant(node_id=name, selected=True, local_epochs=1, dataset_size=0)
+                        for name in ("GROUND", "AIR", "SEA")])
+            db.commit()
+        result = self.client.get(f"/api/fl/training-context?scenario_id={self.scenario_id}").json()["data"]
+        self.assertEqual(set(result["candidate_pool"]), {"GROUND", "AIR"})
+        invalid = self.client.get(f"/api/fl/training-context?scenario_id={self.scenario_id}&region_lat=0")
+        self.assertEqual(invalid.status_code, 422)
+
     def test_generator_repeatability_link_snapshot_and_temporal_boundaries(self):
         with self.session() as db:
             first = create_dataset(db, self.scenario_id, seed=19, samples_per_client=40)
@@ -74,6 +120,33 @@ class NetworkLearningTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             select_clients("Predictive",list(profiles),profiles,1,1,2,.1,predicted_delays={"A":float("nan"),"B":2})
 
+    def test_dynamic_profiles_reproduce_bursts_regimes_and_keep_target_alignment(self):
+        from backend.services.network_dataset_service import temporal_channel_state
+        self.assertEqual(temporal_channel_state("normal", 0, .3, 0), (.3, 1., 1., 0.))
+        self.assertGreater(temporal_channel_state("bursty_congestion", 0, .3, 0)[1], 1)
+        self.assertEqual(temporal_channel_state("bursty_congestion", 8, .3, 0)[1], 1)
+        self.assertEqual(temporal_channel_state("regime_switching", 59, .3, 0)[1], 1)
+        self.assertGreater(temporal_channel_state("regime_switching", 60, .3, 0)[1], 1)
+        self.assertEqual(temporal_channel_state("regime_switching", 120, .3, 0)[1], 1)
+        for profile in ("bursty_congestion", "regime_switching"):
+            with self.session() as db:
+                first = create_dataset(db, self.scenario_id, seed=19, samples_per_client=40, network_profile=profile)
+                second = create_dataset(db, self.scenario_id, seed=19, samples_per_client=40, network_profile=profile)
+                self.assertEqual(first.fingerprint, second.fingerprint)
+                self.assertEqual(first.generator_version, "sagsin-network-v2-dynamic")
+                rows = db.query(NetworkObservation).filter_by(dataset_id=first.id, client_id="GROUND").order_by(NetworkObservation.sequence).all()
+                self.assertEqual(len(rows), 140)
+                by_sequence = {row.sequence: row for row in rows}
+                for row in rows:
+                    following = by_sequence.get(row.sequence + 1)
+                    if following:
+                        self.assertAlmostEqual(row.target_delay_ms, following.features_json["observed_delay_ms"])
+                self.assertGreater(max(row.features_json["packet_loss_ratio"] for row in rows), .035)
+            response = self.client.post("/api/fl/experiments", json=self.payload(network_profile=profile, rounds=2))
+            self.assertEqual(response.status_code, 202, response.text)
+            detail = self.client.get(f"/api/fl/experiments/{response.json()['data']['id']}").json()["data"]
+            self.assertEqual(detail["status"], "COMPLETED", detail["error_message"])
+
     def test_main_startup_adds_missing_tables_and_preserves_data_on_reload(self):
         from sqlalchemy import inspect
         from backend.models.network_learning import NetworkDataset, NetworkRoundPrediction
@@ -85,6 +158,7 @@ class NetworkLearningTests(unittest.TestCase):
                                   learning_rate=.01, status="COMPLETED", config_json={})
             db.add(existing); db.commit()
             existing_id = existing.id
+        expected_total_nodes = None
         with patch("backend.main.engine", self.engine):
             for _ in range(2):
                 with TestClient(app) as client:
@@ -94,7 +168,13 @@ class NetworkLearningTests(unittest.TestCase):
                     self.assertEqual(client.get("/api/fl/datasets").status_code, 200)
                     self.assertIn("Federated network prediction", client.get("/fl.html").text)
                 with self.session() as db:
-                    self.assertEqual(db.query(Node).count(), 4)
+                    self.assertEqual(db.query(Node).filter_by(scenario_id=self.scenario_id).count(), 4)
+                    # Startup also bootstraps the separate global scenario.
+                    # Preserve this fixture and ensure reload adds no duplicates.
+                    total_nodes = db.query(Node).count()
+                    if expected_total_nodes is None:
+                        expected_total_nodes = total_nodes
+                    self.assertEqual(total_nodes, expected_total_nodes)
                     self.assertEqual(db.get(Experiment, existing_id).status, "COMPLETED")
                     self.assertEqual(db.query(NetworkDataset).count(), 0)
         self.assertIn("network_observations", inspect(self.engine).get_table_names())
@@ -176,6 +256,93 @@ class NetworkLearningTests(unittest.TestCase):
         with self.session() as db:
             online_start = db.query(NetworkObservation).filter_by(split="online").order_by(NetworkObservation.sequence).first().sequence
         self.assertTrue(all(row[2] == online_start for call in calls[2:] for row in call if row[1] == "online"))
+
+    def test_preview_dynamic_limits_and_online_capacity(self):
+        request = self.payload(samples_per_client=2500, online_steps=150, rounds=140, batch_size=1024,
+                               local_epochs=25, learning_rate=.00001, timeout_ms=200000)
+        response = self.client.post("/api/fl/preview", json=request)
+        self.assertEqual(response.status_code, 200, response.text)
+        data = response.json()["data"]
+        self.assertEqual(data["dataset_total"], 4 * 2650)
+        self.assertEqual(data["pool_counts"]["train"], 4 * 1500)
+        self.assertEqual(data["first_round_samples"], {"min":3000,"max":3000})
+        self.assertEqual(data["parameters"], 961)
+        bad = self.client.post("/api/fl/experiments", json=self.payload(rounds=101, online_steps=100))
+        self.assertEqual(bad.status_code, 400)
+        with self.session() as db:
+            dataset = create_dataset(db, self.scenario_id, seed=19, samples_per_client=40, online_steps=125)
+            db.commit()
+            dataset_id = dataset.id
+        reused = self.client.post("/api/fl/preview", json=self.payload(dataset_id=dataset_id, rounds=120))
+        self.assertEqual(reused.status_code, 200, reused.text)
+        self.assertEqual(reused.json()["data"]["per_client"]["online"]["min"],125)
+        rejected = self.client.post("/api/fl/experiments", json=self.payload(dataset_id=dataset_id, rounds=126))
+        self.assertEqual(rejected.status_code, 400, rejected.text)
+
+    def test_more_than_fifty_clients_and_live_progress_survive_reconnect(self):
+        with self.session() as db:
+            db.add_all([Node(id=f"EXTRA-{i}", type="GROUND", lat=0, lng=0, alt=0, bandwidth=100,
+                             latency=2, status="ACTIVE", scenario_id=self.scenario_id) for i in range(56)])
+            db.commit()
+        response = self.client.post("/api/fl/experiments", json=self.payload(client_count=60, rounds=1, online_steps=1, local_epochs=1))
+        self.assertEqual(response.status_code,202,response.text)
+        identifier = response.json()["data"]["id"]
+        detail = self.client.get(f"/api/fl/experiments/{identifier}").json()["data"]
+        self.assertEqual(detail["status"],"COMPLETED",detail["error_message"])
+        self.assertEqual(detail["rounds"][0]["selected_count"],60)
+        state = self.client.get(f"/api/fl/experiments/{identifier}/progress").json()["data"]
+        self.assertEqual(state["progress"]["phase"],"completed")
+        self.assertEqual(len(state["progress"]["clients"]),60)
+        self.assertEqual(state["completed_rounds"],1)
+        for _ in range(2):
+            stream = self.client.get(f"/api/fl/experiments/{identifier}/events")
+            self.assertEqual(stream.status_code,200)
+            self.assertIn("event: progress",stream.text)
+            self.assertIn('"status": "COMPLETED"',stream.text)
+
+    def test_training_publishes_before_local_work_and_failure_is_durable(self):
+        from backend.services import network_prediction_service as service
+        original = service.train_local
+        observed = []
+        def trace(state, rows, config, seed):
+            with self.session() as db:
+                experiment = db.query(Experiment).order_by(Experiment.id.desc()).first()
+                live = experiment.config_json["training_progress"]
+                observed.append(live["clients"][rows[0].client_id]["status"])
+            return original(state,rows,config,seed)
+        with patch.object(service,"train_local",side_effect=trace):
+            result = self.client.post("/api/fl/experiments",json=self.payload(rounds=1))
+        self.assertEqual(result.status_code,202,result.text)
+        self.assertEqual(observed,["TRAINING","TRAINING"])
+        failed = self.client.post("/api/fl/experiments",json=self.payload(dropout_probability=1,rounds=1))
+        identifier = failed.json()["data"]["id"]
+        state = self.client.get(f"/api/fl/experiments/{identifier}/progress").json()["data"]
+        self.assertEqual(state["status"],"FAILED")
+        self.assertEqual(state["progress"]["phase"],"failed")
+
+    def test_preview_reads_custom_splits_and_selected_pool_without_mutation(self):
+        from backend.models.participant import Participant
+        with self.session() as db:
+            dataset = create_dataset(db, self.scenario_id, seed=19, samples_per_client=40)
+            dataset_id=dataset.id
+            db.query(NetworkObservation).filter(NetworkObservation.dataset_id==dataset_id,
+                NetworkObservation.split=="train", NetworkObservation.sequence>=12).delete()
+            db.add(Participant(node_id="GROUND",dataset_size=0,local_epochs=25,selected=True))
+            db.add(Participant(node_id="AIR",dataset_size=0,local_epochs=30,selected=True))
+            db.commit()
+            count_before=db.query(NetworkObservation).count()
+        response=self.client.post("/api/fl/preview",json=self.payload(dataset_id=dataset_id))
+        self.assertEqual(response.status_code,200,response.text)
+        data=response.json()["data"]
+        self.assertEqual(data["candidate_count"],2)
+        self.assertEqual(data["dataset_client_count"],4)
+        self.assertEqual(data["pool_counts"]["train"],24)
+        self.assertEqual(data["per_client"]["train"],{"min":12,"max":12})
+        self.assertEqual(data["dataset_total"],4*128)
+        self.assertEqual(data["epoch_overrides"],2)
+        with self.session() as db:
+            self.assertEqual(db.query(NetworkObservation).count(),count_before)
+            self.assertEqual(db.query(Experiment).count(),0)
 
 
 if __name__ == "__main__":

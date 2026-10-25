@@ -236,7 +236,7 @@ class FedAvgRuntimeTests(unittest.TestCase):
             "timeout_ms": 30000,
         })
         self.assertEqual(response.status_code, 400)
-        self.assertIn("ACTIVE candidate nodes", response.json()["detail"])
+        self.assertIn("client hợp lệ", response.json()["detail"])
 
     def test_api_worker_trains_and_persists_round_and_clients(self):
         def load_tiny_dataset(manager):

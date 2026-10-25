@@ -1,0 +1,252 @@
+[
+  {
+    "lat": 16,
+    "lng": 108,
+    "service": "Message",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-CHN-002"
+    ]
+  },
+  {
+    "lat": 16,
+    "lng": 108,
+    "service": "Video Call",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-CHN-002"
+    ]
+  },
+  {
+    "lat": 16,
+    "lng": 108,
+    "service": "Watch Video",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-CHN-002"
+    ]
+  },
+  {
+    "lat": 16,
+    "lng": 108,
+    "service": "Gaming",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-CHN-002"
+    ]
+  },
+  {
+    "lat": 16,
+    "lng": 108,
+    "service": "Emergency",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-CHN-002"
+    ]
+  },
+  {
+    "lat": 0,
+    "lng": -150,
+    "service": "Message",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-MEX-002"
+    ]
+  },
+  {
+    "lat": 0,
+    "lng": -150,
+    "service": "Video Call",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-MEX-002"
+    ]
+  },
+  {
+    "lat": 0,
+    "lng": -150,
+    "service": "Watch Video",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-MEX-002"
+    ]
+  },
+  {
+    "lat": 0,
+    "lng": -150,
+    "service": "Gaming",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-MEX-002"
+    ]
+  },
+  {
+    "lat": 0,
+    "lng": -150,
+    "service": "Emergency",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-MEX-002"
+    ]
+  },
+  {
+    "lat": 85,
+    "lng": 30,
+    "service": "Message",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-RUS-002"
+    ]
+  },
+  {
+    "lat": 85,
+    "lng": 30,
+    "service": "Video Call",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-RUS-002"
+    ]
+  },
+  {
+    "lat": 85,
+    "lng": 30,
+    "service": "Watch Video",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-RUS-002"
+    ]
+  },
+  {
+    "lat": 85,
+    "lng": 30,
+    "service": "Gaming",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-RUS-002"
+    ]
+  },
+  {
+    "lat": 85,
+    "lng": 30,
+    "service": "Emergency",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-RUS-002"
+    ]
+  },
+  {
+    "lat": -85,
+    "lng": -60,
+    "service": "Message",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-ARG-001"
+    ]
+  },
+  {
+    "lat": -85,
+    "lng": -60,
+    "service": "Video Call",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-ARG-001"
+    ]
+  },
+  {
+    "lat": -85,
+    "lng": -60,
+    "service": "Watch Video",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-ARG-001"
+    ]
+  },
+  {
+    "lat": -85,
+    "lng": -60,
+    "service": "Gaming",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-ARG-001"
+    ]
+  },
+  {
+    "lat": -85,
+    "lng": -60,
+    "service": "Emergency",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-ARG-001"
+    ]
+  },
+  {
+    "lat": 40,
+    "lng": -100,
+    "service": "Message",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-CAN-002"
+    ]
+  },
+  {
+    "lat": 40,
+    "lng": -100,
+    "service": "Video Call",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-CAN-002"
+    ]
+  },
+  {
+    "lat": 40,
+    "lng": -100,
+    "service": "Watch Video",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-CAN-002"
+    ]
+  },
+  {
+    "lat": 40,
+    "lng": -100,
+    "service": "Gaming",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-CAN-002"
+    ]
+  },
+  {
+    "lat": 40,
+    "lng": -100,
+    "service": "Emergency",
+    "code": "ok",
+    "checkpoint": 5,
+    "path": [
+      "GND-CAN-002"
+    ]
+  }
+]

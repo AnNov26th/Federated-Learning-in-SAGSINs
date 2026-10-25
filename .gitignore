@@ -3,8 +3,12 @@ document/
 __pycache__/
 *.pyc
 .agents/
-data/network_demo/
-data/training_reset_backups/
-data/database_backups/
-data/network_benchmarks/
+data/output/network_demo/
+data/output/training_ui_check/
+data/output/training_reset_backups/
+data/output/database_backups/
+data/output/network_benchmarks/
 docs/
+
+data/input/network_benchmarks/
+data/input/mnist/

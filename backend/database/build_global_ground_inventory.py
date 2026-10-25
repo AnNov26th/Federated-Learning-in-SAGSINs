@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-DATA = ROOT / "data" / "global_ground_nodes"
+DATA = ROOT / "data" / "input" / "global_ground_nodes"
 TARGET_NODES = 50
 MAX_NODES_PER_COUNTRY = 2
 CONTINENT_NAMES = {

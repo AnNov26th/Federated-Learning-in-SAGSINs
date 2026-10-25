@@ -1,11 +1,15 @@
 import * as THREE from 'three';
 import { latLngToVector3 } from './3d/coordinates.js';
+import { createLiveArc, sampleLivePath } from './3d/live-links.js';
+import {setupResearchControls} from './research-controls.js';
 
 const $ = id => document.getElementById(id);
 const html = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 const number = value => Number.isFinite(value) ? value.toFixed(1) : '—';
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const MOBILITY_PLAYBACK_RATE = 20;
+const FLOW_NAMES={waiting:'Chờ kết nối',transmitting:'Đang truyền',completed:'Hoàn tất · đã giải phóng băng thông',expired:'Hết thời hạn chờ'};
+const transmitting=drop=>Boolean(drop.route) && (!drop.result.flow || drop.result.flow.state==='transmitting');
 
 async function api(path, options) {
     const response = await fetch(path, options);
@@ -23,23 +27,33 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
     let inspectorView = 'list', routeListScroll = 0, inspectorAnimation;
     let deletingAll = false;
     let topologyDrawing=null, baseTopology=null, topologyRequest=0;
+    let researchUI=null;
     const drawings = new Map();
+    let markersById = new Map();
+    const nodePosition = id => {
+        const marker = markersById.get(id);
+        return marker?.visible ? marker.position : null;
+    };
     const routeColors = [0x73dcf0, 0xa99aff, 0x7ee2b8, 0xffb878, 0xf48fc8, 0x8fbaff];
     const colorFor = drop => routeColors[Math.abs(drop.id) % routeColors.length];
     const status = message => { $('routing-status').textContent = message; };
     const activeDrop = () => droppedMarkers.find(d => d.id === selectedId);
     const config = () => ({ scenario_id: Number($('routing-scenario').value), policy: $('routing-policy').value,
+        source_device: $('routing-source-device').value,
+        duration_s:Number($('routing-duration').value),wait_timeout_s:Number($('routing-wait').value),
         experiment_id: Number($('routing-model').value) || null, target_id: $('routing-target').value || null,
         topology: $('routing-topology').value,
+        routing_scope: $('routing-global').checked ? 'global' : 'local',
+        local_radius_km: Number($('routing-radius').value),
         access_radius_km: $('routing-global').checked ? null : Number($('routing-radius').value),
         required_bandwidth_mbps: $('routing-demand').value === '' ? null : Number($('routing-demand').value),
         load_ratio: Number($('routing-load').value) / 100,
         allow_load_reduction: $('routing-reduce-load').checked,
-        allow_reposition: true, mobility_boost: Number($('routing-mobility-boost').value),
+        allow_reposition: $('routing-global').checked && $('routing-source-device').value !== 'network_gateway', mobility_boost: Number($('routing-mobility-boost').value),
         auto_train: $('routing-auto-train').checked });
 
     function validConfig() {
-        return Boolean($('routing-scenario').value) && $('routing-radius').checkValidity() && $('routing-demand').checkValidity() && $('routing-mobility-boost').checkValidity();
+        return Boolean($('routing-scenario').value) && $('routing-duration').checkValidity() && $('routing-wait').checkValidity() && $('routing-radius').checkValidity() && $('routing-demand').checkValidity() && $('routing-mobility-boost').checkValidity();
     }
 
     $('routing-global').addEventListener('change', () => {
@@ -47,8 +61,20 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
         $('routing-radius').required = !$('routing-global').checked;
     });
 
+    let configuredScenario = null;
     function updateOptions() {
         const scenario = Number($('routing-scenario').value);
+        if (configuredScenario !== scenario) {
+            const research = (context.research_regions || []).some(row => row.scenario_id === scenario);
+            $('routing-source-device').value = research ? 'auto' : 'network_gateway';
+            $('routing-global').checked = !research;
+            configuredScenario = scenario;
+        }
+        $('routing-radius').disabled = $('routing-global').checked;
+        $('routing-radius').required = !$('routing-global').checked;
+        if(activeDrop()?.config.scenario_id!==scenario){selectedId=null;inspectorView='list';}
+        $('research-panel').hidden=!(context.research_regions || []).some(row=>row.scenario_id===scenario);
+        researchUI?.poll();
         const modelId = $('routing-model').value, targetId = $('routing-target').value;
         const models = context.models.filter(m => m.scenario_id === scenario);
         $('routing-model').innerHTML = '<option value="">Tự chọn checkpoint mới nhất</option>' + models.map(m => `<option value="${m.experiment_id}">#${m.experiment_id} · ${html(m.algorithm)} · round ${m.round}</option>`).join('');
@@ -64,6 +90,7 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
         if (targets.some(m => m.userData.id === targetId)) $('routing-target').value = targetId;
         for (const marker of nodeMarkers) marker.visible = marker.userData.scenario_id === scenario;
         refreshTopology();
+        renderDroppedMarkers();
     }
 
     async function loadContext() {
@@ -71,9 +98,16 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
         const previous = $('routing-scenario').value;
         $('routing-scenario').innerHTML = context.scenarios.map(s => `<option value="${s.id}">${html(s.name)} (#${s.id})</option>`).join('') || '<option value="">Chưa có scenario</option>';
         if (context.scenarios.some(s => String(s.id) === previous)) $('routing-scenario').value = previous;
-        else if (context.models[0]) $('routing-scenario').value = context.models[0].scenario_id;
+        else {
+            const regional = new Set((context.research_regions || []).map(row => row.scenario_id));
+            const global = context.scenarios.find(row => !regional.has(row.id));
+            if (global) $('routing-scenario').value = global.id;
+        }
         updateOptions();
     }
+    window.addEventListener('fl-checkpoint-ready', () => {
+        loadContext().catch(() => { $('routing-readiness').textContent='Chưa cập nhật được checkpoint mới; hãy thử cập nhật mạng.'; });
+    });
 
     function disposeObject(object) {
         object.traverse(child => {
@@ -109,89 +143,74 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
     function drawTopology(snapshot,key) {
         if (topologyDrawing?.key===key) return;
         if (topologyDrawing) disposeObject(topologyDrawing.group);
-        const positions=new Map(snapshot.nodes.map(n=>[n.id,latLngToVector3(n.lat,n.lng,n.alt)]));
-        const group=new THREE.Group();
+        const group=new THREE.Group(), segments=[];
         for (const link of snapshot.links) {
-            const a=positions.get(link.source), b=positions.get(link.target); if (!a || !b) continue;
-            const material=link.estimated ? new THREE.LineDashedMaterial({color:0x6b94b9,dashSize:.025,gapSize:.045,transparent:true,opacity:.12,depthWrite:false})
-                : new THREE.LineBasicMaterial({color:0x86b5c5,transparent:true,opacity:.22,depthWrite:false});
-            const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(arc(a,b)),material);
-            if (link.estimated) line.computeLineDistances(); group.add(line);
+            const segment=createLiveArc({from:()=>nodePosition(link.source),to:()=>nodePosition(link.target),
+                color:link.estimated ? 0x6b94b9 : 0x86b5c5,dashed:Boolean(link.estimated),opacity:link.estimated ? .12 : .22});
+            segments.push(segment); group.add(segment.line);
         }
-        scene3D.earth.add(group); topologyDrawing={key,group};
+        scene3D.earth.add(group); topologyDrawing={key,group,segments};
         $('topology-caption').textContent=`${snapshot.links.length}/${snapshot.total_links} link · liền: đã lưu · đứt: ước tính.`;
         $('topology-caption').title=`Hiện một phần topology để dễ quan sát, chọn ${snapshot.neighbors_shown} lân cận gần nhất cho mỗi node. Định tuyến vẫn xét toàn bộ liên kết hợp lệ.`;
     }
 
-    function arc(from, to) {
-        const points = [], a = from.clone().normalize(), b = to.clone().normalize();
-        const rotation = new THREE.Quaternion().setFromUnitVectors(a, b);
-        const steps = Math.max(12, Math.ceil(a.angleTo(b) * 24));
-        for (let step = 0; step <= steps; step++) {
-            const t = step / steps;
-            points.push(a.clone().applyQuaternion(new THREE.Quaternion().slerp(rotation, t))
-                .multiplyScalar(THREE.MathUtils.lerp(from.length(), to.length(), t) + .025 + Math.sin(Math.PI*t)*.06));
+    function routeSegments(drop, route, group, baseline = false) {
+        const ids = route.path;
+        const fixed = new Map((route.positions || []).map(node=>[node.id,latLngToVector3(node.lat,node.lng,node.alt)]));
+        const position = id => drop.result.routing_scope?.mode === 'local' ? fixed.get(id) : nodePosition(id);
+        const segments = [];
+        for (let index = 0; index < ids.length; index++) {
+            const segment = createLiveArc({
+                from:index === 0 ? () => drop.marker.position : () => position(ids[index-1]),
+                to:() => position(ids[index]),
+                color:baseline ? 0xb4a0ef : index === 0 ? 0xe9b670 : colorFor(drop),
+                dashed:baseline || index === 0 || Boolean(route.hops[index-1]?.estimated),
+                opacity:baseline ? .6 : .62
+            });
+            group.add(segment.line); segments.push(segment);
         }
-        return points;
-    }
-
-    function routePoints(drop, route) {
-        const positions = [drop.marker.position.clone(), ...route.positions.map(n => latLngToVector3(n.lat, n.lng, n.alt))];
-        const segments = positions.slice(1).map((to, i) => arc(positions[i], to));
-        return { access: segments[0], backbone: segments.slice(1).flat(), all: segments.flat() };
+        return segments;
     }
 
     function drawRoute(drop) {
         disposeRoute(drop.id);
         if (!drop.route) return;
+        if(drop.result.flow && drop.result.flow.state!=='transmitting')return;
         if (drop.mobility && !drop.mobility.completed) { drawMobility(drop); return; }
-        const group = new THREE.Group(), points = routePoints(drop, drop.route);
-        const addLine = (positions, color, dashed = false) => {
-            if (positions.length < 2) return;
-            const material = dashed ? new THREE.LineDashedMaterial({ color, dashSize:.035, gapSize:.025, transparent:true, opacity:.9 })
-                : new THREE.LineBasicMaterial({ color, transparent:true, opacity:.95 });
-            const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(positions), material);
-            if (dashed) line.computeLineDistances();
-            group.add(line);
-        };
-        addLine(points.access, 0xe9b670, true);
-        addLine(points.backbone, colorFor(drop), drop.route.estimated_hops > 0);
+        const group = new THREE.Group(), segments = routeSegments(drop,drop.route,group);
         const baseline = new THREE.Group();
+        let baselineSegments = [];
         if (drop.result.baseline && !drop.result.comparison?.same_path && drop.result.policy === 'predictive') {
-            const baselinePoints = routePoints(drop, drop.result.baseline);
-            const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(baselinePoints.all), new THREE.LineDashedMaterial({ color:0xb4a0ef, dashSize:.045, gapSize:.03, transparent:true, opacity:.6 }));
-            line.computeLineDistances(); baseline.add(line);
+            baselineSegments = routeSegments(drop,drop.result.baseline,baseline,true);
         }
         group.add(baseline);
         const packet = new THREE.Mesh(new THREE.SphereGeometry(.022, 10, 10), new THREE.MeshBasicMaterial({ color:colorFor(drop), transparent:true }));
         group.add(packet);
         scene3D.earth.add(group);
-        drawings.set(drop.id, { group, baseline, packet, points:points.all, replayStart:performance.now() - (drop.id % 7) * 650 });
+        drawings.set(drop.id, { group, baseline, packet, segments, baselineSegments, replayStart:performance.now() - (drop.id % 7) * 650 });
         syncSelection();
     }
 
     function drawMobility(drop) {
-        const group = new THREE.Group();
+        const group = new THREE.Group(), segments=[];
         for (const move of drop.mobility.moves) {
             const start = latLngToVector3(move.from.lat,move.from.lng,move.from.alt);
             const end = latLngToVector3(move.to.lat,move.to.lng,move.to.alt);
-            const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(arc(start,end)),
-                new THREE.LineDashedMaterial({color:0xffc16b,dashSize:.04,gapSize:.025,transparent:true,opacity:.9}));
-            line.computeLineDistances(); group.add(line);
+            const segment = createLiveArc({from:()=>nodePosition(move.node_id) || start,to:()=>end,color:0xffc16b,dashed:true,opacity:.62});
+            segments.push(segment); group.add(segment.line);
             const destination = new THREE.Mesh(new THREE.SphereGeometry(.025,12,12),new THREE.MeshBasicMaterial({color:0xffc16b}));
             destination.position.copy(end); group.add(destination);
         }
         scene3D.earth.add(group);
-        drawings.set(drop.id,{group,moving:true});
+        drawings.set(drop.id,{group,moving:true,segments});
         syncSelection();
     }
 
     function placeMovingNodes(drop) {
         const moving = drop.mobility;
         if (!moving) return;
-        const markers = new Map(nodeMarkers.map(marker => [marker.userData.id,marker]));
         for (const move of moving.moves) {
-            const marker = markers.get(move.node_id); if (!marker) continue;
+            const marker = markersById.get(move.node_id); if (!marker) continue;
             const start=latLngToVector3(move.from.lat,move.from.lng,move.from.alt);
             const end=latLngToVector3(move.to.lat,move.to.lng,move.to.alt);
             const fraction=move.eta_s > 0 ? Math.min(1,moving.elapsed_s/move.eta_s) : 1;
@@ -209,6 +228,7 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
     }
 
     function syncSelection() {
+        markersById = new Map(nodeMarkers.map(marker => [marker.userData.id,marker]));
         const drop = activeDrop();
         const scenarioId = Number($('routing-scenario').value);
         const snapshot=drop?.result?.topology_preview && drop.config.scenario_id===scenarioId
@@ -216,7 +236,6 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
             : baseTopology?.key===`${scenarioId}:${$('routing-topology').value}` ? baseTopology : null;
         if (snapshot?.snapshot) drawTopology(snapshot.snapshot,snapshot.key);
         if (topologyDrawing) topologyDrawing.group.visible=visible && $('show-topology').checked && !(drop?.mobility && !drop.mobility.completed);
-        scene3D.earth.userData.routingSnapshot = droppedMarkers.some(event => event.route && event.config.scenario_id === scenarioId);
         for (const event of droppedMarkers) event.marker.visible = event.config.scenario_id === scenarioId;
         for (const [id, drawing] of drawings) {
             const selected = openPanel === 'route' && inspectorView === 'detail' && id === selectedId;
@@ -227,16 +246,26 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
         }
         for (const marker of nodeMarkers) {
             const n = marker.userData;
-            marker.position.copy(latLngToVector3(n.lat, n.lng, n.alt));
-            const flows = droppedMarkers.filter(event => event.route?.path.includes(n.id));
+            const flows = droppedMarkers.filter(event => event.route?.path.includes(n.id) && (!event.result.flow || event.result.flow.state==='transmitting'));
             n.reserved_bandwidth_mbps = flows.reduce((sum,event) => sum + event.result.profile.min_bandwidth, 0);
             n.remaining_bandwidth_mbps = Math.max(0, n.bandwidth - n.reserved_bandwidth_mbps);
             n.event_connections = flows.length;
         }
-        const markersById = new Map(nodeMarkers.map(marker => [marker.userData.id, marker]));
+        const deployed = new Map();
         for (const event of droppedMarkers) {
             if (!event.route || event.config.scenario_id !== scenarioId) continue;
-            for (const node of event.route.positions) markersById.get(node.id)?.position.copy(latLngToVector3(node.lat,node.lng,node.alt));
+            for (const node of event.route.positions) {
+                const marker = markersById.get(node.id), original = marker?.userData;
+                if (original && (Math.abs(original.lat-node.lat)>1e-9 || Math.abs(original.lng-node.lng)>1e-9 || Math.abs(original.alt-node.alt)>1e-9)) {
+                    deployed.set(node.id,latLngToVector3(node.lat,node.lng,node.alt));
+                }
+            }
+            for (const move of event.mobility?.moves || []) deployed.set(move.node_id,latLngToVector3(move.to.lat,move.to.lng,move.to.alt));
+        }
+        scene3D.earth.userData.deployedNodePositions = deployed;
+        for (const [id,position] of deployed) markersById.get(id)?.position.copy(position);
+        for (const event of droppedMarkers) {
+            if (event.config.scenario_id !== scenarioId) continue;
             if (event.mobility) placeMovingNodes(event);
         }
     }
@@ -246,7 +275,6 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
         const now=performance.now();
         for (const drop of droppedMarkers) {
             if (drop.config.scenario_id !== Number($('routing-scenario').value)) continue;
-            const drawing = drawings.get(drop.id);
             if (drop?.mobility && !drop.mobility.completed) {
                 const moving=drop.mobility;
                 const delta=Math.min(.1,elapsedSeconds); moving.last_frame=now;
@@ -262,12 +290,16 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
                 }
                 if (now-(moving.last_saved || 0)>5000) { moving.last_saved=now; savePlayback(drop); }
                 if (moving.elapsed_s>=moving.eta_s) finishMobility(drop);
-                continue;
             }
-            if (!drawing?.packet || reducedMotion.matches) continue;
-            const t = ((now - drawing.replayStart) % 5000) / 5000;
-            const scaled = t * (drawing.points.length - 1), index = Math.floor(scaled);
-            if (drawing.points[index]) drawing.packet.position.copy(drawing.points[index]).lerp(drawing.points[Math.min(index+1,drawing.points.length-1)], scaled-index);
+        }
+        if (topologyDrawing?.group.visible) for (const segment of topologyDrawing.segments) segment.update();
+        for (const drawing of drawings.values()) {
+            if (!drawing.group.visible) continue;
+            for (const segment of drawing.segments) segment.update();
+            if (drawing.baseline?.visible) for (const segment of drawing.baselineSegments) segment.update();
+            if (!drawing.packet) continue;
+            const t = ((now-drawing.replayStart)%5000)/5000;
+            drawing.packet.visible = !reducedMotion.matches && sampleLivePath(drawing.segments,t,drawing.packet.position);
         }
     };
 
@@ -328,9 +360,11 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
         $('route-state').dataset.state = drop?.result?.status || 'pending';
         const moving=drop?.mobility && !drop.mobility.completed;
         $('route-state').textContent = !drop ? 'Chờ điểm đặt' : drop.pending ? 'Đang tính' : moving ? 'Đang điều động · chưa truyền' : drop.result?.code === 'no_model' ? 'Thiếu checkpoint FL' : drop.route ? (drop.route.application.latency_budget_met ? 'Có tuyến · trong ngân sách' : 'Có tuyến · vượt ngân sách') : 'Chưa có tuyến';
+        if(drop?.result?.flow)$('route-state').textContent=FLOW_NAMES[drop.result.flow.state];
         $('route-summary').dataset.state=drop && !drop.pending && !drop.route ? 'unavailable' : 'idle';
         $('route-summary').textContent = !drop ? 'Chọn sự kiện rồi nhấn lên địa cầu để bắt đầu.'
             : drop.pending ? `${drop.name} · ${drop.status || 'Đang tính tuyến…'}`
+            : drop.result?.flow && !transmitting(drop) ? `${drop.name} · ${drop.action} · ${FLOW_NAMES[drop.result.flow.state]}`
             : drop.route ? `${drop.name} · ${drop.action} · ${drop.route.hop_count} hop · ${number(drop.route.application.estimated_one_way_ms)} ms một chiều ước tính · Xem Phân tích tuyến`
             : `${drop.name} · ${drop.action} · ${drop.status}`;
         $('route-back').hidden = inspectorView !== 'detail';
@@ -343,10 +377,10 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
             const events = droppedMarkers.filter(event => event.config.scenario_id === Number($('routing-scenario').value));
             $('route-inspector-title').textContent = 'Danh sách tuyến';
             $('route-state').dataset.state = 'idle';
-            $('route-state').textContent = `${events.filter(event => event.route).length}/${events.length} điểm có tuyến`;
+            $('route-state').textContent = `${events.filter(transmitting).length}/${events.length} điểm đang có kết nối`;
             $('route-inspector-content').innerHTML = events.length ? `<div class="route-list-actions"><p class="route-caption">Chọn một điểm để xem tuyến truyền và kết quả phân tích.</p><button class="toolbar-button route-delete-action" type="button" data-delete-all ${deletingAll || refreshing || events.some(event => (event.pending && !event.saved) || event.deleting) ? 'disabled' : ''}><i class="fa-solid fa-trash-can" aria-hidden="true"></i>${deletingAll ? 'Đang xóa…' : 'Xóa tất cả điểm'}</button></div><ul class="route-browser">${events.map(event => {
-                const label = event.pending ? 'Đang tính tuyến…' : event.mobility && !event.mobility.completed ? 'Đang điều động' : event.route ? `${event.route.hop_count} hop · ${number(event.route.application.estimated_one_way_ms)} ms` : 'Chưa có tuyến';
-                return `<li><button class="route-card" type="button" data-view-route="${event.id}" style="--flow-color:#${colorFor(event).toString(16).padStart(6,'0')}"><span class="route-card-heading"><strong>${html(event.name)} · ${html(event.action)}</strong><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></span><span class="route-card-status">${label}${event.result?.allocation ? ` · Giữ ${number(event.result.allocation.reserved_mbps)} Mbps` : ''}</span><span class="route-card-path">${event.route ? event.route.path.map(html).join(' → ') : html(event.status || 'Chờ kết quả phân tích')}</span><small>${event.lat.toFixed(2)}°, ${event.lng.toFixed(2)}°</small></button><button class="toolbar-button route-card-delete" type="button" data-delete-drop="${event.id}" aria-label="Xóa ${html(event.name)}" ${(event.pending && !event.saved) || event.deleting || deletingAll ? 'disabled' : ''}><i class="fa-solid fa-trash-can" aria-hidden="true"></i>${event.deleting ? 'Đang xóa…' : 'Xóa điểm'}</button></li>`;
+                const label = event.result?.flow ? FLOW_NAMES[event.result.flow.state] : event.pending ? 'Đang tính tuyến…' : event.mobility && !event.mobility.completed ? 'Đang điều động' : event.route ? `${event.route.hop_count} hop · ${number(event.route.application.estimated_one_way_ms)} ms` : 'Chưa có tuyến';
+                return `<li><button class="route-card" type="button" data-view-route="${event.id}" style="--flow-color:#${colorFor(event).toString(16).padStart(6,'0')}"><span class="route-card-heading"><strong>${html(event.name)} · ${html(event.action)}</strong><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></span><span class="route-card-status">${label}${event.result?.allocation && transmitting(event) ? ` · Giữ ${number(event.result.allocation.reserved_mbps)} Mbps` : ''}</span><span class="route-card-path">${event.route ? event.route.path.map(html).join(' → ') : html(event.status || 'Chờ kết quả phân tích')}</span><small>${event.lat.toFixed(2)}°, ${event.lng.toFixed(2)}°</small></button><button class="toolbar-button route-card-delete" type="button" data-delete-drop="${event.id}" aria-label="Xóa ${html(event.name)}" ${(event.pending && !event.saved) || event.deleting || deletingAll ? 'disabled' : ''}><i class="fa-solid fa-trash-can" aria-hidden="true"></i>${event.deleting ? 'Đang xóa…' : 'Xóa điểm'}</button></li>`;
             }).join('')}</ul>` : '<div class="routing-empty"><i class="fa-solid fa-route" aria-hidden="true"></i><h3>Chưa có tuyến để xem</h3><p>Chọn sự kiện rồi đặt điểm trên địa cầu, hoặc nhập tọa độ trong Thiết lập.</p></div>';
             return;
         }
@@ -356,12 +390,24 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
             return;
         }
         const result = drop.result, route = drop.route;
+        const flow=result?.flow;
+        const device = result?.event_model?.device, traffic = result?.event_model?.traffic;
+        const kindName = {burst:'gửi bản tin',continuous:'truyền liên tục',interactive:'tương tác',alert:'cảnh báo'};
+        const directionName = {uplink:'gửi lên',downlink:'tải xuống',bidirectional:'hai chiều'};
+        const deviceInfo = device ? `<p class="route-caption"><strong>${html(device.name)}</strong> · ${result.event_model.selection === 'automatic' ? 'tự chọn' : 'đã chọn'}<br>Truy cập: ${html(Object.entries(device.access_km).map(([layer,km])=>`${layer} ≤ ${km} km`).join(' · '))}<br>Luồng ${html(kindName[traffic.kind])} · ${html(directionName[traffic.direction])} · tốc độ thiết bị tối đa theo chiều truyền ${number(device.effective_bandwidth_mbps)} Mbps.<br>Đích: ${html(result.destination?.role || traffic.destination)}${result.destination ? ' · '+html(result.destination.node_id) : ''}. Các thông số là giả định demo.</p>` : result?.event_model?.version === 'virtual_gateway_v1' ? '<p class="route-caption"><strong>Điểm sự kiện · node gần và khả thi</strong> · kiểm tra tầm tiếp cận theo lớp node, tầm nhìn, dung lượng và đường tới đích; không mô phỏng radio thiết bị cá nhân.</p>' : '';
+        const overview = `<section class="event-info-overview"><span class="event-info-pin"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></span><div><strong>${html(drop.action)} · ${html(drop.name)}</strong><span>${drop.lat.toFixed(4)}°, ${drop.lng.toFixed(4)}°</span><small>Scenario #${drop.config.scenario_id} · ${drop.saved ? 'Đã lưu điểm' : 'Đang lưu điểm'}</small></div></section>${flow?`<p class="route-caption"><strong>${FLOW_NAMES[flow.state]}</strong> · Còn ${number(flow.remaining_s)} giây truyền · ${flow.handover_count} lần chuyển tuyến. Thời gian theo đồng hồ nghiên cứu.</p>`:''}${deviceInfo}`;
         if (!route) {
-            $('route-inspector-content').innerHTML = `<p class="route-caption ${drop.pending ? '' : 'routing-error'}">${html(drop.status)}</p>${result?.access_search ? `<p class="route-caption">${result.access_search.mode === 'global' ? 'Tìm trên toàn scenario, không giới hạn bán kính.' : `Tìm trong bán kính ${number(result.access_search.used_radius_km)} km.`}</p>` : ''}${result?.access ? `<p class="route-caption">Node tiếp cận gần nhất: <strong>${html(result.access.source_id)}</strong> · ${number(result.access.distance_km)} km</p>` : ''}${result?.diagnostics ? `<p class="route-caption">${result.diagnostics.active_nodes} node ACTIVE · ${result.diagnostics.links} link · ${result.diagnostics.eligible_directions} hướng truyền thỏa điều kiện.</p>` : ''}${result?.code === 'no_model' ? '<div class="routing-error-actions"><button id="routing-train" class="action-btn" type="button">Mở FL Training</button><button id="routing-use-static" class="action-btn" type="button">Xem tuyến công thức cho điểm này</button></div>' : ''}${drop.pending ? '' : '<p class="route-caption">Kiểm tra node ACTIVE, nhu cầu băng thông và checkpoint; sau đó nhấn “Cập nhật mạng & tính lại” nếu vừa đổi cấu hình mạng.</p>'}`;
+            $('route-inspector-content').innerHTML = `${overview}<p class="route-caption ${drop.pending ? '' : 'routing-error'}">${html(drop.status)}</p>${result?.access_search ? `<p class="route-caption">${result.access_search.mode === 'layer_bounded' ? 'Tìm node gần trong tầm mô phỏng theo lớp: GROUND 50 km, SEA 200 km, AIR 1.500 km, SPACE 5.000 km; phải có tầm nhìn và tuyến tới đích.' : result.access_search.mode === 'global' ? 'Tìm trên toàn scenario, không giới hạn bán kính.' : `Tìm trong bán kính ${number(result.access_search.used_radius_km)} km.`}</p>` : ''}${result?.access ? `<p class="route-caption">Node tiếp cận gần nhất: <strong>${html(result.access.source_id)}</strong> · ${number(result.access.distance_km)} km</p>` : ''}${result?.diagnostics ? `<p class="route-caption">${result.diagnostics.active_nodes} node ACTIVE · ${result.diagnostics.links} link · ${result.diagnostics.eligible_directions} hướng truyền thỏa điều kiện.</p>` : ''}${result?.code === 'no_model' ? '<div class="routing-error-actions"><button id="routing-train" class="action-btn" type="button">Mở FL Training</button><button id="routing-use-static" class="action-btn" type="button">Xem tuyến công thức cho điểm này</button></div>' : ''}${drop.pending ? '' : '<p class="route-caption">Kiểm tra node ACTIVE, nhu cầu băng thông và checkpoint; sau đó nhấn “Cập nhật mạng & tính lại” nếu vừa đổi cấu hình mạng.</p>'}`;
+            const nearest=result?.coverage_diagnostics?.nearest_compatible_nodes || [];
+            if(nearest.length)$('route-inspector-content').insertAdjacentHTML('beforeend',`<section class="route-comparison"><h3>Node truy cập gần nhất</h3><ul>${nearest.map(node=>`<li><strong>${html(node.node_id)}</strong> · cách ${number(node.distance_km)} km; tầm thiết bị giả định ${number(node.device_range_km)} km. ${node.within_device_range?'Trong tầm khoảng cách':'Ngoài tầm thiết bị'}.</li>`).join('')}</ul><p>Điểm ở xa vùng phủ sẽ không được tự nối tới node này. Bạn có thể dùng “Thử sự kiện gần trạm trong vùng đã học” ở bảng Thiết lập để kiểm tra một điểm có vùng phủ.</p></section>`);
             return;
         }
         const model = result.model, predictive = result.policy === 'predictive', baseline = result.baseline;
         $('route-inspector-content').innerHTML = `
+            ${overview}
+            ${result.research?`<p class="route-caption">Đánh giá sau quyết định tại tick kế tiếp: tuyến chọn ${number(route.application.realized_next_tick_ms)} ms; đối chứng ${number(baseline?.application.realized_next_tick_ms)} ms. Chênh lệch ${number(result.comparison?.realized_delay_change_ms)} ms (dương là tuyến FL nhanh hơn trong simulator).</p>`:''}
+            ${result.routing_decision?.method === 'fl_checkpoint' ? `<p class="route-caption">Đã suy luận checkpoint #${result.routing_decision.experiment_id}, vòng ${result.routing_decision.round} trên ${result.routing_decision.inferred_channels} kênh hợp lệ để chọn tuyến. ${result.research ? 'MAE test link là sai số dự đoán trong mô phỏng; chưa phải đo mạng thực tế.' : 'MAE test FL không phải phép đo độ trễ ứng dụng.'}</p>` : ''}
+            <p class="route-caption">${result.research?'Truy cập qua trạm được chỉ định → backbone mặt đất/UAV/tàu–vệ tinh → dịch vụ biên. Giới hạn truy cập thiết bị và từng loại backhaul được xét riêng.':result.routing_scope?.mode === 'local' ? `Tuyến cục bộ · giới hạn ${number(result.routing_scope.radius_km)} km từ sự kiện đến từng node và cho mỗi hop. Vị trí tuyến giữ theo snapshot lúc tính; không tự điều động từ xa.` : 'Tuyến toàn scenario · đã cho phép tìm ngoài khu vực.'}</p>
             ${drop.mobility ? `<section class="mobility-outcome"><h3>${moving ? 'Điều động để tạo kết nối' : 'Phương tiện đã tới vùng phủ'}</h3><p>Thời gian tiếp cận ${number(drop.mobility.eta_s)} giây mô phỏng · so sánh ${result.mobility.candidate_count} phương án vị trí. Tuyến dưới đây ${moving ? 'chỉ hoạt động sau khi phương tiện tới nơi' : 'đã bắt đầu truyền'}.</p><progress id="mobility-progress" max="${drop.mobility.eta_s || 1}" value="${drop.mobility.elapsed_s}" aria-label="Tiến độ điều động"></progress><p><output id="mobility-remaining">${number(Math.max(0,drop.mobility.eta_s-drop.mobility.elapsed_s))} giây mô phỏng còn lại</output></p><ul>${drop.mobility.moves.map(move=>`<li><strong>${html(move.node_id)} · ${html(move.type)}</strong> · ${number(move.distance_km)} km · ${number(move.speed_km_s*3600)} km/h (${move.boost}× tốc độ cơ sở) · ETA ${number(move.eta_s)} giây</li>`).join('')}</ul>${moving ? `<div class="mobility-actions"><button id="mobility-pause" class="toolbar-button" type="button">${drop.mobility.paused ? 'Tiếp tục' : 'Tạm dừng'}</button><button id="mobility-finish" class="toolbar-button" type="button">Tua tới khi kết nối</button></div>` : ''}<details><summary>Giả định di chuyển</summary><p>${html(result.mobility.note)}</p><p>Điểm so sánh: thời gian chờ + điểm tuyến / 1.000. Trọng số RTT, băng thông và khoảng cách áp dụng cho tuyến sau điều động; FL không dự đoán thời gian bay.</p></details></section>` : ''}
             <section class="service-outcome" aria-label="Kết quả ứng dụng">
                 <span class="outcome-eyebrow">${moving ? 'DỰ KIẾN SAU KHI KẾT NỐI' : 'KẾT QUẢ ỨNG DỤNG · ƯỚC TÍNH'}</span>
@@ -369,35 +415,36 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
                 <span class="qos-state ${route.application.latency_budget_met ? 'qos-pass' : 'qos-fail'}">${route.application.latency_budget_met ? 'Trong ngân sách độ trễ' : 'Vượt ngân sách độ trễ'}</span>
                 <p>Ngưỡng demo ${route.application.latency_budget_ms} ms · ${result.profile.min_bandwidth} Mbps yêu cầu · ${number(route.application.bandwidth_headroom_mbps)} Mbps dư tại nút thắt.</p>
                 <p>Gồm tiếp cận và ${route.hop_count} hop, payload ứng dụng ${route.application.payload_bytes} byte. ${result.load_reduced ? 'Đã hạ tải theo lựa chọn của bạn; đây là phương án ở tải mới.' : 'Giữ nguyên tải yêu cầu.'}</p>
-                <details><summary>Giả định tính toán</summary><p>${html(route.application.note)}</p><p>Độ trễ kênh ${number(route.application.channel_latency_ms)} ms + tuần tự hóa ${number(route.application.serialization_ms)} ms. Chỉ số này dùng công thức mô phỏng, chưa là đo lường hiệu quả model FL.</p></details>
+                <details><summary>Giả định tính toán</summary><p>${html(route.application.note)}</p><p>Độ trễ kênh ${number(route.application.channel_latency_ms)} ms + tuần tự hóa ${number(route.application.serialization_ms)} ms. ${result.research ? 'Đây là phân rã công thức ở tick hiện tại; dự đoán FL nằm trong chỉ số ứng dụng phía trên.' : 'Chỉ số này dùng công thức mô phỏng, chưa là đo lường hiệu quả model FL.'}</p></details>
             </section>
             <p class="route-caption">${predictive ? `<strong>FL #${model.experiment_id} · ${html(model.algorithm)} · round ${model.round}</strong>` : '<strong>Công thức tĩnh · đối chứng</strong>'}<br>${result.topology === 'adaptive' ? `Tuyến thích ứng · ${route.estimated_hops} chặng ước tính, không lưu` : result.topology === 'estimated' ? 'Topology ước tính · không lưu link' : 'Link ACTIVE đã lưu'} · scenario #${result.scenario_id}</p>
-            <dl class="route-metrics"><div><dt>${predictive ? 'RTT proxy FL + tiếp cận' : 'RTT công thức FL + tiếp cận'}</dt><dd>${number(predictive ? route.total_predicted_transfer_ms : route.total_static_transfer_ms)} <small>ms*</small></dd></div><div><dt>Băng thông nút thắt</dt><dd>${number(route.bottleneck)} <small>Mbps</small></dd></div><div><dt>Chặng mạng</dt><dd>${route.hop_count} <small>hop + 1 tiếp cận</small></dd></div><div><dt>Tiếp cận ước tính</dt><dd>${number(route.accessDistanceKm)} <small>km</small></dd></div></dl>
+            <dl class="route-metrics"><div><dt>${result.research ? 'Độ trễ link một chiều + tiếp cận' : predictive ? 'RTT proxy FL + tiếp cận' : 'RTT công thức FL + tiếp cận'}</dt><dd>${number(predictive ? route.total_predicted_transfer_ms : route.total_static_transfer_ms)} <small>ms*</small></dd></div><div><dt>Băng thông nút thắt</dt><dd>${number(route.bottleneck)} <small>Mbps</small></dd></div><div><dt>Chặng mạng</dt><dd>${route.hop_count} <small>hop + 1 tiếp cận</small></dd></div><div><dt>Tiếp cận ước tính</dt><dd>${number(route.accessDistanceKm)} <small>km</small></dd></div></dl>
             <p class="route-caption">Điểm → node ACTIVE phù hợp → GROUND tối ưu. Ngưỡng dịch vụ: ≥ ${result.profile.min_bandwidth} Mbps; tải áp dụng ${Math.round(result.applied_load_ratio*100)}%${result.applied_load_ratio < result.requested_load_ratio - .001 ? ` (giảm tự động từ ${Math.round(result.requested_load_ratio*100)}%)` : ''}.</p>
-            <p class="route-caption">Điểm kết nối: <strong>${html(result.ingress_selection.chosen_node)} · ${html(result.ingress_selection.chosen_type)}</strong><br>Tiếp cận ${number(result.ingress_selection.access_distance_km)} km · RTT tiếp cận ${number(result.ingress_selection.access_rtt_ms)} ms · băng thông đầu vào ${number(result.ingress_selection.access_bandwidth_mbps)} Mbps · tổng điểm tuyến ${number(result.ingress_selection.total_cost)} · phạt sở thích thiết bị ${number(result.ingress_selection.preference_penalty)}.<br>${html(result.ingress_selection.reason)}</p>
+            <p class="route-caption">Điểm kết nối: <strong>${html(result.ingress_selection.chosen_node)} · ${html(result.ingress_selection.chosen_type)}</strong><br>Tiếp cận ${number(result.ingress_selection.access_distance_km)} km · ${result.research?'Trễ một chiều tiếp cận':'RTT tiếp cận'} ${number(result.ingress_selection.access_rtt_ms)} ms · băng thông đầu vào ${number(result.ingress_selection.access_bandwidth_mbps)} Mbps · tổng điểm tuyến ${number(result.ingress_selection.total_cost)} · phạt sở thích thiết bị ${number(result.ingress_selection.preference_penalty)}.<br>${html(result.ingress_selection.reason)}</p>
             <details class="routing-explanation" open><summary>Cách chấm điểm · thấp hơn là tốt hơn</summary>
                 <p>Nhu cầu ${result.profile.min_bandwidth} Mbps · trọng số: độ trễ ${result.profile.latency_weight}, băng thông ${result.profile.capacity_weight}, khoảng cách ${result.profile.distance_weight}.</p>
-                <p>Mỗi chặng: w_trễ × RTT ${predictive ? 'dự đoán' : 'công thức'} + w_băng_thông × 100 / Mbps + w_khoảng_cách × km / 100. Cộng phạt sở thích thiết bị ở đầu vào.</p>
+                <p>Mỗi chặng: w_trễ × ${result.research?'độ trễ một chiều':'RTT'} ${predictive ? 'dự đoán' : 'công thức'} + w_băng_thông × 100 / Mbps + w_khoảng_cách × km / 100. Cộng phạt sở thích thiết bị ở đầu vào.</p>
                 <dl class="route-metrics"><div><dt>Điểm độ trễ</dt><dd>${number(route.score_breakdown.delay)}</dd></div><div><dt>Điểm băng thông</dt><dd>${number(route.score_breakdown.capacity)}</dd></div><div><dt>Điểm khoảng cách</dt><dd>${number(route.score_breakdown.distance)}</dd></div><div><dt>Tổng điểm (+ ${number(route.score_breakdown.preference)} sở thích)</dt><dd>${number(route.score_breakdown.total)}</dd></div></dl>
-                <p>Tổng quãng đường ${number(route.distance_km)} km. ${html(route.access.note)} ${predictive ? `RTT proxy tiếp cận dự đoán ${number(route.predicted_access_rtt_ms)} ms; công thức ${number(route.access_rtt_ms)} ms.` : ''}</p>
+                <p>Tổng quãng đường ${number(route.distance_km)} km. ${html(route.access.note)} ${predictive ? `${result.research ? 'Độ trễ tiếp cận một chiều dự đoán' : 'RTT proxy tiếp cận dự đoán'} ${number(route.predicted_access_rtt_ms)} ms; công thức ${number(route.access_rtt_ms)} ms.` : ''}</p>
             </details>
-            <ol class="route-hop-list"><li><span class="hop-number">•</span><div><strong>Điểm sự kiện</strong><small>${drop.lat.toFixed(3)}°, ${drop.lng.toFixed(3)}° · tiếp cận được chấm theo chính sách đã chọn</small></div></li>${route.positions.map((node, index) => { const hop = route.hops[index-1]; return `<li><span class="hop-number">${index+1}</span><div><strong>${html(node.id)} · ${html(node.type)}</strong><small>${index === 0 ? `Điểm kết nối ${html(result.ingress_selection.chosen_type)} · được chọn theo tổng điểm tuyến` : `${number(hop.predicted_ms ?? hop.static_ms)} ms RTT/hop · ${number(hop.bandwidth_mbps)} Mbps · ${hop.estimated ? 'link ước tính' : 'link ACTIVE'}`}${index === route.positions.length-1 ? ' · đích' : ''}</small></div></li>`; }).join('')}</ol>
-            ${predictive ? `<div class="route-comparison"><h3>Đối chiếu trên cùng topology & tải</h3><p>Chênh lệch ước tính ứng dụng: <strong>${number(result.comparison.application_estimate_change_ms)} ms</strong> (đối chứng − tuyến chọn; âm nghĩa là tuyến chọn chậm hơn theo công thức).</p><p>Tuyến công thức: ${baseline.path.map(html).join(' → ')}</p><p>Model chấm tuyến công thức: <strong>${number(baseline.total_predicted_transfer_ms)} ms*</strong><br>Model chấm tuyến được chọn: <strong>${number(route.total_predicted_transfer_ms)} ms*</strong></p><p>${result.comparison.same_path ? 'Hai chính sách chọn cùng tuyến.' : `Hai chính sách chọn khác tuyến. Chênh lệch RTT proxy gồm tiếp cận: ${number(result.comparison.predicted_cost_change)} ms (điểm tối ưu còn có thành phần băng thông).`}</p>${!result.comparison.same_path ? `<label><input id="routing-show-baseline" type="checkbox" ${showBaseline ? 'checked' : ''}> Hiện tuyến công thức trên địa cầu</label>` : ''}<p>MAE test ${number(model.mae_ms)} ms · validation ${number(model.validation_mae_ms)} ms<br>${model.beats_persistence ? 'Model tốt hơn persistence trên tập test.' : 'Model chưa tốt hơn persistence trên tập test.'}</p></div>` : ''}
+            <ol class="route-hop-list"><li><span class="hop-number">•</span><div><strong>Điểm sự kiện</strong><small>${drop.lat.toFixed(3)}°, ${drop.lng.toFixed(3)}° · tiếp cận được chấm theo chính sách đã chọn</small></div></li>${route.positions.map((node, index) => { const hop = route.hops[index-1]; return `<li><span class="hop-number">${index+1}</span><div><strong>${html(node.id)} · ${html(node.type)}</strong><small>${index === 0 ? `Điểm kết nối ${html(result.ingress_selection.chosen_type)} · được chọn theo tổng điểm tuyến` : `${number(hop.predicted_ms ?? hop.static_ms)} ms ${result.research?'một chiều':'RTT'}/hop · ${number(hop.bandwidth_mbps)} Mbps · ${hop.estimated ? 'link ước tính' : 'link ACTIVE'}`}${index === route.positions.length-1 ? ' · đích' : ''}</small></div></li>`; }).join('')}</ol>
+            ${predictive ? `<div class="route-comparison"><h3>Đối chiếu trên cùng topology & tải</h3><p>Chênh lệch ước tính ứng dụng: <strong>${number(result.comparison.application_estimate_change_ms)} ms</strong> (đối chứng − tuyến chọn; âm nghĩa là tuyến chọn chậm hơn theo công thức).</p><p>Tuyến công thức: ${baseline.path.map(html).join(' → ')}</p><p>Model chấm tuyến công thức: <strong>${number(baseline.total_predicted_transfer_ms)} ms*</strong><br>Model chấm tuyến được chọn: <strong>${number(route.total_predicted_transfer_ms)} ms*</strong></p><p>${result.comparison.same_path ? 'Hai chính sách chọn cùng tuyến.' : `Hai chính sách chọn khác tuyến. Chênh lệch ${result.research ? 'độ trễ một chiều' : 'RTT proxy'} gồm tiếp cận: ${number(result.comparison.predicted_cost_change)} ms (điểm tối ưu còn có thành phần băng thông).`}</p>${!result.comparison.same_path ? `<label><input id="routing-show-baseline" type="checkbox" ${showBaseline ? 'checked' : ''}> Hiện tuyến công thức trên địa cầu</label>` : ''}<p>MAE test ${number(model.mae_ms)} ms · validation ${number(model.validation_mae_ms)} ms<br>${model.beats_persistence ? 'Model tốt hơn persistence trên tập test.' : 'Model chưa tốt hơn persistence trên tập test.'}</p></div>` : ''}
             <div class="route-legend"><span>Tiếp cận</span><span>${route.estimated_hops ? 'Tuyến chọn (nét đứt = ước tính)' : 'Tuyến chọn'}</span><span>Đối chứng</span></div>
-            ${result.allocation ? `<section class="route-comparison"><h3>Băng thông đã cấp cho điểm này</h3><p><strong>${number(result.allocation.reserved_mbps)} Mbps</strong> trên mỗi node và link của tuyến. Đã xét ${result.allocation.other_event_count} điểm có tuyến trước khi cấp.</p><ul class="allocation-list">${result.allocation.nodes.map(node => `<li><strong>${html(node.node_id)}</strong><span>Đã dùng trước: ${number(node.reserved_before_mbps)} Mbps · Còn trước khi cấp: ${number(node.available_before_mbps)} Mbps · Còn sau khi cấp: ${number(node.remaining_after_mbps)} Mbps</span></li>`).join('')}</ul><p>${html(result.allocation.policy)}</p><p>Số liệu tại thời điểm cấp tuyến. Điểm mới sẽ tính lại phần còn lại từ tất cả điểm đang lưu; xóa điểm sẽ giải phóng băng thông.</p></section>` : ''}
+            ${result.allocation ? `<section class="route-comparison"><h3>Băng thông đã cấp cho điểm này</h3><p><strong>${number(result.allocation.reserved_mbps)} Mbps</strong> trên mỗi node và link của tuyến. Đã xét ${result.allocation.other_event_count} điểm có tuyến trước khi cấp.</p><ul class="allocation-list">${result.allocation.nodes.map(node => `<li><strong>${html(node.node_id)}</strong><span>Đã dùng trước: ${number(node.reserved_before_mbps)} Mbps · Còn trước khi cấp: ${number(node.available_before_mbps)} Mbps · Còn sau khi cấp: ${number(node.remaining_after_mbps)} Mbps</span></li>`).join('')}</ul><p>${html(result.allocation.policy)}</p><p>Số liệu tại thời điểm cấp tuyến. ${result.research ? 'Chỉ phiên đang truyền chiếm băng thông; phiên hoàn tất hoặc hết hạn đã giải phóng.' : 'Điểm mới tính phần còn lại từ các điểm đang lưu; xóa điểm sẽ giải phóng băng thông.'}</p></section>` : ''}
             ${moving ? '' : '<button class="action-btn routing-replay" id="routing-replay" type="button"><i class="fa-solid fa-play" aria-hidden="true"></i> Xem lại luồng truyền minh họa</button>'}
             <button class="action-btn" id="routing-export" type="button"><i class="fa-solid fa-download" aria-hidden="true"></i> Xuất kết quả & cấu hình JSON</button>
-            <p class="route-caption">Luồng truyền minh họa 5 giây/lượt sau khi kết nối. Vị trí lấy theo snapshot và phương án điều động của lượt này.<br>Cập nhật: ${html(new Date(result.snapshot_at).toLocaleTimeString('vi-VN'))}</p>
-            <p class="route-note">* ${html(result.note)} Payload ${result.payload_bytes} byte. Tổng RTT proxy gồm cả tiếp cận và từng hop, dùng dự đoán với chính sách FL; không phải độ trễ ứng dụng đo thực tế. ${result.unseen_layers?.length ? `Lớp chưa có trong dữ liệu huấn luyện: ${result.unseen_layers.map(html).join(', ')}.` : ''}</p>
-            <details class="routing-explanation"><summary>Công thức & dữ liệu quyết định</summary><p>${html(result.objective)}<br>w_delay = ${result.profile.latency_weight}; w_capacity = ${result.profile.capacity_weight}; w_distance = ${result.profile.distance_weight}. Điểm tuyến: ${number(route.cost)}.<br>${result.diagnostics.active_nodes} node · ${result.diagnostics.links} link · ${result.diagnostics.eligible_directions} hướng truyền hợp lệ.</p><p>Input mỗi hop: lớp node nhận, latency, bandwidth, khoảng cách, tải, loss, jitter, payload và RTT công thức. Dự đoán batch một lần; không dùng nhãn tương lai của dataset.</p></details>`;
+            <p class="route-caption">Luồng truyền minh họa 5 giây/lượt sau khi kết nối, bám theo vị trí hiện tại của thiết bị. Tuyến và số liệu theo lần tính gần nhất; chưa tự định tuyến lại theo quỹ đạo.<br>Cập nhật: ${html(new Date(result.snapshot_at).toLocaleTimeString('vi-VN'))}</p>
+            <p class="route-note">* ${html(result.note)} Payload ${result.payload_bytes} byte. ${result.research ? 'Tổng độ trễ một chiều gồm tiếp cận và từng hop; chỉ số ứng dụng thêm xử lý hai đầu. Giá trị tick sau là đánh giá mô phỏng sau khi chọn tuyến.' : 'Tổng RTT proxy gồm cả tiếp cận và từng hop, dùng dự đoán với chính sách FL; không phải độ trễ ứng dụng đo thực tế.'} ${result.unseen_layers?.length ? `Lớp chưa có trong dữ liệu huấn luyện: ${result.unseen_layers.map(html).join(', ')}.` : ''}</p>
+            <details class="routing-explanation"><summary>Công thức & dữ liệu quyết định</summary><p>${html(result.objective)}<br>w_delay = ${result.profile.latency_weight}; w_capacity = ${result.profile.capacity_weight}; w_distance = ${result.profile.distance_weight}. Điểm tuyến: ${number(route.cost)}.<br>${result.diagnostics.active_nodes} node · ${result.diagnostics.links} link · ${result.diagnostics.eligible_directions} hướng truyền hợp lệ.</p><p>Input mỗi hop: lớp node nhận, latency, bandwidth, khoảng cách, tải, loss, jitter, payload và ${result.research ? 'độ trễ link hiện tại' : 'RTT công thức'}. Dự đoán batch một lần; không dùng nhãn tương lai của dataset.</p></details>`;
     }
 
     function renderDroppedMarkers() {
         if (!activeDrop()) inspectorView = 'list';
-        $('drop-count').textContent = `${droppedMarkers.length} điểm · ${droppedMarkers.filter(d => d.route).length} có tuyến`;
-        $('drop-list').innerHTML = droppedMarkers.length ? droppedMarkers.map(drop => `
+        const current=droppedMarkers.filter(drop=>drop.config.scenario_id===Number($('routing-scenario').value));
+        $('drop-count').textContent = `${current.length} điểm · ${current.filter(transmitting).length} có kết nối`;
+        $('drop-list').innerHTML = current.length ? current.map(drop => `
             <article class="drop-item${drop.id === selectedId ? ' selected' : ''}" role="listitem">
-                <button class="drop-info" type="button" data-inspect-drop="${drop.id}" aria-pressed="${drop.id === selectedId}"><span class="drop-name-row"><span class="drop-name">${html(drop.name)} · ${html(drop.action)}</span><span class="drop-status">${drop.pending ? 'Đang tính' : drop.route ? `${drop.route.hop_count} hop` : 'Chưa có tuyến'}</span></span><span class="drop-detail">${drop.lat.toFixed(2)}°, ${drop.lng.toFixed(2)}° · scenario #${drop.config.scenario_id}</span></button>
+                <button class="drop-info" type="button" data-inspect-drop="${drop.id}" aria-pressed="${drop.id === selectedId}"><span class="drop-name-row"><span class="drop-name">${html(drop.name)} · ${html(drop.action)}</span><span class="drop-status">${drop.result?.flow ? FLOW_NAMES[drop.result.flow.state] : drop.pending ? 'Đang tính' : drop.route ? `${drop.route.hop_count} hop` : 'Chưa có tuyến'}</span></span><span class="drop-detail">${drop.lat.toFixed(2)}°, ${drop.lng.toFixed(2)}° · scenario #${drop.config.scenario_id}</span></button>
                 <button class="drop-delete" type="button" data-delete-drop="${drop.id}" ${(drop.pending && !drop.saved) || drop.deleting || deletingAll ? 'disabled' : ''} aria-label="Xóa ${html(drop.name)}"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>
             </article>`).join('') : '<div class="drop-empty"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span>Chưa có sự kiện</span><small>Chọn sự kiện và đặt điểm trên địa cầu</small></div>';
         renderInspector();
@@ -592,7 +639,7 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
     });
     $('routing-refresh').addEventListener('click', refreshDroppedRoutes);
     $('show-topology').addEventListener('change',syncSelection);
-    for (const id of ['routing-scenario','routing-policy','routing-model','routing-target','routing-topology','routing-radius','routing-load','routing-reduce-load','routing-auto-train','routing-mobility-boost','routing-demand','routing-global']) {
+    for (const id of ['routing-source-device','routing-scenario','routing-policy','routing-model','routing-target','routing-topology','routing-radius','routing-load','routing-reduce-load','routing-auto-train','routing-mobility-boost','routing-demand','routing-global']) {
         $(id).addEventListener('change', () => {
             if (['routing-scenario','routing-policy','routing-model','routing-auto-train'].includes(id)) updateOptions();
             if (id==='routing-topology') refreshTopology();
@@ -606,6 +653,20 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
     $('routing-load').addEventListener('input', () => { $('routing-load-value').textContent = `${$('routing-load').value}%`; });
     $('routing-coordinate-form').addEventListener('submit', event => {
         event.preventDefault(); addEvent(Number($('event-lat').value),Number($('event-lng').value),actionSelect.value);
+    });
+    $('routing-demo').addEventListener('click',async()=>{
+        if(refreshing || deletingAll)return;
+        if($('routing-source-device').value==='satellite_terminal'){
+            status('Nút thử gần trạm dùng thiết bị mặt đất. Chọn Tự chọn theo sự kiện, hoặc tự đặt điểm trong vùng phủ vệ tinh ở chế độ toàn scenario.');return;
+        }
+        const scenario=Number($('routing-scenario').value);
+        const model=context.models.find(row=>row.scenario_id===scenario && row.experiment_id===Number($('routing-model').value)) || context.models.find(row=>row.scenario_id===scenario);
+        const trained=new Set(model?.candidate_pool || []);
+        const grounds=nodeMarkers.filter(marker=>marker.userData.scenario_id===scenario && marker.userData.type==='GROUND' && marker.userData.status?.toUpperCase()==='ACTIVE');
+        const ground=grounds.find(marker=>trained.has(marker.userData.id)) || grounds[0];
+        if(!ground){status('Chưa có GROUND ACTIVE để đặt điểm thử.');return;}
+        const service=actionSelect.value || 'Message';
+        await addEvent(Math.max(-89.995,Math.min(89.995,ground.userData.lat+.005)),ground.userData.lng,service);
     });
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape') {
@@ -666,7 +727,9 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
         // Returning to Simulation starts with the full globe again.
         setPanel(null);
     }
+    researchUI=setupResearchControls({api,scenarioSelect:$('routing-scenario'),refreshNodes,loadContext,updateOptions,
+        refreshEvents:async()=>{if(!refreshing && !droppedMarkers.some(drop=>drop.computing))await restoreEvents();}});
     const ready = topologyReady.then(loadContext).then(restoreEvents).then(() => { $('backend-status').textContent = 'Connected'; status(`Đã tải ${droppedMarkers.length} điểm đã lưu. Chọn sự kiện để thêm điểm mới.`); })
         .catch(error => { $('backend-status').textContent = 'Không tải được mạng'; status(`Không tải được topology: ${error.message}. Nhấn cập nhật để thử lại.`); });
-    return { addEvent:async (...args) => { await ready; return addEvent(...args); }, reloadSavedEvents:async () => { await ready; return restoreEvents(); }, disposeRoute, renderDroppedMarkers, refreshDroppedRoutes, focusDroppedMarker, setVisible };
+    return { addEvent:async (...args) => { await ready; return addEvent(...args); }, reloadSavedEvents:async () => { await ready; return restoreEvents(); }, disposeRoute, renderDroppedMarkers, refreshDroppedRoutes, focusDroppedMarker, setVisible, closePanels:() => setPanel(null) };
 }

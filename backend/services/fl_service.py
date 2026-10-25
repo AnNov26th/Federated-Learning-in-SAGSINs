@@ -11,6 +11,7 @@ from backend.models.participant import Participant
 from backend.models.simulation import Experiment, FLClientRound, FLRound, Metric
 from backend.services.delay_service import estimate_communication_ms
 from backend.services.scheduling_service import select_clients
+from backend.services.training_progress_service import publish
 
 
 PROFILE = {
@@ -96,6 +97,7 @@ def _run_experiment(experiment_id):
         experiment.status = "RUNNING"
         experiment.started_at = datetime.now(timezone.utc)
         db.commit()
+        publish(db, experiment, "preparing")
 
         if config.get("task") == "network_delay":
             from backend.services.network_prediction_service import run_network_experiment
@@ -103,6 +105,7 @@ def _run_experiment(experiment_id):
             experiment.status = "COMPLETED"
             experiment.completed_at = datetime.now(timezone.utc)
             db.commit()
+            publish(db, experiment, "completed")
             return
 
         from backend.algorithms.fedavg import FedAvg
@@ -160,10 +163,12 @@ def _run_experiment(experiment_id):
         failed_without_clients = False
 
         for round_number in range(1, experiment.rounds + 1):
+            publish(db, experiment, "selecting", round_number)
             round_started = time.perf_counter()
             local_states, sample_counts, outcomes = [], [], []
             selected_comm_times, selected_latencies, selected_bandwidths = [], [], []
             if centralized:
+                publish(db, experiment, "local_training", round_number, selected=[])
                 state, _, _, _, _ = _train_local(
                     global_state, train_dataset, config, _stable_seed(seed, round_number, "central", "train"),
                 )
@@ -182,6 +187,7 @@ def _run_experiment(experiment_id):
                     client_ids = candidate_ids
                 rngs = {client_id: random.Random(_stable_seed(seed, round_number, client_id, "dropout"))
                         for client_id in client_ids}
+                publish(db, experiment, "selected", round_number, selected=client_ids)
                 for client_id in client_ids:
                     partition = client_partition[client_id]
                     client_profile = snapshot.get(client_id, {})
@@ -193,6 +199,7 @@ def _run_experiment(experiment_id):
                     selected_latencies.append(latency_ms)
                     selected_bandwidths.append(bandwidth_mbps)
                     if rngs[client_id].random() < config["dropout_probability"]:
+                        publish(db, experiment, "client_finished", round_number, client_id=client_id, client_status="DROPPED", samples_used=0)
                         outcomes.append(FLClientRound(
                             client_id=client_id, status="DROPPED", samples_used=0,
                             training_duration_s=0, latency_ms=latency_ms, communication_time_ms=0,
@@ -200,6 +207,7 @@ def _run_experiment(experiment_id):
                         ))
                         continue
                     if communication_ms > config["timeout_ms"]:
+                        publish(db, experiment, "client_finished", round_number, client_id=client_id, client_status="TIMEOUT", samples_used=0)
                         timeout_elapsed_ms = float(config["timeout_ms"])
                         selected_comm_times.append(timeout_elapsed_ms)
                         outcomes.append(FLClientRound(
@@ -210,6 +218,7 @@ def _run_experiment(experiment_id):
                         ))
                         continue
                     selected_comm_times.append(communication_ms)
+                    publish(db, experiment, "local_training", round_number, client_id=client_id, client_status="TRAINING")
                     state, samples, accuracy, loss, duration = _train_local(
                         global_state, partition, {
                             **config,
@@ -225,7 +234,11 @@ def _run_experiment(experiment_id):
                         latency_ms=latency_ms, communication_time_ms=communication_ms,
                         data_transferred_mb=2 * model_mb,
                     ))
+                    publish(db, experiment, "client_finished", round_number, client_id=client_id, client_status="COMPLETED",
+                            samples_used=samples, local_loss=loss, local_accuracy=accuracy, training_duration_s=duration,
+                            communication_time_ms=communication_ms)
 
+            publish(db, experiment, "aggregating", round_number)
             if local_states and not centralized:
                 global_state = FedAvg.aggregate(local_states, sample_counts)
             global_model.load_state_dict(global_state)
@@ -258,18 +271,21 @@ def _run_experiment(experiment_id):
                 packet_loss_ratio=0.0,
             ))
             db.commit()
+            publish(db, experiment, "round_completed", round_number, loss=loss, accuracy=accuracy)
             if not centralized and not local_states:
                 failed_without_clients = True
                 experiment.error_message = f"Round {round_number}: no clients completed training."
                 experiment.status = "FAILED"
                 experiment.completed_at = datetime.now(timezone.utc)
                 db.commit()
+                publish(db, experiment, "failed")
                 break
 
         if not failed_without_clients:
             experiment.status = "COMPLETED"
             experiment.completed_at = datetime.now(timezone.utc)
             db.commit()
+            publish(db, experiment, "completed")
     except Exception as exc:
         db.rollback()
         failed = db.query(Experiment).filter(Experiment.id == experiment_id).first()
@@ -278,5 +294,6 @@ def _run_experiment(experiment_id):
             failed.error_message = str(exc)[:500]
             failed.completed_at = datetime.now(timezone.utc)
             db.commit()
+            publish(db, failed, "failed", error_message=failed.error_message)
     finally:
         db.close()

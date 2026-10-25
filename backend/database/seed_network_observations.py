@@ -13,8 +13,9 @@ def main():
     parser.add_argument("--scenario-id", required=True, type=int)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--samples-per-client", type=int, default=160)
+    parser.add_argument("--online-steps", type=int, default=100)
     parser.add_argument("--partition", choices=("iid", "non_iid"), default="non_iid")
-    parser.add_argument("--network-profile", choices=("normal", "high_latency", "low_bandwidth"), default="normal")
+    parser.add_argument("--network-profile", choices=("normal", "high_latency", "low_bandwidth", "bursty_congestion", "regime_switching"), default="normal")
     args = parser.parse_args()
     if not 0 <= args.seed <= 2147483647:
         parser.error("seed must be between 0 and 2147483647")

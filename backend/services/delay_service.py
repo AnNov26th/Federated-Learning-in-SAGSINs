@@ -4,6 +4,8 @@ NETWORK_PROFILES = {
     "normal": {"latency_multiplier": 1.0, "bandwidth_multiplier": 1.0},
     "high_latency": {"latency_multiplier": 10.0, "bandwidth_multiplier": 1.0},
     "low_bandwidth": {"latency_multiplier": 1.0, "bandwidth_multiplier": 0.1},
+    "bursty_congestion": {"latency_multiplier": 1.0, "bandwidth_multiplier": 1.0},
+    "regime_switching": {"latency_multiplier": 1.0, "bandwidth_multiplier": 1.0},
 }
 
 

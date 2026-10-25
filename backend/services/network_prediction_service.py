@@ -21,6 +21,7 @@ from backend.models.participant import Participant
 from backend.services.delay_service import estimate_communication_ms
 from backend.services.network_dataset_service import stable_seed
 from backend.services.scheduling_service import select_clients
+from backend.services.training_progress_service import publish
 
 
 @dataclass(frozen=True)
@@ -104,6 +105,8 @@ def run_network_experiment(db, experiment):
     persistence_mae = sum(abs(row.features_json["observed_delay_ms"] - row.target_delay_ms) for row in test_rows) / len(test_rows)
     profiles = config["client_profiles"]
     model_mb = dataset.config_json["payload_bytes"] / (1024 * 1024)
+    from backend.services.link_telemetry_service import LINK_TARGET
+    link_task = dataset.config_json["target"] == LINK_TARGET
     # These buffers are per client; only that client's completed online samples
     # are appended, and only after its scheduling decision and transfer outcome.
     local_rows = {client: list(grouped[client]["train"]) for client in candidate_ids}
@@ -112,6 +115,7 @@ def run_network_experiment(db, experiment):
     db.commit()
 
     for round_number in range(1, experiment.rounds + 1):
+        publish(db, experiment, "selecting", round_number)
         started = time.perf_counter()
         observations = {client: grouped[client]["online"][round_number - 1] for client in candidate_ids}
         estimates = dict(zip(candidate_ids, predict(model, [observations[client].features_json for client in candidate_ids])))
@@ -120,6 +124,12 @@ def run_network_experiment(db, experiment):
         if centralized:
             selected = []
             selection_source = "centralized_control"
+        elif link_task:
+            # Link labels are application delay, not model-upload RTT. Never
+            # mislabel those predictions as a client communication estimate.
+            selected = select_clients("FedAvg", candidate_ids, profiles, config["client_count"], seed,
+                                      round_number, model_mb, config["network_profile"])
+            selection_source = "uniform_clients_link_task"
         elif experiment.algorithm == "Predictive" and not cold_start:
             selected = select_clients("Predictive", candidate_ids, profiles, config["client_count"], seed,
                                       round_number, model_mb, config["network_profile"], predicted_delays=estimates)
@@ -129,18 +139,24 @@ def run_network_experiment(db, experiment):
                                       config["client_count"], seed, round_number, model_mb, config["network_profile"])
             selection_source = "random_cold_start" if cold_start else "uniform_random" if experiment.algorithm == "FedAvg" else "static_profile"
         global_state = {key: value.detach().clone() for key, value in model.state_dict().items()}
+        publish(db, experiment, "selected", round_number, selected=selected, selection_source=selection_source)
         states, sizes, outcomes = [], [], []
         if centralized:
+            publish(db, experiment, "local_training", round_number)
             central_rows = [row for client in candidate_ids for row in local_rows[client]]
             state, _, _ = train_local(global_state, central_rows, config, stable_seed(seed, round_number, "central"))
             model.load_state_dict(state)
         for client in selected:
             observation = observations[client]
             actual_ms = observation.target_delay_ms  # revealed after selection
+            if link_task:
+                profile = profiles[client]
+                actual_ms = estimate_communication_ms(profile["latency"], profile["bandwidth"], model_mb)
             dropout = random.Random(stable_seed(seed, client, f"dropout-{round_number}")).random() < config["dropout_probability"]
             status = "DROPPED" if dropout else "TIMEOUT" if actual_ms > config["timeout_ms"] else "COMPLETED"
             state, loss, duration = None, None, 0.
             if status == "COMPLETED":
+                publish(db, experiment, "local_training", round_number, client_id=client, client_status="TRAINING")
                 state, loss, duration = train_local(global_state, local_rows[client], {
                     **config, "local_epochs": config.get("local_epochs_by_client", {}).get(client, config["local_epochs"]),
                 }, stable_seed(seed, client, f"train-{round_number}"))
@@ -154,6 +170,10 @@ def run_network_experiment(db, experiment):
                 data_transferred_mb=2 * model_mb if state else 0,
                 failure_reason=None if state else "Simulated dropout" if dropout else "Simulator transfer exceeded timeout",
             ))
+            publish(db, experiment, "client_finished", round_number, client_id=client, client_status=status,
+                    samples_used=len(local_rows[client]) if state else 0, local_loss=loss, training_duration_s=duration,
+                    communication_time_ms=0 if dropout else min(actual_ms, config["timeout_ms"]))
+        publish(db, experiment, "aggregating", round_number)
         if states:
             model.load_state_dict(FedAvg.aggregate(states, sizes))
         quality = evaluate(model, test_rows)
@@ -183,10 +203,12 @@ def run_network_experiment(db, experiment):
             db.add(NetworkRoundPrediction(
                 round_id=saved_round.id, client_id=client, observation_id=observations[client].id,
                 predicted_delay_ms=estimates[client], observed_delay_ms=observations[client].target_delay_ms if client in selected else None,
-                rule_delay_ms=estimate_communication_ms(profiles[client]["latency"], profiles[client]["bandwidth"], model_mb, config["network_profile"]),
+                rule_delay_ms=observations[client].features_json["observed_delay_ms"] if link_task else estimate_communication_ms(profiles[client]["latency"], profiles[client]["bandwidth"], model_mb, config["network_profile"]),
                 selected=client in selected, model_round=round_number - 1,
             ))
         db.commit()
+        publish(db, experiment, "round_completed", round_number, mae_ms=quality["mae_ms"],
+                validation_mae_ms=validation["mae_ms"], completed_clients=len(states))
         # Only completed clients reveal a new local training example. No test
         # row is ever inserted into these buffers; test occurs after all online ticks.
         for outcome in outcomes:

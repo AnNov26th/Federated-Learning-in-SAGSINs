@@ -48,7 +48,7 @@ class RoutingTests(unittest.TestCase):
     def request(self, **kwargs):
         response = self.client.post('/api/routing/event', json={'scenario_id':self.scenario_id,'lat':0,'lng':0,
                                                              'policy':'static','load_ratio':0,
-                                                             'topology':'configured','access_radius_km':1, **kwargs})
+                                                             'topology':'configured','access_radius_km':1,'routing_scope':'global','source_device':'legacy_simulator', **kwargs})
         self.assertEqual(response.status_code,200,response.text)
         return response.json()['data']
 
@@ -72,6 +72,52 @@ class RoutingTests(unittest.TestCase):
         self.assertEqual(result['route']['hop_count'],2)
         self.assertEqual(result['route']['positions'][0]['id'],'A')
         self.assertNotIn('FOREIGN',result['route']['path'])
+
+    def test_default_local_scope_never_deploys_a_remote_connection(self):
+        with patch('backend.services.mobility_service.reposition_route') as deploy:
+            response = self.client.post('/api/routing/event', json={
+                'scenario_id': self.scenario_id, 'lat': 80, 'lng': 100,
+                'policy': 'static', 'allow_reposition': True})
+        result = response.json()['data']
+        self.assertIsNone(result['route'])
+        self.assertEqual(result['code'], 'no_local_nodes')
+        self.assertEqual(result['routing_scope']['mode'], 'local')
+        self.assertFalse(result['routing_scope']['expanded'])
+        deploy.assert_not_called()
+
+    def test_local_route_bounds_geometry_and_keeps_nearby_multihop(self):
+        from backend.services.routing_service import channel_distance
+        result = self.request(routing_scope='local', local_radius_km=100)
+        self.assertEqual(result['route']['path'], ['A', 'B', 'G1'])
+        with self.session() as db:
+            for hop in result['route']['hops']:
+                actual = channel_distance(db.get(Node, hop['source']), db.get(Node, hop['target']))
+                self.assertAlmostEqual(hop['features']['distance_km'], actual)
+                self.assertLessEqual(actual, 100)
+
+    def test_local_scope_rejects_far_target_and_overhead_space_outside_slant_bound(self):
+        with self.session() as db:
+            db.get(Node, 'G2').lng = 90
+            db.add(Node(id='HIGH', type='SPACE', lat=0, lng=0, alt=1200, bandwidth=999,
+                        latency=.01, status='ACTIVE', scenario_id=self.scenario_id))
+            db.commit()
+        result = self.request(routing_scope='local', target_id='G2', access_radius_km=None)
+        self.assertEqual(result['code'], 'invalid_target')
+        result = self.request(routing_scope='local', access_radius_km=None)
+        self.assertNotIn('HIGH', result['route']['path'])
+        self.assertNotIn('HIGH', {node['id'] for node in result['topology_preview']['nodes']})
+
+    def test_local_scope_rejects_long_hop_even_when_both_endpoints_are_local(self):
+        with self.session() as db:
+            db.get(Node, 'B').lng = 1
+            db.get(Node, 'G1').lng = -1
+            db.get(Node, 'G2').lng = 100
+            db.commit()
+        with patch('backend.services.mobility_service.reposition_route') as deploy:
+            result = self.request(routing_scope='local', local_radius_km=150, allow_reposition=True)
+        self.assertEqual(result['code'], 'no_path')
+        self.assertIsNone(result['route'])
+        deploy.assert_not_called()
 
     def test_disconnection_never_implicitly_falls_back_to_virtual_links(self):
         with self.session() as db:
@@ -206,6 +252,34 @@ class RoutingTests(unittest.TestCase):
         self.assertEqual(result['code'], 'training')
         self.assertEqual(result['training']['experiment_id'], job_id)
 
+    def test_auto_training_uses_event_region_and_caps_count_to_local_pool(self):
+        with self.session() as db:
+            db.get(Node, 'G2').lng = 80
+            db.commit()
+        with patch('backend.services.fl_service.run_experiment') as worker:
+            result = self.request(policy='predictive', auto_train=True)
+        self.assertEqual(result['code'], 'training', result)
+        worker.assert_called_once()
+        with self.session() as db:
+            experiment = db.get(Experiment, result['training']['experiment_id'])
+            config = experiment.config_json
+            self.assertEqual(set(config['candidate_pool']), {'A', 'B', 'G1'})
+            self.assertEqual(config['client_count'], 3)
+            self.assertEqual(config['training_region']['selection_source'], 'explicit_center')
+            self.assertEqual(config['training_region']['center_lng'], 0)
+
+    def test_auto_training_refuses_to_expand_an_insufficient_event_region(self):
+        with self.session() as db:
+            for name in ('A', 'B', 'G2'):
+                db.get(Node, name).lng = 100
+            db.commit()
+        with patch('backend.services.fl_service.run_experiment') as worker:
+            result = self.request(policy='predictive', auto_train=True, lng=.2)
+        self.assertEqual(result['code'], 'training_unavailable', result)
+        worker.assert_not_called()
+        with self.session() as db:
+            self.assertEqual(db.query(Experiment).count(), 0)
+
     def test_missing_model_does_not_generate_training_data_by_default(self):
         result = self.request(policy='predictive')
         self.assertEqual(result['code'], 'no_model')
@@ -235,7 +309,7 @@ class RoutingTests(unittest.TestCase):
         self.assertAlmostEqual(result['comparison']['predicted_cost_change'],
                                result['baseline']['total_predicted_transfer_ms'] - result['route']['total_predicted_transfer_ms'])
 
-    def test_default_global_access_routes_from_remote_poles_and_dateline(self):
+    def test_explicit_global_access_routes_from_remote_poles_and_dateline(self):
         for lat, lng in [(80, 100), (-90, -180), (90, 180), (0, 180)]:
             with self.subTest(lat=lat, lng=lng):
                 result = self.request(lat=lat, lng=lng, access_radius_km=None)
@@ -246,7 +320,7 @@ class RoutingTests(unittest.TestCase):
                 self.assertTrue(result['route']['access']['virtual'])
                 self.assertNotIn('FOREIGN', result['route']['path'])
         response = self.client.post('/api/routing/event', json={
-            'scenario_id': self.scenario_id, 'lat': 80, 'lng': 100, 'policy': 'static'})
+            'scenario_id': self.scenario_id, 'lat': 80, 'lng': 100, 'policy': 'static', 'routing_scope': 'global','source_device':'legacy_simulator'})
         self.assertEqual(response.json()['data']['status'], 'routed')
 
     def test_explicit_radius_is_respected_even_for_remote_adaptive_access(self):

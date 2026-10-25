@@ -14,7 +14,7 @@ from backend.database.database import engine as default_engine
 
 
 ROOT = Path(__file__).resolve().parents[2]
-INVENTORY = ROOT / "data" / "global_ground_nodes" / "global_multilayer_nodes_106.csv"
+INVENTORY = ROOT / "data" / "input" / "global_ground_nodes" / "global_multilayer_nodes_106.csv"
 SCENARIO_NAME = "SAGSIN-Global-Multilayer-106"
 
 

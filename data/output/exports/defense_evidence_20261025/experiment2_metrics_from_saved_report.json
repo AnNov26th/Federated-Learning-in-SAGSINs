@@ -1,0 +1,30 @@
+{
+  "source_file": "data/database_backups/training-topology-20261023-result.json",
+  "evidence_type": "extracted_saved_report_not_live_database_verification",
+  "experiment_id": 2,
+  "dataset_id": 2,
+  "status": "COMPLETED",
+  "rounds": 30,
+  "clients_per_round": 24,
+  "candidate_clients": 178,
+  "observations": 74760,
+  "active_links": 460,
+  "inactive_links": 27,
+  "model": {
+    "experiment_id": 2,
+    "scenario_id": 6,
+    "algorithm": "Predictive",
+    "round": 30,
+    "mae_ms": 4.27085,
+    "validation_mae_ms": 4.22933,
+    "persistence_mae_ms": 4.27618,
+    "payload_bytes": 3844,
+    "dataset_id": 2,
+    "target": "next_tick_model_round_trip_ms",
+    "beats_persistence": true
+  },
+  "configured_topology_global_routes_tested": 49,
+  "failures": [],
+  "mae_improvement_ms": 0.005329999999999835,
+  "mae_improvement_percent": 0.1246439579250601
+}

@@ -4,22 +4,37 @@ from typing import Literal, Optional
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
-class FLExperimentCreate(BaseModel):
+class RegionalPoolSettings(BaseModel):
+    prediction_target: Literal["auto", "fl_rtt", "application_link"] = "auto"
+    pool_mode: Literal["regional", "all"] = "regional"
+    region_radius_km: float = Field(default=1500, gt=0, le=20040, allow_inf_nan=False)
+    region_lat: Optional[float] = Field(default=None, ge=-90, le=90, allow_inf_nan=False)
+    region_lng: Optional[float] = Field(default=None, ge=-180, le=180, allow_inf_nan=False)
+
+    @model_validator(mode="after")
+    def paired_center(self):
+        if (self.region_lat is None) != (self.region_lng is None):
+            raise ValueError("Enter both region coordinates, or leave both empty for automatic selection.")
+        return self
+
+
+class FLExperimentCreate(RegionalPoolSettings):
     scenario_id: Optional[int] = Field(default=None, ge=1)
     algorithm: Literal["FedAvg", "DelayAware", "Predictive", "Centralized"] = "FedAvg"
     task: Literal["mnist", "network_delay"] = "mnist"
     dataset_id: Optional[int] = Field(default=None, ge=1)
-    samples_per_client: int = Field(default=160, ge=40, le=2000)
-    rounds: int = Field(default=3, ge=1, le=100)
-    client_count: int = Field(default=5, ge=2, le=50)
-    local_epochs: int = Field(default=1, ge=1, le=20)
-    learning_rate: float = Field(default=0.01, gt=0, le=1)
-    batch_size: int = Field(default=64, ge=8, le=512)
+    samples_per_client: int = Field(default=160, ge=40)
+    online_steps: int = Field(default=100, ge=1)
+    rounds: int = Field(default=3, ge=1)
+    client_count: int = Field(default=5, ge=2)
+    local_epochs: int = Field(default=1, ge=1)
+    learning_rate: float = Field(default=0.01, gt=0, allow_inf_nan=False)
+    batch_size: int = Field(default=64, ge=1)
     partition: Literal["iid", "non_iid"] = "iid"
     seed: int = Field(default=42, ge=0, le=2_147_483_647)
-    network_profile: Literal["normal", "high_latency", "low_bandwidth"] = "normal"
-    dropout_probability: float = Field(default=0.0, ge=0, le=0.95)
-    timeout_ms: int = Field(default=30_000, ge=10, le=120_000)
+    network_profile: Literal["normal", "high_latency", "low_bandwidth", "bursty_congestion", "regime_switching"] = "normal"
+    dropout_probability: float = Field(default=0.0, ge=0, le=1, allow_inf_nan=False)
+    timeout_ms: int = Field(default=30_000, gt=0)
 
     @model_validator(mode="after")
     def validate_task(self):
@@ -27,29 +42,34 @@ class FLExperimentCreate(BaseModel):
             raise ValueError("Predictive scheduling requires the network_delay task.")
         if self.dataset_id is not None and self.task != "network_delay":
             raise ValueError("A network dataset can only be used for network_delay.")
+        if self.task == "mnist" and self.network_profile in {"bursty_congestion", "regime_switching"}:
+            raise ValueError("Dynamic telemetry profiles require network_delay.")
         return self
 
 
-class FLComparisonCreate(BaseModel):
+class FLComparisonCreate(RegionalPoolSettings):
     scenario_id: Optional[int] = Field(default=None, ge=1)
     task: Literal["mnist", "network_delay"] = "mnist"
     dataset_id: Optional[int] = Field(default=None, ge=1)
-    samples_per_client: int = Field(default=160, ge=40, le=2000)
-    rounds: int = Field(default=3, ge=1, le=100)
-    client_count: int = Field(default=5, ge=2, le=50)
-    local_epochs: int = Field(default=1, ge=1, le=20)
-    learning_rate: float = Field(default=0.01, gt=0, le=1)
-    batch_size: int = Field(default=64, ge=8, le=512)
+    samples_per_client: int = Field(default=160, ge=40)
+    online_steps: int = Field(default=100, ge=1)
+    rounds: int = Field(default=3, ge=1)
+    client_count: int = Field(default=5, ge=2)
+    local_epochs: int = Field(default=1, ge=1)
+    learning_rate: float = Field(default=0.01, gt=0, allow_inf_nan=False)
+    batch_size: int = Field(default=64, ge=1)
     partition: Literal["iid", "non_iid"] = "iid"
     seed: int = Field(default=42, ge=0, le=2_147_483_647)
-    network_profile: Literal["normal", "high_latency", "low_bandwidth"] = "normal"
-    dropout_probability: float = Field(default=0.0, ge=0, le=0.95)
-    timeout_ms: int = Field(default=30_000, ge=10, le=120_000)
+    network_profile: Literal["normal", "high_latency", "low_bandwidth", "bursty_congestion", "regime_switching"] = "normal"
+    dropout_probability: float = Field(default=0.0, ge=0, le=1, allow_inf_nan=False)
+    timeout_ms: int = Field(default=30_000, gt=0)
 
     @model_validator(mode="after")
     def validate_dataset_task(self):
         if self.dataset_id is not None and self.task != "network_delay":
             raise ValueError("A network dataset can only be used for network_delay.")
+        if self.task == "mnist" and self.network_profile in {"bursty_congestion", "regime_switching"}:
+            raise ValueError("Dynamic telemetry profiles require network_delay.")
         return self
 
 

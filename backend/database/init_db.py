@@ -4,6 +4,7 @@ from backend.database.database import engine, Base
 from backend.models.scenario import Scenario
 from backend.models.network import Node, NetworkLink
 from backend.models.routing_event import RoutingEvent
+from backend.models.research_region import ResearchRegion
 from backend.models.participant import Participant
 from backend.models.simulation import Experiment, FLRound, Metric, FLClientRound
 from backend.models.network_learning import NetworkDataset, NetworkObservation, NetworkRoundEvaluation, NetworkRoundPrediction

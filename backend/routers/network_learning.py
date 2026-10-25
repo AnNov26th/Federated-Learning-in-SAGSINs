@@ -16,11 +16,13 @@ router = APIRouter()
 
 
 class DatasetCreate(BaseModel):
+    prediction_target: Literal["auto", "fl_rtt", "application_link"] = "auto"
     scenario_id: int = Field(ge=1)
     seed: int = Field(default=42, ge=0, le=2147483647)
-    samples_per_client: int = Field(default=160, ge=40, le=2000)
+    samples_per_client: int = Field(default=160, ge=40)
+    online_steps: int = Field(default=100, ge=1)
     partition: Literal["iid", "non_iid"] = "non_iid"
-    network_profile: Literal["normal", "high_latency", "low_bandwidth"] = "normal"
+    network_profile: Literal["normal", "high_latency", "low_bandwidth", "bursty_congestion", "regime_switching"] = "normal"
 
 
 @router.post("/datasets", response_model=APIResponse[dict], status_code=201)

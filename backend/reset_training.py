@@ -68,12 +68,12 @@ def main():
     if args.database == "main":
         from backend.database.database import engine
     else:
-        database_file = root / "data/network_demo/demo.sqlite"
+        database_file = root / "data/output/network_demo/demo.sqlite"
         if not database_file.is_file():
             raise SystemExit("Demo database does not exist.")
         engine = create_engine("sqlite:///" + database_file.as_posix())
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
-    report = reset_training(engine, root / "data/training_reset_backups" / (timestamp + "-" + args.database), args.apply)
+    report = reset_training(engine, root / "data/output/training_reset_backups" / (timestamp + "-" + args.database), args.apply)
     print(json.dumps(report, ensure_ascii=False, indent=2))
 
 

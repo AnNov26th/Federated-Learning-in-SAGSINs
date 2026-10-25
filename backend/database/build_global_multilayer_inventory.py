@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-DATA = ROOT / "data" / "global_ground_nodes"
+DATA = ROOT / "data" / "input" / "global_ground_nodes"
 GROUND_INPUT = DATA / "global_ground_nodes_50.csv"
 OUTPUT = DATA / "global_multilayer_nodes_106.csv"
 EPOCH_TEXT = "2026-10-11T00:00:00Z"

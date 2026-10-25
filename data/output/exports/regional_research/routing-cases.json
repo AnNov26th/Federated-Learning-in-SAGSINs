@@ -1,0 +1,2774 @@
+[
+  {
+    "request": {
+      "scenario_id": 7,
+      "lat": 16.061,
+      "lng": 108.22,
+      "policy": "predictive",
+      "experiment_id": 6,
+      "service": "Message",
+      "load_ratio": 0,
+      "duration_s": 10,
+      "wait_timeout_s": 15
+    },
+    "condition": "normal",
+    "result": {
+      "status": "routed",
+      "reason": "Đã chọn tuyến có tổng chi phí nhỏ nhất.",
+      "route": {
+        "path": [
+          "LAB7-ACCESS",
+          "LAB7-UAV",
+          "LAB7-EDGE"
+        ],
+        "hops": [
+          {
+            "link_id": 509,
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-UAV",
+            "bandwidth_mbps": 17.565256517895016,
+            "static_ms": 4.915622650249888,
+            "predicted_ms": 4.918493747711182,
+            "estimated": false,
+            "features": {
+              "layer": "AIR",
+              "observed_delay_ms": 4.915622650249888,
+              "latency_ms": 3.277222650249888,
+              "bandwidth_mbps": 20.0,
+              "distance_km": 16.18853048962355,
+              "load_ratio": 0.12173717410524923,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.027722265024988764,
+              "payload_bytes": 4096,
+              "queue_ms": 0.2772226502498876,
+              "available_mbps": 17.565256517895016,
+              "tick": 0.0,
+              "link_id": 509,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 4.9118521241845805
+          },
+          {
+            "link_id": 510,
+            "source": "LAB7-UAV",
+            "target": "LAB7-EDGE",
+            "bandwidth_mbps": 16.127181512125986,
+            "static_ms": 5.118684603352675,
+            "predicted_ms": 5.121965408325195,
+            "estimated": false,
+            "features": {
+              "layer": "GROUND",
+              "observed_delay_ms": 5.118684603352675,
+              "latency_ms": 3.4802846033526755,
+              "bandwidth_mbps": 20.0,
+              "distance_km": 16.0723414162594,
+              "load_ratio": 0.1936409243937008,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.04802846033526756,
+              "payload_bytes": 4096,
+              "queue_ms": 0.4802846033526756,
+              "available_mbps": 16.127181512125986,
+              "tick": 0.0,
+              "link_id": 510,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 5.1498047879693765
+          }
+        ],
+        "cost": 10.097777341000416,
+        "predicted_transfer_ms": 10.040459156036377,
+        "static_transfer_ms": 10.034307253602563,
+        "bottleneck": 10,
+        "sourceId": "LAB7-ACCESS",
+        "targetId": "LAB7-EDGE",
+        "accessDistanceKm": 0.11517105949339812,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 4.2768,
+        "predicted_access_rtt_ms": 4.279585361480713,
+        "total_static_transfer_ms": 14.311107253602563,
+        "total_predicted_transfer_ms": 14.32004451751709,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 2,
+        "application": {
+          "payload_bytes": 4096,
+          "latency_budget_ms": 1000,
+          "estimated_one_way_ms": 18.32004451751709,
+          "channel_latency_ms": 7.757507253602563,
+          "serialization_ms": 7.174149942151219,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 0.05,
+          "bandwidth_headroom_mbps": 9.95,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận, các hop và xử lý đầu cuối khi có profile thiết bị. Ngưỡng/payload là giả định demo. Liên kết được giả định đối xứng; chưa mô phỏng tranh chấp vô tuyến hay hàng đợi gói.",
+          "realized_next_tick_ms": 18.35860583441648,
+          "current_snapshot_one_way_ms": 18.311107253602565,
+          "predicted_one_way_ms": 18.32004451751709
+        },
+        "distance_km": 32.37604296537635,
+        "score_breakdown": {
+          "delay": 7.8760244846344,
+          "capacity": 2.189376813400641,
+          "distance": 0.03237604296537635,
+          "preference": 0,
+          "total": 10.097777341000416
+        },
+        "access": {
+          "source_id": "LAB7-ACCESS",
+          "distance_km": 0.11517105949339812,
+          "radius_km": 300,
+          "latency_ms": 0.0003841693025292788,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 4.2768,
+            "latency_ms": 1.0,
+            "bandwidth_mbps": 10.0,
+            "distance_km": 0.11517105949339812,
+            "load_ratio": 0.0,
+            "packet_loss_ratio": 0.0,
+            "jitter_ms": 0.0,
+            "payload_bytes": 4096,
+            "queue_ms": 0.0,
+            "available_mbps": 10.0,
+            "tick": 0.0,
+            "link_id": 0,
+            "propagation_processing_ms": 1.0
+          },
+          "predicted_access_rtt_ms": 4.279585361480713,
+          "access_latency_ms": 1.0,
+          "access_rtt_ms": 4.2768,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-UAV",
+            "type": "AIR",
+            "lat": 16.08,
+            "lng": 108.37,
+            "alt": 0.5
+          },
+          {
+            "id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "alt": 0.03
+          }
+        ]
+      },
+      "baseline": {
+        "path": [
+          "LAB7-ACCESS",
+          "LAB7-UAV",
+          "LAB7-EDGE"
+        ],
+        "hops": [
+          {
+            "link_id": 509,
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-UAV",
+            "bandwidth_mbps": 17.565256517895016,
+            "static_ms": 4.915622650249888,
+            "predicted_ms": 4.918493747711182,
+            "estimated": false,
+            "features": {
+              "layer": "AIR",
+              "observed_delay_ms": 4.915622650249888,
+              "latency_ms": 3.277222650249888,
+              "bandwidth_mbps": 20.0,
+              "distance_km": 16.18853048962355,
+              "load_ratio": 0.12173717410524923,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.027722265024988764,
+              "payload_bytes": 4096,
+              "queue_ms": 0.2772226502498876,
+              "available_mbps": 17.565256517895016,
+              "tick": 0.0,
+              "link_id": 509,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 4.9118521241845805
+          },
+          {
+            "link_id": 510,
+            "source": "LAB7-UAV",
+            "target": "LAB7-EDGE",
+            "bandwidth_mbps": 16.127181512125986,
+            "static_ms": 5.118684603352675,
+            "predicted_ms": 5.121965408325195,
+            "estimated": false,
+            "features": {
+              "layer": "GROUND",
+              "observed_delay_ms": 5.118684603352675,
+              "latency_ms": 3.4802846033526755,
+              "bandwidth_mbps": 20.0,
+              "distance_km": 16.0723414162594,
+              "load_ratio": 0.1936409243937008,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.04802846033526756,
+              "payload_bytes": 4096,
+              "queue_ms": 0.4802846033526756,
+              "available_mbps": 16.127181512125986,
+              "tick": 0.0,
+              "link_id": 510,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 5.1498047879693765
+          }
+        ],
+        "cost": 10.092861845847429,
+        "predicted_transfer_ms": 10.040459156036377,
+        "static_transfer_ms": 10.034307253602563,
+        "bottleneck": 10,
+        "sourceId": "LAB7-ACCESS",
+        "targetId": "LAB7-EDGE",
+        "accessDistanceKm": 0.11517105949339812,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 4.2768,
+        "predicted_access_rtt_ms": 4.279585361480713,
+        "total_static_transfer_ms": 14.311107253602563,
+        "total_predicted_transfer_ms": 14.32004451751709,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 2,
+        "application": {
+          "payload_bytes": 4096,
+          "latency_budget_ms": 1000,
+          "estimated_one_way_ms": 18.32004451751709,
+          "channel_latency_ms": 7.757507253602563,
+          "serialization_ms": 7.174149942151219,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 0.05,
+          "bandwidth_headroom_mbps": 9.95,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận, các hop và xử lý đầu cuối khi có profile thiết bị. Ngưỡng/payload là giả định demo. Liên kết được giả định đối xứng; chưa mô phỏng tranh chấp vô tuyến hay hàng đợi gói.",
+          "realized_next_tick_ms": 18.35860583441648,
+          "current_snapshot_one_way_ms": 18.311107253602565,
+          "predicted_one_way_ms": 18.32004451751709
+        },
+        "distance_km": 32.37604296537635,
+        "score_breakdown": {
+          "delay": 7.87110898948141,
+          "capacity": 2.189376813400641,
+          "distance": 0.03237604296537635,
+          "preference": 0,
+          "total": 10.092861845847429
+        },
+        "access": {
+          "source_id": "LAB7-ACCESS",
+          "distance_km": 0.11517105949339812,
+          "radius_km": 300,
+          "latency_ms": 0.0003841693025292788,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 4.2768,
+            "latency_ms": 1.0,
+            "bandwidth_mbps": 10.0,
+            "distance_km": 0.11517105949339812,
+            "load_ratio": 0.0,
+            "packet_loss_ratio": 0.0,
+            "jitter_ms": 0.0,
+            "payload_bytes": 4096,
+            "queue_ms": 0.0,
+            "available_mbps": 10.0,
+            "tick": 0.0,
+            "link_id": 0,
+            "propagation_processing_ms": 1.0
+          },
+          "predicted_access_rtt_ms": 4.279585361480713,
+          "access_latency_ms": 1.0,
+          "access_rtt_ms": 4.2768,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-UAV",
+            "type": "AIR",
+            "lat": 16.08,
+            "lng": 108.37,
+            "alt": 0.5
+          },
+          {
+            "id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "alt": 0.03
+          }
+        ]
+      },
+      "policy": "predictive",
+      "topology": "configured",
+      "model": {
+        "experiment_id": 6,
+        "scenario_id": 7,
+        "algorithm": "Predictive",
+        "round": 20,
+        "mae_ms": 0.130392,
+        "validation_mae_ms": 0.116354,
+        "persistence_mae_ms": 0.129412,
+        "payload_bytes": 3844,
+        "dataset_id": 6,
+        "target": "next_tick_application_link_delay_ms",
+        "candidate_pool": [
+          "LAB7-ACCESS",
+          "LAB7-EDGE",
+          "LAB7-RELAY",
+          "LAB7-SAT",
+          "LAB7-SHIP",
+          "LAB7-UAV"
+        ],
+        "beats_persistence": false
+      },
+      "snapshot_at": "2026-10-25T05:35:15.852810+00:00",
+      "note": "FL dự đoán độ trễ một chiều link ứng dụng tại tick kế tiếp; công thức tĩnh dùng tick hiện tại. Nhãn tương lai chỉ dùng đánh giá sau quyết định. Kênh/hàng đợi là mô phỏng.",
+      "profile": {
+        "latency_weight": 0.55,
+        "capacity_weight": 0.1,
+        "distance_weight": 0.1,
+        "min_bandwidth": 0.05
+      },
+      "scenario_id": 7,
+      "event_model": {
+        "version": "device_v1",
+        "selection": "automatic",
+        "device": {
+          "id": "smartphone",
+          "name": "Điện thoại 4G/5G",
+          "access_km": {
+            "GROUND": 5,
+            "AIR": 5,
+            "SEA": 2
+          },
+          "uplink_mbps": 10,
+          "downlink_mbps": 50,
+          "processing_ms": 2,
+          "effective_bandwidth_mbps": 10
+        },
+        "traffic": {
+          "kind": "burst",
+          "direction": "uplink",
+          "destination": "Máy chủ tin nhắn tại biên",
+          "processing_ms": 2
+        },
+        "assumptions": [
+          "Tầm truy cập và tốc độ thiết bị là giả định demo, không phải thông số chuẩn 4G/5G.",
+          "GROUND/AIR/SEA được giả định có trạm truy cập tương thích khi profile cho phép; chưa có inventory radio từng node.",
+          "Các GROUND được giả định có dịch vụ biên tương ứng. Chưa mô phỏng Internet/core, hàng đợi gói hay tranh chấp vô tuyến.",
+          "Băng thông một luồng được giữ tới khi xóa hoặc tính lại sự kiện; chưa tự hết hạn phiên."
+        ]
+      },
+      "research": {
+        "version": "coastal-v1",
+        "sim_time_s": 0.0,
+        "conditions": "normal",
+        "access_nodes": [
+          "LAB7-ACCESS"
+        ],
+        "service_nodes": [
+          "LAB7-EDGE"
+        ]
+      },
+      "coverage_diagnostics": {
+        "nearest_compatible_nodes": [
+          {
+            "node_id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "distance_km": 0.11517105949339812,
+            "device_range_km": 5,
+            "within_device_range": true,
+            "within_local_scope": true
+          },
+          {
+            "node_id": "LAB7-RELAY",
+            "type": "GROUND",
+            "lat": 16.07,
+            "lng": 108.32,
+            "distance_km": 10.732059244237531,
+            "device_range_km": 5,
+            "within_device_range": false,
+            "within_local_scope": true
+          },
+          {
+            "node_id": "LAB7-SHIP",
+            "type": "SEA",
+            "lat": 16.02,
+            "lng": 108.32,
+            "distance_km": 11.618465697025158,
+            "device_range_km": 2,
+            "within_device_range": false,
+            "within_local_scope": true
+          }
+        ],
+        "note": "Khoảng cách tới node có lớp truy cập phù hợp; chưa khẳng định đủ tín hiệu, băng thông hoặc có backhaul."
+      },
+      "routing_scope": {
+        "mode": "local",
+        "radius_km": 300,
+        "distance_definition": "access_area_plus_layer_specific_backbone",
+        "expanded": false
+      },
+      "access_search": {
+        "requested_radius_km": null,
+        "used_radius_km": 300,
+        "mode": "bounded",
+        "expanded": false,
+        "nearest_ground_km": 0.11119492664462255
+      },
+      "access": {
+        "source_id": "LAB7-ACCESS",
+        "distance_km": 0.11517105949339812,
+        "radius_km": 300,
+        "latency_ms": 0.0003841693025292788,
+        "is_estimated": true
+      },
+      "diagnostics": {
+        "active_nodes": 6,
+        "links": 7,
+        "eligible_directions": 14,
+        "excluded": 0
+      },
+      "code": "ok",
+      "payload_bytes": 4096,
+      "topology_preview": {
+        "nodes": [
+          {
+            "id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-RELAY",
+            "type": "GROUND",
+            "lat": 16.07,
+            "lng": 108.32,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-SAT",
+            "type": "SPACE",
+            "lat": 16.06,
+            "lng": 108.4,
+            "alt": 550.0
+          },
+          {
+            "id": "LAB7-SHIP",
+            "type": "SEA",
+            "lat": 16.02,
+            "lng": 108.32,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-UAV",
+            "type": "AIR",
+            "lat": 16.08,
+            "lng": 108.37,
+            "alt": 0.5
+          }
+        ],
+        "links": [
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-RELAY",
+            "distance": 10.743008693864656,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-RELAY",
+            "target": "LAB7-EDGE",
+            "distance": 21.484405797762903,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-UAV",
+            "distance": 16.18853048962355,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-UAV",
+            "target": "LAB7-EDGE",
+            "distance": 16.0723414162594,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-SHIP",
+            "distance": 11.575298528678537,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-SHIP",
+            "target": "LAB7-SAT",
+            "distance": 550.0617165821872,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-SAT",
+            "target": "LAB7-EDGE",
+            "distance": 550.1433243907812,
+            "estimated": false
+          }
+        ],
+        "total_links": 7,
+        "neighbors_shown": 3
+      },
+      "requested_load_ratio": 0.0,
+      "applied_load_ratio": 0.0,
+      "load_reduced": false,
+      "ingress_selection": {
+        "remote": false,
+        "nearest_ground_km": 0.11119492664462255,
+        "preference_penalties": {
+          "GROUND": 0,
+          "AIR": 1,
+          "SEA": 2,
+          "SPACE": 3
+        },
+        "chosen_type": "GROUND",
+        "chosen_node": "LAB7-ACCESS",
+        "access_distance_km": 0.11517105949339812,
+        "access_rtt_ms": 4.2768,
+        "predicted_access_rtt_ms": 4.279585361480713,
+        "access_bandwidth_mbps": 10,
+        "total_cost": 10.097777341000416,
+        "preference_penalty": 0,
+        "reason": "Cách GROUND gần nhất 0 km. Tối ưu tổng điểm khoảng cách, băng thông và độ trễ; GROUND chỉ được ưu tiên nhẹ khi các chỉ số gần tương đương."
+      },
+      "objective": "Ingress + Σ hop: w_delay × RTT_proxy_ms + w_capacity × 100 / bandwidth_Mbps + w_distance × distance_km / 100 + soft_ingress_preference_penalty",
+      "destination": {
+        "node_id": "LAB7-EDGE",
+        "role": "Máy chủ tin nhắn tại biên",
+        "placement": "assumed_service_at_ground_edge",
+        "processing_ms": 2
+      },
+      "routing_decision": {
+        "method": "fl_checkpoint",
+        "experiment_id": 6,
+        "round": 20,
+        "feasibility_first": true,
+        "prediction_target": "next_tick_application_link_delay_ms",
+        "inferred_channels": 15,
+        "note": "Model chấm cả tiếp cận và từng hop hợp lệ. Tuyến trùng baseline vẫn là kết quả dùng FL; chưa chứng minh cải thiện độ trễ ứng dụng."
+      },
+      "comparison": {
+        "same_path": true,
+        "realized_delay_change_ms": 0.0,
+        "evaluation_source": "shared_future_simulator_after_decision_not_measured_network",
+        "predicted_cost_change": 0.0,
+        "application_estimate_change_ms": 0.0,
+        "score_change": -0.0049154951529875035
+      },
+      "delay_semantics": "application_link_one_way_ms",
+      "model_applicability": {
+        "training_target": "next_tick_application_link_delay_ms",
+        "training_payload_bytes": "varied_application_packets",
+        "application_payload_bytes": 4096,
+        "route_nodes_outside_training_pool": [],
+        "held_out_fl_mae_ms": 0.130392,
+        "routing_end_to_end_validated": false,
+        "note": "Mô hình cùng định nghĩa telemetry link/payload ứng dụng. Chưa kiểm chứng với số đo mạng thật; sai số link không bảo đảm tuyến tối ưu."
+      },
+      "unseen_layers": [],
+      "allocation": {
+        "reserved_mbps": 0.05,
+        "other_event_count": 0,
+        "policy": "Giữ băng thông các điểm đang tồn tại; chọn tuyến có tổng điểm thấp nhất trên phần còn lại. Không giành lại băng thông của tuyến cũ.",
+        "nodes": [
+          {
+            "node_id": "LAB7-ACCESS",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 100.0,
+            "remaining_after_mbps": 99.95
+          },
+          {
+            "node_id": "LAB7-UAV",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 30.0,
+            "remaining_after_mbps": 29.95
+          },
+          {
+            "node_id": "LAB7-EDGE",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 100.0,
+            "remaining_after_mbps": 99.95
+          }
+        ],
+        "links": [
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-UAV",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 17.565256517895016,
+            "remaining_after_mbps": 17.515256517895015
+          },
+          {
+            "source": "LAB7-UAV",
+            "target": "LAB7-EDGE",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 16.127181512125986,
+            "remaining_after_mbps": 16.077181512125986
+          }
+        ]
+      }
+    }
+  },
+  {
+    "request": {
+      "scenario_id": 7,
+      "lat": 16.061,
+      "lng": 108.22,
+      "policy": "predictive",
+      "experiment_id": 6,
+      "service": "Message",
+      "load_ratio": 0,
+      "duration_s": 10,
+      "wait_timeout_s": 15
+    },
+    "condition": "congested",
+    "result": {
+      "status": "routed",
+      "reason": "Đã chọn tuyến có tổng chi phí nhỏ nhất.",
+      "route": {
+        "path": [
+          "LAB7-ACCESS",
+          "LAB7-UAV",
+          "LAB7-EDGE"
+        ],
+        "hops": [
+          {
+            "link_id": 509,
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-UAV",
+            "bandwidth_mbps": 14.565256517895016,
+            "static_ms": 5.3846612794258455,
+            "predicted_ms": 5.387740612030029,
+            "estimated": false,
+            "features": {
+              "layer": "AIR",
+              "observed_delay_ms": 5.3846612794258455,
+              "latency_ms": 3.7462612794258456,
+              "bandwidth_mbps": 20.0,
+              "distance_km": 16.18853048962355,
+              "load_ratio": 0.2717371741052492,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.07462612794258454,
+              "payload_bytes": 4096,
+              "queue_ms": 0.7462612794258454,
+              "available_mbps": 14.565256517895016,
+              "tick": 0.0,
+              "link_id": 509,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 5.379179436586808
+          },
+          {
+            "link_id": 510,
+            "source": "LAB7-UAV",
+            "target": "LAB7-EDGE",
+            "bandwidth_mbps": 13.127181512125984,
+            "static_ms": 5.685512585672009,
+            "predicted_ms": 5.689067840576172,
+            "estimated": false,
+            "features": {
+              "layer": "GROUND",
+              "observed_delay_ms": 5.685512585672009,
+              "latency_ms": 4.047112585672009,
+              "bandwidth_mbps": 20.0,
+              "distance_km": 16.0723414162594,
+              "load_ratio": 0.34364092439370075,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.10471125856720087,
+              "payload_bytes": 4096,
+              "queue_ms": 1.0471125856720087,
+              "available_mbps": 13.127181512125984,
+              "tick": 0.0,
+              "link_id": 510,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 5.7326171751143145
+          }
+        ],
+        "cost": 10.926736106987644,
+        "predicted_transfer_ms": 11.076808452606201,
+        "static_transfer_ms": 11.070173865097853,
+        "bottleneck": 10,
+        "sourceId": "LAB7-ACCESS",
+        "targetId": "LAB7-EDGE",
+        "accessDistanceKm": 0.11517105949339812,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 4.2768,
+        "predicted_access_rtt_ms": 4.279585361480713,
+        "total_static_transfer_ms": 15.346973865097853,
+        "total_predicted_transfer_ms": 15.356393814086914,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 2,
+        "application": {
+          "payload_bytes": 4096,
+          "latency_budget_ms": 1000,
+          "estimated_one_way_ms": 19.356393814086914,
+          "channel_latency_ms": 8.793373865097855,
+          "serialization_ms": 8.022731870288162,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 0.05,
+          "bandwidth_headroom_mbps": 9.95,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận, các hop và xử lý đầu cuối khi có profile thiết bị. Ngưỡng/payload là giả định demo. Liên kết được giả định đối xứng; chưa mô phỏng tranh chấp vô tuyến hay hàng đợi gói.",
+          "realized_next_tick_ms": 19.408745533963646,
+          "current_snapshot_one_way_ms": 19.34697386509785,
+          "predicted_one_way_ms": 19.356393814086914
+        },
+        "distance_km": 32.37604296537635,
+        "score_breakdown": {
+          "delay": 8.446016597747803,
+          "capacity": 2.448343466274464,
+          "distance": 0.03237604296537635,
+          "preference": 0,
+          "total": 10.926736106987644
+        },
+        "access": {
+          "source_id": "LAB7-ACCESS",
+          "distance_km": 0.11517105949339812,
+          "radius_km": 300,
+          "latency_ms": 0.0003841693025292788,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 4.2768,
+            "latency_ms": 1.0,
+            "bandwidth_mbps": 10.0,
+            "distance_km": 0.11517105949339812,
+            "load_ratio": 0.0,
+            "packet_loss_ratio": 0.0,
+            "jitter_ms": 0.0,
+            "payload_bytes": 4096,
+            "queue_ms": 0.0,
+            "available_mbps": 10.0,
+            "tick": 0.0,
+            "link_id": 0,
+            "propagation_processing_ms": 1.0
+          },
+          "predicted_access_rtt_ms": 4.279585361480713,
+          "access_latency_ms": 1.0,
+          "access_rtt_ms": 4.2768,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-UAV",
+            "type": "AIR",
+            "lat": 16.08,
+            "lng": 108.37,
+            "alt": 0.5
+          },
+          {
+            "id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "alt": 0.03
+          }
+        ]
+      },
+      "baseline": {
+        "path": [
+          "LAB7-ACCESS",
+          "LAB7-UAV",
+          "LAB7-EDGE"
+        ],
+        "hops": [
+          {
+            "link_id": 509,
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-UAV",
+            "bandwidth_mbps": 14.565256517895016,
+            "static_ms": 5.3846612794258455,
+            "predicted_ms": 5.387740612030029,
+            "estimated": false,
+            "features": {
+              "layer": "AIR",
+              "observed_delay_ms": 5.3846612794258455,
+              "latency_ms": 3.7462612794258456,
+              "bandwidth_mbps": 20.0,
+              "distance_km": 16.18853048962355,
+              "load_ratio": 0.2717371741052492,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.07462612794258454,
+              "payload_bytes": 4096,
+              "queue_ms": 0.7462612794258454,
+              "available_mbps": 14.565256517895016,
+              "tick": 0.0,
+              "link_id": 509,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 5.379179436586808
+          },
+          {
+            "link_id": 510,
+            "source": "LAB7-UAV",
+            "target": "LAB7-EDGE",
+            "bandwidth_mbps": 13.127181512125984,
+            "static_ms": 5.685512585672009,
+            "predicted_ms": 5.689067840576172,
+            "estimated": false,
+            "features": {
+              "layer": "GROUND",
+              "observed_delay_ms": 5.685512585672009,
+              "latency_ms": 4.047112585672009,
+              "bandwidth_mbps": 20.0,
+              "distance_km": 16.0723414162594,
+              "load_ratio": 0.34364092439370075,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.10471125856720087,
+              "payload_bytes": 4096,
+              "queue_ms": 1.0471125856720087,
+              "available_mbps": 13.127181512125984,
+              "tick": 0.0,
+              "link_id": 510,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 5.7326171751143145
+          }
+        ],
+        "cost": 10.921555135043661,
+        "predicted_transfer_ms": 11.076808452606201,
+        "static_transfer_ms": 11.070173865097853,
+        "bottleneck": 10,
+        "sourceId": "LAB7-ACCESS",
+        "targetId": "LAB7-EDGE",
+        "accessDistanceKm": 0.11517105949339812,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 4.2768,
+        "predicted_access_rtt_ms": 4.279585361480713,
+        "total_static_transfer_ms": 15.346973865097853,
+        "total_predicted_transfer_ms": 15.356393814086914,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 2,
+        "application": {
+          "payload_bytes": 4096,
+          "latency_budget_ms": 1000,
+          "estimated_one_way_ms": 19.356393814086914,
+          "channel_latency_ms": 8.793373865097855,
+          "serialization_ms": 8.022731870288162,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 0.05,
+          "bandwidth_headroom_mbps": 9.95,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận, các hop và xử lý đầu cuối khi có profile thiết bị. Ngưỡng/payload là giả định demo. Liên kết được giả định đối xứng; chưa mô phỏng tranh chấp vô tuyến hay hàng đợi gói.",
+          "realized_next_tick_ms": 19.408745533963646,
+          "current_snapshot_one_way_ms": 19.34697386509785,
+          "predicted_one_way_ms": 19.356393814086914
+        },
+        "distance_km": 32.37604296537635,
+        "score_breakdown": {
+          "delay": 8.44083562580382,
+          "capacity": 2.448343466274464,
+          "distance": 0.03237604296537635,
+          "preference": 0,
+          "total": 10.921555135043661
+        },
+        "access": {
+          "source_id": "LAB7-ACCESS",
+          "distance_km": 0.11517105949339812,
+          "radius_km": 300,
+          "latency_ms": 0.0003841693025292788,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 4.2768,
+            "latency_ms": 1.0,
+            "bandwidth_mbps": 10.0,
+            "distance_km": 0.11517105949339812,
+            "load_ratio": 0.0,
+            "packet_loss_ratio": 0.0,
+            "jitter_ms": 0.0,
+            "payload_bytes": 4096,
+            "queue_ms": 0.0,
+            "available_mbps": 10.0,
+            "tick": 0.0,
+            "link_id": 0,
+            "propagation_processing_ms": 1.0
+          },
+          "predicted_access_rtt_ms": 4.279585361480713,
+          "access_latency_ms": 1.0,
+          "access_rtt_ms": 4.2768,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-UAV",
+            "type": "AIR",
+            "lat": 16.08,
+            "lng": 108.37,
+            "alt": 0.5
+          },
+          {
+            "id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "alt": 0.03
+          }
+        ]
+      },
+      "policy": "predictive",
+      "topology": "configured",
+      "model": {
+        "experiment_id": 6,
+        "scenario_id": 7,
+        "algorithm": "Predictive",
+        "round": 20,
+        "mae_ms": 0.130392,
+        "validation_mae_ms": 0.116354,
+        "persistence_mae_ms": 0.129412,
+        "payload_bytes": 3844,
+        "dataset_id": 6,
+        "target": "next_tick_application_link_delay_ms",
+        "candidate_pool": [
+          "LAB7-ACCESS",
+          "LAB7-EDGE",
+          "LAB7-RELAY",
+          "LAB7-SAT",
+          "LAB7-SHIP",
+          "LAB7-UAV"
+        ],
+        "beats_persistence": false
+      },
+      "snapshot_at": "2026-10-25T05:35:15.952596+00:00",
+      "note": "FL dự đoán độ trễ một chiều link ứng dụng tại tick kế tiếp; công thức tĩnh dùng tick hiện tại. Nhãn tương lai chỉ dùng đánh giá sau quyết định. Kênh/hàng đợi là mô phỏng.",
+      "profile": {
+        "latency_weight": 0.55,
+        "capacity_weight": 0.1,
+        "distance_weight": 0.1,
+        "min_bandwidth": 0.05
+      },
+      "scenario_id": 7,
+      "event_model": {
+        "version": "device_v1",
+        "selection": "automatic",
+        "device": {
+          "id": "smartphone",
+          "name": "Điện thoại 4G/5G",
+          "access_km": {
+            "GROUND": 5,
+            "AIR": 5,
+            "SEA": 2
+          },
+          "uplink_mbps": 10,
+          "downlink_mbps": 50,
+          "processing_ms": 2,
+          "effective_bandwidth_mbps": 10
+        },
+        "traffic": {
+          "kind": "burst",
+          "direction": "uplink",
+          "destination": "Máy chủ tin nhắn tại biên",
+          "processing_ms": 2
+        },
+        "assumptions": [
+          "Tầm truy cập và tốc độ thiết bị là giả định demo, không phải thông số chuẩn 4G/5G.",
+          "GROUND/AIR/SEA được giả định có trạm truy cập tương thích khi profile cho phép; chưa có inventory radio từng node.",
+          "Các GROUND được giả định có dịch vụ biên tương ứng. Chưa mô phỏng Internet/core, hàng đợi gói hay tranh chấp vô tuyến.",
+          "Băng thông một luồng được giữ tới khi xóa hoặc tính lại sự kiện; chưa tự hết hạn phiên."
+        ]
+      },
+      "research": {
+        "version": "coastal-v1",
+        "sim_time_s": 0.0,
+        "conditions": "congested",
+        "access_nodes": [
+          "LAB7-ACCESS"
+        ],
+        "service_nodes": [
+          "LAB7-EDGE"
+        ]
+      },
+      "coverage_diagnostics": {
+        "nearest_compatible_nodes": [
+          {
+            "node_id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "distance_km": 0.11517105949339812,
+            "device_range_km": 5,
+            "within_device_range": true,
+            "within_local_scope": true
+          },
+          {
+            "node_id": "LAB7-RELAY",
+            "type": "GROUND",
+            "lat": 16.07,
+            "lng": 108.32,
+            "distance_km": 10.732059244237531,
+            "device_range_km": 5,
+            "within_device_range": false,
+            "within_local_scope": true
+          },
+          {
+            "node_id": "LAB7-SHIP",
+            "type": "SEA",
+            "lat": 16.02,
+            "lng": 108.32,
+            "distance_km": 11.618465697025158,
+            "device_range_km": 2,
+            "within_device_range": false,
+            "within_local_scope": true
+          }
+        ],
+        "note": "Khoảng cách tới node có lớp truy cập phù hợp; chưa khẳng định đủ tín hiệu, băng thông hoặc có backhaul."
+      },
+      "routing_scope": {
+        "mode": "local",
+        "radius_km": 300,
+        "distance_definition": "access_area_plus_layer_specific_backbone",
+        "expanded": false
+      },
+      "access_search": {
+        "requested_radius_km": null,
+        "used_radius_km": 300,
+        "mode": "bounded",
+        "expanded": false,
+        "nearest_ground_km": 0.11119492664462255
+      },
+      "access": {
+        "source_id": "LAB7-ACCESS",
+        "distance_km": 0.11517105949339812,
+        "radius_km": 300,
+        "latency_ms": 0.0003841693025292788,
+        "is_estimated": true
+      },
+      "diagnostics": {
+        "active_nodes": 6,
+        "links": 7,
+        "eligible_directions": 14,
+        "excluded": 0
+      },
+      "code": "ok",
+      "payload_bytes": 4096,
+      "topology_preview": {
+        "nodes": [
+          {
+            "id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-RELAY",
+            "type": "GROUND",
+            "lat": 16.07,
+            "lng": 108.32,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-SAT",
+            "type": "SPACE",
+            "lat": 16.06,
+            "lng": 108.4,
+            "alt": 550.0
+          },
+          {
+            "id": "LAB7-SHIP",
+            "type": "SEA",
+            "lat": 16.02,
+            "lng": 108.32,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-UAV",
+            "type": "AIR",
+            "lat": 16.08,
+            "lng": 108.37,
+            "alt": 0.5
+          }
+        ],
+        "links": [
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-RELAY",
+            "distance": 10.743008693864656,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-RELAY",
+            "target": "LAB7-EDGE",
+            "distance": 21.484405797762903,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-UAV",
+            "distance": 16.18853048962355,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-UAV",
+            "target": "LAB7-EDGE",
+            "distance": 16.0723414162594,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-SHIP",
+            "distance": 11.575298528678537,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-SHIP",
+            "target": "LAB7-SAT",
+            "distance": 550.0617165821872,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-SAT",
+            "target": "LAB7-EDGE",
+            "distance": 550.1433243907812,
+            "estimated": false
+          }
+        ],
+        "total_links": 7,
+        "neighbors_shown": 3
+      },
+      "requested_load_ratio": 0.0,
+      "applied_load_ratio": 0.0,
+      "load_reduced": false,
+      "ingress_selection": {
+        "remote": false,
+        "nearest_ground_km": 0.11119492664462255,
+        "preference_penalties": {
+          "GROUND": 0,
+          "AIR": 1,
+          "SEA": 2,
+          "SPACE": 3
+        },
+        "chosen_type": "GROUND",
+        "chosen_node": "LAB7-ACCESS",
+        "access_distance_km": 0.11517105949339812,
+        "access_rtt_ms": 4.2768,
+        "predicted_access_rtt_ms": 4.279585361480713,
+        "access_bandwidth_mbps": 10,
+        "total_cost": 10.926736106987644,
+        "preference_penalty": 0,
+        "reason": "Cách GROUND gần nhất 0 km. Tối ưu tổng điểm khoảng cách, băng thông và độ trễ; GROUND chỉ được ưu tiên nhẹ khi các chỉ số gần tương đương."
+      },
+      "objective": "Ingress + Σ hop: w_delay × RTT_proxy_ms + w_capacity × 100 / bandwidth_Mbps + w_distance × distance_km / 100 + soft_ingress_preference_penalty",
+      "destination": {
+        "node_id": "LAB7-EDGE",
+        "role": "Máy chủ tin nhắn tại biên",
+        "placement": "assumed_service_at_ground_edge",
+        "processing_ms": 2
+      },
+      "routing_decision": {
+        "method": "fl_checkpoint",
+        "experiment_id": 6,
+        "round": 20,
+        "feasibility_first": true,
+        "prediction_target": "next_tick_application_link_delay_ms",
+        "inferred_channels": 15,
+        "note": "Model chấm cả tiếp cận và từng hop hợp lệ. Tuyến trùng baseline vẫn là kết quả dùng FL; chưa chứng minh cải thiện độ trễ ứng dụng."
+      },
+      "comparison": {
+        "same_path": true,
+        "realized_delay_change_ms": 0.0,
+        "evaluation_source": "shared_future_simulator_after_decision_not_measured_network",
+        "predicted_cost_change": 0.0,
+        "application_estimate_change_ms": 0.0,
+        "score_change": -0.005180971943982371
+      },
+      "delay_semantics": "application_link_one_way_ms",
+      "model_applicability": {
+        "training_target": "next_tick_application_link_delay_ms",
+        "training_payload_bytes": "varied_application_packets",
+        "application_payload_bytes": 4096,
+        "route_nodes_outside_training_pool": [],
+        "held_out_fl_mae_ms": 0.130392,
+        "routing_end_to_end_validated": false,
+        "note": "Mô hình cùng định nghĩa telemetry link/payload ứng dụng. Chưa kiểm chứng với số đo mạng thật; sai số link không bảo đảm tuyến tối ưu."
+      },
+      "unseen_layers": [],
+      "allocation": {
+        "reserved_mbps": 0.05,
+        "other_event_count": 0,
+        "policy": "Giữ băng thông các điểm đang tồn tại; chọn tuyến có tổng điểm thấp nhất trên phần còn lại. Không giành lại băng thông của tuyến cũ.",
+        "nodes": [
+          {
+            "node_id": "LAB7-ACCESS",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 100.0,
+            "remaining_after_mbps": 99.95
+          },
+          {
+            "node_id": "LAB7-UAV",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 30.0,
+            "remaining_after_mbps": 29.95
+          },
+          {
+            "node_id": "LAB7-EDGE",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 100.0,
+            "remaining_after_mbps": 99.95
+          }
+        ],
+        "links": [
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-UAV",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 14.565256517895016,
+            "remaining_after_mbps": 14.515256517895015
+          },
+          {
+            "source": "LAB7-UAV",
+            "target": "LAB7-EDGE",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 13.127181512125984,
+            "remaining_after_mbps": 13.077181512125984
+          }
+        ]
+      }
+    }
+  },
+  {
+    "request": {
+      "scenario_id": 7,
+      "lat": 16.061,
+      "lng": 108.22,
+      "policy": "predictive",
+      "experiment_id": 6,
+      "service": "Message",
+      "load_ratio": 0,
+      "duration_s": 10,
+      "wait_timeout_s": 15
+    },
+    "condition": "terrestrial_failure",
+    "result": {
+      "status": "routed",
+      "reason": "Đã chọn tuyến có tổng chi phí nhỏ nhất.",
+      "route": {
+        "path": [
+          "LAB7-ACCESS",
+          "LAB7-UAV",
+          "LAB7-EDGE"
+        ],
+        "hops": [
+          {
+            "link_id": 509,
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-UAV",
+            "bandwidth_mbps": 17.565256517895016,
+            "static_ms": 4.915622650249888,
+            "predicted_ms": 4.918493747711182,
+            "estimated": false,
+            "features": {
+              "layer": "AIR",
+              "observed_delay_ms": 4.915622650249888,
+              "latency_ms": 3.277222650249888,
+              "bandwidth_mbps": 20.0,
+              "distance_km": 16.18853048962355,
+              "load_ratio": 0.12173717410524923,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.027722265024988764,
+              "payload_bytes": 4096,
+              "queue_ms": 0.2772226502498876,
+              "available_mbps": 17.565256517895016,
+              "tick": 0.0,
+              "link_id": 509,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 4.9118521241845805
+          },
+          {
+            "link_id": 510,
+            "source": "LAB7-UAV",
+            "target": "LAB7-EDGE",
+            "bandwidth_mbps": 16.127181512125986,
+            "static_ms": 5.118684603352675,
+            "predicted_ms": 5.121965408325195,
+            "estimated": false,
+            "features": {
+              "layer": "GROUND",
+              "observed_delay_ms": 5.118684603352675,
+              "latency_ms": 3.4802846033526755,
+              "bandwidth_mbps": 20.0,
+              "distance_km": 16.0723414162594,
+              "load_ratio": 0.1936409243937008,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.04802846033526756,
+              "payload_bytes": 4096,
+              "queue_ms": 0.4802846033526756,
+              "available_mbps": 16.127181512125986,
+              "tick": 0.0,
+              "link_id": 510,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 5.1498047879693765
+          }
+        ],
+        "cost": 10.097777341000416,
+        "predicted_transfer_ms": 10.040459156036377,
+        "static_transfer_ms": 10.034307253602563,
+        "bottleneck": 10,
+        "sourceId": "LAB7-ACCESS",
+        "targetId": "LAB7-EDGE",
+        "accessDistanceKm": 0.11517105949339812,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 4.2768,
+        "predicted_access_rtt_ms": 4.279585361480713,
+        "total_static_transfer_ms": 14.311107253602563,
+        "total_predicted_transfer_ms": 14.32004451751709,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 2,
+        "application": {
+          "payload_bytes": 4096,
+          "latency_budget_ms": 1000,
+          "estimated_one_way_ms": 18.32004451751709,
+          "channel_latency_ms": 7.757507253602563,
+          "serialization_ms": 7.174149942151219,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 0.05,
+          "bandwidth_headroom_mbps": 9.95,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận, các hop và xử lý đầu cuối khi có profile thiết bị. Ngưỡng/payload là giả định demo. Liên kết được giả định đối xứng; chưa mô phỏng tranh chấp vô tuyến hay hàng đợi gói.",
+          "realized_next_tick_ms": 18.35860583441648,
+          "current_snapshot_one_way_ms": 18.311107253602565,
+          "predicted_one_way_ms": 18.32004451751709
+        },
+        "distance_km": 32.37604296537635,
+        "score_breakdown": {
+          "delay": 7.8760244846344,
+          "capacity": 2.189376813400641,
+          "distance": 0.03237604296537635,
+          "preference": 0,
+          "total": 10.097777341000416
+        },
+        "access": {
+          "source_id": "LAB7-ACCESS",
+          "distance_km": 0.11517105949339812,
+          "radius_km": 300,
+          "latency_ms": 0.0003841693025292788,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 4.2768,
+            "latency_ms": 1.0,
+            "bandwidth_mbps": 10.0,
+            "distance_km": 0.11517105949339812,
+            "load_ratio": 0.0,
+            "packet_loss_ratio": 0.0,
+            "jitter_ms": 0.0,
+            "payload_bytes": 4096,
+            "queue_ms": 0.0,
+            "available_mbps": 10.0,
+            "tick": 0.0,
+            "link_id": 0,
+            "propagation_processing_ms": 1.0
+          },
+          "predicted_access_rtt_ms": 4.279585361480713,
+          "access_latency_ms": 1.0,
+          "access_rtt_ms": 4.2768,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-UAV",
+            "type": "AIR",
+            "lat": 16.08,
+            "lng": 108.37,
+            "alt": 0.5
+          },
+          {
+            "id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "alt": 0.03
+          }
+        ]
+      },
+      "baseline": {
+        "path": [
+          "LAB7-ACCESS",
+          "LAB7-UAV",
+          "LAB7-EDGE"
+        ],
+        "hops": [
+          {
+            "link_id": 509,
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-UAV",
+            "bandwidth_mbps": 17.565256517895016,
+            "static_ms": 4.915622650249888,
+            "predicted_ms": 4.918493747711182,
+            "estimated": false,
+            "features": {
+              "layer": "AIR",
+              "observed_delay_ms": 4.915622650249888,
+              "latency_ms": 3.277222650249888,
+              "bandwidth_mbps": 20.0,
+              "distance_km": 16.18853048962355,
+              "load_ratio": 0.12173717410524923,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.027722265024988764,
+              "payload_bytes": 4096,
+              "queue_ms": 0.2772226502498876,
+              "available_mbps": 17.565256517895016,
+              "tick": 0.0,
+              "link_id": 509,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 4.9118521241845805
+          },
+          {
+            "link_id": 510,
+            "source": "LAB7-UAV",
+            "target": "LAB7-EDGE",
+            "bandwidth_mbps": 16.127181512125986,
+            "static_ms": 5.118684603352675,
+            "predicted_ms": 5.121965408325195,
+            "estimated": false,
+            "features": {
+              "layer": "GROUND",
+              "observed_delay_ms": 5.118684603352675,
+              "latency_ms": 3.4802846033526755,
+              "bandwidth_mbps": 20.0,
+              "distance_km": 16.0723414162594,
+              "load_ratio": 0.1936409243937008,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.04802846033526756,
+              "payload_bytes": 4096,
+              "queue_ms": 0.4802846033526756,
+              "available_mbps": 16.127181512125986,
+              "tick": 0.0,
+              "link_id": 510,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 5.1498047879693765
+          }
+        ],
+        "cost": 10.092861845847429,
+        "predicted_transfer_ms": 10.040459156036377,
+        "static_transfer_ms": 10.034307253602563,
+        "bottleneck": 10,
+        "sourceId": "LAB7-ACCESS",
+        "targetId": "LAB7-EDGE",
+        "accessDistanceKm": 0.11517105949339812,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 4.2768,
+        "predicted_access_rtt_ms": 4.279585361480713,
+        "total_static_transfer_ms": 14.311107253602563,
+        "total_predicted_transfer_ms": 14.32004451751709,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 2,
+        "application": {
+          "payload_bytes": 4096,
+          "latency_budget_ms": 1000,
+          "estimated_one_way_ms": 18.32004451751709,
+          "channel_latency_ms": 7.757507253602563,
+          "serialization_ms": 7.174149942151219,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 0.05,
+          "bandwidth_headroom_mbps": 9.95,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận, các hop và xử lý đầu cuối khi có profile thiết bị. Ngưỡng/payload là giả định demo. Liên kết được giả định đối xứng; chưa mô phỏng tranh chấp vô tuyến hay hàng đợi gói.",
+          "realized_next_tick_ms": 18.35860583441648,
+          "current_snapshot_one_way_ms": 18.311107253602565,
+          "predicted_one_way_ms": 18.32004451751709
+        },
+        "distance_km": 32.37604296537635,
+        "score_breakdown": {
+          "delay": 7.87110898948141,
+          "capacity": 2.189376813400641,
+          "distance": 0.03237604296537635,
+          "preference": 0,
+          "total": 10.092861845847429
+        },
+        "access": {
+          "source_id": "LAB7-ACCESS",
+          "distance_km": 0.11517105949339812,
+          "radius_km": 300,
+          "latency_ms": 0.0003841693025292788,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 4.2768,
+            "latency_ms": 1.0,
+            "bandwidth_mbps": 10.0,
+            "distance_km": 0.11517105949339812,
+            "load_ratio": 0.0,
+            "packet_loss_ratio": 0.0,
+            "jitter_ms": 0.0,
+            "payload_bytes": 4096,
+            "queue_ms": 0.0,
+            "available_mbps": 10.0,
+            "tick": 0.0,
+            "link_id": 0,
+            "propagation_processing_ms": 1.0
+          },
+          "predicted_access_rtt_ms": 4.279585361480713,
+          "access_latency_ms": 1.0,
+          "access_rtt_ms": 4.2768,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-UAV",
+            "type": "AIR",
+            "lat": 16.08,
+            "lng": 108.37,
+            "alt": 0.5
+          },
+          {
+            "id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "alt": 0.03
+          }
+        ]
+      },
+      "policy": "predictive",
+      "topology": "configured",
+      "model": {
+        "experiment_id": 6,
+        "scenario_id": 7,
+        "algorithm": "Predictive",
+        "round": 20,
+        "mae_ms": 0.130392,
+        "validation_mae_ms": 0.116354,
+        "persistence_mae_ms": 0.129412,
+        "payload_bytes": 3844,
+        "dataset_id": 6,
+        "target": "next_tick_application_link_delay_ms",
+        "candidate_pool": [
+          "LAB7-ACCESS",
+          "LAB7-EDGE",
+          "LAB7-RELAY",
+          "LAB7-SAT",
+          "LAB7-SHIP",
+          "LAB7-UAV"
+        ],
+        "beats_persistence": false
+      },
+      "snapshot_at": "2026-10-25T05:35:16.046637+00:00",
+      "note": "FL dự đoán độ trễ một chiều link ứng dụng tại tick kế tiếp; công thức tĩnh dùng tick hiện tại. Nhãn tương lai chỉ dùng đánh giá sau quyết định. Kênh/hàng đợi là mô phỏng.",
+      "profile": {
+        "latency_weight": 0.55,
+        "capacity_weight": 0.1,
+        "distance_weight": 0.1,
+        "min_bandwidth": 0.05
+      },
+      "scenario_id": 7,
+      "event_model": {
+        "version": "device_v1",
+        "selection": "automatic",
+        "device": {
+          "id": "smartphone",
+          "name": "Điện thoại 4G/5G",
+          "access_km": {
+            "GROUND": 5,
+            "AIR": 5,
+            "SEA": 2
+          },
+          "uplink_mbps": 10,
+          "downlink_mbps": 50,
+          "processing_ms": 2,
+          "effective_bandwidth_mbps": 10
+        },
+        "traffic": {
+          "kind": "burst",
+          "direction": "uplink",
+          "destination": "Máy chủ tin nhắn tại biên",
+          "processing_ms": 2
+        },
+        "assumptions": [
+          "Tầm truy cập và tốc độ thiết bị là giả định demo, không phải thông số chuẩn 4G/5G.",
+          "GROUND/AIR/SEA được giả định có trạm truy cập tương thích khi profile cho phép; chưa có inventory radio từng node.",
+          "Các GROUND được giả định có dịch vụ biên tương ứng. Chưa mô phỏng Internet/core, hàng đợi gói hay tranh chấp vô tuyến.",
+          "Băng thông một luồng được giữ tới khi xóa hoặc tính lại sự kiện; chưa tự hết hạn phiên."
+        ]
+      },
+      "research": {
+        "version": "coastal-v1",
+        "sim_time_s": 0.0,
+        "conditions": "terrestrial_failure",
+        "access_nodes": [
+          "LAB7-ACCESS"
+        ],
+        "service_nodes": [
+          "LAB7-EDGE"
+        ]
+      },
+      "coverage_diagnostics": {
+        "nearest_compatible_nodes": [
+          {
+            "node_id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "distance_km": 0.11517105949339812,
+            "device_range_km": 5,
+            "within_device_range": true,
+            "within_local_scope": true
+          },
+          {
+            "node_id": "LAB7-SHIP",
+            "type": "SEA",
+            "lat": 16.02,
+            "lng": 108.32,
+            "distance_km": 11.618465697025158,
+            "device_range_km": 2,
+            "within_device_range": false,
+            "within_local_scope": true
+          },
+          {
+            "node_id": "LAB7-UAV",
+            "type": "AIR",
+            "lat": 16.08,
+            "lng": 108.37,
+            "distance_km": 16.17445051950958,
+            "device_range_km": 5,
+            "within_device_range": false,
+            "within_local_scope": true
+          }
+        ],
+        "note": "Khoảng cách tới node có lớp truy cập phù hợp; chưa khẳng định đủ tín hiệu, băng thông hoặc có backhaul."
+      },
+      "routing_scope": {
+        "mode": "local",
+        "radius_km": 300,
+        "distance_definition": "access_area_plus_layer_specific_backbone",
+        "expanded": false
+      },
+      "access_search": {
+        "requested_radius_km": null,
+        "used_radius_km": 300,
+        "mode": "bounded",
+        "expanded": false,
+        "nearest_ground_km": 0.11119492664462255
+      },
+      "access": {
+        "source_id": "LAB7-ACCESS",
+        "distance_km": 0.11517105949339812,
+        "radius_km": 300,
+        "latency_ms": 0.0003841693025292788,
+        "is_estimated": true
+      },
+      "diagnostics": {
+        "active_nodes": 5,
+        "links": 5,
+        "eligible_directions": 10,
+        "excluded": 0
+      },
+      "code": "ok",
+      "payload_bytes": 4096,
+      "topology_preview": {
+        "nodes": [
+          {
+            "id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-SAT",
+            "type": "SPACE",
+            "lat": 16.06,
+            "lng": 108.4,
+            "alt": 550.0
+          },
+          {
+            "id": "LAB7-SHIP",
+            "type": "SEA",
+            "lat": 16.02,
+            "lng": 108.32,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-UAV",
+            "type": "AIR",
+            "lat": 16.08,
+            "lng": 108.37,
+            "alt": 0.5
+          }
+        ],
+        "links": [
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-UAV",
+            "distance": 16.18853048962355,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-UAV",
+            "target": "LAB7-EDGE",
+            "distance": 16.0723414162594,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-SHIP",
+            "distance": 11.575298528678537,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-SHIP",
+            "target": "LAB7-SAT",
+            "distance": 550.0617165821872,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-SAT",
+            "target": "LAB7-EDGE",
+            "distance": 550.1433243907812,
+            "estimated": false
+          }
+        ],
+        "total_links": 5,
+        "neighbors_shown": 3
+      },
+      "requested_load_ratio": 0.0,
+      "applied_load_ratio": 0.0,
+      "load_reduced": false,
+      "ingress_selection": {
+        "remote": false,
+        "nearest_ground_km": 0.11119492664462255,
+        "preference_penalties": {
+          "GROUND": 0,
+          "AIR": 1,
+          "SEA": 2,
+          "SPACE": 3
+        },
+        "chosen_type": "GROUND",
+        "chosen_node": "LAB7-ACCESS",
+        "access_distance_km": 0.11517105949339812,
+        "access_rtt_ms": 4.2768,
+        "predicted_access_rtt_ms": 4.279585361480713,
+        "access_bandwidth_mbps": 10,
+        "total_cost": 10.097777341000416,
+        "preference_penalty": 0,
+        "reason": "Cách GROUND gần nhất 0 km. Tối ưu tổng điểm khoảng cách, băng thông và độ trễ; GROUND chỉ được ưu tiên nhẹ khi các chỉ số gần tương đương."
+      },
+      "objective": "Ingress + Σ hop: w_delay × RTT_proxy_ms + w_capacity × 100 / bandwidth_Mbps + w_distance × distance_km / 100 + soft_ingress_preference_penalty",
+      "destination": {
+        "node_id": "LAB7-EDGE",
+        "role": "Máy chủ tin nhắn tại biên",
+        "placement": "assumed_service_at_ground_edge",
+        "processing_ms": 2
+      },
+      "routing_decision": {
+        "method": "fl_checkpoint",
+        "experiment_id": 6,
+        "round": 20,
+        "feasibility_first": true,
+        "prediction_target": "next_tick_application_link_delay_ms",
+        "inferred_channels": 11,
+        "note": "Model chấm cả tiếp cận và từng hop hợp lệ. Tuyến trùng baseline vẫn là kết quả dùng FL; chưa chứng minh cải thiện độ trễ ứng dụng."
+      },
+      "comparison": {
+        "same_path": true,
+        "realized_delay_change_ms": 0.0,
+        "evaluation_source": "shared_future_simulator_after_decision_not_measured_network",
+        "predicted_cost_change": 0.0,
+        "application_estimate_change_ms": 0.0,
+        "score_change": -0.0049154951529875035
+      },
+      "delay_semantics": "application_link_one_way_ms",
+      "model_applicability": {
+        "training_target": "next_tick_application_link_delay_ms",
+        "training_payload_bytes": "varied_application_packets",
+        "application_payload_bytes": 4096,
+        "route_nodes_outside_training_pool": [],
+        "held_out_fl_mae_ms": 0.130392,
+        "routing_end_to_end_validated": false,
+        "note": "Mô hình cùng định nghĩa telemetry link/payload ứng dụng. Chưa kiểm chứng với số đo mạng thật; sai số link không bảo đảm tuyến tối ưu."
+      },
+      "unseen_layers": [],
+      "allocation": {
+        "reserved_mbps": 0.05,
+        "other_event_count": 0,
+        "policy": "Giữ băng thông các điểm đang tồn tại; chọn tuyến có tổng điểm thấp nhất trên phần còn lại. Không giành lại băng thông của tuyến cũ.",
+        "nodes": [
+          {
+            "node_id": "LAB7-ACCESS",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 100.0,
+            "remaining_after_mbps": 99.95
+          },
+          {
+            "node_id": "LAB7-UAV",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 30.0,
+            "remaining_after_mbps": 29.95
+          },
+          {
+            "node_id": "LAB7-EDGE",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 100.0,
+            "remaining_after_mbps": 99.95
+          }
+        ],
+        "links": [
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-UAV",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 17.565256517895016,
+            "remaining_after_mbps": 17.515256517895015
+          },
+          {
+            "source": "LAB7-UAV",
+            "target": "LAB7-EDGE",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 16.127181512125986,
+            "remaining_after_mbps": 16.077181512125986
+          }
+        ]
+      }
+    }
+  },
+  {
+    "request": {
+      "scenario_id": 7,
+      "lat": 16.061,
+      "lng": 108.22,
+      "policy": "predictive",
+      "experiment_id": 6,
+      "service": "Message",
+      "load_ratio": 0,
+      "duration_s": 10,
+      "wait_timeout_s": 15
+    },
+    "condition": "satellite_fallback",
+    "result": {
+      "status": "routed",
+      "reason": "Đã chọn tuyến có tổng chi phí nhỏ nhất.",
+      "route": {
+        "path": [
+          "LAB7-ACCESS",
+          "LAB7-SHIP",
+          "LAB7-SAT",
+          "LAB7-EDGE"
+        ],
+        "hops": [
+          {
+            "link_id": 511,
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-SHIP",
+            "bandwidth_mbps": 10.801477655158305,
+            "static_ms": 4.9619311077640695,
+            "predicted_ms": 4.964980125427246,
+            "estimated": false,
+            "features": {
+              "layer": "SEA",
+              "observed_delay_ms": 4.9619311077640695,
+              "latency_ms": 2.777397774430736,
+              "bandwidth_mbps": 15.0,
+              "distance_km": 11.575298528678537,
+              "load_ratio": 0.27990148965611306,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.07773977744307362,
+              "payload_bytes": 4096,
+              "queue_ms": 0.7773977744307361,
+              "available_mbps": 10.801477655158305,
+              "tick": 0.0,
+              "link_id": 511,
+              "propagation_processing_ms": 2.0
+            },
+            "realized_next_tick_ms": 4.957624792584491
+          },
+          {
+            "link_id": 512,
+            "source": "LAB7-SHIP",
+            "target": "LAB7-SAT",
+            "bandwidth_mbps": 12.213459876751514,
+            "static_ms": 5.640839761056194,
+            "predicted_ms": 5.644120216369629,
+            "estimated": false,
+            "features": {
+              "layer": "SPACE",
+              "observed_delay_ms": 5.640839761056194,
+              "latency_ms": 3.456306427722861,
+              "bandwidth_mbps": 15.0,
+              "distance_km": 550.0617165821872,
+              "load_ratio": 0.1857693415498991,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.04563064277228607,
+              "payload_bytes": 4096,
+              "queue_ms": 0.4563064277228607,
+              "available_mbps": 12.213459876751514,
+              "tick": 0.0,
+              "link_id": 512,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 5.611910646788599
+          },
+          {
+            "link_id": 513,
+            "source": "LAB7-SAT",
+            "target": "LAB7-EDGE",
+            "bandwidth_mbps": 13.14351608509681,
+            "static_ms": 5.467027591777347,
+            "predicted_ms": 5.470595836639404,
+            "estimated": false,
+            "features": {
+              "layer": "GROUND",
+              "observed_delay_ms": 5.467027591777347,
+              "latency_ms": 3.282494258444013,
+              "bandwidth_mbps": 15.0,
+              "distance_km": 550.1433243907812,
+              "load_ratio": 0.1237655943268794,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.028249425844401318,
+              "payload_bytes": 4096,
+              "queue_ms": 0.28249425844401316,
+              "available_mbps": 13.14351608509681,
+              "tick": 0.0,
+              "link_id": 513,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 5.476493309072369
+          }
+        ],
+        "cost": 15.814899844381358,
+        "predicted_transfer_ms": 16.07969617843628,
+        "static_transfer_ms": 16.06979846059761,
+        "bottleneck": 10,
+        "sourceId": "LAB7-ACCESS",
+        "targetId": "LAB7-EDGE",
+        "accessDistanceKm": 0.11517105949339812,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 4.2768,
+        "predicted_access_rtt_ms": 4.279585361480713,
+        "total_static_transfer_ms": 20.346598460597612,
+        "total_predicted_transfer_ms": 20.359281539916992,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 3,
+        "application": {
+          "payload_bytes": 4096,
+          "latency_budget_ms": 1000,
+          "estimated_one_way_ms": 24.359281539916992,
+          "channel_latency_ms": 10.51619846059761,
+          "serialization_ms": 11.486493038562083,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 0.05,
+          "bandwidth_headroom_mbps": 9.95,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận, các hop và xử lý đầu cuối khi có profile thiết bị. Ngưỡng/payload là giả định demo. Liên kết được giả định đối xứng; chưa mô phỏng tranh chấp vô tuyến hay hàng đợi gói.",
+          "realized_next_tick_ms": 24.34297767070798,
+          "current_snapshot_one_way_ms": 24.346598460597612,
+          "predicted_one_way_ms": 24.359281539916992
+        },
+        "distance_km": 1111.8955105611403,
+        "score_breakdown": {
+          "delay": 11.197604846954347,
+          "capacity": 3.50539948686587,
+          "distance": 1.1118955105611403,
+          "preference": 0,
+          "total": 15.814899844381358
+        },
+        "access": {
+          "source_id": "LAB7-ACCESS",
+          "distance_km": 0.11517105949339812,
+          "radius_km": 300,
+          "latency_ms": 0.0003841693025292788,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 4.2768,
+            "latency_ms": 1.0,
+            "bandwidth_mbps": 10.0,
+            "distance_km": 0.11517105949339812,
+            "load_ratio": 0.0,
+            "packet_loss_ratio": 0.0,
+            "jitter_ms": 0.0,
+            "payload_bytes": 4096,
+            "queue_ms": 0.0,
+            "available_mbps": 10.0,
+            "tick": 0.0,
+            "link_id": 0,
+            "propagation_processing_ms": 1.0
+          },
+          "predicted_access_rtt_ms": 4.279585361480713,
+          "access_latency_ms": 1.0,
+          "access_rtt_ms": 4.2768,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-SHIP",
+            "type": "SEA",
+            "lat": 16.02,
+            "lng": 108.32,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-SAT",
+            "type": "SPACE",
+            "lat": 16.06,
+            "lng": 108.4,
+            "alt": 550.0
+          },
+          {
+            "id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "alt": 0.03
+          }
+        ]
+      },
+      "baseline": {
+        "path": [
+          "LAB7-ACCESS",
+          "LAB7-SHIP",
+          "LAB7-SAT",
+          "LAB7-EDGE"
+        ],
+        "hops": [
+          {
+            "link_id": 511,
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-SHIP",
+            "bandwidth_mbps": 10.801477655158305,
+            "static_ms": 4.9619311077640695,
+            "predicted_ms": 4.964980125427246,
+            "estimated": false,
+            "features": {
+              "layer": "SEA",
+              "observed_delay_ms": 4.9619311077640695,
+              "latency_ms": 2.777397774430736,
+              "bandwidth_mbps": 15.0,
+              "distance_km": 11.575298528678537,
+              "load_ratio": 0.27990148965611306,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.07773977744307362,
+              "payload_bytes": 4096,
+              "queue_ms": 0.7773977744307361,
+              "available_mbps": 10.801477655158305,
+              "tick": 0.0,
+              "link_id": 511,
+              "propagation_processing_ms": 2.0
+            },
+            "realized_next_tick_ms": 4.957624792584491
+          },
+          {
+            "link_id": 512,
+            "source": "LAB7-SHIP",
+            "target": "LAB7-SAT",
+            "bandwidth_mbps": 12.213459876751514,
+            "static_ms": 5.640839761056194,
+            "predicted_ms": 5.644120216369629,
+            "estimated": false,
+            "features": {
+              "layer": "SPACE",
+              "observed_delay_ms": 5.640839761056194,
+              "latency_ms": 3.456306427722861,
+              "bandwidth_mbps": 15.0,
+              "distance_km": 550.0617165821872,
+              "load_ratio": 0.1857693415498991,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.04563064277228607,
+              "payload_bytes": 4096,
+              "queue_ms": 0.4563064277228607,
+              "available_mbps": 12.213459876751514,
+              "tick": 0.0,
+              "link_id": 512,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 5.611910646788599
+          },
+          {
+            "link_id": 513,
+            "source": "LAB7-SAT",
+            "target": "LAB7-EDGE",
+            "bandwidth_mbps": 13.14351608509681,
+            "static_ms": 5.467027591777347,
+            "predicted_ms": 5.470595836639404,
+            "estimated": false,
+            "features": {
+              "layer": "GROUND",
+              "observed_delay_ms": 5.467027591777347,
+              "latency_ms": 3.282494258444013,
+              "bandwidth_mbps": 15.0,
+              "distance_km": 550.1433243907812,
+              "load_ratio": 0.1237655943268794,
+              "packet_loss_ratio": 0.0,
+              "jitter_ms": 0.028249425844401318,
+              "payload_bytes": 4096,
+              "queue_ms": 0.28249425844401316,
+              "available_mbps": 13.14351608509681,
+              "tick": 0.0,
+              "link_id": 513,
+              "propagation_processing_ms": 3.0
+            },
+            "realized_next_tick_ms": 5.476493309072369
+          }
+        ],
+        "cost": 15.807924150755698,
+        "predicted_transfer_ms": 16.07969617843628,
+        "static_transfer_ms": 16.06979846059761,
+        "bottleneck": 10,
+        "sourceId": "LAB7-ACCESS",
+        "targetId": "LAB7-EDGE",
+        "accessDistanceKm": 0.11517105949339812,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 4.2768,
+        "predicted_access_rtt_ms": 4.279585361480713,
+        "total_static_transfer_ms": 20.346598460597612,
+        "total_predicted_transfer_ms": 20.359281539916992,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 3,
+        "application": {
+          "payload_bytes": 4096,
+          "latency_budget_ms": 1000,
+          "estimated_one_way_ms": 24.359281539916992,
+          "channel_latency_ms": 10.51619846059761,
+          "serialization_ms": 11.486493038562083,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 0.05,
+          "bandwidth_headroom_mbps": 9.95,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận, các hop và xử lý đầu cuối khi có profile thiết bị. Ngưỡng/payload là giả định demo. Liên kết được giả định đối xứng; chưa mô phỏng tranh chấp vô tuyến hay hàng đợi gói.",
+          "realized_next_tick_ms": 24.34297767070798,
+          "current_snapshot_one_way_ms": 24.346598460597612,
+          "predicted_one_way_ms": 24.359281539916992
+        },
+        "distance_km": 1111.8955105611403,
+        "score_breakdown": {
+          "delay": 11.190629153328688,
+          "capacity": 3.50539948686587,
+          "distance": 1.1118955105611403,
+          "preference": 0,
+          "total": 15.807924150755698
+        },
+        "access": {
+          "source_id": "LAB7-ACCESS",
+          "distance_km": 0.11517105949339812,
+          "radius_km": 300,
+          "latency_ms": 0.0003841693025292788,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 4.2768,
+            "latency_ms": 1.0,
+            "bandwidth_mbps": 10.0,
+            "distance_km": 0.11517105949339812,
+            "load_ratio": 0.0,
+            "packet_loss_ratio": 0.0,
+            "jitter_ms": 0.0,
+            "payload_bytes": 4096,
+            "queue_ms": 0.0,
+            "available_mbps": 10.0,
+            "tick": 0.0,
+            "link_id": 0,
+            "propagation_processing_ms": 1.0
+          },
+          "predicted_access_rtt_ms": 4.279585361480713,
+          "access_latency_ms": 1.0,
+          "access_rtt_ms": 4.2768,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-SHIP",
+            "type": "SEA",
+            "lat": 16.02,
+            "lng": 108.32,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-SAT",
+            "type": "SPACE",
+            "lat": 16.06,
+            "lng": 108.4,
+            "alt": 550.0
+          },
+          {
+            "id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "alt": 0.03
+          }
+        ]
+      },
+      "policy": "predictive",
+      "topology": "configured",
+      "model": {
+        "experiment_id": 6,
+        "scenario_id": 7,
+        "algorithm": "Predictive",
+        "round": 20,
+        "mae_ms": 0.130392,
+        "validation_mae_ms": 0.116354,
+        "persistence_mae_ms": 0.129412,
+        "payload_bytes": 3844,
+        "dataset_id": 6,
+        "target": "next_tick_application_link_delay_ms",
+        "candidate_pool": [
+          "LAB7-ACCESS",
+          "LAB7-EDGE",
+          "LAB7-RELAY",
+          "LAB7-SAT",
+          "LAB7-SHIP",
+          "LAB7-UAV"
+        ],
+        "beats_persistence": false
+      },
+      "snapshot_at": "2026-10-25T05:35:16.189217+00:00",
+      "note": "FL dự đoán độ trễ một chiều link ứng dụng tại tick kế tiếp; công thức tĩnh dùng tick hiện tại. Nhãn tương lai chỉ dùng đánh giá sau quyết định. Kênh/hàng đợi là mô phỏng.",
+      "profile": {
+        "latency_weight": 0.55,
+        "capacity_weight": 0.1,
+        "distance_weight": 0.1,
+        "min_bandwidth": 0.05
+      },
+      "scenario_id": 7,
+      "event_model": {
+        "version": "device_v1",
+        "selection": "automatic",
+        "device": {
+          "id": "smartphone",
+          "name": "Điện thoại 4G/5G",
+          "access_km": {
+            "GROUND": 5,
+            "AIR": 5,
+            "SEA": 2
+          },
+          "uplink_mbps": 10,
+          "downlink_mbps": 50,
+          "processing_ms": 2,
+          "effective_bandwidth_mbps": 10
+        },
+        "traffic": {
+          "kind": "burst",
+          "direction": "uplink",
+          "destination": "Máy chủ tin nhắn tại biên",
+          "processing_ms": 2
+        },
+        "assumptions": [
+          "Tầm truy cập và tốc độ thiết bị là giả định demo, không phải thông số chuẩn 4G/5G.",
+          "GROUND/AIR/SEA được giả định có trạm truy cập tương thích khi profile cho phép; chưa có inventory radio từng node.",
+          "Các GROUND được giả định có dịch vụ biên tương ứng. Chưa mô phỏng Internet/core, hàng đợi gói hay tranh chấp vô tuyến.",
+          "Băng thông một luồng được giữ tới khi xóa hoặc tính lại sự kiện; chưa tự hết hạn phiên."
+        ]
+      },
+      "research": {
+        "version": "coastal-v1",
+        "sim_time_s": 0.0,
+        "conditions": "satellite_fallback",
+        "access_nodes": [
+          "LAB7-ACCESS"
+        ],
+        "service_nodes": [
+          "LAB7-EDGE"
+        ]
+      },
+      "coverage_diagnostics": {
+        "nearest_compatible_nodes": [
+          {
+            "node_id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "distance_km": 0.11517105949339812,
+            "device_range_km": 5,
+            "within_device_range": true,
+            "within_local_scope": true
+          },
+          {
+            "node_id": "LAB7-SHIP",
+            "type": "SEA",
+            "lat": 16.02,
+            "lng": 108.32,
+            "distance_km": 11.618465697025158,
+            "device_range_km": 2,
+            "within_device_range": false,
+            "within_local_scope": true
+          },
+          {
+            "node_id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "distance_km": 32.21592763610963,
+            "device_range_km": 5,
+            "within_device_range": false,
+            "within_local_scope": true
+          }
+        ],
+        "note": "Khoảng cách tới node có lớp truy cập phù hợp; chưa khẳng định đủ tín hiệu, băng thông hoặc có backhaul."
+      },
+      "routing_scope": {
+        "mode": "local",
+        "radius_km": 300,
+        "distance_definition": "access_area_plus_layer_specific_backbone",
+        "expanded": false
+      },
+      "access_search": {
+        "requested_radius_km": null,
+        "used_radius_km": 300,
+        "mode": "bounded",
+        "expanded": false,
+        "nearest_ground_km": 0.11119492664462255
+      },
+      "access": {
+        "source_id": "LAB7-ACCESS",
+        "distance_km": 0.11517105949339812,
+        "radius_km": 300,
+        "latency_ms": 0.0003841693025292788,
+        "is_estimated": true
+      },
+      "diagnostics": {
+        "active_nodes": 4,
+        "links": 3,
+        "eligible_directions": 6,
+        "excluded": 0
+      },
+      "code": "ok",
+      "payload_bytes": 4096,
+      "topology_preview": {
+        "nodes": [
+          {
+            "id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "alt": 0.03
+          },
+          {
+            "id": "LAB7-SAT",
+            "type": "SPACE",
+            "lat": 16.06,
+            "lng": 108.4,
+            "alt": 550.0
+          },
+          {
+            "id": "LAB7-SHIP",
+            "type": "SEA",
+            "lat": 16.02,
+            "lng": 108.32,
+            "alt": 0.03
+          }
+        ],
+        "links": [
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-SHIP",
+            "distance": 11.575298528678537,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-SHIP",
+            "target": "LAB7-SAT",
+            "distance": 550.0617165821872,
+            "estimated": false
+          },
+          {
+            "source": "LAB7-SAT",
+            "target": "LAB7-EDGE",
+            "distance": 550.1433243907812,
+            "estimated": false
+          }
+        ],
+        "total_links": 3,
+        "neighbors_shown": 3
+      },
+      "requested_load_ratio": 0.0,
+      "applied_load_ratio": 0.0,
+      "load_reduced": false,
+      "ingress_selection": {
+        "remote": false,
+        "nearest_ground_km": 0.11119492664462255,
+        "preference_penalties": {
+          "GROUND": 0,
+          "AIR": 1,
+          "SEA": 2,
+          "SPACE": 3
+        },
+        "chosen_type": "GROUND",
+        "chosen_node": "LAB7-ACCESS",
+        "access_distance_km": 0.11517105949339812,
+        "access_rtt_ms": 4.2768,
+        "predicted_access_rtt_ms": 4.279585361480713,
+        "access_bandwidth_mbps": 10,
+        "total_cost": 15.814899844381358,
+        "preference_penalty": 0,
+        "reason": "Cách GROUND gần nhất 0 km. Tối ưu tổng điểm khoảng cách, băng thông và độ trễ; GROUND chỉ được ưu tiên nhẹ khi các chỉ số gần tương đương."
+      },
+      "objective": "Ingress + Σ hop: w_delay × RTT_proxy_ms + w_capacity × 100 / bandwidth_Mbps + w_distance × distance_km / 100 + soft_ingress_preference_penalty",
+      "destination": {
+        "node_id": "LAB7-EDGE",
+        "role": "Máy chủ tin nhắn tại biên",
+        "placement": "assumed_service_at_ground_edge",
+        "processing_ms": 2
+      },
+      "routing_decision": {
+        "method": "fl_checkpoint",
+        "experiment_id": 6,
+        "round": 20,
+        "feasibility_first": true,
+        "prediction_target": "next_tick_application_link_delay_ms",
+        "inferred_channels": 7,
+        "note": "Model chấm cả tiếp cận và từng hop hợp lệ. Tuyến trùng baseline vẫn là kết quả dùng FL; chưa chứng minh cải thiện độ trễ ứng dụng."
+      },
+      "comparison": {
+        "same_path": true,
+        "realized_delay_change_ms": 0.0,
+        "evaluation_source": "shared_future_simulator_after_decision_not_measured_network",
+        "predicted_cost_change": 0.0,
+        "application_estimate_change_ms": 0.0,
+        "score_change": -0.0069756936256606394
+      },
+      "delay_semantics": "application_link_one_way_ms",
+      "model_applicability": {
+        "training_target": "next_tick_application_link_delay_ms",
+        "training_payload_bytes": "varied_application_packets",
+        "application_payload_bytes": 4096,
+        "route_nodes_outside_training_pool": [],
+        "held_out_fl_mae_ms": 0.130392,
+        "routing_end_to_end_validated": false,
+        "note": "Mô hình cùng định nghĩa telemetry link/payload ứng dụng. Chưa kiểm chứng với số đo mạng thật; sai số link không bảo đảm tuyến tối ưu."
+      },
+      "unseen_layers": [],
+      "allocation": {
+        "reserved_mbps": 0.05,
+        "other_event_count": 0,
+        "policy": "Giữ băng thông các điểm đang tồn tại; chọn tuyến có tổng điểm thấp nhất trên phần còn lại. Không giành lại băng thông của tuyến cũ.",
+        "nodes": [
+          {
+            "node_id": "LAB7-ACCESS",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 100.0,
+            "remaining_after_mbps": 99.95
+          },
+          {
+            "node_id": "LAB7-SHIP",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 30.0,
+            "remaining_after_mbps": 29.95
+          },
+          {
+            "node_id": "LAB7-SAT",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 50.0,
+            "remaining_after_mbps": 49.95
+          },
+          {
+            "node_id": "LAB7-EDGE",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 100.0,
+            "remaining_after_mbps": 99.95
+          }
+        ],
+        "links": [
+          {
+            "source": "LAB7-ACCESS",
+            "target": "LAB7-SHIP",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 10.801477655158305,
+            "remaining_after_mbps": 10.751477655158304
+          },
+          {
+            "source": "LAB7-SHIP",
+            "target": "LAB7-SAT",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 12.213459876751514,
+            "remaining_after_mbps": 12.163459876751514
+          },
+          {
+            "source": "LAB7-SAT",
+            "target": "LAB7-EDGE",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 13.14351608509681,
+            "remaining_after_mbps": 13.093516085096809
+          }
+        ]
+      }
+    }
+  },
+  {
+    "request": {
+      "scenario_id": 7,
+      "lat": 16.061,
+      "lng": 108.22,
+      "policy": "predictive",
+      "experiment_id": 6,
+      "service": "Message",
+      "load_ratio": 0,
+      "duration_s": 10,
+      "wait_timeout_s": 15
+    },
+    "condition": "disconnected",
+    "result": {
+      "status": "unavailable",
+      "reason": "Không tìm thấy tuyến có băng thông còn lại ≥ 0.05 Mbps sau khi trừ phần đã cấp cho 0 điểm khác.",
+      "route": null,
+      "baseline": null,
+      "policy": "predictive",
+      "topology": "configured",
+      "model": {
+        "experiment_id": 6,
+        "scenario_id": 7,
+        "algorithm": "Predictive",
+        "round": 20,
+        "mae_ms": 0.130392,
+        "validation_mae_ms": 0.116354,
+        "persistence_mae_ms": 0.129412,
+        "payload_bytes": 3844,
+        "dataset_id": 6,
+        "target": "next_tick_application_link_delay_ms",
+        "candidate_pool": [
+          "LAB7-ACCESS",
+          "LAB7-EDGE",
+          "LAB7-RELAY",
+          "LAB7-SAT",
+          "LAB7-SHIP",
+          "LAB7-UAV"
+        ],
+        "beats_persistence": false
+      },
+      "snapshot_at": "2026-10-25T05:35:16.280295+00:00",
+      "note": "Model FL dự đoán RTT của payload huấn luyện ở tick tiếp theo. Tổng dự đoán của tiếp cận và từng hop là chỉ số thay thế để xếp hạng tuyến, chưa được kiểm chứng cho độ trễ đầu-cuối của ứng dụng. Tải, loss, jitter và RTT đầu vào là mô phỏng.",
+      "profile": {
+        "latency_weight": 0.55,
+        "capacity_weight": 0.1,
+        "distance_weight": 0.1,
+        "min_bandwidth": 0.05
+      },
+      "scenario_id": 7,
+      "event_model": {
+        "version": "device_v1",
+        "selection": "automatic",
+        "device": {
+          "id": "smartphone",
+          "name": "Điện thoại 4G/5G",
+          "access_km": {
+            "GROUND": 5,
+            "AIR": 5,
+            "SEA": 2
+          },
+          "uplink_mbps": 10,
+          "downlink_mbps": 50,
+          "processing_ms": 2,
+          "effective_bandwidth_mbps": 10
+        },
+        "traffic": {
+          "kind": "burst",
+          "direction": "uplink",
+          "destination": "Máy chủ tin nhắn tại biên",
+          "processing_ms": 2
+        },
+        "assumptions": [
+          "Tầm truy cập và tốc độ thiết bị là giả định demo, không phải thông số chuẩn 4G/5G.",
+          "GROUND/AIR/SEA được giả định có trạm truy cập tương thích khi profile cho phép; chưa có inventory radio từng node.",
+          "Các GROUND được giả định có dịch vụ biên tương ứng. Chưa mô phỏng Internet/core, hàng đợi gói hay tranh chấp vô tuyến.",
+          "Băng thông một luồng được giữ tới khi xóa hoặc tính lại sự kiện; chưa tự hết hạn phiên."
+        ]
+      },
+      "research": {
+        "version": "coastal-v1",
+        "sim_time_s": 0.0,
+        "conditions": "disconnected",
+        "access_nodes": [
+          "LAB7-ACCESS"
+        ],
+        "service_nodes": [
+          "LAB7-EDGE"
+        ]
+      },
+      "coverage_diagnostics": {
+        "nearest_compatible_nodes": [
+          {
+            "node_id": "LAB7-ACCESS",
+            "type": "GROUND",
+            "lat": 16.06,
+            "lng": 108.22,
+            "distance_km": 0.11517105949339812,
+            "device_range_km": 5,
+            "within_device_range": true,
+            "within_local_scope": true
+          },
+          {
+            "node_id": "LAB7-EDGE",
+            "type": "GROUND",
+            "lat": 16.09,
+            "lng": 108.52,
+            "distance_km": 32.21592763610963,
+            "device_range_km": 5,
+            "within_device_range": false,
+            "within_local_scope": true
+          }
+        ],
+        "note": "Khoảng cách tới node có lớp truy cập phù hợp; chưa khẳng định đủ tín hiệu, băng thông hoặc có backhaul."
+      },
+      "routing_scope": {
+        "mode": "local",
+        "radius_km": 300,
+        "distance_definition": "access_area_plus_layer_specific_backbone",
+        "expanded": false
+      },
+      "access_search": {
+        "requested_radius_km": null,
+        "used_radius_km": 300,
+        "mode": "bounded",
+        "expanded": false,
+        "nearest_ground_km": 0.11119492664462255
+      },
+      "access": {
+        "source_id": "LAB7-ACCESS",
+        "distance_km": 0.11517105949339812,
+        "radius_km": 300,
+        "latency_ms": 0.0003841693025292788,
+        "is_estimated": true
+      },
+      "diagnostics": {
+        "active_nodes": 3,
+        "links": 1,
+        "eligible_directions": 2,
+        "excluded": 0
+      },
+      "code": "no_path"
+    }
+  }
+]

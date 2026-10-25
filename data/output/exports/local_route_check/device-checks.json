@@ -1,0 +1,1751 @@
+[
+  {
+    "request": {
+      "scenario_id": 6,
+      "lat": 24.66,
+      "lng": 46.71,
+      "policy": "predictive",
+      "experiment_id": 5,
+      "source_device": "auto",
+      "routing_scope": "local",
+      "local_radius_km": 300,
+      "auto_train": false,
+      "allow_reposition": false,
+      "service": "Message"
+    },
+    "result": {
+      "status": "routed",
+      "reason": "Đã chọn tuyến có tổng chi phí nhỏ nhất.",
+      "route": {
+        "path": [
+          "GND-SAU-001"
+        ],
+        "hops": [],
+        "cost": 21.779794839728446,
+        "predicted_transfer_ms": 0,
+        "static_transfer_ms": 0,
+        "bottleneck": 10,
+        "sourceId": "GND-SAU-001",
+        "targetId": "GND-SAU-001",
+        "accessDistanceKm": 1.5025652533449614,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 37.7755788519998,
+        "predicted_access_rtt_ms": 37.77871322631836,
+        "total_static_transfer_ms": 37.7755788519998,
+        "total_predicted_transfer_ms": 37.77871322631836,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 0,
+        "application": {
+          "payload_bytes": 4096,
+          "latency_budget_ms": 1000,
+          "estimated_one_way_ms": 23.139300000000002,
+          "channel_latency_ms": 15.8625,
+          "serialization_ms": 3.2768,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 0.05,
+          "bandwidth_headroom_mbps": 9.95,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."
+        },
+        "distance_km": 1.5025652533449614,
+        "score_breakdown": {
+          "delay": 20.7782922744751,
+          "capacity": 1.0,
+          "distance": 0.0015025652533449615,
+          "preference": 0,
+          "total": 21.779794839728446
+        },
+        "access": {
+          "source_id": "GND-SAU-001",
+          "distance_km": 1.5025652533449614,
+          "radius_km": 300.0,
+          "latency_ms": 0.0050120181920819415,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 37.7755788519998,
+            "latency_ms": 15.8625,
+            "bandwidth_mbps": 10,
+            "distance_km": 1.5025652533449614,
+            "load_ratio": 0.35,
+            "packet_loss_ratio": 0.0049,
+            "jitter_ms": 0.6345000000000001,
+            "payload_bytes": 3844
+          },
+          "predicted_access_rtt_ms": 37.77871322631836,
+          "access_latency_ms": 15.8625,
+          "access_rtt_ms": 37.7755788519998,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ]
+      },
+      "baseline": {
+        "path": [
+          "GND-SAU-001"
+        ],
+        "hops": [],
+        "cost": 21.77807093385324,
+        "predicted_transfer_ms": 0,
+        "static_transfer_ms": 0,
+        "bottleneck": 10,
+        "sourceId": "GND-SAU-001",
+        "targetId": "GND-SAU-001",
+        "accessDistanceKm": 1.5025652533449614,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 37.7755788519998,
+        "predicted_access_rtt_ms": 37.77871322631836,
+        "total_static_transfer_ms": 37.7755788519998,
+        "total_predicted_transfer_ms": 37.77871322631836,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 0,
+        "application": {
+          "payload_bytes": 4096,
+          "latency_budget_ms": 1000,
+          "estimated_one_way_ms": 23.139300000000002,
+          "channel_latency_ms": 15.8625,
+          "serialization_ms": 3.2768,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 0.05,
+          "bandwidth_headroom_mbps": 9.95,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."
+        },
+        "distance_km": 1.5025652533449614,
+        "score_breakdown": {
+          "delay": 20.776568368599893,
+          "capacity": 1.0,
+          "distance": 0.0015025652533449615,
+          "preference": 0,
+          "total": 21.77807093385324
+        },
+        "access": {
+          "source_id": "GND-SAU-001",
+          "distance_km": 1.5025652533449614,
+          "radius_km": 300.0,
+          "latency_ms": 0.0050120181920819415,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 37.7755788519998,
+            "latency_ms": 15.8625,
+            "bandwidth_mbps": 10,
+            "distance_km": 1.5025652533449614,
+            "load_ratio": 0.35,
+            "packet_loss_ratio": 0.0049,
+            "jitter_ms": 0.6345000000000001,
+            "payload_bytes": 3844
+          },
+          "predicted_access_rtt_ms": 37.77871322631836,
+          "access_latency_ms": 15.8625,
+          "access_rtt_ms": 37.7755788519998,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ]
+      },
+      "policy": "predictive",
+      "topology": "adaptive",
+      "model": {
+        "experiment_id": 5,
+        "scenario_id": 6,
+        "algorithm": "Predictive",
+        "round": 10,
+        "mae_ms": 4.70044,
+        "validation_mae_ms": 4.83378,
+        "persistence_mae_ms": 4.70241,
+        "payload_bytes": 3844,
+        "dataset_id": 5,
+        "target": "next_tick_model_round_trip_ms",
+        "beats_persistence": true
+      },
+      "snapshot_at": "2026-10-25T04:13:10.668394+00:00",
+      "note": "Model FL dự đoán RTT của payload huấn luyện ở tick tiếp theo. Tổng dự đoán của tiếp cận và từng hop là chỉ số thay thế để xếp hạng tuyến, chưa được kiểm chứng cho độ trễ đầu-cuối của ứng dụng. Tải, loss, jitter và RTT đầu vào là mô phỏng.",
+      "profile": {
+        "latency_weight": 0.55,
+        "capacity_weight": 0.1,
+        "distance_weight": 0.1,
+        "min_bandwidth": 0.05
+      },
+      "scenario_id": 6,
+      "event_model": {
+        "version": "device_v1",
+        "selection": "automatic",
+        "device": {
+          "id": "smartphone",
+          "name": "Điện thoại 4G/5G",
+          "access_km": {
+            "GROUND": 5,
+            "AIR": 5,
+            "SEA": 2
+          },
+          "uplink_mbps": 10,
+          "downlink_mbps": 50,
+          "processing_ms": 2,
+          "effective_bandwidth_mbps": 10
+        },
+        "traffic": {
+          "kind": "burst",
+          "direction": "uplink",
+          "destination": "Máy chủ tin nhắn tại biên",
+          "processing_ms": 2
+        },
+        "assumptions": [
+          "Tầm truy cập và tốc độ thiết bị là giả định demo, không phải thông số chuẩn 4G/5G.",
+          "GROUND/AIR/SEA được giả định có trạm truy cập tương thích khi profile cho phép; chưa có inventory radio từng node.",
+          "Các GROUND được giả định có dịch vụ biên tương ứng. Chưa mô phỏng Internet/core, hàng đợi gói hay tranh chấp vô tuyến.",
+          "Băng thông một luồng được giữ tới khi xóa hoặc tính lại sự kiện; chưa tự hết hạn phiên."
+        ]
+      },
+      "routing_scope": {
+        "mode": "local",
+        "radius_km": 300.0,
+        "distance_definition": "3d_slant_from_event_and_per_hop",
+        "expanded": false
+      },
+      "access_search": {
+        "requested_radius_km": null,
+        "used_radius_km": 300.0,
+        "mode": "bounded",
+        "expanded": false,
+        "nearest_ground_km": 1.5025652533449614
+      },
+      "access": {
+        "source_id": "GND-SAU-001",
+        "distance_km": 1.5025652533449614,
+        "radius_km": 300.0,
+        "latency_ms": 0.0050120181920819415,
+        "is_estimated": true
+      },
+      "diagnostics": {
+        "active_nodes": 1,
+        "links": 0,
+        "eligible_directions": 0,
+        "excluded": 0
+      },
+      "code": "ok",
+      "payload_bytes": 3844,
+      "topology_preview": {
+        "nodes": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ],
+        "links": [],
+        "total_links": 0,
+        "neighbors_shown": 3
+      },
+      "requested_load_ratio": 0.35,
+      "applied_load_ratio": 0.35,
+      "load_reduced": false,
+      "ingress_selection": {
+        "remote": false,
+        "nearest_ground_km": 1.5025652533449614,
+        "preference_penalties": {
+          "GROUND": 0,
+          "AIR": 1,
+          "SEA": 2,
+          "SPACE": 3
+        },
+        "chosen_type": "GROUND",
+        "chosen_node": "GND-SAU-001",
+        "access_distance_km": 1.5025652533449614,
+        "access_rtt_ms": 37.7755788519998,
+        "predicted_access_rtt_ms": 37.77871322631836,
+        "access_bandwidth_mbps": 10,
+        "total_cost": 21.779794839728446,
+        "preference_penalty": 0,
+        "reason": "Cách GROUND gần nhất 2 km. Tối ưu tổng điểm khoảng cách, băng thông và độ trễ; GROUND chỉ được ưu tiên nhẹ khi các chỉ số gần tương đương."
+      },
+      "objective": "Ingress + Σ hop: w_delay × RTT_proxy_ms + w_capacity × 100 / bandwidth_Mbps + w_distance × distance_km / 100 + soft_ingress_preference_penalty",
+      "destination": {
+        "node_id": "GND-SAU-001",
+        "role": "Máy chủ tin nhắn tại biên",
+        "placement": "assumed_service_at_ground_edge",
+        "processing_ms": 2
+      },
+      "routing_decision": {
+        "method": "fl_checkpoint",
+        "experiment_id": 5,
+        "round": 10,
+        "feasibility_first": true,
+        "prediction_target": "next_tick_fl_payload_rtt_proxy",
+        "inferred_channels": 1,
+        "note": "Model chấm cả tiếp cận và từng hop hợp lệ. Tuyến trùng baseline vẫn là kết quả dùng FL; chưa chứng minh cải thiện độ trễ ứng dụng."
+      },
+      "model_applicability": {
+        "training_target": "next_tick_model_round_trip_ms",
+        "training_payload_bytes": 3844,
+        "application_payload_bytes": 4096,
+        "route_nodes_outside_training_pool": [],
+        "held_out_fl_mae_ms": 4.70044,
+        "routing_end_to_end_validated": false,
+        "note": "Checkpoint học kênh client FL; áp dụng lên từng link/thiết bị là chuyển miền thử nghiệm. MAE holdout FL không chứng minh chất lượng định tuyến ứng dụng."
+      },
+      "unseen_layers": [],
+      "comparison": {
+        "same_path": true,
+        "predicted_cost_change": 0.0,
+        "application_estimate_change_ms": 0.0,
+        "score_change": -0.0017239058752060998,
+        "evaluation_source": "same_snapshot_simulator_estimates_not_measured_improvement"
+      },
+      "allocation": {
+        "reserved_mbps": 0.05,
+        "other_event_count": 0,
+        "policy": "Giữ băng thông các điểm đang tồn tại; chọn tuyến có tổng điểm thấp nhất trên phần còn lại. Không giành lại băng thông của tuyến cũ.",
+        "nodes": [
+          {
+            "node_id": "GND-SAU-001",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 77.25,
+            "remaining_after_mbps": 77.2
+          }
+        ],
+        "links": []
+      }
+    }
+  },
+  {
+    "request": {
+      "scenario_id": 6,
+      "lat": 24.66,
+      "lng": 46.71,
+      "policy": "predictive",
+      "experiment_id": 5,
+      "source_device": "auto",
+      "routing_scope": "local",
+      "local_radius_km": 300,
+      "auto_train": false,
+      "allow_reposition": false,
+      "service": "Video Call"
+    },
+    "result": {
+      "status": "routed",
+      "reason": "Đã chọn tuyến có tổng chi phí nhỏ nhất.",
+      "route": {
+        "path": [
+          "GND-SAU-001"
+        ],
+        "hops": [],
+        "cost": 21.003426082349954,
+        "predicted_transfer_ms": 0,
+        "static_transfer_ms": 0,
+        "bottleneck": 10,
+        "sourceId": "GND-SAU-001",
+        "targetId": "GND-SAU-001",
+        "accessDistanceKm": 1.5025652533449614,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 37.7755788519998,
+        "predicted_access_rtt_ms": 37.77871322631836,
+        "total_static_transfer_ms": 37.7755788519998,
+        "total_predicted_transfer_ms": 37.77871322631836,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 0,
+        "application": {
+          "payload_bytes": 1200,
+          "latency_budget_ms": 150,
+          "estimated_one_way_ms": 21.8225,
+          "channel_latency_ms": 15.8625,
+          "serialization_ms": 0.96,
+          "endpoint_processing_ms": 5,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 2,
+          "bandwidth_headroom_mbps": 8,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."
+        },
+        "distance_km": 1.5025652533449614,
+        "score_breakdown": {
+          "delay": 17.000420951843264,
+          "capacity": 4.0,
+          "distance": 0.003005130506689923,
+          "preference": 0,
+          "total": 21.003426082349954
+        },
+        "access": {
+          "source_id": "GND-SAU-001",
+          "distance_km": 1.5025652533449614,
+          "radius_km": 300.0,
+          "latency_ms": 0.0050120181920819415,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 37.7755788519998,
+            "latency_ms": 15.8625,
+            "bandwidth_mbps": 10,
+            "distance_km": 1.5025652533449614,
+            "load_ratio": 0.35,
+            "packet_loss_ratio": 0.0049,
+            "jitter_ms": 0.6345000000000001,
+            "payload_bytes": 3844
+          },
+          "predicted_access_rtt_ms": 37.77871322631836,
+          "access_latency_ms": 15.8625,
+          "access_rtt_ms": 37.7755788519998,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ]
+      },
+      "baseline": {
+        "path": [
+          "GND-SAU-001"
+        ],
+        "hops": [],
+        "cost": 21.0020156139066,
+        "predicted_transfer_ms": 0,
+        "static_transfer_ms": 0,
+        "bottleneck": 10,
+        "sourceId": "GND-SAU-001",
+        "targetId": "GND-SAU-001",
+        "accessDistanceKm": 1.5025652533449614,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 37.7755788519998,
+        "predicted_access_rtt_ms": 37.77871322631836,
+        "total_static_transfer_ms": 37.7755788519998,
+        "total_predicted_transfer_ms": 37.77871322631836,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 0,
+        "application": {
+          "payload_bytes": 1200,
+          "latency_budget_ms": 150,
+          "estimated_one_way_ms": 21.8225,
+          "channel_latency_ms": 15.8625,
+          "serialization_ms": 0.96,
+          "endpoint_processing_ms": 5,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 2,
+          "bandwidth_headroom_mbps": 8,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."
+        },
+        "distance_km": 1.5025652533449614,
+        "score_breakdown": {
+          "delay": 16.99901048339991,
+          "capacity": 4.0,
+          "distance": 0.003005130506689923,
+          "preference": 0,
+          "total": 21.0020156139066
+        },
+        "access": {
+          "source_id": "GND-SAU-001",
+          "distance_km": 1.5025652533449614,
+          "radius_km": 300.0,
+          "latency_ms": 0.0050120181920819415,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 37.7755788519998,
+            "latency_ms": 15.8625,
+            "bandwidth_mbps": 10,
+            "distance_km": 1.5025652533449614,
+            "load_ratio": 0.35,
+            "packet_loss_ratio": 0.0049,
+            "jitter_ms": 0.6345000000000001,
+            "payload_bytes": 3844
+          },
+          "predicted_access_rtt_ms": 37.77871322631836,
+          "access_latency_ms": 15.8625,
+          "access_rtt_ms": 37.7755788519998,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ]
+      },
+      "policy": "predictive",
+      "topology": "adaptive",
+      "model": {
+        "experiment_id": 5,
+        "scenario_id": 6,
+        "algorithm": "Predictive",
+        "round": 10,
+        "mae_ms": 4.70044,
+        "validation_mae_ms": 4.83378,
+        "persistence_mae_ms": 4.70241,
+        "payload_bytes": 3844,
+        "dataset_id": 5,
+        "target": "next_tick_model_round_trip_ms",
+        "beats_persistence": true
+      },
+      "snapshot_at": "2026-10-25T04:13:10.927882+00:00",
+      "note": "Model FL dự đoán RTT của payload huấn luyện ở tick tiếp theo. Tổng dự đoán của tiếp cận và từng hop là chỉ số thay thế để xếp hạng tuyến, chưa được kiểm chứng cho độ trễ đầu-cuối của ứng dụng. Tải, loss, jitter và RTT đầu vào là mô phỏng.",
+      "profile": {
+        "latency_weight": 0.45,
+        "capacity_weight": 0.4,
+        "distance_weight": 0.2,
+        "min_bandwidth": 2
+      },
+      "scenario_id": 6,
+      "event_model": {
+        "version": "device_v1",
+        "selection": "automatic",
+        "device": {
+          "id": "smartphone",
+          "name": "Điện thoại 4G/5G",
+          "access_km": {
+            "GROUND": 5,
+            "AIR": 5,
+            "SEA": 2
+          },
+          "uplink_mbps": 10,
+          "downlink_mbps": 50,
+          "processing_ms": 2,
+          "effective_bandwidth_mbps": 10
+        },
+        "traffic": {
+          "kind": "continuous",
+          "direction": "bidirectional",
+          "destination": "Máy chủ chuyển tiếp cuộc gọi tại biên",
+          "processing_ms": 3
+        },
+        "assumptions": [
+          "Tầm truy cập và tốc độ thiết bị là giả định demo, không phải thông số chuẩn 4G/5G.",
+          "GROUND/AIR/SEA được giả định có trạm truy cập tương thích khi profile cho phép; chưa có inventory radio từng node.",
+          "Các GROUND được giả định có dịch vụ biên tương ứng. Chưa mô phỏng Internet/core, hàng đợi gói hay tranh chấp vô tuyến.",
+          "Băng thông một luồng được giữ tới khi xóa hoặc tính lại sự kiện; chưa tự hết hạn phiên."
+        ]
+      },
+      "routing_scope": {
+        "mode": "local",
+        "radius_km": 300.0,
+        "distance_definition": "3d_slant_from_event_and_per_hop",
+        "expanded": false
+      },
+      "access_search": {
+        "requested_radius_km": null,
+        "used_radius_km": 300.0,
+        "mode": "bounded",
+        "expanded": false,
+        "nearest_ground_km": 1.5025652533449614
+      },
+      "access": {
+        "source_id": "GND-SAU-001",
+        "distance_km": 1.5025652533449614,
+        "radius_km": 300.0,
+        "latency_ms": 0.0050120181920819415,
+        "is_estimated": true
+      },
+      "diagnostics": {
+        "active_nodes": 1,
+        "links": 0,
+        "eligible_directions": 0,
+        "excluded": 0
+      },
+      "code": "ok",
+      "payload_bytes": 3844,
+      "topology_preview": {
+        "nodes": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ],
+        "links": [],
+        "total_links": 0,
+        "neighbors_shown": 3
+      },
+      "requested_load_ratio": 0.35,
+      "applied_load_ratio": 0.35,
+      "load_reduced": false,
+      "ingress_selection": {
+        "remote": false,
+        "nearest_ground_km": 1.5025652533449614,
+        "preference_penalties": {
+          "GROUND": 0,
+          "AIR": 1,
+          "SEA": 2,
+          "SPACE": 3
+        },
+        "chosen_type": "GROUND",
+        "chosen_node": "GND-SAU-001",
+        "access_distance_km": 1.5025652533449614,
+        "access_rtt_ms": 37.7755788519998,
+        "predicted_access_rtt_ms": 37.77871322631836,
+        "access_bandwidth_mbps": 10,
+        "total_cost": 21.003426082349954,
+        "preference_penalty": 0,
+        "reason": "Cách GROUND gần nhất 2 km. Tối ưu tổng điểm khoảng cách, băng thông và độ trễ; GROUND chỉ được ưu tiên nhẹ khi các chỉ số gần tương đương."
+      },
+      "objective": "Ingress + Σ hop: w_delay × RTT_proxy_ms + w_capacity × 100 / bandwidth_Mbps + w_distance × distance_km / 100 + soft_ingress_preference_penalty",
+      "destination": {
+        "node_id": "GND-SAU-001",
+        "role": "Máy chủ chuyển tiếp cuộc gọi tại biên",
+        "placement": "assumed_service_at_ground_edge",
+        "processing_ms": 3
+      },
+      "routing_decision": {
+        "method": "fl_checkpoint",
+        "experiment_id": 5,
+        "round": 10,
+        "feasibility_first": true,
+        "prediction_target": "next_tick_fl_payload_rtt_proxy",
+        "inferred_channels": 1,
+        "note": "Model chấm cả tiếp cận và từng hop hợp lệ. Tuyến trùng baseline vẫn là kết quả dùng FL; chưa chứng minh cải thiện độ trễ ứng dụng."
+      },
+      "model_applicability": {
+        "training_target": "next_tick_model_round_trip_ms",
+        "training_payload_bytes": 3844,
+        "application_payload_bytes": 1200,
+        "route_nodes_outside_training_pool": [],
+        "held_out_fl_mae_ms": 4.70044,
+        "routing_end_to_end_validated": false,
+        "note": "Checkpoint học kênh client FL; áp dụng lên từng link/thiết bị là chuyển miền thử nghiệm. MAE holdout FL không chứng minh chất lượng định tuyến ứng dụng."
+      },
+      "unseen_layers": [],
+      "comparison": {
+        "same_path": true,
+        "predicted_cost_change": 0.0,
+        "application_estimate_change_ms": 0.0,
+        "score_change": -0.001410468443353352,
+        "evaluation_source": "same_snapshot_simulator_estimates_not_measured_improvement"
+      },
+      "allocation": {
+        "reserved_mbps": 2,
+        "other_event_count": 0,
+        "policy": "Giữ băng thông các điểm đang tồn tại; chọn tuyến có tổng điểm thấp nhất trên phần còn lại. Không giành lại băng thông của tuyến cũ.",
+        "nodes": [
+          {
+            "node_id": "GND-SAU-001",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 77.25,
+            "remaining_after_mbps": 75.25
+          }
+        ],
+        "links": []
+      }
+    }
+  },
+  {
+    "request": {
+      "scenario_id": 6,
+      "lat": 24.66,
+      "lng": 46.71,
+      "policy": "predictive",
+      "experiment_id": 5,
+      "source_device": "auto",
+      "routing_scope": "local",
+      "local_radius_km": 300,
+      "auto_train": false,
+      "allow_reposition": false,
+      "service": "Watch Video"
+    },
+    "result": {
+      "status": "routed",
+      "reason": "Đã chọn tuyến có tổng chi phí nhỏ nhất.",
+      "route": {
+        "path": [
+          "GND-SAU-001"
+        ],
+        "hops": [],
+        "cost": 8.1146027858683,
+        "predicted_transfer_ms": 0,
+        "static_transfer_ms": 0,
+        "bottleneck": 50,
+        "sourceId": "GND-SAU-001",
+        "targetId": "GND-SAU-001",
+        "accessDistanceKm": 1.5025652533449614,
+        "sourceCapacityMbps": 50,
+        "access_rtt_ms": 33.06009014483469,
+        "predicted_access_rtt_ms": 33.061744689941406,
+        "total_static_transfer_ms": 33.06009014483469,
+        "total_predicted_transfer_ms": 33.061744689941406,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 0,
+        "application": {
+          "payload_bytes": 65536,
+          "latency_budget_ms": 2000,
+          "estimated_one_way_ms": 30.348260000000003,
+          "channel_latency_ms": 15.8625,
+          "serialization_ms": 10.48576,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 5,
+          "bandwidth_headroom_mbps": 45,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."
+        },
+        "distance_km": 1.5025652533449614,
+        "score_breakdown": {
+          "delay": 6.612348937988282,
+          "capacity": 1.5,
+          "distance": 0.002253847880017442,
+          "preference": 0,
+          "total": 8.1146027858683
+        },
+        "access": {
+          "source_id": "GND-SAU-001",
+          "distance_km": 1.5025652533449614,
+          "radius_km": 300.0,
+          "latency_ms": 0.0050120181920819415,
+          "is_estimated": true,
+          "bandwidth_mbps": 50,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 33.06009014483469,
+            "latency_ms": 15.8625,
+            "bandwidth_mbps": 50,
+            "distance_km": 1.5025652533449614,
+            "load_ratio": 0.35,
+            "packet_loss_ratio": 0.0049,
+            "jitter_ms": 0.6345000000000001,
+            "payload_bytes": 3844
+          },
+          "predicted_access_rtt_ms": 33.061744689941406,
+          "access_latency_ms": 15.8625,
+          "access_rtt_ms": 33.06009014483469,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ]
+      },
+      "baseline": {
+        "path": [
+          "GND-SAU-001"
+        ],
+        "hops": [],
+        "cost": 8.114271876846956,
+        "predicted_transfer_ms": 0,
+        "static_transfer_ms": 0,
+        "bottleneck": 50,
+        "sourceId": "GND-SAU-001",
+        "targetId": "GND-SAU-001",
+        "accessDistanceKm": 1.5025652533449614,
+        "sourceCapacityMbps": 50,
+        "access_rtt_ms": 33.06009014483469,
+        "predicted_access_rtt_ms": 33.061744689941406,
+        "total_static_transfer_ms": 33.06009014483469,
+        "total_predicted_transfer_ms": 33.061744689941406,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 0,
+        "application": {
+          "payload_bytes": 65536,
+          "latency_budget_ms": 2000,
+          "estimated_one_way_ms": 30.348260000000003,
+          "channel_latency_ms": 15.8625,
+          "serialization_ms": 10.48576,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 5,
+          "bandwidth_headroom_mbps": 45,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."
+        },
+        "distance_km": 1.5025652533449614,
+        "score_breakdown": {
+          "delay": 6.612018028966938,
+          "capacity": 1.5,
+          "distance": 0.002253847880017442,
+          "preference": 0,
+          "total": 8.114271876846956
+        },
+        "access": {
+          "source_id": "GND-SAU-001",
+          "distance_km": 1.5025652533449614,
+          "radius_km": 300.0,
+          "latency_ms": 0.0050120181920819415,
+          "is_estimated": true,
+          "bandwidth_mbps": 50,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 33.06009014483469,
+            "latency_ms": 15.8625,
+            "bandwidth_mbps": 50,
+            "distance_km": 1.5025652533449614,
+            "load_ratio": 0.35,
+            "packet_loss_ratio": 0.0049,
+            "jitter_ms": 0.6345000000000001,
+            "payload_bytes": 3844
+          },
+          "predicted_access_rtt_ms": 33.061744689941406,
+          "access_latency_ms": 15.8625,
+          "access_rtt_ms": 33.06009014483469,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ]
+      },
+      "policy": "predictive",
+      "topology": "adaptive",
+      "model": {
+        "experiment_id": 5,
+        "scenario_id": 6,
+        "algorithm": "Predictive",
+        "round": 10,
+        "mae_ms": 4.70044,
+        "validation_mae_ms": 4.83378,
+        "persistence_mae_ms": 4.70241,
+        "payload_bytes": 3844,
+        "dataset_id": 5,
+        "target": "next_tick_model_round_trip_ms",
+        "beats_persistence": true
+      },
+      "snapshot_at": "2026-10-25T04:13:11.080604+00:00",
+      "note": "Model FL dự đoán RTT của payload huấn luyện ở tick tiếp theo. Tổng dự đoán của tiếp cận và từng hop là chỉ số thay thế để xếp hạng tuyến, chưa được kiểm chứng cho độ trễ đầu-cuối của ứng dụng. Tải, loss, jitter và RTT đầu vào là mô phỏng.",
+      "profile": {
+        "latency_weight": 0.2,
+        "capacity_weight": 0.75,
+        "distance_weight": 0.15,
+        "min_bandwidth": 5
+      },
+      "scenario_id": 6,
+      "event_model": {
+        "version": "device_v1",
+        "selection": "automatic",
+        "device": {
+          "id": "smartphone",
+          "name": "Điện thoại 4G/5G",
+          "access_km": {
+            "GROUND": 5,
+            "AIR": 5,
+            "SEA": 2
+          },
+          "uplink_mbps": 10,
+          "downlink_mbps": 50,
+          "processing_ms": 2,
+          "effective_bandwidth_mbps": 50
+        },
+        "traffic": {
+          "kind": "continuous",
+          "direction": "downlink",
+          "destination": "Bộ nhớ đệm video tại biên",
+          "processing_ms": 2
+        },
+        "assumptions": [
+          "Tầm truy cập và tốc độ thiết bị là giả định demo, không phải thông số chuẩn 4G/5G.",
+          "GROUND/AIR/SEA được giả định có trạm truy cập tương thích khi profile cho phép; chưa có inventory radio từng node.",
+          "Các GROUND được giả định có dịch vụ biên tương ứng. Chưa mô phỏng Internet/core, hàng đợi gói hay tranh chấp vô tuyến.",
+          "Băng thông một luồng được giữ tới khi xóa hoặc tính lại sự kiện; chưa tự hết hạn phiên."
+        ]
+      },
+      "routing_scope": {
+        "mode": "local",
+        "radius_km": 300.0,
+        "distance_definition": "3d_slant_from_event_and_per_hop",
+        "expanded": false
+      },
+      "access_search": {
+        "requested_radius_km": null,
+        "used_radius_km": 300.0,
+        "mode": "bounded",
+        "expanded": false,
+        "nearest_ground_km": 1.5025652533449614
+      },
+      "access": {
+        "source_id": "GND-SAU-001",
+        "distance_km": 1.5025652533449614,
+        "radius_km": 300.0,
+        "latency_ms": 0.0050120181920819415,
+        "is_estimated": true
+      },
+      "diagnostics": {
+        "active_nodes": 1,
+        "links": 0,
+        "eligible_directions": 0,
+        "excluded": 0
+      },
+      "code": "ok",
+      "payload_bytes": 3844,
+      "topology_preview": {
+        "nodes": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ],
+        "links": [],
+        "total_links": 0,
+        "neighbors_shown": 3
+      },
+      "requested_load_ratio": 0.35,
+      "applied_load_ratio": 0.35,
+      "load_reduced": false,
+      "ingress_selection": {
+        "remote": false,
+        "nearest_ground_km": 1.5025652533449614,
+        "preference_penalties": {
+          "GROUND": 0,
+          "AIR": 1,
+          "SEA": 2,
+          "SPACE": 3
+        },
+        "chosen_type": "GROUND",
+        "chosen_node": "GND-SAU-001",
+        "access_distance_km": 1.5025652533449614,
+        "access_rtt_ms": 33.06009014483469,
+        "predicted_access_rtt_ms": 33.061744689941406,
+        "access_bandwidth_mbps": 50,
+        "total_cost": 8.1146027858683,
+        "preference_penalty": 0,
+        "reason": "Cách GROUND gần nhất 2 km. Tối ưu tổng điểm khoảng cách, băng thông và độ trễ; GROUND chỉ được ưu tiên nhẹ khi các chỉ số gần tương đương."
+      },
+      "objective": "Ingress + Σ hop: w_delay × RTT_proxy_ms + w_capacity × 100 / bandwidth_Mbps + w_distance × distance_km / 100 + soft_ingress_preference_penalty",
+      "destination": {
+        "node_id": "GND-SAU-001",
+        "role": "Bộ nhớ đệm video tại biên",
+        "placement": "assumed_service_at_ground_edge",
+        "processing_ms": 2
+      },
+      "routing_decision": {
+        "method": "fl_checkpoint",
+        "experiment_id": 5,
+        "round": 10,
+        "feasibility_first": true,
+        "prediction_target": "next_tick_fl_payload_rtt_proxy",
+        "inferred_channels": 1,
+        "note": "Model chấm cả tiếp cận và từng hop hợp lệ. Tuyến trùng baseline vẫn là kết quả dùng FL; chưa chứng minh cải thiện độ trễ ứng dụng."
+      },
+      "model_applicability": {
+        "training_target": "next_tick_model_round_trip_ms",
+        "training_payload_bytes": 3844,
+        "application_payload_bytes": 65536,
+        "route_nodes_outside_training_pool": [],
+        "held_out_fl_mae_ms": 4.70044,
+        "routing_end_to_end_validated": false,
+        "note": "Checkpoint học kênh client FL; áp dụng lên từng link/thiết bị là chuyển miền thử nghiệm. MAE holdout FL không chứng minh chất lượng định tuyến ứng dụng."
+      },
+      "unseen_layers": [],
+      "comparison": {
+        "same_path": true,
+        "predicted_cost_change": 0.0,
+        "application_estimate_change_ms": 0.0,
+        "score_change": -0.0003309090213434729,
+        "evaluation_source": "same_snapshot_simulator_estimates_not_measured_improvement"
+      },
+      "allocation": {
+        "reserved_mbps": 5,
+        "other_event_count": 0,
+        "policy": "Giữ băng thông các điểm đang tồn tại; chọn tuyến có tổng điểm thấp nhất trên phần còn lại. Không giành lại băng thông của tuyến cũ.",
+        "nodes": [
+          {
+            "node_id": "GND-SAU-001",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 77.25,
+            "remaining_after_mbps": 72.25
+          }
+        ],
+        "links": []
+      }
+    }
+  },
+  {
+    "request": {
+      "scenario_id": 6,
+      "lat": 24.66,
+      "lng": 46.71,
+      "policy": "predictive",
+      "experiment_id": 5,
+      "source_device": "auto",
+      "routing_scope": "local",
+      "local_radius_km": 300,
+      "auto_train": false,
+      "allow_reposition": false,
+      "service": "Gaming"
+    },
+    "result": {
+      "status": "routed",
+      "reason": "Đã chọn tuyến có tổng chi phí nhỏ nhất.",
+      "route": {
+        "path": [
+          "GND-SAU-001"
+        ],
+        "hops": [],
+        "cost": 31.027478276814726,
+        "predicted_transfer_ms": 0,
+        "static_transfer_ms": 0,
+        "bottleneck": 10,
+        "sourceId": "GND-SAU-001",
+        "targetId": "GND-SAU-001",
+        "accessDistanceKm": 1.5025652533449614,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 37.7755788519998,
+        "predicted_access_rtt_ms": 37.77871322631836,
+        "total_static_transfer_ms": 37.7755788519998,
+        "total_predicted_transfer_ms": 37.77871322631836,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 0,
+        "application": {
+          "payload_bytes": 256,
+          "latency_budget_ms": 50,
+          "estimated_one_way_ms": 20.0673,
+          "channel_latency_ms": 15.8625,
+          "serialization_ms": 0.2048,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 1,
+          "bandwidth_headroom_mbps": 9,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."
+        },
+        "distance_km": 1.5025652533449614,
+        "score_breakdown": {
+          "delay": 30.22297058105469,
+          "capacity": 0.8,
+          "distance": 0.004507695760034884,
+          "preference": 0,
+          "total": 31.027478276814726
+        },
+        "access": {
+          "source_id": "GND-SAU-001",
+          "distance_km": 1.5025652533449614,
+          "radius_km": 300.0,
+          "latency_ms": 0.0050120181920819415,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 37.7755788519998,
+            "latency_ms": 15.8625,
+            "bandwidth_mbps": 10,
+            "distance_km": 1.5025652533449614,
+            "load_ratio": 0.35,
+            "packet_loss_ratio": 0.0049,
+            "jitter_ms": 0.6345000000000001,
+            "payload_bytes": 3844
+          },
+          "predicted_access_rtt_ms": 37.77871322631836,
+          "access_latency_ms": 15.8625,
+          "access_rtt_ms": 37.7755788519998,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ]
+      },
+      "baseline": {
+        "path": [
+          "GND-SAU-001"
+        ],
+        "hops": [],
+        "cost": 31.024970777359883,
+        "predicted_transfer_ms": 0,
+        "static_transfer_ms": 0,
+        "bottleneck": 10,
+        "sourceId": "GND-SAU-001",
+        "targetId": "GND-SAU-001",
+        "accessDistanceKm": 1.5025652533449614,
+        "sourceCapacityMbps": 10,
+        "access_rtt_ms": 37.7755788519998,
+        "predicted_access_rtt_ms": 37.77871322631836,
+        "total_static_transfer_ms": 37.7755788519998,
+        "total_predicted_transfer_ms": 37.77871322631836,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 0,
+        "application": {
+          "payload_bytes": 256,
+          "latency_budget_ms": 50,
+          "estimated_one_way_ms": 20.0673,
+          "channel_latency_ms": 15.8625,
+          "serialization_ms": 0.2048,
+          "endpoint_processing_ms": 4,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 1,
+          "bandwidth_headroom_mbps": 9,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."
+        },
+        "distance_km": 1.5025652533449614,
+        "score_breakdown": {
+          "delay": 30.220463081599846,
+          "capacity": 0.8,
+          "distance": 0.004507695760034884,
+          "preference": 0,
+          "total": 31.024970777359883
+        },
+        "access": {
+          "source_id": "GND-SAU-001",
+          "distance_km": 1.5025652533449614,
+          "radius_km": 300.0,
+          "latency_ms": 0.0050120181920819415,
+          "is_estimated": true,
+          "bandwidth_mbps": 10,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 37.7755788519998,
+            "latency_ms": 15.8625,
+            "bandwidth_mbps": 10,
+            "distance_km": 1.5025652533449614,
+            "load_ratio": 0.35,
+            "packet_loss_ratio": 0.0049,
+            "jitter_ms": 0.6345000000000001,
+            "payload_bytes": 3844
+          },
+          "predicted_access_rtt_ms": 37.77871322631836,
+          "access_latency_ms": 15.8625,
+          "access_rtt_ms": 37.7755788519998,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ]
+      },
+      "policy": "predictive",
+      "topology": "adaptive",
+      "model": {
+        "experiment_id": 5,
+        "scenario_id": 6,
+        "algorithm": "Predictive",
+        "round": 10,
+        "mae_ms": 4.70044,
+        "validation_mae_ms": 4.83378,
+        "persistence_mae_ms": 4.70241,
+        "payload_bytes": 3844,
+        "dataset_id": 5,
+        "target": "next_tick_model_round_trip_ms",
+        "beats_persistence": true
+      },
+      "snapshot_at": "2026-10-25T04:13:11.264360+00:00",
+      "note": "Model FL dự đoán RTT của payload huấn luyện ở tick tiếp theo. Tổng dự đoán của tiếp cận và từng hop là chỉ số thay thế để xếp hạng tuyến, chưa được kiểm chứng cho độ trễ đầu-cuối của ứng dụng. Tải, loss, jitter và RTT đầu vào là mô phỏng.",
+      "profile": {
+        "latency_weight": 0.8,
+        "capacity_weight": 0.08,
+        "distance_weight": 0.3,
+        "min_bandwidth": 1
+      },
+      "scenario_id": 6,
+      "event_model": {
+        "version": "device_v1",
+        "selection": "automatic",
+        "device": {
+          "id": "smartphone",
+          "name": "Điện thoại 4G/5G",
+          "access_km": {
+            "GROUND": 5,
+            "AIR": 5,
+            "SEA": 2
+          },
+          "uplink_mbps": 10,
+          "downlink_mbps": 50,
+          "processing_ms": 2,
+          "effective_bandwidth_mbps": 10
+        },
+        "traffic": {
+          "kind": "interactive",
+          "direction": "bidirectional",
+          "destination": "Máy chủ game tại biên",
+          "processing_ms": 2
+        },
+        "assumptions": [
+          "Tầm truy cập và tốc độ thiết bị là giả định demo, không phải thông số chuẩn 4G/5G.",
+          "GROUND/AIR/SEA được giả định có trạm truy cập tương thích khi profile cho phép; chưa có inventory radio từng node.",
+          "Các GROUND được giả định có dịch vụ biên tương ứng. Chưa mô phỏng Internet/core, hàng đợi gói hay tranh chấp vô tuyến.",
+          "Băng thông một luồng được giữ tới khi xóa hoặc tính lại sự kiện; chưa tự hết hạn phiên."
+        ]
+      },
+      "routing_scope": {
+        "mode": "local",
+        "radius_km": 300.0,
+        "distance_definition": "3d_slant_from_event_and_per_hop",
+        "expanded": false
+      },
+      "access_search": {
+        "requested_radius_km": null,
+        "used_radius_km": 300.0,
+        "mode": "bounded",
+        "expanded": false,
+        "nearest_ground_km": 1.5025652533449614
+      },
+      "access": {
+        "source_id": "GND-SAU-001",
+        "distance_km": 1.5025652533449614,
+        "radius_km": 300.0,
+        "latency_ms": 0.0050120181920819415,
+        "is_estimated": true
+      },
+      "diagnostics": {
+        "active_nodes": 1,
+        "links": 0,
+        "eligible_directions": 0,
+        "excluded": 0
+      },
+      "code": "ok",
+      "payload_bytes": 3844,
+      "topology_preview": {
+        "nodes": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ],
+        "links": [],
+        "total_links": 0,
+        "neighbors_shown": 3
+      },
+      "requested_load_ratio": 0.35,
+      "applied_load_ratio": 0.35,
+      "load_reduced": false,
+      "ingress_selection": {
+        "remote": false,
+        "nearest_ground_km": 1.5025652533449614,
+        "preference_penalties": {
+          "GROUND": 0,
+          "AIR": 1,
+          "SEA": 2,
+          "SPACE": 3
+        },
+        "chosen_type": "GROUND",
+        "chosen_node": "GND-SAU-001",
+        "access_distance_km": 1.5025652533449614,
+        "access_rtt_ms": 37.7755788519998,
+        "predicted_access_rtt_ms": 37.77871322631836,
+        "access_bandwidth_mbps": 10,
+        "total_cost": 31.027478276814726,
+        "preference_penalty": 0,
+        "reason": "Cách GROUND gần nhất 2 km. Tối ưu tổng điểm khoảng cách, băng thông và độ trễ; GROUND chỉ được ưu tiên nhẹ khi các chỉ số gần tương đương."
+      },
+      "objective": "Ingress + Σ hop: w_delay × RTT_proxy_ms + w_capacity × 100 / bandwidth_Mbps + w_distance × distance_km / 100 + soft_ingress_preference_penalty",
+      "destination": {
+        "node_id": "GND-SAU-001",
+        "role": "Máy chủ game tại biên",
+        "placement": "assumed_service_at_ground_edge",
+        "processing_ms": 2
+      },
+      "routing_decision": {
+        "method": "fl_checkpoint",
+        "experiment_id": 5,
+        "round": 10,
+        "feasibility_first": true,
+        "prediction_target": "next_tick_fl_payload_rtt_proxy",
+        "inferred_channels": 1,
+        "note": "Model chấm cả tiếp cận và từng hop hợp lệ. Tuyến trùng baseline vẫn là kết quả dùng FL; chưa chứng minh cải thiện độ trễ ứng dụng."
+      },
+      "model_applicability": {
+        "training_target": "next_tick_model_round_trip_ms",
+        "training_payload_bytes": 3844,
+        "application_payload_bytes": 256,
+        "route_nodes_outside_training_pool": [],
+        "held_out_fl_mae_ms": 4.70044,
+        "routing_end_to_end_validated": false,
+        "note": "Checkpoint học kênh client FL; áp dụng lên từng link/thiết bị là chuyển miền thử nghiệm. MAE holdout FL không chứng minh chất lượng định tuyến ứng dụng."
+      },
+      "unseen_layers": [],
+      "comparison": {
+        "same_path": true,
+        "predicted_cost_change": 0.0,
+        "application_estimate_change_ms": 0.0,
+        "score_change": -0.0025074994548432983,
+        "evaluation_source": "same_snapshot_simulator_estimates_not_measured_improvement"
+      },
+      "allocation": {
+        "reserved_mbps": 1,
+        "other_event_count": 0,
+        "policy": "Giữ băng thông các điểm đang tồn tại; chọn tuyến có tổng điểm thấp nhất trên phần còn lại. Không giành lại băng thông của tuyến cũ.",
+        "nodes": [
+          {
+            "node_id": "GND-SAU-001",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 77.25,
+            "remaining_after_mbps": 76.25
+          }
+        ],
+        "links": []
+      }
+    }
+  },
+  {
+    "request": {
+      "scenario_id": 6,
+      "lat": 24.66,
+      "lng": 46.71,
+      "policy": "predictive",
+      "experiment_id": 5,
+      "source_device": "auto",
+      "routing_scope": "local",
+      "local_radius_km": 300,
+      "auto_train": false,
+      "allow_reposition": false,
+      "service": "Emergency"
+    },
+    "result": {
+      "status": "routed",
+      "reason": "Đã chọn tuyến có tổng chi phí nhỏ nhất.",
+      "route": {
+        "path": [
+          "GND-SAU-001"
+        ],
+        "hops": [],
+        "cost": 68.86204104791936,
+        "predicted_transfer_ms": 0,
+        "static_transfer_ms": 0,
+        "bottleneck": 2,
+        "sourceId": "GND-SAU-001",
+        "targetId": "GND-SAU-001",
+        "accessDistanceKm": 1.5025652533449614,
+        "sourceCapacityMbps": 2,
+        "access_rtt_ms": 61.35302238782535,
+        "predicted_access_rtt_ms": 61.360538482666016,
+        "total_static_transfer_ms": 61.35302238782535,
+        "total_predicted_transfer_ms": 61.360538482666016,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 0,
+        "application": {
+          "payload_bytes": 1024,
+          "latency_budget_ms": 100,
+          "estimated_one_way_ms": 24.9585,
+          "channel_latency_ms": 15.8625,
+          "serialization_ms": 4.096,
+          "endpoint_processing_ms": 5,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 0.1,
+          "bandwidth_headroom_mbps": 1.9,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."
+        },
+        "distance_km": 1.5025652533449614,
+        "score_breakdown": {
+          "delay": 61.360538482666016,
+          "capacity": 7.5,
+          "distance": 0.0015025652533449615,
+          "preference": 0,
+          "total": 68.86204104791936
+        },
+        "access": {
+          "source_id": "GND-SAU-001",
+          "distance_km": 1.5025652533449614,
+          "radius_km": 300.0,
+          "latency_ms": 0.0050120181920819415,
+          "is_estimated": true,
+          "bandwidth_mbps": 2,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 61.35302238782535,
+            "latency_ms": 15.8625,
+            "bandwidth_mbps": 2,
+            "distance_km": 1.5025652533449614,
+            "load_ratio": 0.35,
+            "packet_loss_ratio": 0.0049,
+            "jitter_ms": 0.6345000000000001,
+            "payload_bytes": 3844
+          },
+          "predicted_access_rtt_ms": 61.360538482666016,
+          "access_latency_ms": 15.8625,
+          "access_rtt_ms": 61.35302238782535,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ]
+      },
+      "baseline": {
+        "path": [
+          "GND-SAU-001"
+        ],
+        "hops": [],
+        "cost": 68.8545249530787,
+        "predicted_transfer_ms": 0,
+        "static_transfer_ms": 0,
+        "bottleneck": 2,
+        "sourceId": "GND-SAU-001",
+        "targetId": "GND-SAU-001",
+        "accessDistanceKm": 1.5025652533449614,
+        "sourceCapacityMbps": 2,
+        "access_rtt_ms": 61.35302238782535,
+        "predicted_access_rtt_ms": 61.360538482666016,
+        "total_static_transfer_ms": 61.35302238782535,
+        "total_predicted_transfer_ms": 61.360538482666016,
+        "ingressPreferencePenalty": 0,
+        "hop_count": 0,
+        "application": {
+          "payload_bytes": 1024,
+          "latency_budget_ms": 100,
+          "estimated_one_way_ms": 24.9585,
+          "channel_latency_ms": 15.8625,
+          "serialization_ms": 4.096,
+          "endpoint_processing_ms": 5,
+          "latency_budget_met": true,
+          "required_bandwidth_mbps": 0.1,
+          "bandwidth_headroom_mbps": 1.9,
+          "source": "simulated_store_and_forward_no_contention_reservation",
+          "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."
+        },
+        "distance_km": 1.5025652533449614,
+        "score_breakdown": {
+          "delay": 61.35302238782535,
+          "capacity": 7.5,
+          "distance": 0.0015025652533449615,
+          "preference": 0,
+          "total": 68.8545249530787
+        },
+        "access": {
+          "source_id": "GND-SAU-001",
+          "distance_km": 1.5025652533449614,
+          "radius_km": 300.0,
+          "latency_ms": 0.0050120181920819415,
+          "is_estimated": true,
+          "bandwidth_mbps": 2,
+          "features": {
+            "layer": "GROUND",
+            "observed_delay_ms": 61.35302238782535,
+            "latency_ms": 15.8625,
+            "bandwidth_mbps": 2,
+            "distance_km": 1.5025652533449614,
+            "load_ratio": 0.35,
+            "packet_loss_ratio": 0.0049,
+            "jitter_ms": 0.6345000000000001,
+            "payload_bytes": 3844
+          },
+          "predicted_access_rtt_ms": 61.360538482666016,
+          "access_latency_ms": 15.8625,
+          "access_rtt_ms": 61.35302238782535,
+          "preference_penalty": 0,
+          "mode": "bounded",
+          "virtual": false,
+          "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+        },
+        "estimated_hops": 0,
+        "positions": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ]
+      },
+      "policy": "predictive",
+      "topology": "adaptive",
+      "model": {
+        "experiment_id": 5,
+        "scenario_id": 6,
+        "algorithm": "Predictive",
+        "round": 10,
+        "mae_ms": 4.70044,
+        "validation_mae_ms": 4.83378,
+        "persistence_mae_ms": 4.70241,
+        "payload_bytes": 3844,
+        "dataset_id": 5,
+        "target": "next_tick_model_round_trip_ms",
+        "beats_persistence": true
+      },
+      "snapshot_at": "2026-10-25T04:13:11.424858+00:00",
+      "note": "Model FL dự đoán RTT của payload huấn luyện ở tick tiếp theo. Tổng dự đoán của tiếp cận và từng hop là chỉ số thay thế để xếp hạng tuyến, chưa được kiểm chứng cho độ trễ đầu-cuối của ứng dụng. Tải, loss, jitter và RTT đầu vào là mô phỏng.",
+      "profile": {
+        "latency_weight": 1,
+        "capacity_weight": 0.15,
+        "distance_weight": 0.1,
+        "min_bandwidth": 0.1
+      },
+      "scenario_id": 6,
+      "event_model": {
+        "version": "device_v1",
+        "selection": "automatic",
+        "device": {
+          "id": "emergency_radio",
+          "name": "Thiết bị dữ liệu cứu hộ",
+          "access_km": {
+            "GROUND": 10,
+            "AIR": 10,
+            "SEA": 10
+          },
+          "uplink_mbps": 2,
+          "downlink_mbps": 2,
+          "processing_ms": 3,
+          "effective_bandwidth_mbps": 2
+        },
+        "traffic": {
+          "kind": "alert",
+          "direction": "uplink",
+          "destination": "Dịch vụ tiếp nhận cứu hộ tại biên",
+          "processing_ms": 2
+        },
+        "assumptions": [
+          "Tầm truy cập và tốc độ thiết bị là giả định demo, không phải thông số chuẩn 4G/5G.",
+          "GROUND/AIR/SEA được giả định có trạm truy cập tương thích khi profile cho phép; chưa có inventory radio từng node.",
+          "Các GROUND được giả định có dịch vụ biên tương ứng. Chưa mô phỏng Internet/core, hàng đợi gói hay tranh chấp vô tuyến.",
+          "Băng thông một luồng được giữ tới khi xóa hoặc tính lại sự kiện; chưa tự hết hạn phiên."
+        ]
+      },
+      "routing_scope": {
+        "mode": "local",
+        "radius_km": 300.0,
+        "distance_definition": "3d_slant_from_event_and_per_hop",
+        "expanded": false
+      },
+      "access_search": {
+        "requested_radius_km": null,
+        "used_radius_km": 300.0,
+        "mode": "bounded",
+        "expanded": false,
+        "nearest_ground_km": 1.5025652533449614
+      },
+      "access": {
+        "source_id": "GND-SAU-001",
+        "distance_km": 1.5025652533449614,
+        "radius_km": 300.0,
+        "latency_ms": 0.0050120181920819415,
+        "is_estimated": true
+      },
+      "diagnostics": {
+        "active_nodes": 1,
+        "links": 0,
+        "eligible_directions": 0,
+        "excluded": 0
+      },
+      "code": "ok",
+      "payload_bytes": 3844,
+      "topology_preview": {
+        "nodes": [
+          {
+            "id": "GND-SAU-001",
+            "type": "GROUND",
+            "lat": 24.65,
+            "lng": 46.7,
+            "alt": 0.0
+          }
+        ],
+        "links": [],
+        "total_links": 0,
+        "neighbors_shown": 3
+      },
+      "requested_load_ratio": 0.35,
+      "applied_load_ratio": 0.35,
+      "load_reduced": false,
+      "ingress_selection": {
+        "remote": false,
+        "nearest_ground_km": 1.5025652533449614,
+        "preference_penalties": {
+          "GROUND": 0,
+          "AIR": 1,
+          "SEA": 2,
+          "SPACE": 3
+        },
+        "chosen_type": "GROUND",
+        "chosen_node": "GND-SAU-001",
+        "access_distance_km": 1.5025652533449614,
+        "access_rtt_ms": 61.35302238782535,
+        "predicted_access_rtt_ms": 61.360538482666016,
+        "access_bandwidth_mbps": 2,
+        "total_cost": 68.86204104791936,
+        "preference_penalty": 0,
+        "reason": "Cách GROUND gần nhất 2 km. Tối ưu tổng điểm khoảng cách, băng thông và độ trễ; GROUND chỉ được ưu tiên nhẹ khi các chỉ số gần tương đương."
+      },
+      "objective": "Ingress + Σ hop: w_delay × RTT_proxy_ms + w_capacity × 100 / bandwidth_Mbps + w_distance × distance_km / 100 + soft_ingress_preference_penalty",
+      "destination": {
+        "node_id": "GND-SAU-001",
+        "role": "Dịch vụ tiếp nhận cứu hộ tại biên",
+        "placement": "assumed_service_at_ground_edge",
+        "processing_ms": 2
+      },
+      "routing_decision": {
+        "method": "fl_checkpoint",
+        "experiment_id": 5,
+        "round": 10,
+        "feasibility_first": true,
+        "prediction_target": "next_tick_fl_payload_rtt_proxy",
+        "inferred_channels": 1,
+        "note": "Model chấm cả tiếp cận và từng hop hợp lệ. Tuyến trùng baseline vẫn là kết quả dùng FL; chưa chứng minh cải thiện độ trễ ứng dụng."
+      },
+      "model_applicability": {
+        "training_target": "next_tick_model_round_trip_ms",
+        "training_payload_bytes": 3844,
+        "application_payload_bytes": 1024,
+        "route_nodes_outside_training_pool": [],
+        "held_out_fl_mae_ms": 4.70044,
+        "routing_end_to_end_validated": false,
+        "note": "Checkpoint học kênh client FL; áp dụng lên từng link/thiết bị là chuyển miền thử nghiệm. MAE holdout FL không chứng minh chất lượng định tuyến ứng dụng."
+      },
+      "unseen_layers": [],
+      "comparison": {
+        "same_path": true,
+        "predicted_cost_change": 0.0,
+        "application_estimate_change_ms": 0.0,
+        "score_change": -0.00751609484066762,
+        "evaluation_source": "same_snapshot_simulator_estimates_not_measured_improvement"
+      },
+      "allocation": {
+        "reserved_mbps": 0.1,
+        "other_event_count": 0,
+        "policy": "Giữ băng thông các điểm đang tồn tại; chọn tuyến có tổng điểm thấp nhất trên phần còn lại. Không giành lại băng thông của tuyến cũ.",
+        "nodes": [
+          {
+            "node_id": "GND-SAU-001",
+            "reserved_before_mbps": 0.0,
+            "available_before_mbps": 77.25,
+            "remaining_after_mbps": 77.15
+          }
+        ],
+        "links": []
+      }
+    }
+  },
+  {
+    "case": "old_22km_point",
+    "result": {
+      "status": "unavailable",
+      "reason": "Điện thoại 4G/5G không có node truy cập tương thích, đủ tầm và tầm nhìn trong bán kính 300 km. Không tự nâng cấp thiết bị hoặc mở rộng vùng.",
+      "route": null,
+      "baseline": null,
+      "policy": "predictive",
+      "topology": "adaptive",
+      "model": null,
+      "snapshot_at": "2026-10-25T04:13:11.564333+00:00",
+      "note": "Model FL dự đoán RTT của payload huấn luyện ở tick tiếp theo. Tổng dự đoán của tiếp cận và từng hop là chỉ số thay thế để xếp hạng tuyến, chưa được kiểm chứng cho độ trễ đầu-cuối của ứng dụng. Tải, loss, jitter và RTT đầu vào là mô phỏng.",
+      "profile": {
+        "latency_weight": 0.55,
+        "capacity_weight": 0.1,
+        "distance_weight": 0.1,
+        "min_bandwidth": 0.05
+      },
+      "scenario_id": 6,
+      "event_model": {
+        "version": "device_v1",
+        "selection": "automatic",
+        "device": {
+          "id": "smartphone",
+          "name": "Điện thoại 4G/5G",
+          "access_km": {
+            "GROUND": 5,
+            "AIR": 5,
+            "SEA": 2
+          },
+          "uplink_mbps": 10,
+          "downlink_mbps": 50,
+          "processing_ms": 2,
+          "effective_bandwidth_mbps": 10
+        },
+        "traffic": {
+          "kind": "burst",
+          "direction": "uplink",
+          "destination": "Máy chủ tin nhắn tại biên",
+          "processing_ms": 2
+        },
+        "assumptions": [
+          "Tầm truy cập và tốc độ thiết bị là giả định demo, không phải thông số chuẩn 4G/5G.",
+          "GROUND/AIR/SEA được giả định có trạm truy cập tương thích khi profile cho phép; chưa có inventory radio từng node.",
+          "Các GROUND được giả định có dịch vụ biên tương ứng. Chưa mô phỏng Internet/core, hàng đợi gói hay tranh chấp vô tuyến.",
+          "Băng thông một luồng được giữ tới khi xóa hoặc tính lại sự kiện; chưa tự hết hạn phiên."
+        ]
+      },
+      "routing_scope": {
+        "mode": "local",
+        "radius_km": 300.0,
+        "distance_definition": "3d_slant_from_event_and_per_hop",
+        "expanded": false
+      },
+      "access_search": {
+        "requested_radius_km": null,
+        "used_radius_km": 300.0,
+        "mode": "bounded",
+        "expanded": false,
+        "nearest_ground_km": 22.53274961179528
+      },
+      "code": "no_coverage"
+    }
+  }
+]

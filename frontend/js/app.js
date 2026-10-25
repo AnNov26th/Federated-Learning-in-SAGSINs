@@ -1,8 +1,10 @@
 import * as THREE from "three";
-import { createScene } from "./3d/scene.js?v=20261023f";
+import { createScene } from "./3d/scene.js?v=20261023g";
 import { fetchNodes } from "./api.js";
 import { latLngToVector3 } from "./3d/coordinates.js";
-import { setupRouting } from "./routing.js?v=20261023f";
+import { setupRouting } from "./routing.js?v=20261023g";
+import { setupTrainingGlobe } from "./training-globe.js?v=20261025";
+import { setupShellNavigation } from './shell-navigation.js';
 
 const container = document.getElementById("earth-container");
 
@@ -17,7 +19,7 @@ function resetGlobeView() {
     scene3D.camera.position.set(0, 0, 6);
     scene3D.controls.target.set(0, 0, 0);
     scene3D.controls.update();
-    removeSelectedOrbit();
+    clearDeviceSelection();
     if (selectedNodeSummary) selectedNodeSummary.textContent = 'Nhấn vào node trên địa cầu để xem gần hơn.';
 }
 
@@ -75,6 +77,7 @@ generateLinksButton?.addEventListener('click', async () => {
 });
 
 actionSelect.addEventListener('change', (e) => {
+    clearDeviceSelection();
     if (e.target.value !== "") {
         actionHint.style.display = 'block';
         container.style.cursor = 'crosshair';
@@ -134,12 +137,13 @@ function createMarker(colorHex, r, g, b, sizeScale = 1.0) {
 }
 
 // Lấy danh sách nodes từ backend và vẽ lên bản đồ
-const nodeMarkers = []; // Mảng chứa các marker thiết bị để raycast hover
+const nodeMarkers = [];
 const movingDevices = [];
 const orbitLineMaterial = new THREE.LineBasicMaterial({ color: 0xffbd69, transparent: true, opacity: 0.75 });
 let selectedOrbitLine = null;
 
 function createDeviceMotion(node, initialPosition) {
+    if(node.platform==='RESEARCH_STATIC')return null;
     const radial = initialPosition.clone().normalize();
     const inclination = THREE.MathUtils.degToRad(node.orbit_inclination_deg == null ? 53 : Number(node.orbit_inclination_deg));
     const plane = Math.max(0, Number(node.orbit_plane || 1) - 1);
@@ -169,9 +173,10 @@ function createDeviceMotion(node, initialPosition) {
 }
 
 function advanceMovingDevices(elapsedSeconds) {
-    if (scene3D.earth.userData.routingSnapshot) return;
     for (const device of movingDevices) {
         device.phase = (device.phase || 0) + elapsedSeconds * device.angularSpeed;
+        // Deployed resources follow their saved deployment/playback instead.
+        if (scene3D.earth.userData.deployedNodePositions?.has(device.marker.userData.id)) continue;
         if (device.type === 'SPACE') {
             device.marker.position.copy(device.radial).multiplyScalar(Math.cos(device.phase))
                 .addScaledVector(device.tangent, Math.sin(device.phase)).multiplyScalar(device.radius);
@@ -192,14 +197,23 @@ function removeSelectedOrbit() {
     selectedOrbitLine = null;
 }
 
+function orbitBasis(marker) {
+    const motion = marker.userData.motion, radial = marker.position.clone().normalize();
+    const normal = new THREE.Vector3().crossVectors(motion.radial,motion.tangent);
+    const tangent = new THREE.Vector3().crossVectors(normal,radial);
+    if (tangent.lengthSq() < 1e-8) tangent.copy(motion.tangent).addScaledVector(radial,-motion.tangent.dot(radial));
+    return { radial,tangent:tangent.normalize() };
+}
+
 function showSatelliteOrbit(marker) {
+    if(marker.userData.platform==='RESEARCH_STATIC')return;
     removeSelectedOrbit();
     if (marker?.userData?.type !== 'SPACE' || !marker.userData.motion) return;
-    const motion = marker.userData.motion;
+    const {radial,tangent} = orbitBasis(marker);
     const points = [];
     for (let step = 0; step < 180; step += 1) {
         const angle = (step / 180) * Math.PI * 2;
-        points.push(motion.radial.clone().multiplyScalar(Math.cos(angle)).addScaledVector(motion.tangent, Math.sin(angle)).multiplyScalar(motion.radius));
+        points.push(radial.clone().multiplyScalar(Math.cos(angle)).addScaledVector(tangent, Math.sin(angle)).multiplyScalar(marker.position.length()));
     }
     selectedOrbitLine = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(points), orbitLineMaterial);
     scene3D.earth.add(selectedOrbitLine);
@@ -269,11 +283,13 @@ async function syncDatabaseNodes() {
         marker.traverse(object => { object.geometry?.dispose(); object.material?.map?.dispose(); object.material?.dispose(); });
         nodeMarkers.splice(nodeMarkers.indexOf(marker), 1);
     }
-    removeSelectedOrbit();
+    clearDeviceSelection();
 }
 
-// --- TOOLTIP LOGIC ---
+// Click-only device information. Keep the card stable while live coordinates update.
 const tooltip = document.getElementById('node-tooltip');
+const infoContent = document.getElementById('node-info-content');
+let selectedDevice = null, annotationElapsed = 0, infoAnimation;
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({
     "&": "&amp;",
     "<": "&lt;",
@@ -282,63 +298,94 @@ const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => (
     "'": "&#39;",
 })[character]);
 
-container.addEventListener('mousemove', (event) => {
-    // Chỉ check hover nếu không đang chọn action
-    if (actionSelect.value !== "") {
-        tooltip.style.opacity = 0;
-        return;
+function clearDeviceSelection() {
+    const hadSelection = Boolean(selectedDevice || selectedOrbitLine);
+    if (selectedDevice) {
+        cameraFlightToken += 1;
+        scene3D.controls.enabled = true;
     }
+    selectedDevice = null;
+    infoAnimation?.cancel();
+    tooltip.hidden = true;
+    removeSelectedOrbit();
+    if (hadSelection && selectedNodeSummary) selectedNodeSummary.textContent = 'Nhấn thiết bị hoặc điểm sự kiện để xem thông tin.';
+}
 
+function renderDeviceInfo(marker) {
+    const data = marker.userData;
+    const layers = { SPACE:['Vệ tinh','satellite','#ffbd69'], AIR:['Thiết bị trên không','plane','#73dcf0'],
+        GROUND:['Trạm mặt đất','tower-broadcast','#7ee2b8'], SEA:['Thiết bị trên biển','ship','#9baeff'] };
+    const [label,icon,color] = layers[data.type] || ['Thiết bị','microchip','#b5caff'];
+    const format = value => Number.isFinite(Number(value)) && value != null ? Number(value).toFixed(1) : '—';
+    const row = (name,value) => value == null || value === '' ? '' : `<div><dt>${name}</dt><dd>${escapeHtml(value)}</dd></div>`;
+    const remaining = Math.max(0, Number(data.remaining_bandwidth_mbps ?? data.bandwidth) || 0);
+    const reserved = Math.max(0, Number(data.reserved_bandwidth_mbps) || 0);
+    const used = data.bandwidth > 0 ? Math.min(100, reserved / data.bandwidth * 100) : 0;
+    tooltip.style.setProperty('--device-accent',color);
+    infoContent.innerHTML = `
+        <header class="device-info-heading"><span class="device-info-icon"><i class="fa-solid fa-${icon}" aria-hidden="true"></i></span><div><span class="device-info-eyebrow">${label} · ${escapeHtml(data.type)}</span><h2 id="node-info-title">${escapeHtml(data.id)}</h2></div></header>
+        <div class="device-info-status"><span data-active="${data.status?.toUpperCase() === 'ACTIVE'}">${escapeHtml(data.status || 'Chưa rõ trạng thái')}</span><span>${data.event_connections || 0} điểm kết nối</span></div>
+        <div class="device-info-location"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><div><strong>${escapeHtml(data.location_name || data.country_name || 'Vị trí mô phỏng')}</strong><span id="node-info-coordinates"></span></div></div>
+        <dl class="device-info-metrics"><div><dt>Băng thông còn lại*</dt><dd>${format(remaining)} <small>Mbps</small></dd></div><div><dt>Độ trễ cấu hình</dt><dd>${format(data.latency)} <small>ms</small></dd></div></dl>
+        <section class="device-info-capacity"><div><span>Đã giữ ${format(reserved)} Mbps</span><strong>${format(data.bandwidth)} Mbps tổng</strong></div><div class="device-capacity-track" role="meter" aria-label="Băng thông đã giữ" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${used.toFixed(1)}"><span style="width:${used}%"></span></div><p>* Phần còn lại trước khi tính tải nền.</p></section>
+        <dl class="device-info-details">${row('Nền tảng',data.platform)}${row('Quốc gia',data.country_name)}${row('Châu lục',data.continent)}${row('Độ cao cấu hình',`${format(data.alt)} km`)}${row('Chu kỳ quỹ đạo',data.motion?.type === 'SPACE' ? `${format(data.motion.orbitalPeriodSeconds / 60)} phút` : null)}${row('Độ nghiêng',data.orbit_inclination_deg != null ? `${format(data.orbit_inclination_deg)}°` : null)}${row('Mặt phẳng quỹ đạo',data.orbit_plane)}${row('Tốc độ mô phỏng',data.motion?.speedMetersPerSecond != null ? `${data.motion.speedMetersPerSecond} m/s` : null)}${row('Mốc quỹ đạo UTC',data.epoch_utc)}</dl>
+        <footer class="device-info-footer">${data.type === 'SPACE' ? 'Đang hiển thị quỹ đạo minh họa.' : 'Vị trí cập nhật theo mô phỏng.'} Nhấn Esc hoặc nhấn ra ngoài để đóng.</footer>`;
+    updateDeviceCoordinates();
+}
+
+function updateDeviceCoordinates() {
+    if (!selectedDevice) return;
+    const position = selectedDevice.position;
+    const lat = THREE.MathUtils.radToDeg(Math.asin(THREE.MathUtils.clamp(position.y / position.length(),-1,1)));
+    const lng = THREE.MathUtils.radToDeg(Math.atan2(-position.z,position.x));
+    document.getElementById('node-info-coordinates').textContent = `${lat.toFixed(4)}°, ${lng.toFixed(4)}° · hiện tại`;
+}
+
+scene3D.earth.userData.advanceAnnotations = elapsed => {
+    if (!selectedDevice) return;
+    if (!selectedDevice.visible || !nodeMarkers.includes(selectedDevice)) { clearDeviceSelection(); return; }
+    annotationElapsed += elapsed;
+    if (annotationElapsed < .25) return;
+    annotationElapsed = 0;
+    updateDeviceCoordinates();
+    if (selectedOrbitLine && scene3D.earth.userData.deployedNodePositions?.has(selectedDevice.userData.id)) {
+        const {radial,tangent} = orbitBasis(selectedDevice);
+        const positions = selectedOrbitLine.geometry.getAttribute('position'), point = new THREE.Vector3();
+        for (let index=0; index<positions.count; index++) {
+            const angle = index / positions.count * Math.PI * 2;
+            point.copy(radial).multiplyScalar(Math.cos(angle)).addScaledVector(tangent,Math.sin(angle)).multiplyScalar(selectedDevice.position.length());
+            positions.setXYZ(index,point.x,point.y,point.z);
+        }
+        positions.needsUpdate = true;
+        selectedOrbitLine.geometry.computeBoundingSphere();
+    }
+};
+
+document.getElementById('node-info-close').addEventListener('click', () => {
+    clearDeviceSelection(); scene3D.renderer.domElement.focus({preventScroll:true});
+});
+scene3D.renderer.domElement.tabIndex = 0;
+scene3D.renderer.domElement.setAttribute('aria-label','Địa cầu mô phỏng SAGSINs');
+document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || !selectedDevice) return;
+    clearDeviceSelection();
+    event.preventDefault(); event.stopImmediatePropagation();
+    scene3D.renderer.domElement.focus({preventScroll:true});
+}, true);
+document.addEventListener('click', event => {
+    if (!tooltip.contains(event.target) && !container.contains(event.target)) clearDeviceSelection();
+});
+
+container.addEventListener('mousemove', (event) => {
+    if (actionSelect.value !== '') return;
     const rect = container.getBoundingClientRect();
     mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
     raycaster.setFromCamera(mouse, scene3D.camera);
     
-    // Check giao cắt với các thiết bị
-    const intersects = raycaster.intersectObjects(nodeMarkers, true).filter(isNodeHitVisible);
-    
-    if (intersects.length > 0) {
-        // Tìm marker cha chứa userData (vì intersect trúng mesh con)
-        let object = intersects[0].object;
-        while (object.parent && !object.userData.id) {
-            object = object.parent;
-        }
-
-        if (object.userData && object.userData.id) {
-            const data = object.userData;
-            tooltip.innerHTML = `
-                <h4>${escapeHtml(data.id)}</h4>
-                <p><span>Type:</span> <span class="tt-val">${escapeHtml(data.type)}</span></p>
-                ${data.platform ? `<p><span>Platform:</span> <span class="tt-val">${escapeHtml(data.platform)}</span></p>` : ""}
-                ${data.country_name ? `<p><span>Country:</span> <span class="tt-val">${escapeHtml(data.country_name)}</span></p>` : ""}
-                ${data.continent ? `<p><span>Continent:</span> <span class="tt-val">${escapeHtml(data.continent)}</span></p>` : ""}
-                ${data.location_name ? `<p><span>Representative location:</span> <span class="tt-val">${escapeHtml(data.location_name)}</span></p>` : ""}
-                <p><span>Coordinates:</span> <span class="tt-val">${Number(data.lat).toFixed(4)}, ${Number(data.lng).toFixed(4)}</span></p>
-                ${data.is_simulated ? `<p><span>Location type:</span> <span class="tt-val">${data.type === "GROUND" ? "Simulated city representative" : "Simulated position"}</span></p>` : ""}
-                ${data.orbit_inclination_deg != null ? `<p><span>Inclination:</span> <span class="tt-val">${data.orbit_inclination_deg}°</span></p>` : ""}
-                ${data.orbit_plane != null ? `<p><span>Orbit plane:</span> <span class="tt-val">${data.orbit_plane}</span></p>` : ""}
-                ${data.orbit_phase_deg != null ? `<p><span>Orbit phase:</span> <span class="tt-val">${data.orbit_phase_deg}°</span></p>` : ""}
-                ${data.motion?.type === "SPACE" ? `<p><span>Orbital period:</span> <span class="tt-val">${(data.motion.orbitalPeriodSeconds / 60).toFixed(1)} min</span></p>` : ""}
-                ${data.motion?.type === "SEA" || data.motion?.type === "AIR" ? `<p><span>Simulated speed:</span> <span class="tt-val">${data.motion.speedMetersPerSecond} m/s · waypoint path</span></p>` : ""}
-                ${data.epoch_utc ? `<p><span>Epoch (UTC):</span> <span class="tt-val">${escapeHtml(data.epoch_utc)}</span></p>` : ""}
-                <p><span>Alt:</span> <span class="tt-val">${data.alt} km</span></p>
-                <p><span>Bandwidth:</span> <span class="tt-val">${data.bandwidth} Mbps</span></p>
-                <p><span>Điểm đang dùng:</span> <span class="tt-val">${data.event_connections || 0}</span></p>
-                <p><span>Đã giữ:</span> <span class="tt-val">${Number(data.reserved_bandwidth_mbps || 0).toFixed(1)} Mbps</span></p>
-                <p><span>Còn trước tải nền:</span> <span class="tt-val">${Number(data.remaining_bandwidth_mbps ?? data.bandwidth).toFixed(1)} Mbps</span></p>
-                <p><span>Latency:</span> <span class="tt-val">${data.latency} ms</span></p>
-            `;
-            
-            tooltip.style.left = event.clientX + 'px';
-            tooltip.style.top = event.clientY + 'px';
-            tooltip.style.opacity = 1;
-            container.style.cursor = 'pointer';
-        }
-    } else {
-        tooltip.style.opacity = 0;
-        container.style.cursor = 'default';
-    }
+    const targets = [...nodeMarkers.filter(marker => marker.visible), ...droppedMarkers.filter(drop => drop.marker.visible).map(drop => drop.marker)];
+    container.style.cursor = raycaster.intersectObjects(targets,true).some(isNodeHitVisible) ? 'pointer' : 'default';
 });
 
 // Mỗi điểm được lưu cùng marker và thông tin hiển thị trên sidebar.
@@ -349,6 +396,8 @@ const routing = setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
     flyGlobeToMarker, resetGlobeView, selectedNodeSummary, actionSelect, actionHint,
     container, topologyReady, refreshNodes: syncDatabaseNodes });
 const { disposeRoute, renderDroppedMarkers, refreshDroppedRoutes, focusDroppedMarker } = routing;
+topologyReady.then(() => setupTrainingGlobe({ scene3D, nodeMarkers, container,
+    scenarioSelect: document.getElementById('routing-scenario') }));
 
 let cameraFlightToken = 0;
 function flyGlobeToMarker(marker, distance = 4.65) {
@@ -388,10 +437,10 @@ function flyGlobeToMarker(marker, distance = 4.65) {
     });
 }
 
-function markerRoot(object) {
+function markerRoot(object, roots) {
     let current = object;
-    while (current && !current.userData?.id) current = current.parent;
-    return current?.userData?.id ? current : null;
+    while (current && !roots.has(current)) current = current.parent;
+    return current;
 }
 
 function isNodeHitVisible(hit) {
@@ -408,10 +457,30 @@ container.addEventListener('click', async (event) => {
         mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
         raycaster.setFromCamera(mouse, scene3D.camera);
-        const hit = raycaster.intersectObjects(nodeMarkers, true).find(isNodeHitVisible);
-        const marker = hit ? markerRoot(hit.object) : null;
-        if (!marker) return;
+        const eventsByMarker = new Map(droppedMarkers.filter(drop => drop.marker.visible).map(drop => [drop.marker,drop]));
+        const roots = new Set([...nodeMarkers.filter(marker => marker.visible), ...eventsByMarker.keys()]);
+        const nodeHit = raycaster.intersectObjects(nodeMarkers.filter(marker => marker.visible),true).find(isNodeHitVisible);
+        const eventHit = raycaster.intersectObjects([...eventsByMarker.keys()],true).find(isNodeHitVisible);
+        // A visible event takes priority when it overlaps a device in screen space.
+        const hit = eventHit || nodeHit;
+        const marker = hit ? markerRoot(hit.object,roots) : null;
+        if (!marker) { clearDeviceSelection(); return; }
+        const drop = eventsByMarker.get(marker);
+        if (drop) {
+            clearDeviceSelection();
+            focusDroppedMarker(drop);
+            return;
+        }
+        routing.closePanels();
+        selectedDevice = marker;
+        annotationElapsed = 0;
         showSatelliteOrbit(marker);
+        renderDeviceInfo(marker);
+        tooltip.hidden = false;
+        infoAnimation?.cancel();
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) infoAnimation = tooltip.animate([
+            {opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'translateY(0)'}
+        ],{duration:480,easing:'cubic-bezier(.22,1,.36,1)'});
         if (selectedNodeSummary) selectedNodeSummary.textContent = `${marker.userData.id} · ${marker.userData.type} · ${marker.userData.country_name || marker.userData.location_name || 'Vị trí mô phỏng'}${marker.userData.type === 'SPACE' ? ' · Đang hiển thị quỹ đạo' : ''}`;
         droppedMarkers.forEach((drop) => { drop.focused = false; });
         renderDroppedMarkers();
@@ -419,6 +488,7 @@ container.addEventListener('click', async (event) => {
         return;
     }
 
+    clearDeviceSelection();
     // Tính toán tọa độ chuột
     const rect = container.getBoundingClientRect();
     mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -452,67 +522,19 @@ const pageFrame = document.getElementById('page-frame');
 const simulationDiv = document.getElementById('simulation-workspace');
 const nodeLegend = document.getElementById('node-legend');
 const topHeader = document.getElementById('top-header');
-const uiBuild = '20261013c';
-
-const sidebarLinks = document.querySelectorAll('.sidebar-link');
-const pageRoutes = {
-    "Dashboard": "/dashboard.html",
-    "Network": "/network.html",
-    "Participants": "/participants.html",
-    "FL Training": "/fl.html",
-    "Experiments": "/experiments.html",
-    "Results": "/results.html",
-};
-sidebarLinks.forEach(link => {
-    link.setAttribute('aria-label', link.querySelector('.link-text')?.textContent.trim() || link.dataset.tooltip);
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        // Remove active class from all
-        sidebarLinks.forEach(l => l.classList.remove('active'));
-        // Add to clicked
-        const currentLink = e.currentTarget;
-        currentLink.classList.add('active');
-        
-        const menuName = currentLink.querySelector('.link-text').textContent.trim();
-        console.log(`Chuyển sang trang: ${menuName}`);
-        
-        if (menuName === "Simulation") {
-            // Hide iframe
-            if(pageFrame) {
-                pageFrame.style.display = 'none';
-                pageFrame.src = "";
-            }
-            // Show 3D globe and panels
-            if(simulationDiv) simulationDiv.hidden = false;
-            if(nodeLegend) nodeLegend.style.display = 'block';
-            if(topHeader) topHeader.style.display = 'flex';
-            routing.setVisible(true);
-            routing.reloadSavedEvents().catch((error) => {
-                console.error('Could not reload saved events:', error);
-            });
-            
-        } else if (pageRoutes[menuName]) {
-            // Hide 3D globe and panels
-            if(simulationDiv) simulationDiv.hidden = true;
-            if(nodeLegend) nodeLegend.style.display = 'none';
-            if(topHeader) topHeader.style.display = 'none';
-            routing.setVisible(false);
-            
-            // Show iframe
-            if(pageFrame) {
-                const route = pageRoutes[menuName];
-                pageFrame.src = `${route}${route.includes('?') ? '&' : '?'}ui=${uiBuild}`;
-                pageFrame.style.display = 'block';
-            }
-        } else {
-            alert(`Sắp tới sẽ load giao diện chức năng: ${menuName}`);
-        }
-    });
-});
-
-window.addEventListener('message', (event) => {
-    if (event.origin !== window.location.origin || event.data?.type !== 'sagsin:navigate') return;
-    const pageName = Object.keys(pageRoutes).find((name) => pageRoutes[name] === event.data.href);
-    const targetLink = [...sidebarLinks].find((link) => link.querySelector('.link-text')?.textContent.trim() === pageName);
-    if (targetLink) targetLink.click();
+const sidebarLinks = [...document.querySelectorAll('.sidebar-link')];
+setupShellNavigation({frame:pageFrame,links:sidebarLinks,
+    onSimulation:()=>{
+        simulationDiv.hidden=false;
+        if(nodeLegend)nodeLegend.style.display='block';
+        if(topHeader)topHeader.style.display='flex';
+        routing.setVisible(true);
+        routing.reloadSavedEvents().catch(error=>console.error('Could not reload saved events:',error));
+    },
+    onPage:()=>{
+        simulationDiv.hidden=true;
+        if(nodeLegend)nodeLegend.style.display='none';
+        if(topHeader)topHeader.style.display='none';
+        routing.setVisible(false);
+    }
 });

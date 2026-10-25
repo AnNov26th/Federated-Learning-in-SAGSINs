@@ -9,7 +9,7 @@ from torchvision import datasets, transforms
 class MNISTDatasetManager:
     def __init__(self, data_dir=None):
         if data_dir is None:
-            data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "mnist"))
+            data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "input", "mnist"))
         self.data_dir = data_dir
         self.transform = transforms.Compose([
             transforms.ToTensor(),

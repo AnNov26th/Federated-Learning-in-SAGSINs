@@ -16,7 +16,7 @@ class SavedRoutingTests(unittest.TestCase):
 
     def create(self, **kwargs):
         body = {"scenario_id": self.scenario_id, "lat": 0, "lng": 0,
-                "policy": "static", "load_ratio": 0, "topology": "configured",
+                "policy": "static", "load_ratio": 0, "topology": "configured", "source_device": "legacy_simulator",
                 "access_radius_km": 1, "target_id": "G1", **kwargs}
         response = self.client.post('/api/routing/events', json=body)
         self.assertEqual(response.status_code, 201, response.text)
@@ -210,7 +210,7 @@ class SavedRoutingTests(unittest.TestCase):
             def submit(index):
                 response = TestClient(app).post('/api/routing/events', json={
                     'scenario_id': scenario_id, 'lat': 0, 'lng': 0, 'policy': 'static',
-                    'load_ratio': 0, 'required_bandwidth_mbps': 60, 'client_key': f'parallel-{index}'})
+                    'load_ratio': 0, 'required_bandwidth_mbps': 60, 'source_device': 'legacy_simulator', 'client_key': f'parallel-{index}'})
                 self.assertEqual(response.status_code, 201, response.text)
                 return response.json()['data']
             try:

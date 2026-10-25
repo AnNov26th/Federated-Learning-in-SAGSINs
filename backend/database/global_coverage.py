@@ -19,7 +19,7 @@ ALTITUDE_KM = 1200.0
 PLANES = 6
 SLOTS = 12
 MIN_ELEVATION_DEG = 10.0
-MANIFEST = Path(__file__).resolve().parents[2] / "data/global_ground_nodes/polar_coverage_satellites_v1.csv"
+MANIFEST = Path(__file__).resolve().parents[2] / "data/input/global_ground_nodes/polar_coverage_satellites_v1.csv"
 FIELDS = [*FIELDNAMES, "orbit_raan_deg"]
 
 

@@ -59,12 +59,15 @@ def movement(node, destination, boost):
 
 
 def reposition_route(db, request, original, snapshot, unavailable_node_ids=None):
+    from backend.services.event_device_service import resolve_event, device_access_limit
+    event = resolve_event(request)
     nodes = [n for n in db.query(Node).filter(Node.scenario_id == request.scenario_id,
              Node.status.ilike("ACTIVE")).order_by(Node.id)
              if finite(n.bandwidth, True) and finite(n.latency)]
     demand = request.required_bandwidth_mbps or SERVICES[request.service]["min_bandwidth"]
     mobile = [n for n in nodes if n.type in SPEED_KM_S and n.bandwidth >= demand
-              and n.id not in (unavailable_node_ids or set())]
+              and n.id not in (unavailable_node_ids or set())
+              and device_access_limit(event, n.type) != 0]
     grounds = [n for n in nodes if n.type == "GROUND" and n.bandwidth >= demand]
     origin = SimpleNamespace(lat=request.lat, lng=request.lng, alt=0.)
     plans = {}
@@ -75,6 +78,9 @@ def reposition_route(db, request, original, snapshot, unavailable_node_ids=None)
     # Candidate intersections of the event footprint and a GROUND backhaul.
     for node in mobile:
         access_limit = ACCESS_LIMITS_KM[node.type]
+        device_limit = device_access_limit(event, node.type)
+        if device_limit is not None:
+            access_limit = min(access_limit, device_limit)
         if request.access_radius_km is not None:
             access_limit = min(access_limit, request.access_radius_km)
         reach = footprint(node, access_limit)

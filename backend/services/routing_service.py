@@ -14,6 +14,9 @@ from backend.models.network import NetworkLink, Node
 from backend.models.network_learning import NetworkDataset, NetworkRoundEvaluation
 from backend.models.simulation import Experiment, FLRound
 from backend.services.delay_service import NETWORK_PROFILES, estimate_communication_ms
+from backend.services.event_device_service import resolve_event, device_access_limit, elevation_deg
+from backend.services.link_telemetry_service import LINK_TARGET, telemetry
+from backend.services.research_region_service import region_for, link_load
 
 
 SERVICES = {
@@ -43,7 +46,7 @@ APPLICATION_PROFILES = {
 }
 
 
-def application_metrics(route, ingress, service, profile):
+def application_metrics(route, ingress, service, profile, event=None):
     """One-way store-and-forward estimate in bytes/Mbps, independent of FL RTT."""
     assumptions = APPLICATION_PROFILES[service]
     channels = [(ingress["access_latency_ms"], ingress["bandwidth_mbps"])] + [
@@ -51,14 +54,16 @@ def application_metrics(route, ingress, service, profile):
     ]
     propagation = sum(latency for latency, _ in channels)
     serialization = sum(assumptions["payload_bytes"] * 8 / (bandwidth * 1000) for _, bandwidth in channels)
-    delay = propagation + serialization
+    processing = (event["device"]["processing_ms"] + event["traffic"]["processing_ms"]) if event and event["device"] else 0.
+    delay = propagation + serialization + processing
     return {**assumptions, "estimated_one_way_ms": delay,
             "channel_latency_ms": propagation, "serialization_ms": serialization,
+            "endpoint_processing_ms": processing,
             "latency_budget_met": delay <= assumptions["latency_budget_ms"],
             "required_bandwidth_mbps": profile["min_bandwidth"],
             "bandwidth_headroom_mbps": route["bottleneck"] - profile["min_bandwidth"],
             "source": "simulated_store_and_forward_no_contention_reservation",
-            "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."}
+            "note": "Ước tính một chiều gồm tiếp cận, các hop và xử lý đầu cuối khi có profile thiết bị. Ngưỡng/payload là giả định demo. Liên kết được giả định đối xứng; chưa mô phỏng tranh chấp vô tuyến hay hàng đợi gói."}
 MODEL_NOTE = (
     "Model FL dự đoán RTT của payload huấn luyện ở tick tiếp theo. Tổng dự đoán "
     "của tiếp cận và từng hop là chỉ số thay thế để xếp hạng tuyến, chưa được kiểm chứng cho "
@@ -112,7 +117,7 @@ def model_candidates(db, scenario_id=None):
         dataset = db.get(NetworkDataset, config.get("dataset_id"))
         if not dataset or dataset.scenario_id != experiment.scenario_id:
             continue
-        if dataset.config_json.get("feature_version") != FEATURE_VERSION or dataset.config_json.get("target") != "next_tick_model_round_trip_ms":
+        if dataset.config_json.get("feature_version") != FEATURE_VERSION or dataset.config_json.get("target") not in {"next_tick_model_round_trip_ms", LINK_TARGET}:
             continue
         seen.add(experiment.id)
         result.append((experiment, round_row, evaluation, dataset))
@@ -127,6 +132,7 @@ def model_summary(candidate):
             "persistence_mae_ms": evaluation.persistence_mae_ms,
             "payload_bytes": dataset.config_json["payload_bytes"],
             "dataset_id": dataset.id, "target": dataset.config_json["target"],
+            "candidate_pool": (experiment.config_json or {}).get("candidate_pool", []),
             "beats_persistence": evaluation.mae_ms < evaluation.persistence_mae_ms}
 
 
@@ -239,9 +245,13 @@ def topology_preview(nodes, links):
 
 
 def routing_topology(db, scenario_id, topology):
+    research=region_for(db,scenario_id)
     nodes = {n.id: n for n in db.query(Node).filter(Node.scenario_id == scenario_id, Node.status.ilike("ACTIVE")).order_by(Node.id)
              if finite(n.bandwidth, True) and finite(n.latency) and n.type in ACCESS_LIMITS_KM}
-    return topology_preview(nodes, topology_links(db, nodes, topology))
+    if research:nodes={key:node for key,node in nodes.items() if key not in research.config_json["disabled_nodes"]}
+    links=topology_links(db,nodes,"configured" if research else topology)
+    if research:links=[link for link in links if link["id"] not in research.config_json["disabled_links"]]
+    return topology_preview(nodes, links)
 
 
 def shortest_route_from_access(sources, targets, nodes, edges, profile, field):
@@ -295,21 +305,48 @@ def shortest_route_from_access(sources, targets, nodes, edges, profile, field):
     return None
 
 
+def nearest_feasible_ingress(ingress, targets, edges):
+    """Choose by physical distance only after checking residual connectivity."""
+    incoming = {}
+    for edge in edges:
+        incoming.setdefault(edge["target"], []).append(edge["source"])
+    reachable, pending = set(targets), list(targets)
+    while pending:
+        for source in incoming.get(pending.pop(), []):
+            if source not in reachable:
+                reachable.add(source)
+                pending.append(source)
+    candidates = sorted(ingress, key=lambda row: (row["distance_km"], row["source_id"]))
+    return next(([row] for row in candidates if row["source_id"] in reachable), [])
+
+
 def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reservations=None):
     reservations = reservations or {}
     used_nodes, used_links = reservations.get("nodes", {}), reservations.get("links", {})
+    research = region_for(db, request.scenario_id)
     profile = {**SERVICES[request.service]}
     if request.required_bandwidth_mbps is not None:
         profile["min_bandwidth"] = request.required_bandwidth_mbps
+    event = resolve_event(request)
+    nearest_access = request.source_device == "network_gateway"
     result = {"status": "unavailable", "reason": "", "route": None, "baseline": None,
               "policy": request.policy, "topology": request.topology, "model": None,
               "snapshot_at": datetime.now(timezone.utc).isoformat(), "note": MODEL_NOTE,
-              "profile": profile, "scenario_id": request.scenario_id}
+              "profile": profile, "scenario_id": request.scenario_id, "event_model": event}
     def fail(code, reason):
         return {**result, "code": code, "reason": reason}
 
+    if event["device"] and event["device"]["effective_bandwidth_mbps"] < profile["min_bandwidth"]:
+        return fail("device_capacity", "Thiết bị phát không đủ tốc độ cho dịch vụ này; chọn thiết bị hoặc giảm nhu cầu băng thông.")
+
     nodes = {n.id: n for n in db.query(Node).filter(Node.scenario_id == request.scenario_id, Node.status.ilike("ACTIVE")).order_by(Node.id)
              if finite(n.bandwidth, True) and finite(n.latency) and n.type in {"GROUND", "AIR", "SPACE", "SEA"}}
+    if research:
+        nodes={key:node for key,node in nodes.items() if key not in research.config_json.get("disabled_nodes", [])}
+        result["research"]={"version":research.config_json["version"],"sim_time_s":research.sim_time_s,
+            "conditions":research.config_json["conditions"],"access_nodes":research.config_json["access_nodes"],
+            "service_nodes":research.config_json["service_nodes"]}
+        result["topology"]="configured"
     if not nodes:
         return fail("no_nodes", "Scenario chưa có node ACTIVE hợp lệ.")
     for node_id, position in (position_overrides or {}).items():
@@ -319,41 +356,84 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
                 ("id", "type", "lat", "lng", "alt", "bandwidth", "latency", "status", "scenario_id")})
             nodes[node_id].lat, nodes[node_id].lng = position["lat"], position["lng"]
     origin = type("Origin", (), {"lat": request.lat, "lng": request.lng, "alt": 0.})()
+    if event["device"]:
+        compatible = []
+        for node in nodes.values():
+            reach = device_access_limit(event, node.type)
+            if not reach:
+                continue
+            distance = channel_distance(origin, node)
+            compatible.append({"node_id": node.id, "type": node.type, "lat": node.lat, "lng": node.lng,
+                "distance_km": distance, "device_range_km": reach,
+                "within_device_range": distance <= reach,
+                "within_local_scope": request.routing_scope != "local" or distance <= request.local_radius_km})
+        compatible.sort(key=lambda row: (row["distance_km"], row["node_id"]))
+        result["coverage_diagnostics"] = {"nearest_compatible_nodes": compatible[:3],
+            "note": "Khoảng cách tới node có lớp truy cập phù hợp; chưa khẳng định đủ tín hiệu, băng thông hoặc có backhaul."}
+    local = request.routing_scope == "local"
+    result["routing_scope"] = {"mode": request.routing_scope,
+        "radius_km": request.local_radius_km if local else None,
+        "distance_definition": "access_area_plus_layer_specific_backbone" if research else "3d_slant_from_event_and_per_hop" if local else "scenario",
+        "expanded": False}
+    if local:
+        nodes = {key: node for key, node in nodes.items()
+                 if (surface_distance(origin,node) if research else channel_distance(origin, node)) <= request.local_radius_km + 1e-9}
+        if not nodes:
+            return fail("no_local_nodes", f"Không có node ACTIVE trong vùng cục bộ {request.local_radius_km:g} km; không tự nối ra xa.")
     ground_distances = [surface_distance(origin, n) for n in nodes.values() if n.type == "GROUND"]
     if not ground_distances:
-        return fail("no_target", "Scenario cần ít nhất một node GROUND ACTIVE làm đích.")
+        return fail("no_local_target" if local else "no_target", "Không có GROUND ACTIVE trong vùng cục bộ; không tự chọn đích ngoài vùng." if local else "Scenario cần ít nhất một node GROUND ACTIVE làm đích.")
     nearest_ground_km = min(ground_distances)
     remote = nearest_ground_km > REMOTE_GROUND_THRESHOLD_KM
     # Global surface ingress is a virtual simulation channel, not radio coverage.
     # Elevated ingress still respects the horizon. Explicit radii remain strict.
     effective_access_radius = request.access_radius_km
+    if local:
+        effective_access_radius = min(effective_access_radius or request.local_radius_km, request.local_radius_km)
     result["access_search"] = {"requested_radius_km": request.access_radius_km,
                                "used_radius_km": effective_access_radius,
                                "mode": "global" if effective_access_radius is None else "bounded",
                                "expanded": False,
                                "nearest_ground_km": nearest_ground_km}
+    if nearest_access:
+        result["access_search"].update(mode="layer_bounded", limits_km=ACCESS_LIMITS_KM,
+                                       selection="nearest_with_feasible_route")
     coverage = []
     for node in nodes.values():
+        if research and node.id not in research.config_json["access_nodes"]:
+            continue
         if ingress_ids is not None and node.id not in ingress_ids:
             continue
         distance = channel_distance(origin, node) if node.alt > 0 else surface_distance(origin, node)
         limit = effective_access_radius
-        if request.allow_reposition:
+        device_limit = device_access_limit(event, node.type)
+        if device_limit == 0:
+            continue
+        if device_limit is not None:
+            limit = min(limit, device_limit) if limit is not None else device_limit
+            if node.type == "SPACE" and elevation_deg(origin, node) < event["device"].get("min_elevation_deg", 0):
+                continue
+        if request.allow_reposition or local or nearest_access:
             limit = min(limit, ACCESS_LIMITS_KM[node.type]) if limit is not None else ACCESS_LIMITS_KM[node.type]
         if visible(origin, node) and (limit is None or distance <= limit):
             coverage.append((distance, node.id, node))
     coverage.sort(key=lambda item: (item[0], item[1]))
     if not coverage:
+        if nearest_access:
+            return fail("no_coverage", "Không có node ACTIVE trong tầm tiếp cận theo lớp và tầm nhìn. Không tự nối tới node xa hoặc di chuyển node để tạo tuyến.")
         scope = "toàn scenario" if effective_access_radius is None else f"bán kính {effective_access_radius:.0f} km"
-        return fail("no_coverage", f"Không có node ACTIVE trong tầm nhìn và {scope}. Hãy kiểm tra node hoặc bỏ giới hạn bán kính.")
+        if event["device"]:
+            return fail("no_coverage", f"{event['device']['name']} không có node truy cập tương thích, đủ tầm và tầm nhìn trong {scope}. Không tự nâng cấp thiết bị hoặc mở rộng vùng.")
+        return fail("no_coverage", f"Không có node ACTIVE trong tầm nhìn và {scope}. Không tự mở rộng vùng cục bộ." if local else f"Không có node ACTIVE trong tầm nhìn và {scope}. Hãy kiểm tra node hoặc bỏ giới hạn bán kính.")
     sources = [{"source_id": id, "distance_km": distance, "radius_km": effective_access_radius,
                 "latency_ms": distance / 299.792458, "is_estimated": True}
                for distance, id, _ in coverage]
     result["access"] = sources[0]
     targets = {n.id for n in nodes.values() if n.type == "GROUND"}
+    if research:targets &= set(research.config_json["service_nodes"])
     if request.target_id:
-        if request.target_id not in nodes or nodes[request.target_id].type != "GROUND":
-            return fail("invalid_target", "Đích phải là node GROUND ACTIVE trong cùng scenario.")
+        if request.target_id not in targets:
+            return fail("invalid_target", "Đích phải là node GROUND ACTIVE trong cùng scenario và phạm vi định tuyến đã chọn.")
         targets = {request.target_id}
     if not targets:
         return fail("no_target", "Scenario cần ít nhất một node GROUND ACTIVE làm đích.")
@@ -368,13 +448,37 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
     chosen = None
     if request.policy == "predictive":
         candidates = model_candidates(db, request.scenario_id)
+        if research:candidates=[candidate for candidate in candidates if candidate[3].config_json["target"]==LINK_TARGET]
         chosen = next((c for c in candidates if c[0].id == request.experiment_id), None) if request.experiment_id else next(iter(candidates), None)
         if chosen is None:
             return fail("no_model", "Chưa có checkpoint FL hoàn tất phù hợp. Huấn luyện Network delay cho scenario này hoặc chọn công thức tĩnh.")
         result["model"] = model_summary(chosen)
+    link_task = bool(chosen and chosen[3].config_json["target"] == LINK_TARGET)
+    if research and chosen and not link_task:
+        return fail("incompatible_model", "Khu vực nghiên cứu cần checkpoint học độ trễ link ứng dụng.")
 
-    links = topology_links(db, nodes, request.topology, position_overrides)
+    links = topology_links(db, nodes, "configured" if research else request.topology, position_overrides)
+    if nearest_access:
+        from backend.services.topology_service import feasible_pair
+        # Keep explicit terrestrial backhaul, but never invent long ground links
+        # or trust stale stored distances to bypass snapshot geometry.
+        links = [{**link, "distance": channel_distance(nodes[link["source"]], nodes[link["target"]])}
+                 for link in links
+                 if feasible_pair(nodes[link["source"]], nodes[link["target"]],
+                                  allow_ground_backbone=not link.get("estimated", False))]
+    if local:
+        # Recompute geometry, including stored links: their saved distance must
+        # not bypass a local bound or claim a link through the Earth.
+        links = [{**link, "distance": channel_distance(nodes[link["source"]], nodes[link["target"]])}
+                 for link in links
+                 if visible(nodes[link["source"]], nodes[link["target"]])
+                 and channel_distance(nodes[link["source"]], nodes[link["target"]]) <= (
+                    5000 if research and "SPACE" in (nodes[link["source"]].type,nodes[link["target"]].type)
+                    else 1500 if research and "AIR" in (nodes[link["source"]].type,nodes[link["target"]].type)
+                    else request.local_radius_km) + 1e-9]
+    if research:links=[link for link in links if link["id"] not in research.config_json.get("disabled_links",[])]
     size = chosen[3].config_json["payload_bytes"] if chosen else payload_bytes()
+    if link_task or research:size=APPLICATION_PROFILES[request.service]["payload_bytes"]
     network_profile = NETWORK_PROFILES[chosen[3].config_json["network_profile"] if chosen else "normal"]
     def node_capacity(node, load):
         if node.id in reservations.get("deploying_nodes", set()):
@@ -391,6 +495,8 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
         for item in sources:
             node = nodes[item["source_id"]]
             capacity = node_capacity(node, load)
+            if event["device"]:
+                capacity = min(capacity, event["device"]["effective_bandwidth_mbps"])
             if capacity >= profile["min_bandwidth"]:
                 access_latency = max(float(node.latency), item["distance_km"] / 299.792458) * network_profile["latency_multiplier"] * (1 + .8 * load) + 25 * load**2
                 access_rtt = estimate_communication_ms(access_latency, capacity, size / (1024*1024)) / (1 - .04 * load**2)
@@ -399,6 +505,12 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
                            "distance_km": item["distance_km"], "load_ratio": load,
                            "packet_loss_ratio": .04 * load**2, "jitter_ms": access_latency*.04,
                            "payload_bytes": size}
+                if research:
+                    access_link={"id":0,"distance":item["distance_km"],"bandwidth":capacity,"latency":max(1,item["distance_km"]/299.792458)}
+                    feature=telemetry(access_link,node.type,research.sim_time_s,size,load)
+                    access_latency=feature["latency_ms"];access_rtt=feature["observed_delay_ms"]
+                    capacity=min(capacity,feature["available_mbps"])
+                    if capacity < profile["min_bandwidth"]:continue
                 ingress.append({**item, "bandwidth_mbps": capacity, "features": feature,
                                 "predicted_access_rtt_ms": None,
                                 "access_latency_ms": access_latency, "access_rtt_ms": access_rtt,
@@ -419,10 +531,21 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
                 feature = {"layer": b.type, "observed_delay_ms": static, "latency_ms": latency,
                            "bandwidth_mbps": bandwidth, "distance_km": link["distance"],
                            "load_ratio": load, "packet_loss_ratio": loss, "jitter_ms": latency*.04, "payload_bytes": size}
+                if research:
+                    reserved=used_links.get(tuple(sorted((first,second))),0.)
+                    base_load=min(.98,link_load(research,link)+load*.3)
+                    feature=telemetry(link,b.type,research.sim_time_s,size,base_load,reserved)
+                    bandwidth=min(feature["available_mbps"],node_capacity(a,load),node_capacity(b,load))
+                    if bandwidth < profile["min_bandwidth"]:excluded+=1;continue
+                    static=feature["observed_delay_ms"]
+                    future=telemetry(link,b.type,research.sim_time_s+1,size,base_load,reserved)["observed_delay_ms"]
                 features.append(feature)
                 edges.append({"link_id": link["id"], "source": first, "target": second,
                               "bandwidth_mbps": bandwidth, "static_ms": static, "predicted_ms": None,
                               "estimated": link.get("estimated", False), "features": feature})
+                if research:edges[-1]["realized_next_tick_ms"]=future
+        if nearest_access:
+            ingress = nearest_feasible_ingress(ingress, targets, edges)
         return ingress, edges, features, excluded
 
     def static_route_at(load):
@@ -463,13 +586,17 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
     best = shortest_route_from_access(ingress, targets, nodes, edges, profile, "predicted_ms") if chosen else baseline
     if best is None:
         return fail("no_path", f"Không tìm thấy tuyến có băng thông còn lại ≥ {profile['min_bandwidth']} Mbps sau khi trừ phần đã cấp cho {reservations.get('event_count', 0)} điểm khác.")
+    if nearest_access:
+        selected_access = next(item for item in ingress if item["source_id"] == best["sourceId"])
+        result["access"] = {key: value for key, value in selected_access.items() if key != "features"}
+        selection_reason = "Chọn node gần nhất thỏa tầm tiếp cận, tầm nhìn, băng thông còn lại và có đường tới GROUND. FL chọn tuyến tiếp theo từ cùng node đầu vào với đối chứng."
     def decorate(route, predictive=False):
         access = next(item for item in ingress if item["source_id"] == route["sourceId"])
         delay = route["total_predicted_transfer_ms"] if predictive else route["total_static_transfer_ms"]
         distance = access["distance_km"] + sum(h["features"]["distance_km"] for h in route["hops"])
         capacity_cost = profile["capacity_weight"] * 100 * (1 / access["bandwidth_mbps"] + sum(1 / h["bandwidth_mbps"] for h in route["hops"]))
         return {**route, "hop_count": len(route["hops"]),
-                "application": application_metrics(route, access, request.service, profile),
+                "application": application_metrics(route, access, request.service, profile, event),
                 "distance_km": distance,
                 "score_breakdown": {"delay": profile["latency_weight"] * delay,
                                     "capacity": capacity_cost,
@@ -477,8 +604,8 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
                                     "preference": route["ingressPreferencePenalty"],
                                     "total": route["cost"]},
                 "access": {**access, "mode": result["access_search"]["mode"],
-                           "virtual": effective_access_radius is None and not request.allow_reposition,
-                           "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng." if request.allow_reposition else "Kênh tiếp cận ước tính toàn scenario; không khẳng định phủ sóng vô tuyến thực tế." if effective_access_radius is None else "Kênh tiếp cận ước tính trong bán kính đã chọn."},
+                           "virtual": effective_access_radius is None and not request.allow_reposition and not nearest_access,
+                           "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng." if request.allow_reposition or local else "Kênh tiếp cận ước tính toàn scenario; không khẳng định phủ sóng vô tuyến thực tế." if effective_access_radius is None else "Kênh tiếp cận ước tính trong bán kính đã chọn."},
                 "estimated_hops": sum(hop["estimated"] for hop in route["hops"]),
                 "positions": [{"id": id, "type": nodes[id].type, "lat": nodes[id].lat, "lng": nodes[id].lng, "alt": nodes[id].alt} for id in route["path"]]}
     result.update(status="routed", code="ok", reason="Đã chọn tuyến có tổng chi phí nhỏ nhất.",
@@ -497,10 +624,30 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
                                      "total_cost": best["cost"], "preference_penalty": best["ingressPreferencePenalty"],
                                      "reason": selection_reason},
                   objective="Ingress + Σ hop: w_delay × RTT_proxy_ms + w_capacity × 100 / bandwidth_Mbps + w_distance × distance_km / 100 + soft_ingress_preference_penalty")
+    result["destination"] = {"node_id": best["targetId"], "role": event["traffic"]["destination"],
+        "placement": "assumed_service_at_ground_edge", "processing_ms": event["traffic"]["processing_ms"]}
+    if nearest_access:
+        result["ingress_selection"].update(method="nearest_feasible", access_limits_km=ACCESS_LIMITS_KM)
+        result["route"]["access"]["note"] = "Kênh truy cập trừu tượng, có giới hạn khoảng cách theo lớp node và kiểm tra tầm nhìn; không mô phỏng radio thiết bị cá nhân."
+    result["routing_decision"] = {"method": "fl_checkpoint" if chosen else "static_formula",
+        "experiment_id": chosen[0].id if chosen else None, "round": chosen[1].round if chosen else None,
+        "feasibility_first": True, "prediction_target": chosen[3].config_json["target"] if chosen else None,
+        "inferred_channels": len(inference_features) if chosen else 0,
+        "note": "Model chấm cả tiếp cận và từng hop hợp lệ. Tuyến trùng baseline vẫn là kết quả dùng FL; chưa chứng minh cải thiện độ trễ ứng dụng."}
+    if chosen:
+        trained = set((chosen[0].config_json or {}).get("candidate_pool", []))
+        result["model_applicability"] = {
+            "training_target": chosen[3].config_json.get("target"),
+            "training_payload_bytes": chosen[3].config_json["payload_bytes"],
+            "application_payload_bytes": APPLICATION_PROFILES[request.service]["payload_bytes"],
+            "route_nodes_outside_training_pool": [key for key in best["path"] if key not in trained],
+            "held_out_fl_mae_ms": chosen[2].mae_ms,
+            "routing_end_to_end_validated": False,
+            "note": "Checkpoint học kênh client FL; áp dụng lên từng link/thiết bị là chuyển miền thử nghiệm. MAE holdout FL không chứng minh chất lượng định tuyến ứng dụng."}
     if chosen:
         trained_layers = {p["layer"] for p in chosen[3].config_json.get("profiles", {}).values()}
         result["unseen_layers"] = sorted({nodes[id].type for id in best["path"]} - trained_layers)
-        result["comparison"] = {"same_path": best["path"] == baseline["path"],
+        result["comparison"] = {**result.get("comparison",{}), "same_path": best["path"] == baseline["path"],
                                 "predicted_cost_change": baseline["total_predicted_transfer_ms"] - best["total_predicted_transfer_ms"],
                                 "application_estimate_change_ms": result["baseline"]["application"]["estimated_one_way_ms"] - result["route"]["application"]["estimated_one_way_ms"],
                                 "score_change": baseline["cost"] - best["cost"],
@@ -517,6 +664,9 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
                    "available_before_mbps": hop["bandwidth_mbps"],
                    "remaining_after_mbps": max(0., hop["bandwidth_mbps"] - demand)} for hop in best["hops"]],
     }
+    if research:
+        from backend.services.research_evaluation_service import evaluate_routes
+        evaluate_routes(result,research,nodes,size,event,selected_load,chosen is not None)
     return result
 
 
@@ -527,6 +677,8 @@ def route_event(db, request, reservations=None):
         return route_snapshot(db, request, overrides, ingress_ids, reservations)
 
     result = snapshot(db, request)
+    if request.routing_scope == "local" or region_for(db,request.scenario_id):
+        return result  # A missing local route never triggers a remote deployment.
     if not request.allow_reposition or result.get("code") not in {"no_coverage", "no_path"}:
         return result
     from backend.services.mobility_service import reposition_route

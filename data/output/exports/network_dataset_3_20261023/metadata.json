@@ -1,0 +1,1809 @@
+{
+  "dataset_id": 3,
+  "scenario_id": 6,
+  "seed": 42,
+  "generator_version": "sagsin-network-v1",
+  "fingerprint": "c4eee6cbfbf48a132ac496789719003446a8b16756501502281c4057d4cf4e46",
+  "created_at": "2026-10-23T08:46:49",
+  "row_count": 46280,
+  "export_type": "read_only_database_copy",
+  "config": {
+    "samples_per_client": 160,
+    "partition": "non_iid",
+    "network_profile": "normal",
+    "online_steps": 100,
+    "payload_bytes": 3844,
+    "feature_version": "network-features-v1",
+    "source": "generated",
+    "target": "next_tick_model_round_trip_ms",
+    "profiles": {
+      "GND-ARG-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 622.744,
+        "medium": "radio_frequency",
+        "link_id": 45,
+        "link_source": "stored_incident_link"
+      },
+      "GND-ARG-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 622.744,
+        "medium": "radio_frequency",
+        "link_id": 45,
+        "link_source": "stored_incident_link"
+      },
+      "GND-AUS-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 245.965,
+        "medium": "radio_frequency",
+        "link_id": 25,
+        "link_source": "stored_incident_link"
+      },
+      "GND-AUS-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 245.965,
+        "medium": "radio_frequency",
+        "link_id": 25,
+        "link_source": "stored_incident_link"
+      },
+      "GND-BRA-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 872.043,
+        "medium": "radio_frequency",
+        "link_id": 65,
+        "link_source": "stored_incident_link"
+      },
+      "GND-BRA-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 872.043,
+        "medium": "radio_frequency",
+        "link_id": 65,
+        "link_source": "stored_incident_link"
+      },
+      "GND-CAN-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 351.777,
+        "medium": "radio_frequency",
+        "link_id": 31,
+        "link_source": "stored_incident_link"
+      },
+      "GND-CAN-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 351.777,
+        "medium": "radio_frequency",
+        "link_id": 31,
+        "link_source": "stored_incident_link"
+      },
+      "GND-CHN-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 1068.69,
+        "medium": "radio_frequency",
+        "link_id": 72,
+        "link_source": "stored_incident_link"
+      },
+      "GND-CHN-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 1065.43,
+        "medium": "radio_frequency",
+        "link_id": 71,
+        "link_source": "stored_incident_link"
+      },
+      "GND-COD-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 1432.53,
+        "medium": "radio_frequency",
+        "link_id": 95,
+        "link_source": "stored_incident_link"
+      },
+      "GND-COD-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2374.0,
+        "medium": "radio_frequency",
+        "link_id": 318,
+        "link_source": "stored_incident_link"
+      },
+      "GND-COL-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1487.65,
+        "medium": "radio_frequency",
+        "link_id": 131,
+        "link_source": "stored_incident_link"
+      },
+      "GND-DZA-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 350.449,
+        "medium": "radio_frequency",
+        "link_id": 30,
+        "link_source": "stored_incident_link"
+      },
+      "GND-DZA-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 350.449,
+        "medium": "radio_frequency",
+        "link_id": 30,
+        "link_source": "stored_incident_link"
+      },
+      "GND-ESP-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 586.777,
+        "medium": "radio_frequency",
+        "link_id": 43,
+        "link_source": "stored_incident_link"
+      },
+      "GND-FRA-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 1053.05,
+        "medium": "radio_frequency",
+        "link_id": 70,
+        "link_source": "stored_incident_link"
+      },
+      "GND-IDN-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 25.0,
+        "distance_km": 480.412,
+        "medium": "radio_frequency",
+        "link_id": 36,
+        "link_source": "stored_incident_link"
+      },
+      "GND-IDN-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 25.0,
+        "distance_km": 317.027,
+        "medium": "radio_frequency",
+        "link_id": 26,
+        "link_source": "stored_incident_link"
+      },
+      "GND-IND-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 1144.78,
+        "medium": "radio_frequency",
+        "link_id": 79,
+        "link_source": "stored_incident_link"
+      },
+      "GND-IND-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 1144.78,
+        "medium": "radio_frequency",
+        "link_id": 79,
+        "link_source": "stored_incident_link"
+      },
+      "GND-IRN-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 739.546,
+        "medium": "radio_frequency",
+        "link_id": 55,
+        "link_source": "stored_incident_link"
+      },
+      "GND-IRN-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 739.546,
+        "medium": "radio_frequency",
+        "link_id": 55,
+        "link_source": "stored_incident_link"
+      },
+      "GND-KAZ-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 594.601,
+        "medium": "radio_frequency",
+        "link_id": 44,
+        "link_source": "stored_incident_link"
+      },
+      "GND-KAZ-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 970.35,
+        "medium": "radio_frequency",
+        "link_id": 68,
+        "link_source": "stored_incident_link"
+      },
+      "GND-LBY-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 25.0,
+        "distance_km": 452.465,
+        "medium": "radio_frequency",
+        "link_id": 34,
+        "link_source": "stored_incident_link"
+      },
+      "GND-LBY-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 653.745,
+        "medium": "radio_frequency",
+        "link_id": 48,
+        "link_source": "stored_incident_link"
+      },
+      "GND-MEX-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 461.415,
+        "medium": "radio_frequency",
+        "link_id": 35,
+        "link_source": "stored_incident_link"
+      },
+      "GND-MEX-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 461.415,
+        "medium": "radio_frequency",
+        "link_id": 35,
+        "link_source": "stored_incident_link"
+      },
+      "GND-MNG-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 244.518,
+        "medium": "radio_frequency",
+        "link_id": 24,
+        "link_source": "stored_incident_link"
+      },
+      "GND-MNG-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 244.518,
+        "medium": "radio_frequency",
+        "link_id": 24,
+        "link_source": "stored_incident_link"
+      },
+      "GND-NIC-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 76.339,
+        "medium": "radio_frequency",
+        "link_id": 20,
+        "link_source": "stored_incident_link"
+      },
+      "GND-NIC-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 76.339,
+        "medium": "radio_frequency",
+        "link_id": 20,
+        "link_source": "stored_incident_link"
+      },
+      "GND-PER-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 766.176,
+        "medium": "radio_frequency",
+        "link_id": 57,
+        "link_source": "stored_incident_link"
+      },
+      "GND-PER-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 766.176,
+        "medium": "radio_frequency",
+        "link_id": 57,
+        "link_source": "stored_incident_link"
+      },
+      "GND-PNG-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1950.63,
+        "medium": "radio_frequency",
+        "link_id": 209,
+        "link_source": "stored_incident_link"
+      },
+      "GND-RUS-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 632.564,
+        "medium": "radio_frequency",
+        "link_id": 47,
+        "link_source": "stored_incident_link"
+      },
+      "GND-RUS-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 632.564,
+        "medium": "radio_frequency",
+        "link_id": 47,
+        "link_source": "stored_incident_link"
+      },
+      "GND-SAU-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 843.969,
+        "medium": "radio_frequency",
+        "link_id": 63,
+        "link_source": "stored_incident_link"
+      },
+      "GND-SAU-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 25.0,
+        "distance_km": 206.561,
+        "medium": "radio_frequency",
+        "link_id": 22,
+        "link_source": "stored_incident_link"
+      },
+      "GND-SDN-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 667.49,
+        "medium": "radio_frequency",
+        "link_id": 50,
+        "link_source": "stored_incident_link"
+      },
+      "GND-SDN-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 25.0,
+        "distance_km": 92.4399,
+        "medium": "radio_frequency",
+        "link_id": 21,
+        "link_source": "stored_incident_link"
+      },
+      "GND-TCD-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 409.356,
+        "medium": "radio_frequency",
+        "link_id": 32,
+        "link_source": "stored_incident_link"
+      },
+      "GND-TCD-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 409.356,
+        "medium": "radio_frequency",
+        "link_id": 32,
+        "link_source": "stored_incident_link"
+      },
+      "GND-TUR-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 350.267,
+        "medium": "radio_frequency",
+        "link_id": 29,
+        "link_source": "stored_incident_link"
+      },
+      "GND-TUR-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 350.267,
+        "medium": "radio_frequency",
+        "link_id": 29,
+        "link_source": "stored_incident_link"
+      },
+      "GND-USA-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 329.628,
+        "medium": "radio_frequency",
+        "link_id": 27,
+        "link_source": "stored_incident_link"
+      },
+      "GND-USA-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 329.628,
+        "medium": "radio_frequency",
+        "link_id": 27,
+        "link_source": "stored_incident_link"
+      },
+      "GND-ZAF-001": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 1311.47,
+        "medium": "radio_frequency",
+        "link_id": 88,
+        "link_source": "stored_incident_link"
+      },
+      "GND-ZAF-002": {
+        "layer": "GROUND",
+        "status": "ACTIVE",
+        "latency": 10.0,
+        "bandwidth": 100.0,
+        "distance_km": 867.915,
+        "medium": "radio_frequency",
+        "link_id": 64,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-001": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 25.0,
+        "distance_km": 1442.78,
+        "medium": "radio_frequency",
+        "link_id": 97,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-002": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 594.601,
+        "medium": "radio_frequency",
+        "link_id": 44,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-003": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 650.0,
+        "medium": "radio_frequency",
+        "link_id": 107,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-004": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1200.99,
+        "medium": "radio_frequency",
+        "link_id": 110,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-005": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 25.0,
+        "distance_km": 577.844,
+        "medium": "radio_frequency",
+        "link_id": 42,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-006": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1431.05,
+        "medium": "radio_frequency",
+        "link_id": 126,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-007": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1998.32,
+        "medium": "radio_frequency",
+        "link_id": 252,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-008": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1431.04,
+        "medium": "radio_frequency",
+        "link_id": 124,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-009": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 25.0,
+        "distance_km": 1010.15,
+        "medium": "radio_frequency",
+        "link_id": 69,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-010": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1602.9,
+        "medium": "radio_frequency",
+        "link_id": 153,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-011": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 50.0,
+        "distance_km": 1131.93,
+        "medium": "radio_frequency",
+        "link_id": 76,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-012": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1602.86,
+        "medium": "radio_frequency",
+        "link_id": 150,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-013": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1492.2,
+        "medium": "radio_frequency",
+        "link_id": 132,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-014": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1492.2,
+        "medium": "radio_frequency",
+        "link_id": 134,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-015": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 867.915,
+        "medium": "radio_frequency",
+        "link_id": 64,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-016": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 50.0,
+        "distance_km": 1342.13,
+        "medium": "radio_frequency",
+        "link_id": 90,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-017": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 50.0,
+        "distance_km": 902.41,
+        "medium": "radio_frequency",
+        "link_id": 66,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-018": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1142.03,
+        "medium": "radio_frequency",
+        "link_id": 78,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-019": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1602.86,
+        "medium": "radio_frequency",
+        "link_id": 152,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-020": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1799.79,
+        "medium": "radio_frequency",
+        "link_id": 188,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-021": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1324.67,
+        "medium": "radio_frequency",
+        "link_id": 89,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-022": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1998.36,
+        "medium": "radio_frequency",
+        "link_id": 255,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-023": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1431.05,
+        "medium": "radio_frequency",
+        "link_id": 127,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-024": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1434.83,
+        "medium": "radio_frequency",
+        "link_id": 96,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-001": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 650.0,
+        "medium": "radio_frequency",
+        "link_id": 106,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-002": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2337.69,
+        "medium": "radio_frequency",
+        "link_id": 311,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-003": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1431.04,
+        "medium": "radio_frequency",
+        "link_id": 125,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-004": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 0.0,
+        "medium": "radio_frequency",
+        "link_id": 100,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-005": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1431.05,
+        "medium": "radio_frequency",
+        "link_id": 126,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-006": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2713.64,
+        "medium": "radio_frequency",
+        "link_id": 406,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-007": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 650.0,
+        "medium": "radio_frequency",
+        "link_id": 107,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-008": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1597.07,
+        "medium": "radio_frequency",
+        "link_id": 148,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-009": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1431.05,
+        "medium": "radio_frequency",
+        "link_id": 127,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-010": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 0.0,
+        "medium": "radio_frequency",
+        "link_id": 102,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-011": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1431.04,
+        "medium": "radio_frequency",
+        "link_id": 124,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-012": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2713.63,
+        "medium": "radio_frequency",
+        "link_id": 404,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-013": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1364.09,
+        "medium": "radio_frequency",
+        "link_id": 121,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-014": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1450.66,
+        "medium": "radio_frequency",
+        "link_id": 129,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-015": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1959.52,
+        "medium": "radio_frequency",
+        "link_id": 213,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-016": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1959.52,
+        "medium": "radio_frequency",
+        "link_id": 215,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-017": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1492.2,
+        "medium": "radio_frequency",
+        "link_id": 132,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-018": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2525.08,
+        "medium": "radio_frequency",
+        "link_id": 374,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-019": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1799.79,
+        "medium": "radio_frequency",
+        "link_id": 188,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-020": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2231.24,
+        "medium": "radio_frequency",
+        "link_id": 287,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-021": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1959.52,
+        "medium": "radio_frequency",
+        "link_id": 217,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-022": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1959.52,
+        "medium": "radio_frequency",
+        "link_id": 219,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-023": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1492.2,
+        "medium": "radio_frequency",
+        "link_id": 135,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-024": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1857.57,
+        "medium": "radio_frequency",
+        "link_id": 199,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-025": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1998.36,
+        "medium": "radio_frequency",
+        "link_id": 254,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-026": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1522.72,
+        "medium": "radio_frequency",
+        "link_id": 137,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-027": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1318.22,
+        "medium": "radio_frequency",
+        "link_id": 115,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-028": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 0.0,
+        "medium": "radio_frequency",
+        "link_id": 100,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-029": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2387.09,
+        "medium": "radio_frequency",
+        "link_id": 322,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-030": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2307.65,
+        "medium": "radio_frequency",
+        "link_id": 297,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-031": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1998.32,
+        "medium": "radio_frequency",
+        "link_id": 252,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-032": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2387.06,
+        "medium": "radio_frequency",
+        "link_id": 320,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-033": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2329.91,
+        "medium": "radio_frequency",
+        "link_id": 308,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-034": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 0.0,
+        "medium": "radio_frequency",
+        "link_id": 102,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-035": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2387.11,
+        "medium": "radio_frequency",
+        "link_id": 324,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-036": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1845.64,
+        "medium": "radio_frequency",
+        "link_id": 195,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-037": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1329.01,
+        "medium": "radio_frequency",
+        "link_id": 116,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-038": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1200.99,
+        "medium": "radio_frequency",
+        "link_id": 109,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-039": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1959.52,
+        "medium": "radio_frequency",
+        "link_id": 213,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-040": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1959.52,
+        "medium": "radio_frequency",
+        "link_id": 211,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-041": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1602.86,
+        "medium": "radio_frequency",
+        "link_id": 151,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-042": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1558.31,
+        "medium": "radio_frequency",
+        "link_id": 138,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-043": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2655.59,
+        "medium": "radio_frequency",
+        "link_id": 395,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-044": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1200.99,
+        "medium": "radio_frequency",
+        "link_id": 110,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-045": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1959.52,
+        "medium": "radio_frequency",
+        "link_id": 212,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-046": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1959.52,
+        "medium": "radio_frequency",
+        "link_id": 219,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-047": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1602.86,
+        "medium": "radio_frequency",
+        "link_id": 150,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-048": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 3919.04,
+        "medium": "radio_frequency",
+        "link_id": 502,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-049": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1612.48,
+        "medium": "radio_frequency",
+        "link_id": 156,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-050": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2314.73,
+        "medium": "radio_frequency",
+        "link_id": 303,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-051": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1807.61,
+        "medium": "radio_frequency",
+        "link_id": 189,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-052": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 0.0,
+        "medium": "radio_frequency",
+        "link_id": 101,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-053": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2150.57,
+        "medium": "radio_frequency",
+        "link_id": 274,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-054": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1631.95,
+        "medium": "radio_frequency",
+        "link_id": 162,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-055": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1487.65,
+        "medium": "radio_frequency",
+        "link_id": 131,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-056": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2008.19,
+        "medium": "radio_frequency",
+        "link_id": 256,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-057": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2329.9,
+        "medium": "radio_frequency",
+        "link_id": 306,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-058": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 0.0,
+        "medium": "radio_frequency",
+        "link_id": 103,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-059": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2387.11,
+        "medium": "radio_frequency",
+        "link_id": 325,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-060": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2307.68,
+        "medium": "radio_frequency",
+        "link_id": 298,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-061": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1799.79,
+        "medium": "radio_frequency",
+        "link_id": 187,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-062": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1837.82,
+        "medium": "radio_frequency",
+        "link_id": 191,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-063": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1959.52,
+        "medium": "radio_frequency",
+        "link_id": 216,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-064": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1959.52,
+        "medium": "radio_frequency",
+        "link_id": 211,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-065": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1492.2,
+        "medium": "radio_frequency",
+        "link_id": 134,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-066": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2525.08,
+        "medium": "radio_frequency",
+        "link_id": 376,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-067": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1220.46,
+        "medium": "radio_frequency",
+        "link_id": 111,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-068": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1932.18,
+        "medium": "radio_frequency",
+        "link_id": 206,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-069": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1959.52,
+        "medium": "radio_frequency",
+        "link_id": 212,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-070": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1959.52,
+        "medium": "radio_frequency",
+        "link_id": 218,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-071": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 1492.2,
+        "medium": "radio_frequency",
+        "link_id": 133,
+        "link_source": "stored_incident_link"
+      },
+      "SAT-POLAR-072": {
+        "layer": "SPACE",
+        "status": "ACTIVE",
+        "latency": 25.0,
+        "bandwidth": 100.0,
+        "distance_km": 2409.48,
+        "medium": "radio_frequency",
+        "link_id": 333,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-001": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1233.08,
+        "medium": "radio_frequency",
+        "link_id": 112,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-002": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1567.16,
+        "medium": "radio_frequency",
+        "link_id": 141,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-003": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1010.15,
+        "medium": "radio_frequency",
+        "link_id": 69,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-004": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1243.51,
+        "medium": "radio_frequency",
+        "link_id": 85,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-005": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 317.027,
+        "medium": "radio_frequency",
+        "link_id": 26,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-006": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 577.844,
+        "medium": "radio_frequency",
+        "link_id": 42,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-007": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 92.4399,
+        "medium": "radio_frequency",
+        "link_id": 21,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-008": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1485.91,
+        "medium": "radio_frequency",
+        "link_id": 130,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-009": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1357.51,
+        "medium": "radio_frequency",
+        "link_id": 120,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-010": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 452.465,
+        "medium": "radio_frequency",
+        "link_id": 34,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-011": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1588.19,
+        "medium": "radio_frequency",
+        "link_id": 146,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-012": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1442.78,
+        "medium": "radio_frequency",
+        "link_id": 97,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-013": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1445.35,
+        "medium": "radio_frequency",
+        "link_id": 128,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-014": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1705.14,
+        "medium": "radio_frequency",
+        "link_id": 171,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-015": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 2029.72,
+        "medium": "radio_frequency",
+        "link_id": 258,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-016": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1200.74,
+        "medium": "radio_frequency",
+        "link_id": 108,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-017": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1643.23,
+        "medium": "radio_frequency",
+        "link_id": 163,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-018": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1739.3,
+        "medium": "radio_frequency",
+        "link_id": 177,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-019": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 1609.23,
+        "medium": "radio_frequency",
+        "link_id": 155,
+        "link_source": "stored_incident_link"
+      },
+      "SHIP-020": {
+        "layer": "SEA",
+        "status": "ACTIVE",
+        "latency": 80.0,
+        "bandwidth": 25.0,
+        "distance_km": 2121.33,
+        "medium": "radio_frequency",
+        "link_id": 273,
+        "link_source": "stored_incident_link"
+      },
+      "UAV-001": {
+        "layer": "AIR",
+        "status": "ACTIVE",
+        "latency": 30.0,
+        "bandwidth": 50.0,
+        "distance_km": 902.41,
+        "medium": "radio_frequency",
+        "link_id": 66,
+        "link_source": "stored_incident_link"
+      },
+      "UAV-002": {
+        "layer": "AIR",
+        "status": "ACTIVE",
+        "latency": 30.0,
+        "bandwidth": 50.0,
+        "distance_km": 2460.2,
+        "medium": "radio_frequency",
+        "link_id": 359,
+        "link_source": "stored_incident_link"
+      },
+      "UAV-003": {
+        "layer": "AIR",
+        "status": "ACTIVE",
+        "latency": 30.0,
+        "bandwidth": 50.0,
+        "distance_km": 1131.93,
+        "medium": "radio_frequency",
+        "link_id": 76,
+        "link_source": "stored_incident_link"
+      },
+      "UAV-004": {
+        "layer": "AIR",
+        "status": "ACTIVE",
+        "latency": 30.0,
+        "bandwidth": 50.0,
+        "distance_km": 1479.62,
+        "medium": "radio_frequency",
+        "link_id": 99,
+        "link_source": "stored_incident_link"
+      },
+      "UAV-005": {
+        "layer": "AIR",
+        "status": "ACTIVE",
+        "latency": 30.0,
+        "bandwidth": 50.0,
+        "distance_km": 2104.83,
+        "medium": "radio_frequency",
+        "link_id": 270,
+        "link_source": "stored_incident_link"
+      },
+      "UAV-006": {
+        "layer": "AIR",
+        "status": "ACTIVE",
+        "latency": 30.0,
+        "bandwidth": 50.0,
+        "distance_km": 1258.05,
+        "medium": "radio_frequency",
+        "link_id": 113,
+        "link_source": "stored_incident_link"
+      },
+      "UAV-007": {
+        "layer": "AIR",
+        "status": "ACTIVE",
+        "latency": 30.0,
+        "bandwidth": 50.0,
+        "distance_km": 1609.16,
+        "medium": "radio_frequency",
+        "link_id": 154,
+        "link_source": "stored_incident_link"
+      },
+      "UAV-008": {
+        "layer": "AIR",
+        "status": "ACTIVE",
+        "latency": 30.0,
+        "bandwidth": 50.0,
+        "distance_km": 1787.64,
+        "medium": "radio_frequency",
+        "link_id": 184,
+        "link_source": "stored_incident_link"
+      },
+      "UAV-009": {
+        "layer": "AIR",
+        "status": "ACTIVE",
+        "latency": 30.0,
+        "bandwidth": 50.0,
+        "distance_km": 1662.71,
+        "medium": "radio_frequency",
+        "link_id": 164,
+        "link_source": "stored_incident_link"
+      },
+      "UAV-010": {
+        "layer": "AIR",
+        "status": "ACTIVE",
+        "latency": 30.0,
+        "bandwidth": 50.0,
+        "distance_km": 2215.71,
+        "medium": "radio_frequency",
+        "link_id": 282,
+        "link_source": "stored_incident_link"
+      },
+      "UAV-011": {
+        "layer": "AIR",
+        "status": "ACTIVE",
+        "latency": 30.0,
+        "bandwidth": 50.0,
+        "distance_km": 1342.13,
+        "medium": "radio_frequency",
+        "link_id": 90,
+        "link_source": "stored_incident_link"
+      },
+      "UAV-012": {
+        "layer": "AIR",
+        "status": "ACTIVE",
+        "latency": 30.0,
+        "bandwidth": 50.0,
+        "distance_km": 1344.27,
+        "medium": "radio_frequency",
+        "link_id": 118,
+        "link_source": "stored_incident_link"
+      }
+    },
+    "split_order": [
+      "train",
+      "validation",
+      "online",
+      "test"
+    ],
+    "locality": "logical_client_partitions_in_shared_database"
+  }
+}

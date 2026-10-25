@@ -9,11 +9,14 @@ class EventRouteRequest(BaseModel):
     lat: float = Field(ge=-90, le=90, allow_inf_nan=False)
     lng: float = Field(ge=-180, le=180, allow_inf_nan=False)
     service: Literal["Message", "Video Call", "Watch Video", "Gaming", "Emergency"] = "Message"
+    source_device: Literal["network_gateway", "auto", "smartphone", "emergency_radio", "satellite_terminal", "iot_sensor", "legacy_simulator"] = "auto"
     policy: Literal["predictive", "static"] = "predictive"
     topology: Literal["configured", "estimated", "adaptive"] = "adaptive"
     experiment_id: int | None = Field(default=None, ge=1)
     target_id: str | None = Field(default=None, max_length=50)
-    # None searches the whole scenario; a numeric radius is an explicit opt-in.
+    routing_scope: Literal["local", "global"] = "local"
+    local_radius_km: float = Field(default=300, gt=0, le=20040, allow_inf_nan=False)
+    # Additional ingress limit; local scope also bounds all nodes and hops.
     access_radius_km: float | None = Field(default=None, gt=0, le=20040, allow_inf_nan=False)
     required_bandwidth_mbps: float | None = Field(default=None, gt=0, le=1000000, allow_inf_nan=False)
     load_ratio: float = Field(default=.35, ge=0, le=.94, allow_inf_nan=False)
@@ -21,6 +24,8 @@ class EventRouteRequest(BaseModel):
     auto_train: bool = False
     allow_reposition: bool = False
     mobility_boost: float = Field(default=2, ge=1, le=5, allow_inf_nan=False)
+    duration_s: float = Field(default=60, gt=0, le=86400, allow_inf_nan=False)
+    wait_timeout_s: float = Field(default=30, gt=0, le=86400, allow_inf_nan=False)
 
 
 class SavedEventRequest(EventRouteRequest):

@@ -15,7 +15,7 @@ def main():
     parser.add_argument("--rounds", type=int, default=5, choices=range(1, 101), metavar="1..100")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
-    directory = root / "data" / "network_demo"
+    directory = root / "data" / "output" / "network_demo"
     directory.mkdir(parents=True, exist_ok=True)
     os.environ["DATABASE_URL"] = "sqlite:///" + (directory / "demo.sqlite").as_posix()
     from fastapi import BackgroundTasks

@@ -1,0 +1,40 @@
+{
+  "request": {
+    "scenario_id": 6,
+    "algorithm": "Predictive",
+    "task": "network_delay",
+    "rounds": 30,
+    "client_count": 24,
+    "samples_per_client": 320,
+    "local_epochs": 2,
+    "learning_rate": 0.01,
+    "batch_size": 64,
+    "partition": "non_iid",
+    "seed": 42,
+    "network_profile": "normal",
+    "dropout_probability": 0.0,
+    "timeout_ms": 120000
+  },
+  "response": {
+    "status": "success",
+    "message": "Predictive experiment queued.",
+    "data": {
+      "id": 2,
+      "scenario_id": 6,
+      "algorithm": "Predictive",
+      "status": "QUEUED",
+      "target_rounds": 30,
+      "completed_rounds": 0,
+      "latest_accuracy": null,
+      "latest_loss": null,
+      "task": "network_delay",
+      "dataset_id": 2,
+      "latest_mae_ms": null,
+      "latest_rmse_ms": null,
+      "latest_r2": null,
+      "is_simulation": true,
+      "error_message": null,
+      "actual_duration_s": null
+    }
+  }
+}

@@ -8,8 +8,8 @@
 
     <title>Federated Learning in SAGSINs</title>
 
-    <link rel="stylesheet" href="/css/style.css?v=20261023f">
-    <link rel="stylesheet" href="/css/routing.css?v=20261023f">
+    <link rel="stylesheet" href="/css/style.css?v=20261023g">
+    <link rel="stylesheet" href="/css/routing.css?v=20261023g">
     
     <!-- FontAwesome cho Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -26,7 +26,8 @@
             }
         }
     </script>
-<link rel="stylesheet" href="/css/research-studio.css?v=20261023f">
+<link rel="stylesheet" href="/css/research-studio.css?v=20261023g">
+<link rel="stylesheet" href="/css/training-globe.css?v=20261025">
 </head>
 
 <body>
@@ -136,6 +137,25 @@
         <div class="panel-section event-section">
             <label for="routing-scenario">Scenario</label>
             <select id="routing-scenario" class="action-dropdown"><option value="">Đang tải scenario…</option></select>
+            <button id="research-create" type="button" class="action-btn">Mở khu vực nghiên cứu SAGSIN</button>
+            <section id="research-panel" hidden aria-label="Điều khiển nghiên cứu">
+                <p id="research-state" role="status"></p>
+                <label for="research-condition">Kịch bản mạng</label>
+                <select id="research-condition" class="action-dropdown"><option value="normal">Bình thường</option><option value="congested">Nghẽn đường mặt đất</option><option value="terrestrial_failure">Đứt đường mặt đất</option><option value="satellite_fallback">Dự phòng tàu–vệ tinh</option><option value="disconnected">Mất toàn bộ backhaul</option></select>
+                <button id="research-clock" type="button" class="action-btn">Chạy đồng hồ</button>
+                <button id="research-step" type="button" class="action-btn">Tiến 10 giây</button>
+                <button id="research-train" type="button" class="action-btn">Huấn luyện FL theo link · 2.000 mẫu/client</button>
+                <p class="routing-help">Snapshot ven biển có trạm truy cập riêng, đích dịch vụ biên và 3 đường thay thế. Chạy đồng hồ để truyền, thử lại khi mất kết nối và giải phóng băng thông khi kết thúc. Vệ tinh giữ snapshot; chưa mô phỏng quỹ đạo liên tục.</p>
+            </section>
+            <label for="routing-source-device">Thiết bị tại sự kiện</label>
+            <select id="routing-source-device" class="action-dropdown"><option value="network_gateway" selected>Điểm sự kiện · chọn node gần và khả thi</option><option value="auto">Tự chọn theo sự kiện</option><option value="smartphone">Điện thoại 4G/5G</option><option value="emergency_radio">Thiết bị dữ liệu cứu hộ</option><option value="iot_sensor">Cảm biến IoT</option><option value="satellite_terminal">Đầu cuối vệ tinh chuyên dụng</option></select>
+            <label for="routing-duration">Thời lượng phiên trong khu vực nghiên cứu (giây)</label>
+            <input id="routing-duration" type="number" min="1" max="86400" value="60">
+            <label for="routing-wait">Thời hạn chờ kết nối (giây)</label>
+            <input id="routing-wait" type="number" min="1" max="86400" value="30">
+            <p class="routing-help">Mặc định chọn node gần nhất có tầm nhìn, đủ băng thông và có đường tới GROUND. Tầm tiếp cận mô phỏng: GROUND 50 km, SEA 200 km, AIR 1.500 km, SPACE 5.000 km. FL chọn tuyến từ node đầu vào đó; không nối thẳng tới node quá xa.</p>
+            <button id="routing-demo" type="button" class="action-btn">Thử sự kiện gần trạm trong vùng đã học</button>
+            <p class="routing-help">Có thể thả điểm trực tiếp trên địa cầu hoặc nhập tọa độ. Nút thử đặt một điểm mới gần trạm; không di chuyển các điểm đã đặt.</p>
             <details class="routing-advanced">
                 <summary>Định tuyến nâng cao</summary>
             <label for="routing-policy">Cách đánh giá tuyến</label>
@@ -152,10 +172,10 @@
 
                 <label for="routing-topology">Nguồn kết nối</label>
                 <select id="routing-topology" class="action-dropdown"><option value="adaptive" selected>Tự tìm tuyến mô phỏng tốt nhất</option><option value="configured">Chỉ dùng link ACTIVE đã lưu</option><option value="estimated">Chỉ dùng link phủ sóng ước tính</option></select>
-                <label class="routing-check" for="routing-global"><input id="routing-global" type="checkbox" checked> Tìm điểm tiếp cận trên toàn scenario</label>
-                <label for="routing-radius">Bán kính tiếp cận khi giới hạn (km)</label>
-                <input id="routing-radius" type="number" min="1" max="20040" step="1" value="1500" disabled>
-                <p class="routing-help">Đặt điểm ở bất kỳ đâu. Kết nối vẫn xét vùng phủ và tầm nhìn; nếu thiếu kết nối, so sánh thời gian điều động vệ tinh/UAV/tàu hoặc chuỗi vệ tinh về GROUND.</p>
+                <label class="routing-check" for="routing-global"><input id="routing-global" type="checkbox"> Cho phép tìm tuyến trên toàn scenario</label>
+                <label for="routing-radius">Giới hạn cục bộ: điểm đến node và mỗi hop (km)</label>
+                <input id="routing-radius" type="number" min="1" max="20040" step="1" value="300" required>
+                <p class="routing-help">Mạng toàn cầu mặc định tìm trên toàn scenario. Bỏ chọn để giới hạn cục bộ theo bán kính này. Tầm tiếp cận vẫn bị giới hạn theo lớp node; backbone xét hình học và băng thông còn lại.</p>
                 <label for="routing-mobility-boost">Hệ số tăng tốc phương tiện</label>
                 <input id="routing-mobility-boost" type="number" min="1" max="5" step="0.1" value="2">
                 <p class="routing-help">Tốc độ di chuyển là giả định mô phỏng. Model FL chấm RTT tuyến; thời gian tiếp cận tính riêng từ quãng đường và tốc độ.</p>
@@ -227,12 +247,12 @@
         </ul>
     </div>
 
-    <!-- Node Tooltip (Hover info) -->
-    <div id="node-tooltip">
-        <!-- Content will be injected by app.js -->
-    </div>
+    <aside id="node-tooltip" class="device-info" hidden aria-labelledby="node-info-title">
+        <button id="node-info-close" class="device-info-close" type="button" aria-label="Đóng thông tin thiết bị"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        <div id="node-info-content"></div>
+    </aside>
 
-    <script type="module" src="/js/app.js?v=20261023f"></script>
+    <script type="module" src="/js/app.js?v=20261025-live"></script>
 
 </body>
 

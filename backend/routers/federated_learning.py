@@ -9,7 +9,7 @@ from backend.models.network import Node
 from backend.models.participant import Participant
 from backend.models.scenario import Scenario
 from backend.models.simulation import Experiment, FLClientRound, FLRound, Metric
-from backend.models.network_learning import NetworkDataset, NetworkRoundEvaluation, NetworkRoundPrediction
+from backend.models.network_learning import NetworkDataset, NetworkObservation, NetworkRoundEvaluation, NetworkRoundPrediction
 from backend.schemas.base import APIResponse
 from backend.schemas.fl import (
     FLClientRoundResult, FLComparisonCreate, FLExperimentCreate, FLExperimentDetail,
@@ -91,7 +91,19 @@ def _candidate_snapshot(db, scenario, client_count):
     return candidates, profiles, participant_epochs
 
 
-def _config(request, scenario, candidate_pool, profiles, participant_epochs, comparison_id=None):
+def _training_snapshot(db, scenario, request, minimum=None):
+    from backend.services.regional_pool_service import choose_region
+    allowed, profiles, epochs = _candidate_snapshot(db, scenario, 0)
+    nodes = db.query(Node).filter(Node.id.in_(allowed)).all()
+    selected, region = choose_region(nodes, request.pool_mode, request.region_radius_km, request.region_lat, request.region_lng)
+    candidates = [node.id for node in selected]
+    required = minimum if minimum is not None else (2 if getattr(request,"algorithm",None)=="Centralized" else request.client_count)
+    if len(candidates) < required:
+        raise HTTPException(400, detail=f"Pool {request.pool_mode} có {len(candidates)} client hợp lệ, cần {required}. Giảm client/vòng hoặc chọn tâm/bán kính khác; không tự mở rộng khu vực.")
+    return candidates, {key:profiles[key] for key in candidates}, {key:value for key,value in epochs.items() if key in candidates}, region
+
+
+def _config(request, scenario, candidate_pool, profiles, participant_epochs, comparison_id=None, region=None):
     config = request.model_dump(exclude={"scenario_id", "algorithm"}, exclude_unset=False)
     config.update({
         "candidate_pool": candidate_pool,
@@ -101,6 +113,8 @@ def _config(request, scenario, candidate_pool, profiles, participant_epochs, com
         "metrics_source": "pytorch_test_set",
         "network_metrics_source": "simulated_from_node_profile",
     })
+    if region is not None:
+        config["training_region"] = region
     if comparison_id:
         config["comparison_id"] = comparison_id
     return config
@@ -121,7 +135,7 @@ def _register_candidate_rows(db, candidate_pool, request):
 
 def _network_config(db, request, scenario, comparison_id=None):
     from backend.services.network_dataset_service import create_dataset
-    candidates, _, epochs = _candidate_snapshot(db, scenario, request.client_count)
+    candidates, _, epochs, region = _training_snapshot(db, scenario, request)
     if request.dataset_id is not None:
         dataset = db.get(NetworkDataset, request.dataset_id)
         if dataset is None or dataset.scenario_id != scenario.id:
@@ -129,18 +143,31 @@ def _network_config(db, request, scenario, comparison_id=None):
         if any(getattr(request, key) != dataset.config_json[key] for key in ("partition", "network_profile")) or request.seed != dataset.seed:
             raise HTTPException(status_code=400, detail="Use the dataset's seed, partition and network profile when reusing it.")
     else:
-        dataset = create_dataset(db, scenario.id, request.seed, request.samples_per_client, request.partition, request.network_profile)
+        if request.online_steps < request.rounds:
+            raise HTTPException(status_code=400, detail="Online ticks must cover every requested round.")
+        try:
+            dataset = create_dataset(db, scenario.id, request.seed, request.samples_per_client, request.partition, request.network_profile, request.online_steps,
+                                     client_ids=candidates if request.pool_mode=="regional" else None, prediction_target=request.prediction_target)
+        except ValueError as error:
+            raise HTTPException(400,str(error)) from error
     profiles = dataset.config_json["profiles"]
     if any(client not in profiles for client in candidates):
         raise HTTPException(status_code=400, detail="The candidate pool contains nodes absent from the dataset. Generate a new dataset or select its clients.")
+    from sqlalchemy import func
+    online_counts = dict(db.query(NetworkObservation.client_id, func.count()).filter(
+        NetworkObservation.dataset_id == dataset.id, NetworkObservation.split == "online",
+        NetworkObservation.client_id.in_(candidates)).group_by(NetworkObservation.client_id).all())
+    if any(online_counts.get(client, 0) < request.rounds for client in candidates):
+        raise HTTPException(status_code=400, detail="Dataset has too few online ticks for this pool. Reduce rounds or create a new dataset.")
     _register_candidate_rows(db, candidates, request)
-    config = _config(request, scenario, candidates, {client: profiles[client] for client in candidates}, epochs, comparison_id)
+    config = _config(request, scenario, candidates, {client: profiles[client] for client in candidates}, epochs, comparison_id, region)
     config.update({
         "dataset_id": dataset.id, "dataset_fingerprint": dataset.fingerprint,
         "generator_version": dataset.generator_version, "feature_version": dataset.config_json["feature_version"],
         "metrics_source": "held_out_future_network_observations",
         "network_metrics_source": "generated_temporal_network_trace",
         "locality": dataset.config_json["locality"], "target": dataset.config_json["target"],
+        "samples_per_client": dataset.config_json["samples_per_client"], "online_steps": dataset.config_json["online_steps"],
     })
     return config
 
@@ -165,9 +192,9 @@ def create_experiment(request: FLExperimentCreate, background_tasks: BackgroundT
         config = request.model_dump(exclude={"scenario_id", "algorithm"})
         config.update({"metrics_source": "pytorch_test_set", "network_metrics_source": "not_applicable"})
     else:
-        candidate_pool, profiles, participant_epochs = _candidate_snapshot(db, scenario, request.client_count)
+        candidate_pool, profiles, participant_epochs, region = _training_snapshot(db, scenario, request)
         _register_candidate_rows(db, candidate_pool, request)
-        config = _config(request, scenario, candidate_pool, profiles, participant_epochs)
+        config = _config(request, scenario, candidate_pool, profiles, participant_epochs, region=region)
     experiment = _create_record(db, scenario, request.algorithm, request, config)
     db.commit()
     db.refresh(experiment)
@@ -183,9 +210,9 @@ def create_comparison(request: FLComparisonCreate, background_tasks: BackgroundT
     if request.task == "network_delay":
         shared_config = _network_config(db, request, scenario, comparison_id)
     else:
-        candidate_pool, profiles, participant_epochs = _candidate_snapshot(db, scenario, request.client_count)
+        candidate_pool, profiles, participant_epochs, region = _training_snapshot(db, scenario, request)
         _register_candidate_rows(db, candidate_pool, request)
-        shared_config = _config(request, scenario, candidate_pool, profiles, participant_epochs, comparison_id)
+        shared_config = _config(request, scenario, candidate_pool, profiles, participant_epochs, comparison_id, region)
     algorithms = ["FedAvg", "DelayAware", "Predictive"] if request.task == "network_delay" else ["FedAvg", "DelayAware"]
     experiments = [_create_record(db, scenario, algorithm, request, dict(shared_config)) for algorithm in algorithms]
     db.commit()
@@ -289,6 +316,7 @@ def get_comparison(comparison_id: str, db: Session = Depends(get_db)):
         "same_seed": all(config.get("seed") == configs[0].get("seed") for config in configs),
         "same_dataset": all(config.get("dataset_id") == configs[0].get("dataset_id") for config in configs),
         "same_training_config": all(configs[0].get(key) == config.get(key) for config in configs for key in (
+            "prediction_target", "pool_mode", "region_radius_km", "region_lat", "region_lng", "training_region",
             "rounds", "client_count", "local_epochs", "learning_rate", "batch_size", "partition",
             "seed", "network_profile", "dropout_probability", "timeout_ms", "task", "dataset_id", "client_profiles", "local_epochs_by_client",
         )),

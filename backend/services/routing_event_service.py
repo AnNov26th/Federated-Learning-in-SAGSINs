@@ -22,6 +22,8 @@ def reservations_for(db, scenario_id, exclude_id=None):
                           db.query(Node).filter(Node.scenario_id == scenario_id)}
     for event in events.order_by(RoutingEvent.id).with_for_update():
         result = event.result_json or {}
+        if result.get("flow") and result["flow"]["state"] != "transmitting":
+            continue
         route = result.get("route")
         if not route:
             continue

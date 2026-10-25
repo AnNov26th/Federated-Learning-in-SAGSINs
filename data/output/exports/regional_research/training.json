@@ -1,0 +1,3764 @@
+{
+  "region": {
+    "scenario_id": 7,
+    "sim_time_s": 0.0,
+    "running": false,
+    "version": "coastal-v1",
+    "access_nodes": [
+      "LAB7-ACCESS"
+    ],
+    "service_nodes": [
+      "LAB7-EDGE"
+    ],
+    "nodes": {
+      "ACCESS": "LAB7-ACCESS",
+      "RELAY": "LAB7-RELAY",
+      "EDGE": "LAB7-EDGE",
+      "UAV": "LAB7-UAV",
+      "SHIP": "LAB7-SHIP",
+      "SAT": "LAB7-SAT"
+    },
+    "center": {
+      "lat": 16.06,
+      "lng": 108.22
+    },
+    "radius_km": 100,
+    "conditions": "normal",
+    "disabled_nodes": [],
+    "disabled_links": [],
+    "background_load": 0.2,
+    "note": "Fixed evaluation snapshot, explicit compatible access mast and edge services. Satellite follows no deployment command; no orbital propagation in this experiment."
+  },
+  "request": {
+    "scenario_id": 7,
+    "task": "network_delay",
+    "algorithm": "Predictive",
+    "prediction_target": "application_link",
+    "pool_mode": "all",
+    "partition": "non_iid",
+    "samples_per_client": 2000,
+    "online_steps": 20,
+    "rounds": 20,
+    "client_count": 6,
+    "local_epochs": 2,
+    "batch_size": 64,
+    "learning_rate": 0.01,
+    "seed": 42
+  },
+  "result": {
+    "id": 6,
+    "scenario_id": 7,
+    "algorithm": "Predictive",
+    "status": "COMPLETED",
+    "target_rounds": 20,
+    "completed_rounds": 20,
+    "latest_accuracy": null,
+    "latest_loss": 0.000347394,
+    "task": "network_delay",
+    "dataset_id": 6,
+    "latest_mae_ms": 0.130392,
+    "latest_rmse_ms": 0.216795,
+    "latest_r2": 0.999805,
+    "is_simulation": true,
+    "error_message": null,
+    "actual_duration_s": 36.0,
+    "config": {
+      "prediction_target": "application_link",
+      "pool_mode": "all",
+      "region_radius_km": 1500,
+      "region_lat": null,
+      "region_lng": null,
+      "task": "network_delay",
+      "dataset_id": 6,
+      "samples_per_client": 2000,
+      "online_steps": 20,
+      "rounds": 20,
+      "client_count": 6,
+      "local_epochs": 2,
+      "learning_rate": 0.01,
+      "batch_size": 64,
+      "partition": "non_iid",
+      "seed": 42,
+      "network_profile": "normal",
+      "dropout_probability": 0.0,
+      "timeout_ms": 30000,
+      "candidate_pool": [
+        "LAB7-ACCESS",
+        "LAB7-EDGE",
+        "LAB7-RELAY",
+        "LAB7-SAT",
+        "LAB7-SHIP",
+        "LAB7-UAV"
+      ],
+      "client_profiles": {
+        "LAB7-ACCESS": {
+          "layer": "GROUND",
+          "status": "ACTIVE",
+          "latency": 1.0,
+          "bandwidth": 100.0,
+          "links": [
+            507,
+            509,
+            511
+          ]
+        },
+        "LAB7-EDGE": {
+          "layer": "GROUND",
+          "status": "ACTIVE",
+          "latency": 1.0,
+          "bandwidth": 100.0,
+          "links": [
+            508,
+            510,
+            513
+          ]
+        },
+        "LAB7-RELAY": {
+          "layer": "GROUND",
+          "status": "ACTIVE",
+          "latency": 1.0,
+          "bandwidth": 100.0,
+          "links": [
+            507,
+            508
+          ]
+        },
+        "LAB7-SAT": {
+          "layer": "SPACE",
+          "status": "ACTIVE",
+          "latency": 3.0,
+          "bandwidth": 50.0,
+          "links": [
+            512,
+            513
+          ]
+        },
+        "LAB7-SHIP": {
+          "layer": "SEA",
+          "status": "ACTIVE",
+          "latency": 2.0,
+          "bandwidth": 30.0,
+          "links": [
+            511,
+            512
+          ]
+        },
+        "LAB7-UAV": {
+          "layer": "AIR",
+          "status": "ACTIVE",
+          "latency": 2.0,
+          "bandwidth": 30.0,
+          "links": [
+            509,
+            510
+          ]
+        }
+      },
+      "local_epochs_by_client": {},
+      "selection_policy": "round_sample",
+      "metrics_source": "held_out_future_network_observations",
+      "network_metrics_source": "generated_temporal_network_trace",
+      "training_region": {
+        "mode": "all",
+        "eligible_clients": 6,
+        "client_count": 6
+      },
+      "dataset_fingerprint": "ae31f57e70d7f63732582135eac65d3bdaa0627a69ce3df5c13795e437b8ea0d",
+      "generator_version": "sagsin-application-link-v1",
+      "feature_version": "network-features-v1",
+      "locality": "outgoing_link_telemetry_partitioned_by_source_node",
+      "target": "next_tick_application_link_delay_ms",
+      "training_progress": {
+        "revision": 322,
+        "phase": "completed",
+        "updated_at": "2026-10-25T05:33:07.771036+00:00",
+        "events": [
+          {
+            "phase": "client_finished",
+            "round": 18,
+            "client_id": "LAB7-RELAY",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:03.702509+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 18,
+            "client_id": "LAB7-ACCESS",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:03.756362+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 18,
+            "client_id": "LAB7-ACCESS",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:03.893940+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 18,
+            "client_id": "LAB7-SAT",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:03.951345+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 18,
+            "client_id": "LAB7-SAT",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:04.096005+00:00"
+          },
+          {
+            "phase": "aggregating",
+            "round": 18,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T05:33:04.158173+00:00"
+          },
+          {
+            "phase": "round_completed",
+            "round": 18,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T05:33:04.322476+00:00"
+          },
+          {
+            "phase": "selecting",
+            "round": 19,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T05:33:04.381455+00:00"
+          },
+          {
+            "phase": "selected",
+            "round": 19,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T05:33:04.432873+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 19,
+            "client_id": "LAB7-EDGE",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:04.488309+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 19,
+            "client_id": "LAB7-EDGE",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:04.633728+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 19,
+            "client_id": "LAB7-RELAY",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:04.688027+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 19,
+            "client_id": "LAB7-RELAY",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:04.829673+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 19,
+            "client_id": "LAB7-SAT",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:04.873708+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 19,
+            "client_id": "LAB7-SAT",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:05.060190+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 19,
+            "client_id": "LAB7-ACCESS",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:05.119296+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 19,
+            "client_id": "LAB7-ACCESS",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:05.294244+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 19,
+            "client_id": "LAB7-SHIP",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:05.357891+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 19,
+            "client_id": "LAB7-SHIP",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:05.507512+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 19,
+            "client_id": "LAB7-UAV",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:05.553491+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 19,
+            "client_id": "LAB7-UAV",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:05.699965+00:00"
+          },
+          {
+            "phase": "aggregating",
+            "round": 19,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T05:33:05.764490+00:00"
+          },
+          {
+            "phase": "round_completed",
+            "round": 19,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T05:33:05.945693+00:00"
+          },
+          {
+            "phase": "selecting",
+            "round": 20,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T05:33:06.005480+00:00"
+          },
+          {
+            "phase": "selected",
+            "round": 20,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T05:33:06.053637+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 20,
+            "client_id": "LAB7-ACCESS",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:06.108588+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 20,
+            "client_id": "LAB7-ACCESS",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:06.252428+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 20,
+            "client_id": "LAB7-RELAY",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:06.326194+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 20,
+            "client_id": "LAB7-RELAY",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:06.463569+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 20,
+            "client_id": "LAB7-UAV",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:06.524597+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 20,
+            "client_id": "LAB7-UAV",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:06.751629+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 20,
+            "client_id": "LAB7-EDGE",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:06.812464+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 20,
+            "client_id": "LAB7-EDGE",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:06.958494+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 20,
+            "client_id": "LAB7-SHIP",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:07.020648+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 20,
+            "client_id": "LAB7-SHIP",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:07.161190+00:00"
+          },
+          {
+            "phase": "local_training",
+            "round": 20,
+            "client_id": "LAB7-SAT",
+            "client_status": "TRAINING",
+            "at": "2026-10-25T05:33:07.224752+00:00"
+          },
+          {
+            "phase": "client_finished",
+            "round": 20,
+            "client_id": "LAB7-SAT",
+            "client_status": "COMPLETED",
+            "at": "2026-10-25T05:33:07.444100+00:00"
+          },
+          {
+            "phase": "aggregating",
+            "round": 20,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T05:33:07.509005+00:00"
+          },
+          {
+            "phase": "round_completed",
+            "round": 20,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T05:33:07.653977+00:00"
+          },
+          {
+            "phase": "completed",
+            "round": 20,
+            "client_id": null,
+            "client_status": null,
+            "at": "2026-10-25T05:33:07.771036+00:00"
+          }
+        ],
+        "clients": {
+          "LAB7-ACCESS": {
+            "status": "COMPLETED",
+            "samples_used": 1219,
+            "local_loss": 0.000328443688607588,
+            "training_duration_s": 0.07479700000021694,
+            "communication_time_ms": 2.5865478515625
+          },
+          "LAB7-RELAY": {
+            "status": "COMPLETED",
+            "samples_used": 1219,
+            "local_loss": 0.0004399487628846011,
+            "training_duration_s": 0.0704568000001018,
+            "communication_time_ms": 2.5865478515625
+          },
+          "LAB7-UAV": {
+            "status": "COMPLETED",
+            "samples_used": 1219,
+            "local_loss": 0.00029110819328188013,
+            "training_duration_s": 0.14569209999990562,
+            "communication_time_ms": 5.955159505208333
+          },
+          "LAB7-EDGE": {
+            "status": "COMPLETED",
+            "samples_used": 1219,
+            "local_loss": 0.00030598839874712927,
+            "training_duration_s": 0.07676360000004934,
+            "communication_time_ms": 2.5865478515625
+          },
+          "LAB7-SHIP": {
+            "status": "COMPLETED",
+            "samples_used": 1219,
+            "local_loss": 0.00028346459348562114,
+            "training_duration_s": 0.07211259999985487,
+            "communication_time_ms": 5.955159505208333
+          },
+          "LAB7-SAT": {
+            "status": "COMPLETED",
+            "samples_used": 1219,
+            "local_loss": 0.0002517979618206806,
+            "training_duration_s": 0.14116930000000139,
+            "communication_time_ms": 7.173095703125
+          }
+        },
+        "selected": [
+          "LAB7-ACCESS",
+          "LAB7-RELAY",
+          "LAB7-UAV",
+          "LAB7-EDGE",
+          "LAB7-SHIP",
+          "LAB7-SAT"
+        ],
+        "round": 20,
+        "selection_source": "uniform_clients_link_task",
+        "samples_used": 1219,
+        "local_loss": 0.0002517979618206806,
+        "training_duration_s": 0.14116930000000139,
+        "communication_time_ms": 7.173095703125,
+        "mae_ms": 0.13039222261090597,
+        "validation_mae_ms": 0.11635388201900163,
+        "completed_clients": 6
+      }
+    },
+    "created_at": "2026-10-25T05:32:31",
+    "rounds": [
+      {
+        "round": 1,
+        "accuracy": null,
+        "loss": 0.000346934,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.14561,
+        "metrics": {
+          "latency_ms": 2.99574,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.4561,
+          "bandwidth_mbps": 13.3333,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.000332697,
+            "training_duration_s": 0.0754226,
+            "latency_ms": 1.16187,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.000310246,
+            "training_duration_s": 0.102666,
+            "latency_ms": 0.850537,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.000446354,
+            "training_duration_s": 0.143023,
+            "latency_ms": 0.572884,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.000255012,
+            "training_duration_s": 0.0676388,
+            "latency_ms": 3.89543,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.000286295,
+            "training_duration_s": 0.0822205,
+            "latency_ms": 4.48601,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1200,
+            "local_accuracy": null,
+            "local_loss": 0.000280125,
+            "training_duration_s": 0.0772406,
+            "latency_ms": 7.00767,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129481,
+          "rmse_ms": 0.216375,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115261,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217775,
+            "predicted_delay_ms": 53.5907,
+            "observed_delay_ms": 53.595,
+            "rule_delay_ms": 53.5907,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219795,
+            "predicted_delay_ms": 53.2793,
+            "observed_delay_ms": 53.254,
+            "rule_delay_ms": 53.2793,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221815,
+            "predicted_delay_ms": 1.39208,
+            "observed_delay_ms": 1.42581,
+            "rule_delay_ms": 1.39208,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223835,
+            "predicted_delay_ms": 4.44157,
+            "observed_delay_ms": 4.44004,
+            "rule_delay_ms": 4.44157,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225855,
+            "predicted_delay_ms": 5.03215,
+            "observed_delay_ms": 5.19691,
+            "rule_delay_ms": 5.03215,
+            "selected": true,
+            "model_round": 0
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227875,
+            "predicted_delay_ms": 7.41727,
+            "observed_delay_ms": 7.38306,
+            "rule_delay_ms": 7.41727,
+            "selected": true,
+            "model_round": 0
+          }
+        ]
+      },
+      {
+        "round": 2,
+        "accuracy": null,
+        "loss": 0.000346947,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.0823914,
+        "metrics": {
+          "latency_ms": 3.88598,
+          "communication_time_ms": 7.1731,
+          "energy_j": 0.823914,
+          "bandwidth_mbps": 16.6667,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.00033242,
+            "training_duration_s": 0.0689435,
+            "latency_ms": 3.60348,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.000309989,
+            "training_duration_s": 0.0677974,
+            "latency_ms": 3.14622,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.000446164,
+            "training_duration_s": 0.0670965,
+            "latency_ms": 0.810988,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.000254799,
+            "training_duration_s": 0.0752183,
+            "latency_ms": 3.48647,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.000286632,
+            "training_duration_s": 0.0720861,
+            "latency_ms": 5.39164,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1201,
+            "local_accuracy": null,
+            "local_loss": 0.000279899,
+            "training_duration_s": 0.0738819,
+            "latency_ms": 6.87706,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129501,
+          "rmse_ms": 0.216386,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115295,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217776,
+            "predicted_delay_ms": 29.8213,
+            "observed_delay_ms": 29.766,
+            "rule_delay_ms": 29.8179,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219796,
+            "predicted_delay_ms": 29.364,
+            "observed_delay_ms": 29.3706,
+            "rule_delay_ms": 29.3606,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221816,
+            "predicted_delay_ms": 1.63048,
+            "observed_delay_ms": 1.62258,
+            "rule_delay_ms": 1.63019,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223836,
+            "predicted_delay_ms": 4.03318,
+            "observed_delay_ms": 4.04836,
+            "rule_delay_ms": 4.0326,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225856,
+            "predicted_delay_ms": 5.93852,
+            "observed_delay_ms": 5.94067,
+            "rule_delay_ms": 5.93777,
+            "selected": true,
+            "model_round": 1
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227876,
+            "predicted_delay_ms": 7.2876,
+            "observed_delay_ms": 7.53306,
+            "rule_delay_ms": 7.28666,
+            "selected": true,
+            "model_round": 1
+          }
+        ]
+      },
+      {
+        "round": 3,
+        "accuracy": null,
+        "loss": 0.00034695,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.095937,
+        "metrics": {
+          "latency_ms": 3.73868,
+          "communication_time_ms": 7.1731,
+          "energy_j": 0.95937,
+          "bandwidth_mbps": 15.0,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.000332158,
+            "training_duration_s": 0.0667322,
+            "latency_ms": 3.04549,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.00030973,
+            "training_duration_s": 0.0644157,
+            "latency_ms": 3.08962,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.000445771,
+            "training_duration_s": 0.0736631,
+            "latency_ms": 0.640577,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.000254599,
+            "training_duration_s": 0.0755186,
+            "latency_ms": 3.89039,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.000286399,
+            "training_duration_s": 0.0738309,
+            "latency_ms": 4.81597,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1202,
+            "local_accuracy": null,
+            "local_loss": 0.000280381,
+            "training_duration_s": 0.0899818,
+            "latency_ms": 6.95,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.12951,
+          "rmse_ms": 0.21639,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115308,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217777,
+            "predicted_delay_ms": 38.0035,
+            "observed_delay_ms": 37.9807,
+            "rule_delay_ms": 37.998,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219797,
+            "predicted_delay_ms": 38.0472,
+            "observed_delay_ms": 38.0314,
+            "rule_delay_ms": 38.0422,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221817,
+            "predicted_delay_ms": 1.60092,
+            "observed_delay_ms": 1.63435,
+            "rule_delay_ms": 1.60058,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223837,
+            "predicted_delay_ms": 4.53118,
+            "observed_delay_ms": 4.52546,
+            "rule_delay_ms": 4.53039,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225857,
+            "predicted_delay_ms": 5.45681,
+            "observed_delay_ms": 5.61922,
+            "rule_delay_ms": 5.45597,
+            "selected": true,
+            "model_round": 2
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227877,
+            "predicted_delay_ms": 7.4311,
+            "observed_delay_ms": 7.419,
+            "rule_delay_ms": 7.43,
+            "selected": true,
+            "model_round": 2
+          }
+        ]
+      },
+      {
+        "round": 4,
+        "accuracy": null,
+        "loss": 0.000346995,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.0780134,
+        "metrics": {
+          "latency_ms": 3.17494,
+          "communication_time_ms": 7.1731,
+          "energy_j": 0.780134,
+          "bandwidth_mbps": 13.3333,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.000331875,
+            "training_duration_s": 0.0741359,
+            "latency_ms": 1.1694,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.000309475,
+            "training_duration_s": 0.0714321,
+            "latency_ms": 0.769079,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.000445528,
+            "training_duration_s": 0.065863,
+            "latency_ms": 0.793606,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.00025438,
+            "training_duration_s": 0.0708403,
+            "latency_ms": 3.52243,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.000286661,
+            "training_duration_s": 0.0684592,
+            "latency_ms": 5.39247,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1203,
+            "local_accuracy": null,
+            "local_loss": 0.000280158,
+            "training_duration_s": 0.0704347,
+            "latency_ms": 7.40266,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129582,
+          "rmse_ms": 0.21643,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115411,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217778,
+            "predicted_delay_ms": 1.37453,
+            "observed_delay_ms": 1.372,
+            "rule_delay_ms": 1.3742,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219798,
+            "predicted_delay_ms": 0.974154,
+            "observed_delay_ms": 0.943896,
+            "rule_delay_ms": 0.973879,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221818,
+            "predicted_delay_ms": 1.75399,
+            "observed_delay_ms": 1.74203,
+            "rule_delay_ms": 1.75361,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223838,
+            "predicted_delay_ms": 4.16317,
+            "observed_delay_ms": 4.18736,
+            "rule_delay_ms": 4.16243,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225858,
+            "predicted_delay_ms": 6.03344,
+            "observed_delay_ms": 6.02681,
+            "rule_delay_ms": 6.03247,
+            "selected": true,
+            "model_round": 3
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227878,
+            "predicted_delay_ms": 7.88387,
+            "observed_delay_ms": 8.19787,
+            "rule_delay_ms": 7.88266,
+            "selected": true,
+            "model_round": 3
+          }
+        ]
+      },
+      {
+        "round": 5,
+        "accuracy": null,
+        "loss": 0.000346974,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.0994764,
+        "metrics": {
+          "latency_ms": 3.88562,
+          "communication_time_ms": 7.1731,
+          "energy_j": 0.994764,
+          "bandwidth_mbps": 16.6667,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.000331594,
+            "training_duration_s": 0.0696242,
+            "latency_ms": 3.46333,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.000309414,
+            "training_duration_s": 0.0764575,
+            "latency_ms": 3.18323,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.000445182,
+            "training_duration_s": 0.0707802,
+            "latency_ms": 0.707471,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.000254184,
+            "training_duration_s": 0.0731576,
+            "latency_ms": 3.87972,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.000286418,
+            "training_duration_s": 0.0842857,
+            "latency_ms": 5.13789,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1204,
+            "local_accuracy": null,
+            "local_loss": 0.000280941,
+            "training_duration_s": 0.0935212,
+            "latency_ms": 6.94204,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129551,
+          "rmse_ms": 0.216412,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115368,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217779,
+            "predicted_delay_ms": 3.56661,
+            "observed_delay_ms": 3.52912,
+            "rule_delay_ms": 3.56573,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219799,
+            "predicted_delay_ms": 3.28646,
+            "observed_delay_ms": 3.30218,
+            "rule_delay_ms": 3.28563,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221819,
+            "predicted_delay_ms": 3.98524,
+            "observed_delay_ms": 4.01628,
+            "rule_delay_ms": 3.98427,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223839,
+            "predicted_delay_ms": 6.06572,
+            "observed_delay_ms": 6.05833,
+            "rule_delay_ms": 6.06426,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225859,
+            "predicted_delay_ms": 7.32401,
+            "observed_delay_ms": 7.47377,
+            "rule_delay_ms": 7.32243,
+            "selected": true,
+            "model_round": 4
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227879,
+            "predicted_delay_ms": 8.58226,
+            "observed_delay_ms": 8.59901,
+            "rule_delay_ms": 8.58044,
+            "selected": true,
+            "model_round": 4
+          }
+        ]
+      },
+      {
+        "round": 6,
+        "accuracy": null,
+        "loss": 0.00034699,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.0935909,
+        "metrics": {
+          "latency_ms": 3.97419,
+          "communication_time_ms": 7.1731,
+          "energy_j": 0.935909,
+          "bandwidth_mbps": 15.0,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.000331371,
+            "training_duration_s": 0.0910044,
+            "latency_ms": 2.98021,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.000309169,
+            "training_duration_s": 0.070509,
+            "latency_ms": 3.06713,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.000444834,
+            "training_duration_s": 0.071901,
+            "latency_ms": 0.769036,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.000253979,
+            "training_duration_s": 0.0775363,
+            "latency_ms": 3.5773,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.000286444,
+            "training_duration_s": 0.0709121,
+            "latency_ms": 5.37899,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1205,
+            "local_accuracy": null,
+            "local_loss": 0.000280744,
+            "training_duration_s": 0.0756284,
+            "latency_ms": 8.07246,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.12958,
+          "rmse_ms": 0.216426,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115407,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217780,
+            "predicted_delay_ms": 3.11751,
+            "observed_delay_ms": 3.08626,
+            "rule_delay_ms": 3.11675,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219800,
+            "predicted_delay_ms": 3.20443,
+            "observed_delay_ms": 3.2026,
+            "rule_delay_ms": 3.20366,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221820,
+            "predicted_delay_ms": 4.04671,
+            "observed_delay_ms": 4.03184,
+            "rule_delay_ms": 4.04584,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223840,
+            "predicted_delay_ms": 5.76302,
+            "observed_delay_ms": 5.79707,
+            "rule_delay_ms": 5.76183,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225860,
+            "predicted_delay_ms": 7.56502,
+            "observed_delay_ms": 7.555,
+            "rule_delay_ms": 7.56353,
+            "selected": true,
+            "model_round": 5
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227880,
+            "predicted_delay_ms": 9.71263,
+            "observed_delay_ms": 10.1083,
+            "rule_delay_ms": 9.71086,
+            "selected": true,
+            "model_round": 5
+          }
+        ]
+      },
+      {
+        "round": 7,
+        "accuracy": null,
+        "loss": 0.000346958,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.0855783,
+        "metrics": {
+          "latency_ms": 3.14921,
+          "communication_time_ms": 7.1731,
+          "energy_j": 0.855783,
+          "bandwidth_mbps": 13.3333,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.000331148,
+            "training_duration_s": 0.0719668,
+            "latency_ms": 1.15292,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.000308908,
+            "training_duration_s": 0.0733353,
+            "latency_ms": 0.677511,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.000444475,
+            "training_duration_s": 0.0710232,
+            "latency_ms": 0.769929,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.0002538,
+            "training_duration_s": 0.0723803,
+            "latency_ms": 3.86828,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.00028621,
+            "training_duration_s": 0.0769199,
+            "latency_ms": 5.43047,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1206,
+            "local_accuracy": null,
+            "local_loss": 0.000281584,
+            "training_duration_s": 0.0796231,
+            "latency_ms": 6.99616,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129529,
+          "rmse_ms": 0.216397,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115335,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217781,
+            "predicted_delay_ms": 1.97268,
+            "observed_delay_ms": 1.95939,
+            "rule_delay_ms": 1.97212,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219801,
+            "predicted_delay_ms": 1.4972,
+            "observed_delay_ms": 1.46597,
+            "rule_delay_ms": 1.49671,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221821,
+            "predicted_delay_ms": 53.2091,
+            "observed_delay_ms": 53.2272,
+            "rule_delay_ms": 53.1987,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223841,
+            "predicted_delay_ms": 38.8291,
+            "observed_delay_ms": 38.8163,
+            "rule_delay_ms": 38.8208,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225861,
+            "predicted_delay_ms": 40.3906,
+            "observed_delay_ms": 40.5115,
+            "rule_delay_ms": 40.383,
+            "selected": true,
+            "model_round": 6
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227881,
+            "predicted_delay_ms": 33.2169,
+            "observed_delay_ms": 33.2646,
+            "rule_delay_ms": 33.2106,
+            "selected": true,
+            "model_round": 6
+          }
+        ]
+      },
+      {
+        "round": 8,
+        "accuracy": null,
+        "loss": 0.000346975,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.12378,
+        "metrics": {
+          "latency_ms": 4.21252,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.2378,
+          "bandwidth_mbps": 16.6667,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.000330891,
+            "training_duration_s": 0.121194,
+            "latency_ms": 3.36769,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.000308781,
+            "training_duration_s": 0.0672547,
+            "latency_ms": 3.23757,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.000444108,
+            "training_duration_s": 0.0757115,
+            "latency_ms": 0.740469,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.00025357,
+            "training_duration_s": 0.0895415,
+            "latency_ms": 3.65336,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.000285987,
+            "training_duration_s": 0.0671229,
+            "latency_ms": 5.36265,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1207,
+            "local_accuracy": null,
+            "local_loss": 0.000281365,
+            "training_duration_s": 0.0679406,
+            "latency_ms": 8.91339,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129559,
+          "rmse_ms": 0.216412,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115377,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217782,
+            "predicted_delay_ms": 3.77804,
+            "observed_delay_ms": 3.75452,
+            "rule_delay_ms": 3.77729,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219802,
+            "predicted_delay_ms": 3.64791,
+            "observed_delay_ms": 3.66779,
+            "rule_delay_ms": 3.64717,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221822,
+            "predicted_delay_ms": 53.1778,
+            "observed_delay_ms": 53.1546,
+            "rule_delay_ms": 53.1693,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223842,
+            "predicted_delay_ms": 38.6121,
+            "observed_delay_ms": 38.6526,
+            "rule_delay_ms": 38.6059,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225862,
+            "predicted_delay_ms": 40.3219,
+            "observed_delay_ms": 40.3095,
+            "rule_delay_ms": 40.3152,
+            "selected": true,
+            "model_round": 7
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227882,
+            "predicted_delay_ms": 35.133,
+            "observed_delay_ms": 35.6203,
+            "rule_delay_ms": 35.1278,
+            "selected": true,
+            "model_round": 7
+          }
+        ]
+      },
+      {
+        "round": 9,
+        "accuracy": null,
+        "loss": 0.000346948,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.096302,
+        "metrics": {
+          "latency_ms": 3.90534,
+          "communication_time_ms": 7.1731,
+          "energy_j": 0.96302,
+          "bandwidth_mbps": 15.0,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.000330628,
+            "training_duration_s": 0.0679639,
+            "latency_ms": 2.87697,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.000308541,
+            "training_duration_s": 0.0700833,
+            "latency_ms": 3.07322,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.000443748,
+            "training_duration_s": 0.0735976,
+            "latency_ms": 0.824393,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.000253365,
+            "training_duration_s": 0.0891289,
+            "latency_ms": 3.86095,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.000285765,
+            "training_duration_s": 0.0897191,
+            "latency_ms": 5.6723,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1208,
+            "local_accuracy": null,
+            "local_loss": 0.000281279,
+            "training_duration_s": 0.0695275,
+            "latency_ms": 7.1242,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129518,
+          "rmse_ms": 0.216389,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115319,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217783,
+            "predicted_delay_ms": 3.42396,
+            "observed_delay_ms": 3.38164,
+            "rule_delay_ms": 3.4231,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219803,
+            "predicted_delay_ms": 3.62027,
+            "observed_delay_ms": 3.62739,
+            "rule_delay_ms": 3.61935,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221823,
+            "predicted_delay_ms": 1.02956,
+            "observed_delay_ms": 1.05245,
+            "rule_delay_ms": 1.02919,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223843,
+            "predicted_delay_ms": 3.99846,
+            "observed_delay_ms": 3.99683,
+            "rule_delay_ms": 3.99749,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225863,
+            "predicted_delay_ms": 5.80997,
+            "observed_delay_ms": 5.90519,
+            "rule_delay_ms": 5.80883,
+            "selected": true,
+            "model_round": 8
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227883,
+            "predicted_delay_ms": 7.22797,
+            "observed_delay_ms": 7.32225,
+            "rule_delay_ms": 7.2266,
+            "selected": true,
+            "model_round": 8
+          }
+        ]
+      },
+      {
+        "round": 10,
+        "accuracy": null,
+        "loss": 0.000346962,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.115311,
+        "metrics": {
+          "latency_ms": 3.57641,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.15311,
+          "bandwidth_mbps": 13.3333,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.000330425,
+            "training_duration_s": 0.112724,
+            "latency_ms": 1.10272,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.000308287,
+            "training_duration_s": 0.0697213,
+            "latency_ms": 0.587374,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.000443472,
+            "training_duration_s": 0.112179,
+            "latency_ms": 0.711316,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.000253153,
+            "training_duration_s": 0.0722352,
+            "latency_ms": 3.75291,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.000285659,
+            "training_duration_s": 0.0665436,
+            "latency_ms": 5.35463,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1209,
+            "local_accuracy": null,
+            "local_loss": 0.00028116,
+            "training_duration_s": 0.0653987,
+            "latency_ms": 9.94953,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129542,
+          "rmse_ms": 0.216401,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115352,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217784,
+            "predicted_delay_ms": 2.06317,
+            "observed_delay_ms": 2.038,
+            "rule_delay_ms": 2.06272,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219804,
+            "predicted_delay_ms": 1.54776,
+            "observed_delay_ms": 1.51943,
+            "rule_delay_ms": 1.54737,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221824,
+            "predicted_delay_ms": 0.916406,
+            "observed_delay_ms": 0.902369,
+            "rule_delay_ms": 0.916116,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223844,
+            "predicted_delay_ms": 3.89018,
+            "observed_delay_ms": 3.94874,
+            "rule_delay_ms": 3.88945,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225864,
+            "predicted_delay_ms": 5.49219,
+            "observed_delay_ms": 5.49358,
+            "rule_delay_ms": 5.49117,
+            "selected": true,
+            "model_round": 9
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227884,
+            "predicted_delay_ms": 10.0534,
+            "observed_delay_ms": 10.6472,
+            "rule_delay_ms": 10.0519,
+            "selected": true,
+            "model_round": 9
+          }
+        ]
+      },
+      {
+        "round": 11,
+        "accuracy": null,
+        "loss": 0.000346969,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.122878,
+        "metrics": {
+          "latency_ms": 4.08814,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.22878,
+          "bandwidth_mbps": 16.6667,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1210,
+            "local_accuracy": null,
+            "local_loss": 0.000330209,
+            "training_duration_s": 0.106174,
+            "latency_ms": 3.31191,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1210,
+            "local_accuracy": null,
+            "local_loss": 0.000308133,
+            "training_duration_s": 0.0798627,
+            "latency_ms": 3.30111,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1210,
+            "local_accuracy": null,
+            "local_loss": 0.00044316,
+            "training_duration_s": 0.0726566,
+            "latency_ms": 0.867852,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1210,
+            "local_accuracy": null,
+            "local_loss": 0.000253057,
+            "training_duration_s": 0.0744409,
+            "latency_ms": 3.86238,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1210,
+            "local_accuracy": null,
+            "local_loss": 0.000285421,
+            "training_duration_s": 0.0670099,
+            "latency_ms": 5.84671,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1210,
+            "local_accuracy": null,
+            "local_loss": 0.000283209,
+            "training_duration_s": 0.116923,
+            "latency_ms": 7.33888,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129555,
+          "rmse_ms": 0.216407,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.11537,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217785,
+            "predicted_delay_ms": 3.79271,
+            "observed_delay_ms": 3.78129,
+            "rule_delay_ms": 3.79191,
+            "selected": true,
+            "model_round": 10
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219805,
+            "predicted_delay_ms": 3.78191,
+            "observed_delay_ms": 3.80264,
+            "rule_delay_ms": 3.78111,
+            "selected": true,
+            "model_round": 10
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221825,
+            "predicted_delay_ms": 1.6875,
+            "observed_delay_ms": 1.70398,
+            "rule_delay_ms": 1.68705,
+            "selected": true,
+            "model_round": 10
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223845,
+            "predicted_delay_ms": 4.4095,
+            "observed_delay_ms": 4.41388,
+            "rule_delay_ms": 4.40852,
+            "selected": true,
+            "model_round": 10
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225865,
+            "predicted_delay_ms": 6.39397,
+            "observed_delay_ms": 6.45198,
+            "rule_delay_ms": 6.39284,
+            "selected": true,
+            "model_round": 10
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227885,
+            "predicted_delay_ms": 7.7498,
+            "observed_delay_ms": 7.89286,
+            "rule_delay_ms": 7.74848,
+            "selected": true,
+            "model_round": 10
+          }
+        ]
+      },
+      {
+        "round": 12,
+        "accuracy": null,
+        "loss": 0.000346957,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.126468,
+        "metrics": {
+          "latency_ms": 4.49492,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.26468,
+          "bandwidth_mbps": 15.0,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1211,
+            "local_accuracy": null,
+            "local_loss": 0.000329937,
+            "training_duration_s": 0.123882,
+            "latency_ms": 2.74499,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1211,
+            "local_accuracy": null,
+            "local_loss": 0.000307894,
+            "training_duration_s": 0.107161,
+            "latency_ms": 3.10571,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1211,
+            "local_accuracy": null,
+            "local_loss": 0.000442816,
+            "training_duration_s": 0.0741066,
+            "latency_ms": 0.684906,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1211,
+            "local_accuracy": null,
+            "local_loss": 0.000252852,
+            "training_duration_s": 0.0718676,
+            "latency_ms": 3.87822,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1211,
+            "local_accuracy": null,
+            "local_loss": 0.000285235,
+            "training_duration_s": 0.0650188,
+            "latency_ms": 5.36538,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1211,
+            "local_accuracy": null,
+            "local_loss": 0.000283199,
+            "training_duration_s": 0.0668552,
+            "latency_ms": 11.1903,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129537,
+          "rmse_ms": 0.216396,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115342,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217786,
+            "predicted_delay_ms": 3.38584,
+            "observed_delay_ms": 3.3371,
+            "rule_delay_ms": 3.38499,
+            "selected": true,
+            "model_round": 11
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219806,
+            "predicted_delay_ms": 3.74669,
+            "observed_delay_ms": 3.76185,
+            "rule_delay_ms": 3.74571,
+            "selected": true,
+            "model_round": 11
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221826,
+            "predicted_delay_ms": 1.50456,
+            "observed_delay_ms": 1.4929,
+            "rule_delay_ms": 1.50411,
+            "selected": true,
+            "model_round": 11
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223846,
+            "predicted_delay_ms": 4.42531,
+            "observed_delay_ms": 4.49733,
+            "rule_delay_ms": 4.42435,
+            "selected": true,
+            "model_round": 11
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225866,
+            "predicted_delay_ms": 5.9128,
+            "observed_delay_ms": 5.92693,
+            "rule_delay_ms": 5.91151,
+            "selected": true,
+            "model_round": 11
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227886,
+            "predicted_delay_ms": 11.6018,
+            "observed_delay_ms": 12.2907,
+            "rule_delay_ms": 11.5999,
+            "selected": true,
+            "model_round": 11
+          }
+        ]
+      },
+      {
+        "round": 13,
+        "accuracy": null,
+        "loss": 0.000346969,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.110297,
+        "metrics": {
+          "latency_ms": 3.31709,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.10297,
+          "bandwidth_mbps": 13.3333,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1212,
+            "local_accuracy": null,
+            "local_loss": 0.000329769,
+            "training_duration_s": 0.075049,
+            "latency_ms": 1.01747,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1212,
+            "local_accuracy": null,
+            "local_loss": 0.00030765,
+            "training_duration_s": 0.107711,
+            "latency_ms": 0.508598,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1212,
+            "local_accuracy": null,
+            "local_loss": 0.000442479,
+            "training_duration_s": 0.0681335,
+            "latency_ms": 0.8983,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1212,
+            "local_accuracy": null,
+            "local_loss": 0.000252777,
+            "training_duration_s": 0.0722265,
+            "latency_ms": 3.8769,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1212,
+            "local_accuracy": null,
+            "local_loss": 0.000285012,
+            "training_duration_s": 0.0668476,
+            "latency_ms": 5.94619,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1212,
+            "local_accuracy": null,
+            "local_loss": 0.000285323,
+            "training_duration_s": 0.102655,
+            "latency_ms": 7.6551,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129558,
+          "rmse_ms": 0.216407,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115374,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217787,
+            "predicted_delay_ms": 4.29512,
+            "observed_delay_ms": 4.2591,
+            "rule_delay_ms": 4.29427,
+            "selected": true,
+            "model_round": 12
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219807,
+            "predicted_delay_ms": 3.78621,
+            "observed_delay_ms": 3.76301,
+            "rule_delay_ms": 3.7854,
+            "selected": true,
+            "model_round": 12
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221827,
+            "predicted_delay_ms": 1.85877,
+            "observed_delay_ms": 1.86838,
+            "rule_delay_ms": 1.8583,
+            "selected": true,
+            "model_round": 12
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223847,
+            "predicted_delay_ms": 4.51789,
+            "observed_delay_ms": 4.53034,
+            "rule_delay_ms": 4.5169,
+            "selected": true,
+            "model_round": 12
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225867,
+            "predicted_delay_ms": 6.58728,
+            "observed_delay_ms": 6.60856,
+            "rule_delay_ms": 6.58619,
+            "selected": true,
+            "model_round": 12
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227887,
+            "predicted_delay_ms": 8.1364,
+            "observed_delay_ms": 8.33678,
+            "rule_delay_ms": 8.1351,
+            "selected": true,
+            "model_round": 12
+          }
+        ]
+      },
+      {
+        "round": 14,
+        "accuracy": null,
+        "loss": 0.000346987,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.140034,
+        "metrics": {
+          "latency_ms": 4.89381,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.40034,
+          "bandwidth_mbps": 16.6667,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1213,
+            "local_accuracy": null,
+            "local_loss": 0.000329548,
+            "training_duration_s": 0.0722976,
+            "latency_ms": 3.29075,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1213,
+            "local_accuracy": null,
+            "local_loss": 0.000307416,
+            "training_duration_s": 0.109309,
+            "latency_ms": 3.36383,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1213,
+            "local_accuracy": null,
+            "local_loss": 0.000442109,
+            "training_duration_s": 0.0719362,
+            "latency_ms": 0.6643,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1213,
+            "local_accuracy": null,
+            "local_loss": 0.000252594,
+            "training_duration_s": 0.0712653,
+            "latency_ms": 4.03136,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1213,
+            "local_accuracy": null,
+            "local_loss": 0.000284777,
+            "training_duration_s": 0.134079,
+            "latency_ms": 5.40446,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1213,
+            "local_accuracy": null,
+            "local_loss": 0.000285483,
+            "training_duration_s": 0.0704039,
+            "latency_ms": 12.6082,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129591,
+          "rmse_ms": 0.216423,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115419,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217788,
+            "predicted_delay_ms": 4.9302,
+            "observed_delay_ms": 4.92878,
+            "rule_delay_ms": 4.92915,
+            "selected": true,
+            "model_round": 13
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219808,
+            "predicted_delay_ms": 5.00329,
+            "observed_delay_ms": 5.02107,
+            "rule_delay_ms": 5.00223,
+            "selected": true,
+            "model_round": 13
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221828,
+            "predicted_delay_ms": 1.62478,
+            "observed_delay_ms": 1.61703,
+            "rule_delay_ms": 1.6243,
+            "selected": true,
+            "model_round": 13
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223848,
+            "predicted_delay_ms": 4.67236,
+            "observed_delay_ms": 4.75891,
+            "rule_delay_ms": 4.67136,
+            "selected": true,
+            "model_round": 13
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225868,
+            "predicted_delay_ms": 6.04582,
+            "observed_delay_ms": 6.07747,
+            "rule_delay_ms": 6.04446,
+            "selected": true,
+            "model_round": 13
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227888,
+            "predicted_delay_ms": 13.0903,
+            "observed_delay_ms": 13.837,
+            "rule_delay_ms": 13.0882,
+            "selected": true,
+            "model_round": 13
+          }
+        ]
+      },
+      {
+        "round": 15,
+        "accuracy": null,
+        "loss": 0.000346979,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.143901,
+        "metrics": {
+          "latency_ms": 4.10818,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.43901,
+          "bandwidth_mbps": 15.0,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1214,
+            "local_accuracy": null,
+            "local_loss": 0.000329265,
+            "training_duration_s": 0.0721906,
+            "latency_ms": 2.59904,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1214,
+            "local_accuracy": null,
+            "local_loss": 0.000307168,
+            "training_duration_s": 0.119111,
+            "latency_ms": 3.16108,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1214,
+            "local_accuracy": null,
+            "local_loss": 0.000441787,
+            "training_duration_s": 0.0681746,
+            "latency_ms": 0.915091,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1214,
+            "local_accuracy": null,
+            "local_loss": 0.000252545,
+            "training_duration_s": 0.136728,
+            "latency_ms": 3.90855,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1214,
+            "local_accuracy": null,
+            "local_loss": 0.000284557,
+            "training_duration_s": 0.0748545,
+            "latency_ms": 5.97445,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1214,
+            "local_accuracy": null,
+            "local_loss": 0.000287459,
+            "training_duration_s": 0.0740805,
+            "latency_ms": 8.09088,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129578,
+          "rmse_ms": 0.216416,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115401,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217789,
+            "predicted_delay_ms": 4.78484,
+            "observed_delay_ms": 4.73454,
+            "rule_delay_ms": 4.78357,
+            "selected": true,
+            "model_round": 14
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219809,
+            "predicted_delay_ms": 5.34711,
+            "observed_delay_ms": 5.36828,
+            "rule_delay_ms": 5.34561,
+            "selected": true,
+            "model_round": 14
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221829,
+            "predicted_delay_ms": 4.19293,
+            "observed_delay_ms": 4.19537,
+            "rule_delay_ms": 4.19189,
+            "selected": true,
+            "model_round": 14
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223849,
+            "predicted_delay_ms": 6.09463,
+            "observed_delay_ms": 6.11654,
+            "rule_delay_ms": 6.09308,
+            "selected": true,
+            "model_round": 14
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225869,
+            "predicted_delay_ms": 8.16063,
+            "observed_delay_ms": 8.15038,
+            "rule_delay_ms": 8.15898,
+            "selected": true,
+            "model_round": 14
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227889,
+            "predicted_delay_ms": 9.73118,
+            "observed_delay_ms": 9.99861,
+            "rule_delay_ms": 9.72928,
+            "selected": true,
+            "model_round": 14
+          }
+        ]
+      },
+      {
+        "round": 16,
+        "accuracy": null,
+        "loss": 0.000346983,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.14709,
+        "metrics": {
+          "latency_ms": 4.30109,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.4709,
+          "bandwidth_mbps": 13.3333,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1215,
+            "local_accuracy": null,
+            "local_loss": 0.000329046,
+            "training_duration_s": 0.144504,
+            "latency_ms": 0.904351,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1215,
+            "local_accuracy": null,
+            "local_loss": 0.000306924,
+            "training_duration_s": 0.0708878,
+            "latency_ms": 0.448543,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1215,
+            "local_accuracy": null,
+            "local_loss": 0.000441398,
+            "training_duration_s": 0.0659276,
+            "latency_ms": 0.652204,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1215,
+            "local_accuracy": null,
+            "local_loss": 0.000252349,
+            "training_duration_s": 0.12227,
+            "latency_ms": 4.21397,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1215,
+            "local_accuracy": null,
+            "local_loss": 0.000284322,
+            "training_duration_s": 0.0714506,
+            "latency_ms": 5.48096,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1215,
+            "local_accuracy": null,
+            "local_loss": 0.000287727,
+            "training_duration_s": 0.0754869,
+            "latency_ms": 14.1065,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129585,
+          "rmse_ms": 0.216419,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115409,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217790,
+            "predicted_delay_ms": 53.3434,
+            "observed_delay_ms": 53.2914,
+            "rule_delay_ms": 53.3332,
+            "selected": true,
+            "model_round": 15
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219810,
+            "predicted_delay_ms": 52.8881,
+            "observed_delay_ms": 52.8624,
+            "rule_delay_ms": 52.8773,
+            "selected": true,
+            "model_round": 15
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221830,
+            "predicted_delay_ms": 3.92998,
+            "observed_delay_ms": 3.9269,
+            "rule_delay_ms": 3.929,
+            "selected": true,
+            "model_round": 15
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223850,
+            "predicted_delay_ms": 6.39989,
+            "observed_delay_ms": 6.50112,
+            "rule_delay_ms": 6.3985,
+            "selected": true,
+            "model_round": 15
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225870,
+            "predicted_delay_ms": 7.66729,
+            "observed_delay_ms": 7.72063,
+            "rule_delay_ms": 7.6655,
+            "selected": true,
+            "model_round": 15
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227890,
+            "predicted_delay_ms": 15.7476,
+            "observed_delay_ms": 16.4677,
+            "rule_delay_ms": 15.7449,
+            "selected": true,
+            "model_round": 15
+          }
+        ]
+      },
+      {
+        "round": 17,
+        "accuracy": null,
+        "loss": 0.000347005,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.140069,
+        "metrics": {
+          "latency_ms": 4.36774,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.40069,
+          "bandwidth_mbps": 16.6667,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1216,
+            "local_accuracy": null,
+            "local_loss": 0.000328778,
+            "training_duration_s": 0.129514,
+            "latency_ms": 3.29824,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1216,
+            "local_accuracy": null,
+            "local_loss": 0.000306676,
+            "training_duration_s": 0.0739237,
+            "latency_ms": 3.41496,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1216,
+            "local_accuracy": null,
+            "local_loss": 0.000441029,
+            "training_duration_s": 0.0735596,
+            "latency_ms": 0.919071,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1216,
+            "local_accuracy": null,
+            "local_loss": 0.000252286,
+            "training_duration_s": 0.0693416,
+            "latency_ms": 3.9612,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1216,
+            "local_accuracy": null,
+            "local_loss": 0.000284121,
+            "training_duration_s": 0.134114,
+            "latency_ms": 5.94518,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1216,
+            "local_accuracy": null,
+            "local_loss": 0.000288957,
+            "training_duration_s": 0.0712799,
+            "latency_ms": 8.66778,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129625,
+          "rmse_ms": 0.216438,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115463,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217791,
+            "predicted_delay_ms": 29.5185,
+            "observed_delay_ms": 29.5203,
+            "rule_delay_ms": 29.5126,
+            "selected": true,
+            "model_round": 16
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219811,
+            "predicted_delay_ms": 29.6352,
+            "observed_delay_ms": 29.6421,
+            "rule_delay_ms": 29.6294,
+            "selected": true,
+            "model_round": 16
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221831,
+            "predicted_delay_ms": 53.3584,
+            "observed_delay_ms": 53.3457,
+            "rule_delay_ms": 53.3479,
+            "selected": true,
+            "model_round": 16
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223851,
+            "predicted_delay_ms": 38.9222,
+            "observed_delay_ms": 38.9491,
+            "rule_delay_ms": 38.9137,
+            "selected": true,
+            "model_round": 16
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225871,
+            "predicted_delay_ms": 40.9049,
+            "observed_delay_ms": 40.8676,
+            "rule_delay_ms": 40.8977,
+            "selected": true,
+            "model_round": 16
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227891,
+            "predicted_delay_ms": 34.8882,
+            "observed_delay_ms": 35.2311,
+            "rule_delay_ms": 34.8822,
+            "selected": true,
+            "model_round": 16
+          }
+        ]
+      },
+      {
+        "round": 18,
+        "accuracy": null,
+        "loss": 0.000347157,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.140409,
+        "metrics": {
+          "latency_ms": 5.31038,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.40409,
+          "bandwidth_mbps": 15.0,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1217,
+            "local_accuracy": null,
+            "local_loss": 0.000328757,
+            "training_duration_s": 0.0688048,
+            "latency_ms": 2.45452,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1217,
+            "local_accuracy": null,
+            "local_loss": 0.000306419,
+            "training_duration_s": 0.137822,
+            "latency_ms": 3.23393,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1217,
+            "local_accuracy": null,
+            "local_loss": 0.000440737,
+            "training_duration_s": 0.130095,
+            "latency_ms": 0.650971,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1217,
+            "local_accuracy": null,
+            "local_loss": 0.000252473,
+            "training_duration_s": 0.0708529,
+            "latency_ms": 4.42673,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1217,
+            "local_accuracy": null,
+            "local_loss": 0.000283884,
+            "training_duration_s": 0.0783247,
+            "latency_ms": 5.60409,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1217,
+            "local_accuracy": null,
+            "local_loss": 0.000288981,
+            "training_duration_s": 0.0716232,
+            "latency_ms": 15.4921,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129928,
+          "rmse_ms": 0.216576,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115817,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217792,
+            "predicted_delay_ms": 37.4163,
+            "observed_delay_ms": 37.3615,
+            "rule_delay_ms": 37.4071,
+            "selected": true,
+            "model_round": 17
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219812,
+            "predicted_delay_ms": 38.1964,
+            "observed_delay_ms": 38.2134,
+            "rule_delay_ms": 38.1865,
+            "selected": true,
+            "model_round": 17
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221832,
+            "predicted_delay_ms": 53.092,
+            "observed_delay_ms": 53.0839,
+            "rule_delay_ms": 53.0798,
+            "selected": true,
+            "model_round": 17
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223852,
+            "predicted_delay_ms": 39.3879,
+            "observed_delay_ms": 39.4967,
+            "rule_delay_ms": 39.3793,
+            "selected": true,
+            "model_round": 17
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225872,
+            "predicted_delay_ms": 40.5662,
+            "observed_delay_ms": 40.6387,
+            "rule_delay_ms": 40.5566,
+            "selected": true,
+            "model_round": 17
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227892,
+            "predicted_delay_ms": 41.7144,
+            "observed_delay_ms": 42.2728,
+            "rule_delay_ms": 41.7065,
+            "selected": true,
+            "model_round": 17
+          }
+        ]
+      },
+      {
+        "round": 19,
+        "accuracy": null,
+        "loss": 0.000347181,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.124485,
+        "metrics": {
+          "latency_ms": 3.57131,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.24485,
+          "bandwidth_mbps": 13.3333,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1218,
+            "local_accuracy": null,
+            "local_loss": 0.000328299,
+            "training_duration_s": 0.0837938,
+            "latency_ms": 0.776182,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1218,
+            "local_accuracy": null,
+            "local_loss": 0.000306183,
+            "training_duration_s": 0.0807172,
+            "latency_ms": 0.412103,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1218,
+            "local_accuracy": null,
+            "local_loss": 0.000440737,
+            "training_duration_s": 0.0739267,
+            "latency_ms": 0.912464,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1218,
+            "local_accuracy": null,
+            "local_loss": 0.00025189,
+            "training_duration_s": 0.117312,
+            "latency_ms": 4.03874,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1218,
+            "local_accuracy": null,
+            "local_loss": 0.000283659,
+            "training_duration_s": 0.0773083,
+            "latency_ms": 5.8784,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1218,
+            "local_accuracy": null,
+            "local_loss": 0.0002887,
+            "training_duration_s": 0.0750125,
+            "latency_ms": 9.40999,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.129976,
+          "rmse_ms": 0.216598,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.115867,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217793,
+            "predicted_delay_ms": 0.981701,
+            "observed_delay_ms": 0.9374,
+            "rule_delay_ms": 0.980982,
+            "selected": true,
+            "model_round": 18
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219813,
+            "predicted_delay_ms": 0.617504,
+            "observed_delay_ms": 0.610566,
+            "rule_delay_ms": 0.616903,
+            "selected": true,
+            "model_round": 18
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221833,
+            "predicted_delay_ms": 1.11803,
+            "observed_delay_ms": 1.11098,
+            "rule_delay_ms": 1.11726,
+            "selected": true,
+            "model_round": 18
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223853,
+            "predicted_delay_ms": 4.17722,
+            "observed_delay_ms": 4.22464,
+            "rule_delay_ms": 4.17527,
+            "selected": true,
+            "model_round": 18
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225873,
+            "predicted_delay_ms": 6.01734,
+            "observed_delay_ms": 5.97438,
+            "rule_delay_ms": 6.01493,
+            "selected": true,
+            "model_round": 18
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227893,
+            "predicted_delay_ms": 9.51596,
+            "observed_delay_ms": 9.95296,
+            "rule_delay_ms": 9.51239,
+            "selected": true,
+            "model_round": 18
+          }
+        ]
+      },
+      {
+        "round": 20,
+        "accuracy": null,
+        "loss": 0.000347394,
+        "participants_count": 6,
+        "selected_count": 6,
+        "dropped_count": 0,
+        "aggregated": true,
+        "status": "COMPLETED",
+        "round_duration_s": 0.151647,
+        "metrics": {
+          "latency_ms": 5.73006,
+          "communication_time_ms": 7.1731,
+          "energy_j": 1.51647,
+          "bandwidth_mbps": 16.6667,
+          "data_transferred_mb": 0.0439911,
+          "packet_loss_ratio": 0.0,
+          "client_failure_ratio": 0.0,
+          "energy_source": "estimated_at_10_watts",
+          "round_duration_source": "simulated_parallel_completion_estimate"
+        },
+        "clients": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "status": "COMPLETED",
+            "samples_used": 1219,
+            "local_accuracy": null,
+            "local_loss": 0.000328444,
+            "training_duration_s": 0.074797,
+            "latency_ms": 3.32728,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "status": "COMPLETED",
+            "samples_used": 1219,
+            "local_accuracy": null,
+            "local_loss": 0.000305988,
+            "training_duration_s": 0.0767636,
+            "latency_ms": 3.44525,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "status": "COMPLETED",
+            "samples_used": 1219,
+            "local_accuracy": null,
+            "local_loss": 0.000439949,
+            "training_duration_s": 0.0704568,
+            "latency_ms": 0.662653,
+            "communication_time_ms": 2.58655,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "status": "COMPLETED",
+            "samples_used": 1219,
+            "local_accuracy": null,
+            "local_loss": 0.000251798,
+            "training_duration_s": 0.141169,
+            "latency_ms": 4.66872,
+            "communication_time_ms": 7.1731,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "status": "COMPLETED",
+            "samples_used": 1219,
+            "local_accuracy": null,
+            "local_loss": 0.000283465,
+            "training_duration_s": 0.0721126,
+            "latency_ms": 5.78386,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "status": "COMPLETED",
+            "samples_used": 1219,
+            "local_accuracy": null,
+            "local_loss": 0.000291108,
+            "training_duration_s": 0.145692,
+            "latency_ms": 16.4926,
+            "communication_time_ms": 5.95516,
+            "data_transferred_mb": 0.00733185,
+            "failure_reason": null
+          }
+        ],
+        "prediction_metrics": {
+          "mae_ms": 0.130392,
+          "rmse_ms": 0.216795,
+          "r2": 0.999805,
+          "validation_mae_ms": 0.116354,
+          "persistence_mae_ms": 0.129412,
+          "test_samples": 2400,
+          "selection_source": "uniform_clients_link_task",
+          "loss_unit": "log1p_delay_mse"
+        },
+        "predictions": [
+          {
+            "client_id": "LAB7-ACCESS",
+            "observation_id": 217794,
+            "predicted_delay_ms": 3.43127,
+            "observed_delay_ms": 3.44268,
+            "rule_delay_ms": 3.42968,
+            "selected": true,
+            "model_round": 19
+          },
+          {
+            "client_id": "LAB7-EDGE",
+            "observation_id": 219814,
+            "predicted_delay_ms": 3.54928,
+            "observed_delay_ms": 3.55208,
+            "rule_delay_ms": 3.54765,
+            "selected": true,
+            "model_round": 19
+          },
+          {
+            "client_id": "LAB7-RELAY",
+            "observation_id": 221834,
+            "predicted_delay_ms": 0.868182,
+            "observed_delay_ms": 0.878715,
+            "rule_delay_ms": 0.867453,
+            "selected": true,
+            "model_round": 19
+          },
+          {
+            "client_id": "LAB7-SAT",
+            "observation_id": 223854,
+            "predicted_delay_ms": 4.80748,
+            "observed_delay_ms": 4.93625,
+            "rule_delay_ms": 4.80525,
+            "selected": true,
+            "model_round": 19
+          },
+          {
+            "client_id": "LAB7-SHIP",
+            "observation_id": 225874,
+            "predicted_delay_ms": 5.92291,
+            "observed_delay_ms": 6.03508,
+            "rule_delay_ms": 5.9204,
+            "selected": true,
+            "model_round": 19
+          },
+          {
+            "client_id": "LAB7-UAV",
+            "observation_id": 227894,
+            "predicted_delay_ms": 16.6013,
+            "observed_delay_ms": 16.8673,
+            "rule_delay_ms": 16.595,
+            "selected": true,
+            "model_round": 19
+          }
+        ]
+      }
+    ]
+  }
+}

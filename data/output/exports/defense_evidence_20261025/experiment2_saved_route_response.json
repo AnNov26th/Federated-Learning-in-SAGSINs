@@ -1,0 +1,3683 @@
+{
+  "status": "routed",
+  "reason": "Đã chọn tuyến có tổng chi phí nhỏ nhất.",
+  "route": {
+    "path": [
+      "SAT-POLAR-020",
+      "SAT-023",
+      "GND-AUS-001"
+    ],
+    "hops": [
+      {
+        "link_id": 287,
+        "source": "SAT-POLAR-020",
+        "target": "SAT-023",
+        "bandwidth_mbps": 77.25,
+        "static_ms": 71.23332855465893,
+        "predicted_ms": 71.19995880126953,
+        "estimated": false,
+        "features": {
+          "layer": "SPACE",
+          "observed_delay_ms": 71.23332855465893,
+          "latency_ms": 35.0625,
+          "bandwidth_mbps": 77.25,
+          "distance_km": 2231.24,
+          "load_ratio": 0.35,
+          "packet_loss_ratio": 0.0049,
+          "jitter_ms": 1.4025,
+          "payload_bytes": 3844
+        }
+      },
+      {
+        "link_id": 310,
+        "source": "SAT-023",
+        "target": "GND-AUS-001",
+        "bandwidth_mbps": 77.25,
+        "static_ms": 71.23332855465893,
+        "predicted_ms": 71.17748260498047,
+        "estimated": false,
+        "features": {
+          "layer": "GROUND",
+          "observed_delay_ms": 71.23332855465893,
+          "latency_ms": 35.0625,
+          "bandwidth_mbps": 77.25,
+          "distance_km": 2336.26,
+          "load_ratio": 0.35,
+          "packet_loss_ratio": 0.0049,
+          "jitter_ms": 1.4025,
+          "payload_bytes": 3844
+        }
+      }
+    ],
+    "cost": 196.48394196107958,
+    "predicted_transfer_ms": 142.37744140625,
+    "static_transfer_ms": 142.46665710931785,
+    "bottleneck": 77.25,
+    "sourceId": "SAT-POLAR-020",
+    "targetId": "GND-AUS-001",
+    "accessDistanceKm": 3536.766974549276,
+    "sourceCapacityMbps": 77.25,
+    "access_rtt_ms": 71.23332855465893,
+    "predicted_access_rtt_ms": 71.19813537597656,
+    "total_static_transfer_ms": 213.69998566397678,
+    "total_predicted_transfer_ms": 213.57557678222656,
+    "ingressPreferencePenalty": 1,
+    "hop_count": 2,
+    "application": {
+      "payload_bytes": 256,
+      "latency_budget_ms": 50,
+      "estimated_one_way_ms": 105.26703398058253,
+      "channel_latency_ms": 105.1875,
+      "serialization_ms": 0.07953398058252427,
+      "latency_budget_met": false,
+      "required_bandwidth_mbps": 1,
+      "bandwidth_headroom_mbps": 76.25,
+      "source": "simulated_store_and_forward_no_contention_reservation",
+      "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."
+    },
+    "distance_km": 8104.266974549276,
+    "score_breakdown": {
+      "delay": 170.86046142578127,
+      "capacity": 0.31067961165048547,
+      "distance": 24.312800923647828,
+      "preference": 1,
+      "total": 196.48394196107958
+    },
+    "access": {
+      "source_id": "SAT-POLAR-020",
+      "distance_km": 3536.766974549276,
+      "radius_km": null,
+      "latency_ms": 11.797384757922348,
+      "is_estimated": true,
+      "bandwidth_mbps": 77.25,
+      "features": {
+        "layer": "SPACE",
+        "observed_delay_ms": 71.23332855465893,
+        "latency_ms": 35.0625,
+        "bandwidth_mbps": 77.25,
+        "distance_km": 3536.766974549276,
+        "load_ratio": 0.35,
+        "packet_loss_ratio": 0.0049,
+        "jitter_ms": 1.4025,
+        "payload_bytes": 3844
+      },
+      "predicted_access_rtt_ms": 71.19813537597656,
+      "access_latency_ms": 35.0625,
+      "access_rtt_ms": 71.23332855465893,
+      "preference_penalty": 1,
+      "mode": "global",
+      "virtual": false,
+      "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+    },
+    "estimated_hops": 0,
+    "positions": [
+      {
+        "id": "SAT-POLAR-020",
+        "type": "SPACE",
+        "lat": -45.0,
+        "lng": -169.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-023",
+        "type": "SPACE",
+        "lat": -50.4818,
+        "lng": 166.401,
+        "alt": 550.0
+      },
+      {
+        "id": "GND-AUS-001",
+        "type": "GROUND",
+        "lat": -35.27,
+        "lng": 149.13,
+        "alt": 0.0
+      }
+    ]
+  },
+  "baseline": {
+    "path": [
+      "SAT-POLAR-020",
+      "SAT-023",
+      "GND-AUS-001"
+    ],
+    "hops": [
+      {
+        "link_id": 287,
+        "source": "SAT-POLAR-020",
+        "target": "SAT-023",
+        "bandwidth_mbps": 77.25,
+        "static_ms": 71.23332855465893,
+        "predicted_ms": 71.19995880126953,
+        "estimated": false,
+        "features": {
+          "layer": "SPACE",
+          "observed_delay_ms": 71.23332855465893,
+          "latency_ms": 35.0625,
+          "bandwidth_mbps": 77.25,
+          "distance_km": 2231.24,
+          "load_ratio": 0.35,
+          "packet_loss_ratio": 0.0049,
+          "jitter_ms": 1.4025,
+          "payload_bytes": 3844
+        }
+      },
+      {
+        "link_id": 310,
+        "source": "SAT-023",
+        "target": "GND-AUS-001",
+        "bandwidth_mbps": 77.25,
+        "static_ms": 71.23332855465893,
+        "predicted_ms": 71.17748260498047,
+        "estimated": false,
+        "features": {
+          "layer": "GROUND",
+          "observed_delay_ms": 71.23332855465893,
+          "latency_ms": 35.0625,
+          "bandwidth_mbps": 77.25,
+          "distance_km": 2336.26,
+          "load_ratio": 0.35,
+          "packet_loss_ratio": 0.0049,
+          "jitter_ms": 1.4025,
+          "payload_bytes": 3844
+        }
+      }
+    ],
+    "cost": 196.58346906647975,
+    "predicted_transfer_ms": 142.37744140625,
+    "static_transfer_ms": 142.46665710931785,
+    "bottleneck": 77.25,
+    "sourceId": "SAT-POLAR-020",
+    "targetId": "GND-AUS-001",
+    "accessDistanceKm": 3536.766974549276,
+    "sourceCapacityMbps": 77.25,
+    "access_rtt_ms": 71.23332855465893,
+    "predicted_access_rtt_ms": 71.19813537597656,
+    "total_static_transfer_ms": 213.69998566397678,
+    "total_predicted_transfer_ms": 213.57557678222656,
+    "ingressPreferencePenalty": 1,
+    "hop_count": 2,
+    "application": {
+      "payload_bytes": 256,
+      "latency_budget_ms": 50,
+      "estimated_one_way_ms": 105.26703398058253,
+      "channel_latency_ms": 105.1875,
+      "serialization_ms": 0.07953398058252427,
+      "latency_budget_met": false,
+      "required_bandwidth_mbps": 1,
+      "bandwidth_headroom_mbps": 76.25,
+      "source": "simulated_store_and_forward_no_contention_reservation",
+      "note": "Ước tính một chiều gồm tiếp cận và các hop; ngưỡng/payload là giả định demo. Chưa mô phỏng tranh chấp nhiều sự kiện, hàng đợi gói hay cấp phát băng thông thực."
+    },
+    "distance_km": 8104.266974549276,
+    "score_breakdown": {
+      "delay": 170.95998853118144,
+      "capacity": 0.31067961165048547,
+      "distance": 24.312800923647828,
+      "preference": 1,
+      "total": 196.58346906647975
+    },
+    "access": {
+      "source_id": "SAT-POLAR-020",
+      "distance_km": 3536.766974549276,
+      "radius_km": null,
+      "latency_ms": 11.797384757922348,
+      "is_estimated": true,
+      "bandwidth_mbps": 77.25,
+      "features": {
+        "layer": "SPACE",
+        "observed_delay_ms": 71.23332855465893,
+        "latency_ms": 35.0625,
+        "bandwidth_mbps": 77.25,
+        "distance_km": 3536.766974549276,
+        "load_ratio": 0.35,
+        "packet_loss_ratio": 0.0049,
+        "jitter_ms": 1.4025,
+        "payload_bytes": 3844
+      },
+      "predicted_access_rtt_ms": 71.19813537597656,
+      "access_latency_ms": 35.0625,
+      "access_rtt_ms": 71.23332855465893,
+      "preference_penalty": 1,
+      "mode": "global",
+      "virtual": false,
+      "note": "Tiếp cận thỏa vùng phủ và tầm nhìn của phương tiện trong mô phỏng."
+    },
+    "estimated_hops": 0,
+    "positions": [
+      {
+        "id": "SAT-POLAR-020",
+        "type": "SPACE",
+        "lat": -45.0,
+        "lng": -169.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-023",
+        "type": "SPACE",
+        "lat": -50.4818,
+        "lng": 166.401,
+        "alt": 550.0
+      },
+      {
+        "id": "GND-AUS-001",
+        "type": "GROUND",
+        "lat": -35.27,
+        "lng": 149.13,
+        "alt": 0.0
+      }
+    ]
+  },
+  "policy": "predictive",
+  "topology": "configured",
+  "model": {
+    "experiment_id": 2,
+    "scenario_id": 6,
+    "algorithm": "Predictive",
+    "round": 30,
+    "mae_ms": 4.27085,
+    "validation_mae_ms": 4.22933,
+    "persistence_mae_ms": 4.27618,
+    "payload_bytes": 3844,
+    "dataset_id": 2,
+    "target": "next_tick_model_round_trip_ms",
+    "beats_persistence": true
+  },
+  "snapshot_at": "2026-10-22T17:40:37.700333+00:00",
+  "note": "Model FL dự đoán RTT của payload huấn luyện ở tick tiếp theo. Tổng dự đoán của tiếp cận và từng hop là chỉ số thay thế để xếp hạng tuyến, chưa được kiểm chứng cho độ trễ đầu-cuối của ứng dụng. Tải, loss, jitter và RTT đầu vào là mô phỏng.",
+  "profile": {
+    "latency_weight": 0.8,
+    "capacity_weight": 0.08,
+    "distance_weight": 0.3,
+    "min_bandwidth": 1
+  },
+  "scenario_id": 6,
+  "access_search": {
+    "requested_radius_km": null,
+    "used_radius_km": null,
+    "mode": "global",
+    "expanded": false,
+    "nearest_ground_km": 5780.448081597352
+  },
+  "access": {
+    "source_id": "SAT-004",
+    "distance_km": 1874.7368462562258,
+    "radius_km": null,
+    "latency_ms": 6.25344899856095,
+    "is_estimated": true
+  },
+  "diagnostics": {
+    "active_nodes": 178,
+    "links": 460,
+    "eligible_directions": 920,
+    "excluded": 0
+  },
+  "code": "ok",
+  "payload_bytes": 3844,
+  "topology_preview": {
+    "nodes": [
+      {
+        "id": "GND-ARG-001",
+        "type": "GROUND",
+        "lat": -34.58,
+        "lng": -58.67,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-ARG-002",
+        "type": "GROUND",
+        "lat": -31.4201,
+        "lng": -64.1888,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-AUS-001",
+        "type": "GROUND",
+        "lat": -35.27,
+        "lng": 149.13,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-AUS-002",
+        "type": "GROUND",
+        "lat": -33.8688,
+        "lng": 151.209,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-BRA-001",
+        "type": "GROUND",
+        "lat": -15.79,
+        "lng": -47.88,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-BRA-002",
+        "type": "GROUND",
+        "lat": -23.5505,
+        "lng": -46.6333,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-CAN-001",
+        "type": "GROUND",
+        "lat": 45.42,
+        "lng": -75.7,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-CAN-002",
+        "type": "GROUND",
+        "lat": 43.6532,
+        "lng": -79.3832,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-CHN-001",
+        "type": "GROUND",
+        "lat": 39.92,
+        "lng": 116.38,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-CHN-002",
+        "type": "GROUND",
+        "lat": 31.2304,
+        "lng": 121.474,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-COD-001",
+        "type": "GROUND",
+        "lat": -4.32,
+        "lng": 15.3,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-COD-002",
+        "type": "GROUND",
+        "lat": -11.6876,
+        "lng": 27.5026,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-COL-001",
+        "type": "GROUND",
+        "lat": 4.71,
+        "lng": -74.07,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-DZA-001",
+        "type": "GROUND",
+        "lat": 36.75,
+        "lng": 3.05,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-DZA-002",
+        "type": "GROUND",
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-ESP-001",
+        "type": "GROUND",
+        "lat": 40.4,
+        "lng": -3.68,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-FRA-001",
+        "type": "GROUND",
+        "lat": 48.87,
+        "lng": 2.33,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-IDN-001",
+        "type": "GROUND",
+        "lat": -6.17,
+        "lng": 106.82,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-IDN-002",
+        "type": "GROUND",
+        "lat": -7.2575,
+        "lng": 112.752,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-IND-001",
+        "type": "GROUND",
+        "lat": 28.6,
+        "lng": 77.2,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-IND-002",
+        "type": "GROUND",
+        "lat": 19.076,
+        "lng": 72.8777,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-IRN-001",
+        "type": "GROUND",
+        "lat": 35.7,
+        "lng": 51.42,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-IRN-002",
+        "type": "GROUND",
+        "lat": 36.2605,
+        "lng": 59.6168,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-KAZ-001",
+        "type": "GROUND",
+        "lat": 51.16,
+        "lng": 71.45,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-KAZ-002",
+        "type": "GROUND",
+        "lat": 43.2389,
+        "lng": 76.8897,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-LBY-001",
+        "type": "GROUND",
+        "lat": 32.88,
+        "lng": 13.17,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-LBY-002",
+        "type": "GROUND",
+        "lat": 32.1194,
+        "lng": 20.0868,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-MEX-001",
+        "type": "GROUND",
+        "lat": 19.43,
+        "lng": -99.13,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-MEX-002",
+        "type": "GROUND",
+        "lat": 20.6597,
+        "lng": -103.35,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-MNG-001",
+        "type": "GROUND",
+        "lat": 47.92,
+        "lng": 106.91,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-MNG-002",
+        "type": "GROUND",
+        "lat": 49.0277,
+        "lng": 104.044,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-NIC-001",
+        "type": "GROUND",
+        "lat": 12.13,
+        "lng": -86.25,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-NIC-002",
+        "type": "GROUND",
+        "lat": 12.4379,
+        "lng": -86.878,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-PER-001",
+        "type": "GROUND",
+        "lat": -12.05,
+        "lng": -77.05,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-PER-002",
+        "type": "GROUND",
+        "lat": -16.409,
+        "lng": -71.5375,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-PNG-001",
+        "type": "GROUND",
+        "lat": -9.45,
+        "lng": 147.18,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-RUS-001",
+        "type": "GROUND",
+        "lat": 55.75,
+        "lng": 37.6,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-RUS-002",
+        "type": "GROUND",
+        "lat": 59.9343,
+        "lng": 30.3351,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-SAU-001",
+        "type": "GROUND",
+        "lat": 24.65,
+        "lng": 46.7,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-SAU-002",
+        "type": "GROUND",
+        "lat": 21.4858,
+        "lng": 39.1925,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-SDN-001",
+        "type": "GROUND",
+        "lat": 15.6,
+        "lng": 32.53,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-SDN-002",
+        "type": "GROUND",
+        "lat": 19.6158,
+        "lng": 37.2164,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-TCD-001",
+        "type": "GROUND",
+        "lat": 12.1,
+        "lng": 15.03,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-TCD-002",
+        "type": "GROUND",
+        "lat": 8.5667,
+        "lng": 16.0833,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-TUR-001",
+        "type": "GROUND",
+        "lat": 39.93,
+        "lng": 32.87,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-TUR-002",
+        "type": "GROUND",
+        "lat": 41.0082,
+        "lng": 28.9784,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-USA-001",
+        "type": "GROUND",
+        "lat": 38.89,
+        "lng": -77.05,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-USA-002",
+        "type": "GROUND",
+        "lat": 40.7128,
+        "lng": -74.006,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-ZAF-001",
+        "type": "GROUND",
+        "lat": -25.7,
+        "lng": 28.22,
+        "alt": 0.0
+      },
+      {
+        "id": "GND-ZAF-002",
+        "type": "GROUND",
+        "lat": -33.9249,
+        "lng": 18.4241,
+        "alt": 0.0
+      },
+      {
+        "id": "SAT-001",
+        "type": "SPACE",
+        "lat": 0.0,
+        "lng": -19.5991,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-002",
+        "type": "SPACE",
+        "lat": 53.0,
+        "lng": 70.4009,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-003",
+        "type": "SPACE",
+        "lat": 0.0,
+        "lng": 160.401,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-004",
+        "type": "SPACE",
+        "lat": -53.0,
+        "lng": -109.599,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-005",
+        "type": "SPACE",
+        "lat": 11.9292,
+        "lng": 49.5614,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-006",
+        "type": "SPACE",
+        "lat": 50.4818,
+        "lng": 154.401,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-007",
+        "type": "SPACE",
+        "lat": -11.9292,
+        "lng": -130.439,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-008",
+        "type": "SPACE",
+        "lat": -50.4818,
+        "lng": -25.5988,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-009",
+        "type": "SPACE",
+        "lat": 23.5355,
+        "lng": 119.561,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-010",
+        "type": "SPACE",
+        "lat": 43.76,
+        "lng": -125.788,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-011",
+        "type": "SPACE",
+        "lat": -23.5355,
+        "lng": -60.4389,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-012",
+        "type": "SPACE",
+        "lat": -43.76,
+        "lng": 54.2124,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-013",
+        "type": "SPACE",
+        "lat": 34.3829,
+        "lng": -168.559,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-014",
+        "type": "SPACE",
+        "lat": 34.3829,
+        "lng": -50.6392,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-015",
+        "type": "SPACE",
+        "lat": -34.3829,
+        "lng": 11.4411,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-016",
+        "type": "SPACE",
+        "lat": -34.3829,
+        "lng": 129.361,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-017",
+        "type": "SPACE",
+        "lat": 43.76,
+        "lng": -93.4105,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-018",
+        "type": "SPACE",
+        "lat": 23.5355,
+        "lng": 21.2407,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-019",
+        "type": "SPACE",
+        "lat": -43.76,
+        "lng": 86.5895,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-020",
+        "type": "SPACE",
+        "lat": -23.5355,
+        "lng": -158.759,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-021",
+        "type": "SPACE",
+        "lat": 50.4818,
+        "lng": -13.5994,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-022",
+        "type": "SPACE",
+        "lat": 11.9292,
+        "lng": 91.2405,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-023",
+        "type": "SPACE",
+        "lat": -50.4818,
+        "lng": 166.401,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-024",
+        "type": "SPACE",
+        "lat": -11.9292,
+        "lng": -88.7595,
+        "alt": 550.0
+      },
+      {
+        "id": "SAT-POLAR-001",
+        "type": "SPACE",
+        "lat": 0.0,
+        "lng": -19.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-002",
+        "type": "SPACE",
+        "lat": 30.0,
+        "lng": -19.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-003",
+        "type": "SPACE",
+        "lat": 60.0,
+        "lng": -19.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-004",
+        "type": "SPACE",
+        "lat": 90.0,
+        "lng": -19.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-005",
+        "type": "SPACE",
+        "lat": 60.0,
+        "lng": 160.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-006",
+        "type": "SPACE",
+        "lat": 30.0,
+        "lng": 160.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-007",
+        "type": "SPACE",
+        "lat": 0.0,
+        "lng": 160.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-008",
+        "type": "SPACE",
+        "lat": -30.0,
+        "lng": 160.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-009",
+        "type": "SPACE",
+        "lat": -60.0,
+        "lng": 160.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-010",
+        "type": "SPACE",
+        "lat": -90.0,
+        "lng": 160.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-011",
+        "type": "SPACE",
+        "lat": -60.0,
+        "lng": -19.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-012",
+        "type": "SPACE",
+        "lat": -30.0,
+        "lng": -19.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-013",
+        "type": "SPACE",
+        "lat": 15.0,
+        "lng": 10.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-014",
+        "type": "SPACE",
+        "lat": 45.0,
+        "lng": 10.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-015",
+        "type": "SPACE",
+        "lat": 75.0,
+        "lng": 10.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-016",
+        "type": "SPACE",
+        "lat": 75.0,
+        "lng": -169.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-017",
+        "type": "SPACE",
+        "lat": 45.0,
+        "lng": -169.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-018",
+        "type": "SPACE",
+        "lat": 15.0,
+        "lng": -169.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-019",
+        "type": "SPACE",
+        "lat": -15.0,
+        "lng": -169.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-020",
+        "type": "SPACE",
+        "lat": -45.0,
+        "lng": -169.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-021",
+        "type": "SPACE",
+        "lat": -75.0,
+        "lng": -169.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-022",
+        "type": "SPACE",
+        "lat": -75.0,
+        "lng": 10.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-023",
+        "type": "SPACE",
+        "lat": -45.0,
+        "lng": 10.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-024",
+        "type": "SPACE",
+        "lat": -15.0,
+        "lng": 10.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-025",
+        "type": "SPACE",
+        "lat": 0.0,
+        "lng": 40.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-026",
+        "type": "SPACE",
+        "lat": 30.0,
+        "lng": 40.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-027",
+        "type": "SPACE",
+        "lat": 60.0,
+        "lng": 40.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-028",
+        "type": "SPACE",
+        "lat": 90.0,
+        "lng": 40.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-029",
+        "type": "SPACE",
+        "lat": 60.0,
+        "lng": -139.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-030",
+        "type": "SPACE",
+        "lat": 30.0,
+        "lng": -139.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-031",
+        "type": "SPACE",
+        "lat": 0.0,
+        "lng": -139.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-032",
+        "type": "SPACE",
+        "lat": -30.0,
+        "lng": -139.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-033",
+        "type": "SPACE",
+        "lat": -60.0,
+        "lng": -139.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-034",
+        "type": "SPACE",
+        "lat": -90.0,
+        "lng": -139.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-035",
+        "type": "SPACE",
+        "lat": -60.0,
+        "lng": 40.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-036",
+        "type": "SPACE",
+        "lat": -30.0,
+        "lng": 40.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-037",
+        "type": "SPACE",
+        "lat": 15.0,
+        "lng": 70.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-038",
+        "type": "SPACE",
+        "lat": 45.0,
+        "lng": 70.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-039",
+        "type": "SPACE",
+        "lat": 75.0,
+        "lng": 70.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-040",
+        "type": "SPACE",
+        "lat": 75.0,
+        "lng": -109.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-041",
+        "type": "SPACE",
+        "lat": 45.0,
+        "lng": -109.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-042",
+        "type": "SPACE",
+        "lat": 15.0,
+        "lng": -109.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-043",
+        "type": "SPACE",
+        "lat": -15.0,
+        "lng": -109.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-044",
+        "type": "SPACE",
+        "lat": -45.0,
+        "lng": -109.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-045",
+        "type": "SPACE",
+        "lat": -75.0,
+        "lng": -109.599,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-046",
+        "type": "SPACE",
+        "lat": -75.0,
+        "lng": 70.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-047",
+        "type": "SPACE",
+        "lat": -45.0,
+        "lng": 70.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-048",
+        "type": "SPACE",
+        "lat": -15.0,
+        "lng": 70.4009,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-049",
+        "type": "SPACE",
+        "lat": 0.0,
+        "lng": 100.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-050",
+        "type": "SPACE",
+        "lat": 30.0,
+        "lng": 100.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-051",
+        "type": "SPACE",
+        "lat": 60.0,
+        "lng": 100.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-052",
+        "type": "SPACE",
+        "lat": 90.0,
+        "lng": 100.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-053",
+        "type": "SPACE",
+        "lat": 60.0,
+        "lng": -79.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-054",
+        "type": "SPACE",
+        "lat": 30.0,
+        "lng": -79.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-055",
+        "type": "SPACE",
+        "lat": 0.0,
+        "lng": -79.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-056",
+        "type": "SPACE",
+        "lat": -30.0,
+        "lng": -79.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-057",
+        "type": "SPACE",
+        "lat": -60.0,
+        "lng": -79.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-058",
+        "type": "SPACE",
+        "lat": -90.0,
+        "lng": -79.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-059",
+        "type": "SPACE",
+        "lat": -60.0,
+        "lng": 100.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-060",
+        "type": "SPACE",
+        "lat": -30.0,
+        "lng": 100.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-061",
+        "type": "SPACE",
+        "lat": 15.0,
+        "lng": 130.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-062",
+        "type": "SPACE",
+        "lat": 45.0,
+        "lng": 130.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-063",
+        "type": "SPACE",
+        "lat": 75.0,
+        "lng": 130.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-064",
+        "type": "SPACE",
+        "lat": 75.0,
+        "lng": -49.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-065",
+        "type": "SPACE",
+        "lat": 45.0,
+        "lng": -49.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-066",
+        "type": "SPACE",
+        "lat": 15.0,
+        "lng": -49.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-067",
+        "type": "SPACE",
+        "lat": -15.0,
+        "lng": -49.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-068",
+        "type": "SPACE",
+        "lat": -45.0,
+        "lng": -49.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-069",
+        "type": "SPACE",
+        "lat": -75.0,
+        "lng": -49.5991,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-070",
+        "type": "SPACE",
+        "lat": -75.0,
+        "lng": 130.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-071",
+        "type": "SPACE",
+        "lat": -45.0,
+        "lng": 130.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SAT-POLAR-072",
+        "type": "SPACE",
+        "lat": -15.0,
+        "lng": 130.401,
+        "alt": 1200.0
+      },
+      {
+        "id": "SHIP-001",
+        "type": "SEA",
+        "lat": 2.2,
+        "lng": 101.2,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-002",
+        "type": "SEA",
+        "lat": 12.0,
+        "lng": 114.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-003",
+        "type": "SEA",
+        "lat": 28.0,
+        "lng": 126.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-004",
+        "type": "SEA",
+        "lat": 18.0,
+        "lng": 128.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-005",
+        "type": "SEA",
+        "lat": -5.0,
+        "lng": 111.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-006",
+        "type": "SEA",
+        "lat": 12.0,
+        "lng": 48.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-007",
+        "type": "SEA",
+        "lat": 20.0,
+        "lng": 38.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-008",
+        "type": "SEA",
+        "lat": 14.0,
+        "lng": 63.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-009",
+        "type": "SEA",
+        "lat": -10.0,
+        "lng": 72.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-010",
+        "type": "SEA",
+        "lat": 36.0,
+        "lng": 10.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-011",
+        "type": "SEA",
+        "lat": 35.0,
+        "lng": 28.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-012",
+        "type": "SEA",
+        "lat": -5.0,
+        "lng": -30.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-013",
+        "type": "SEA",
+        "lat": 20.0,
+        "lng": -45.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-014",
+        "type": "SEA",
+        "lat": -20.0,
+        "lng": -20.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-015",
+        "type": "SEA",
+        "lat": -35.0,
+        "lng": -35.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-016",
+        "type": "SEA",
+        "lat": 30.0,
+        "lng": 160.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-017",
+        "type": "SEA",
+        "lat": 15.0,
+        "lng": -160.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-018",
+        "type": "SEA",
+        "lat": 0.0,
+        "lng": -150.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-019",
+        "type": "SEA",
+        "lat": -25.0,
+        "lng": -130.0,
+        "alt": 0.0
+      },
+      {
+        "id": "SHIP-020",
+        "type": "SEA",
+        "lat": -15.0,
+        "lng": 170.0,
+        "alt": 0.0
+      },
+      {
+        "id": "UAV-001",
+        "type": "AIR",
+        "lat": 40.0,
+        "lng": -100.0,
+        "alt": 0.3
+      },
+      {
+        "id": "UAV-002",
+        "type": "AIR",
+        "lat": 15.0,
+        "lng": -90.0,
+        "alt": 0.3
+      },
+      {
+        "id": "UAV-003",
+        "type": "AIR",
+        "lat": -15.0,
+        "lng": -60.0,
+        "alt": 0.3
+      },
+      {
+        "id": "UAV-004",
+        "type": "AIR",
+        "lat": 50.0,
+        "lng": 5.0,
+        "alt": 0.3
+      },
+      {
+        "id": "UAV-005",
+        "type": "AIR",
+        "lat": 5.0,
+        "lng": 0.0,
+        "alt": 0.3
+      },
+      {
+        "id": "UAV-006",
+        "type": "AIR",
+        "lat": -2.0,
+        "lng": 38.0,
+        "alt": 0.3
+      },
+      {
+        "id": "UAV-007",
+        "type": "AIR",
+        "lat": 25.0,
+        "lng": 50.0,
+        "alt": 0.3
+      },
+      {
+        "id": "UAV-008",
+        "type": "AIR",
+        "lat": 22.0,
+        "lng": 80.0,
+        "alt": 0.3
+      },
+      {
+        "id": "UAV-009",
+        "type": "AIR",
+        "lat": 35.0,
+        "lng": 110.0,
+        "alt": 0.3
+      },
+      {
+        "id": "UAV-010",
+        "type": "AIR",
+        "lat": 5.0,
+        "lng": 115.0,
+        "alt": 0.3
+      },
+      {
+        "id": "UAV-011",
+        "type": "AIR",
+        "lat": -25.0,
+        "lng": 135.0,
+        "alt": 0.3
+      },
+      {
+        "id": "UAV-012",
+        "type": "AIR",
+        "lat": 55.0,
+        "lng": 100.0,
+        "alt": 0.3
+      }
+    ],
+    "links": [
+      {
+        "source": "GND-NIC-001",
+        "target": "GND-NIC-002",
+        "distance": 76.339,
+        "estimated": false
+      },
+      {
+        "source": "GND-SDN-002",
+        "target": "SHIP-007",
+        "distance": 92.4399,
+        "estimated": false
+      },
+      {
+        "source": "GND-SAU-002",
+        "target": "SHIP-007",
+        "distance": 206.561,
+        "estimated": false
+      },
+      {
+        "source": "GND-MNG-001",
+        "target": "GND-MNG-002",
+        "distance": 244.518,
+        "estimated": false
+      },
+      {
+        "source": "GND-AUS-001",
+        "target": "GND-AUS-002",
+        "distance": 245.965,
+        "estimated": false
+      },
+      {
+        "source": "GND-IDN-002",
+        "target": "SHIP-005",
+        "distance": 317.027,
+        "estimated": false
+      },
+      {
+        "source": "GND-USA-001",
+        "target": "GND-USA-002",
+        "distance": 329.628,
+        "estimated": false
+      },
+      {
+        "source": "GND-TUR-001",
+        "target": "GND-TUR-002",
+        "distance": 350.267,
+        "estimated": false
+      },
+      {
+        "source": "GND-DZA-001",
+        "target": "GND-DZA-002",
+        "distance": 350.449,
+        "estimated": false
+      },
+      {
+        "source": "GND-CAN-001",
+        "target": "GND-CAN-002",
+        "distance": 351.777,
+        "estimated": false
+      },
+      {
+        "source": "GND-TCD-001",
+        "target": "GND-TCD-002",
+        "distance": 409.356,
+        "estimated": false
+      },
+      {
+        "source": "GND-LBY-001",
+        "target": "SHIP-010",
+        "distance": 452.465,
+        "estimated": false
+      },
+      {
+        "source": "GND-MEX-001",
+        "target": "GND-MEX-002",
+        "distance": 461.415,
+        "estimated": false
+      },
+      {
+        "source": "GND-IDN-001",
+        "target": "SHIP-005",
+        "distance": 480.412,
+        "estimated": false
+      },
+      {
+        "source": "GND-CAN-001",
+        "target": "GND-USA-002",
+        "distance": 541.005,
+        "estimated": false
+      },
+      {
+        "source": "GND-CAN-002",
+        "target": "GND-USA-002",
+        "distance": 550.273,
+        "estimated": false
+      },
+      {
+        "source": "GND-USA-001",
+        "target": "GND-CAN-002",
+        "distance": 564.147,
+        "estimated": false
+      },
+      {
+        "source": "SAT-005",
+        "target": "SHIP-006",
+        "distance": 577.844,
+        "estimated": false
+      },
+      {
+        "source": "GND-DZA-002",
+        "target": "GND-ESP-001",
+        "distance": 586.777,
+        "estimated": false
+      },
+      {
+        "source": "GND-KAZ-001",
+        "target": "SAT-002",
+        "distance": 594.601,
+        "estimated": false
+      },
+      {
+        "source": "GND-ARG-001",
+        "target": "GND-ARG-002",
+        "distance": 622.744,
+        "estimated": false
+      },
+      {
+        "source": "GND-RUS-001",
+        "target": "GND-RUS-002",
+        "distance": 632.564,
+        "estimated": false
+      },
+      {
+        "source": "GND-LBY-001",
+        "target": "GND-LBY-002",
+        "distance": 653.745,
+        "estimated": false
+      },
+      {
+        "source": "GND-IDN-001",
+        "target": "GND-IDN-002",
+        "distance": 665.835,
+        "estimated": false
+      },
+      {
+        "source": "GND-SDN-001",
+        "target": "GND-SDN-002",
+        "distance": 667.49,
+        "estimated": false
+      },
+      {
+        "source": "GND-ESP-001",
+        "target": "GND-DZA-001",
+        "distance": 711.329,
+        "estimated": false
+      },
+      {
+        "source": "GND-IRN-001",
+        "target": "GND-IRN-002",
+        "distance": 739.546,
+        "estimated": false
+      },
+      {
+        "source": "GND-PER-001",
+        "target": "GND-PER-002",
+        "distance": 766.176,
+        "estimated": false
+      },
+      {
+        "source": "GND-SAU-001",
+        "target": "GND-SAU-002",
+        "distance": 843.969,
+        "estimated": false
+      },
+      {
+        "source": "GND-ZAF-002",
+        "target": "SAT-015",
+        "distance": 867.915,
+        "estimated": false
+      },
+      {
+        "source": "GND-BRA-001",
+        "target": "GND-BRA-002",
+        "distance": 872.043,
+        "estimated": false
+      },
+      {
+        "source": "SAT-017",
+        "target": "UAV-001",
+        "distance": 902.41,
+        "estimated": false
+      },
+      {
+        "source": "GND-KAZ-001",
+        "target": "GND-KAZ-002",
+        "distance": 970.35,
+        "estimated": false
+      },
+      {
+        "source": "SAT-009",
+        "target": "SHIP-003",
+        "distance": 1010.15,
+        "estimated": false
+      },
+      {
+        "source": "GND-FRA-001",
+        "target": "GND-ESP-001",
+        "distance": 1053.05,
+        "estimated": false
+      },
+      {
+        "source": "SAT-009",
+        "target": "GND-CHN-002",
+        "distance": 1065.43,
+        "estimated": false
+      },
+      {
+        "source": "GND-CHN-001",
+        "target": "GND-CHN-002",
+        "distance": 1068.69,
+        "estimated": false
+      },
+      {
+        "source": "SAT-011",
+        "target": "UAV-003",
+        "distance": 1131.93,
+        "estimated": false
+      },
+      {
+        "source": "GND-ARG-002",
+        "target": "SAT-011",
+        "distance": 1133.1,
+        "estimated": false
+      },
+      {
+        "source": "SAT-018",
+        "target": "GND-LBY-002",
+        "distance": 1142.03,
+        "estimated": false
+      },
+      {
+        "source": "GND-IND-001",
+        "target": "GND-IND-002",
+        "distance": 1144.78,
+        "estimated": false
+      },
+      {
+        "source": "SHIP-004",
+        "target": "SAT-009",
+        "distance": 1243.51,
+        "estimated": false
+      },
+      {
+        "source": "SAT-017",
+        "target": "GND-CAN-002",
+        "distance": 1294.93,
+        "estimated": false
+      },
+      {
+        "source": "GND-ZAF-001",
+        "target": "GND-ZAF-002",
+        "distance": 1311.47,
+        "estimated": false
+      },
+      {
+        "source": "SAT-021",
+        "target": "GND-FRA-001",
+        "distance": 1324.67,
+        "estimated": false
+      },
+      {
+        "source": "SAT-016",
+        "target": "UAV-011",
+        "distance": 1342.13,
+        "estimated": false
+      },
+      {
+        "source": "GND-KAZ-002",
+        "target": "SAT-002",
+        "distance": 1351.61,
+        "estimated": false
+      },
+      {
+        "source": "GND-ARG-001",
+        "target": "SAT-011",
+        "distance": 1402.7,
+        "estimated": false
+      },
+      {
+        "source": "GND-COD-001",
+        "target": "GND-TCD-002",
+        "distance": 1432.53,
+        "estimated": false
+      },
+      {
+        "source": "GND-PER-001",
+        "target": "SAT-024",
+        "distance": 1434.83,
+        "estimated": false
+      },
+      {
+        "source": "SAT-001",
+        "target": "SHIP-012",
+        "distance": 1442.78,
+        "estimated": false
+      },
+      {
+        "source": "SAT-018",
+        "target": "GND-LBY-001",
+        "distance": 1464.67,
+        "estimated": false
+      },
+      {
+        "source": "SAT-021",
+        "target": "UAV-004",
+        "distance": 1479.62,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-004",
+        "target": "SAT-POLAR-028",
+        "distance": 0.0,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-004",
+        "target": "SAT-POLAR-052",
+        "distance": 0.0,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-010",
+        "target": "SAT-POLAR-034",
+        "distance": 0.0,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-010",
+        "target": "SAT-POLAR-058",
+        "distance": 0.0,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-028",
+        "target": "SAT-POLAR-052",
+        "distance": 0.0,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-034",
+        "target": "SAT-POLAR-058",
+        "distance": 0.0,
+        "estimated": false
+      },
+      {
+        "source": "SAT-001",
+        "target": "SAT-POLAR-001",
+        "distance": 650.0,
+        "estimated": false
+      },
+      {
+        "source": "SAT-003",
+        "target": "SAT-POLAR-007",
+        "distance": 650.0,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-006",
+        "target": "SHIP-016",
+        "distance": 1200.74,
+        "estimated": false
+      },
+      {
+        "source": "SAT-002",
+        "target": "SAT-POLAR-038",
+        "distance": 1200.99,
+        "estimated": false
+      },
+      {
+        "source": "SAT-004",
+        "target": "SAT-POLAR-044",
+        "distance": 1200.99,
+        "estimated": false
+      },
+      {
+        "source": "GND-BRA-001",
+        "target": "SAT-POLAR-067",
+        "distance": 1220.46,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-049",
+        "target": "SHIP-001",
+        "distance": 1233.08,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-025",
+        "target": "UAV-006",
+        "distance": 1258.05,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-061",
+        "target": "SHIP-004",
+        "distance": 1284.53,
+        "estimated": false
+      },
+      {
+        "source": "GND-RUS-001",
+        "target": "SAT-POLAR-027",
+        "distance": 1318.22,
+        "estimated": false
+      },
+      {
+        "source": "GND-IND-002",
+        "target": "SAT-POLAR-037",
+        "distance": 1329.01,
+        "estimated": false
+      },
+      {
+        "source": "GND-KAZ-002",
+        "target": "SAT-POLAR-038",
+        "distance": 1343.1,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-051",
+        "target": "UAV-012",
+        "distance": 1344.27,
+        "estimated": false
+      },
+      {
+        "source": "GND-RUS-002",
+        "target": "SAT-POLAR-027",
+        "distance": 1346.11,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-048",
+        "target": "SHIP-009",
+        "distance": 1357.51,
+        "estimated": false
+      },
+      {
+        "source": "GND-TCD-001",
+        "target": "SAT-POLAR-013",
+        "distance": 1364.09,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-014",
+        "target": "UAV-004",
+        "distance": 1414.59,
+        "estimated": false
+      },
+      {
+        "source": "GND-KAZ-001",
+        "target": "SAT-POLAR-038",
+        "distance": 1415.69,
+        "estimated": false
+      },
+      {
+        "source": "SAT-008",
+        "target": "SAT-POLAR-011",
+        "distance": 1431.04,
+        "estimated": false
+      },
+      {
+        "source": "SAT-021",
+        "target": "SAT-POLAR-003",
+        "distance": 1431.04,
+        "estimated": false
+      },
+      {
+        "source": "SAT-006",
+        "target": "SAT-POLAR-005",
+        "distance": 1431.05,
+        "estimated": false
+      },
+      {
+        "source": "SAT-023",
+        "target": "SAT-POLAR-009",
+        "distance": 1431.05,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-066",
+        "target": "SHIP-013",
+        "distance": 1445.35,
+        "estimated": false
+      },
+      {
+        "source": "GND-FRA-001",
+        "target": "SAT-POLAR-014",
+        "distance": 1450.66,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-037",
+        "target": "SHIP-008",
+        "distance": 1485.91,
+        "estimated": false
+      },
+      {
+        "source": "GND-COL-001",
+        "target": "SAT-POLAR-055",
+        "distance": 1487.65,
+        "estimated": false
+      },
+      {
+        "source": "SAT-013",
+        "target": "SAT-POLAR-017",
+        "distance": 1492.2,
+        "estimated": false
+      },
+      {
+        "source": "SAT-016",
+        "target": "SAT-POLAR-071",
+        "distance": 1492.2,
+        "estimated": false
+      },
+      {
+        "source": "SAT-014",
+        "target": "SAT-POLAR-065",
+        "distance": 1492.2,
+        "estimated": false
+      },
+      {
+        "source": "SAT-015",
+        "target": "SAT-POLAR-023",
+        "distance": 1492.2,
+        "estimated": false
+      },
+      {
+        "source": "GND-SAU-001",
+        "target": "SAT-POLAR-026",
+        "distance": 1522.72,
+        "estimated": false
+      },
+      {
+        "source": "GND-MEX-002",
+        "target": "SAT-POLAR-042",
+        "distance": 1558.31,
+        "estimated": false
+      },
+      {
+        "source": "GND-PER-002",
+        "target": "SAT-011",
+        "distance": 1560.23,
+        "estimated": false
+      },
+      {
+        "source": "GND-BRA-002",
+        "target": "SAT-011",
+        "distance": 1563.23,
+        "estimated": false
+      },
+      {
+        "source": "SAT-009",
+        "target": "SHIP-002",
+        "distance": 1567.16,
+        "estimated": false
+      },
+      {
+        "source": "GND-CAN-001",
+        "target": "SAT-017",
+        "distance": 1567.91,
+        "estimated": false
+      },
+      {
+        "source": "GND-TCD-002",
+        "target": "SAT-POLAR-013",
+        "distance": 1581.22,
+        "estimated": false
+      },
+      {
+        "source": "GND-TCD-001",
+        "target": "SAT-018",
+        "distance": 1586.55,
+        "estimated": false
+      },
+      {
+        "source": "GND-SAU-002",
+        "target": "SAT-POLAR-026",
+        "distance": 1587.6,
+        "estimated": false
+      },
+      {
+        "source": "SAT-018",
+        "target": "SHIP-011",
+        "distance": 1588.19,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-041",
+        "target": "UAV-001",
+        "distance": 1593.13,
+        "estimated": false
+      },
+      {
+        "source": "GND-AUS-002",
+        "target": "SAT-POLAR-008",
+        "distance": 1597.07,
+        "estimated": false
+      },
+      {
+        "source": "GND-SAU-001",
+        "target": "SAT-005",
+        "distance": 1601.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-012",
+        "target": "SAT-POLAR-047",
+        "distance": 1602.86,
+        "estimated": false
+      },
+      {
+        "source": "SAT-017",
+        "target": "SAT-POLAR-041",
+        "distance": 1602.86,
+        "estimated": false
+      },
+      {
+        "source": "SAT-019",
+        "target": "SAT-POLAR-047",
+        "distance": 1602.86,
+        "estimated": false
+      },
+      {
+        "source": "SAT-010",
+        "target": "SAT-POLAR-041",
+        "distance": 1602.9,
+        "estimated": false
+      },
+      {
+        "source": "SAT-005",
+        "target": "UAV-007",
+        "distance": 1609.16,
+        "estimated": false
+      },
+      {
+        "source": "SAT-007",
+        "target": "SHIP-019",
+        "distance": 1609.23,
+        "estimated": false
+      },
+      {
+        "source": "GND-IDN-001",
+        "target": "SAT-POLAR-049",
+        "distance": 1612.48,
+        "estimated": false
+      },
+      {
+        "source": "GND-BRA-002",
+        "target": "SAT-POLAR-067",
+        "distance": 1620.7,
+        "estimated": false
+      },
+      {
+        "source": "GND-USA-001",
+        "target": "SAT-017",
+        "distance": 1621.19,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-014",
+        "target": "SHIP-010",
+        "distance": 1621.44,
+        "estimated": false
+      },
+      {
+        "source": "SAT-005",
+        "target": "SHIP-008",
+        "distance": 1628.61,
+        "estimated": false
+      },
+      {
+        "source": "GND-SDN-001",
+        "target": "SAT-018",
+        "distance": 1629.02,
+        "estimated": false
+      },
+      {
+        "source": "GND-USA-001",
+        "target": "SAT-POLAR-054",
+        "distance": 1631.95,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-018",
+        "target": "SHIP-017",
+        "distance": 1643.23,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-050",
+        "target": "UAV-009",
+        "distance": 1662.71,
+        "estimated": false
+      },
+      {
+        "source": "SAT-005",
+        "target": "SHIP-007",
+        "distance": 1679.59,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-026",
+        "target": "UAV-007",
+        "distance": 1693.1,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-032",
+        "target": "SHIP-019",
+        "distance": 1693.29,
+        "estimated": false
+      },
+      {
+        "source": "SAT-022",
+        "target": "SHIP-001",
+        "distance": 1694.15,
+        "estimated": false
+      },
+      {
+        "source": "GND-DZA-001",
+        "target": "SAT-POLAR-014",
+        "distance": 1699.28,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-012",
+        "target": "SHIP-014",
+        "distance": 1705.14,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-067",
+        "target": "UAV-003",
+        "distance": 1708.3,
+        "estimated": false
+      },
+      {
+        "source": "GND-BRA-001",
+        "target": "SAT-011",
+        "distance": 1722.97,
+        "estimated": false
+      },
+      {
+        "source": "GND-SDN-002",
+        "target": "SAT-005",
+        "distance": 1724.58,
+        "estimated": false
+      },
+      {
+        "source": "SAT-009",
+        "target": "UAV-009",
+        "distance": 1726.78,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-031",
+        "target": "SHIP-018",
+        "distance": 1739.3,
+        "estimated": false
+      },
+      {
+        "source": "GND-AUS-001",
+        "target": "SAT-POLAR-008",
+        "distance": 1778.57,
+        "estimated": false
+      },
+      {
+        "source": "GND-IRN-001",
+        "target": "SAT-POLAR-026",
+        "distance": 1779.84,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-072",
+        "target": "UAV-011",
+        "distance": 1782.38,
+        "estimated": false
+      },
+      {
+        "source": "GND-MEX-001",
+        "target": "SAT-POLAR-042",
+        "distance": 1786.35,
+        "estimated": false
+      },
+      {
+        "source": "SAT-022",
+        "target": "UAV-008",
+        "distance": 1787.64,
+        "estimated": false
+      },
+      {
+        "source": "SAT-018",
+        "target": "SAT-POLAR-013",
+        "distance": 1799.77,
+        "estimated": false
+      },
+      {
+        "source": "SAT-009",
+        "target": "SAT-POLAR-061",
+        "distance": 1799.79,
+        "estimated": false
+      },
+      {
+        "source": "SAT-020",
+        "target": "SAT-POLAR-019",
+        "distance": 1799.79,
+        "estimated": false
+      },
+      {
+        "source": "GND-MNG-002",
+        "target": "SAT-POLAR-051",
+        "distance": 1807.61,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-037",
+        "target": "UAV-008",
+        "distance": 1835.24,
+        "estimated": false
+      },
+      {
+        "source": "GND-CHN-001",
+        "target": "SAT-POLAR-062",
+        "distance": 1837.82,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-001",
+        "target": "SHIP-012",
+        "distance": 1840.16,
+        "estimated": false
+      },
+      {
+        "source": "SAT-014",
+        "target": "SHIP-013",
+        "distance": 1843.23,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-026",
+        "target": "SHIP-011",
+        "distance": 1844.94,
+        "estimated": false
+      },
+      {
+        "source": "GND-ZAF-001",
+        "target": "SAT-POLAR-036",
+        "distance": 1845.64,
+        "estimated": false
+      },
+      {
+        "source": "GND-USA-002",
+        "target": "SAT-POLAR-054",
+        "distance": 1850.09,
+        "estimated": false
+      },
+      {
+        "source": "GND-TUR-001",
+        "target": "SAT-POLAR-026",
+        "distance": 1854.13,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-049",
+        "target": "SHIP-005",
+        "distance": 1856.54,
+        "estimated": false
+      },
+      {
+        "source": "GND-COD-001",
+        "target": "SAT-POLAR-024",
+        "distance": 1857.57,
+        "estimated": false
+      },
+      {
+        "source": "GND-IRN-002",
+        "target": "SAT-POLAR-038",
+        "distance": 1879.22,
+        "estimated": false
+      },
+      {
+        "source": "SAT-018",
+        "target": "SHIP-010",
+        "distance": 1906.79,
+        "estimated": false
+      },
+      {
+        "source": "GND-PER-001",
+        "target": "SAT-POLAR-055",
+        "distance": 1912.85,
+        "estimated": false
+      },
+      {
+        "source": "GND-DZA-002",
+        "target": "SAT-POLAR-014",
+        "distance": 1932.09,
+        "estimated": false
+      },
+      {
+        "source": "GND-ARG-001",
+        "target": "SAT-POLAR-068",
+        "distance": 1932.18,
+        "estimated": false
+      },
+      {
+        "source": "GND-MNG-001",
+        "target": "SAT-POLAR-051",
+        "distance": 1945.39,
+        "estimated": false
+      },
+      {
+        "source": "GND-ZAF-002",
+        "target": "SAT-POLAR-023",
+        "distance": 1946.96,
+        "estimated": false
+      },
+      {
+        "source": "GND-PNG-001",
+        "target": "SAT-003",
+        "distance": 1950.63,
+        "estimated": false
+      },
+      {
+        "source": "GND-AUS-001",
+        "target": "SAT-016",
+        "distance": 1953.22,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-040",
+        "target": "SAT-POLAR-064",
+        "distance": 1959.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-045",
+        "target": "SAT-POLAR-069",
+        "distance": 1959.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-015",
+        "target": "SAT-POLAR-039",
+        "distance": 1959.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-015",
+        "target": "SAT-POLAR-064",
+        "distance": 1959.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-016",
+        "target": "SAT-POLAR-040",
+        "distance": 1959.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-016",
+        "target": "SAT-POLAR-063",
+        "distance": 1959.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-021",
+        "target": "SAT-POLAR-045",
+        "distance": 1959.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-021",
+        "target": "SAT-POLAR-070",
+        "distance": 1959.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-022",
+        "target": "SAT-POLAR-046",
+        "distance": 1959.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-022",
+        "target": "SAT-POLAR-069",
+        "distance": 1959.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-039",
+        "target": "SAT-POLAR-063",
+        "distance": 1959.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-046",
+        "target": "SAT-POLAR-070",
+        "distance": 1959.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-004",
+        "target": "SAT-POLAR-015",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-004",
+        "target": "SAT-POLAR-016",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-004",
+        "target": "SAT-POLAR-039",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-004",
+        "target": "SAT-POLAR-040",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-004",
+        "target": "SAT-POLAR-063",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-004",
+        "target": "SAT-POLAR-064",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-010",
+        "target": "SAT-POLAR-021",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-010",
+        "target": "SAT-POLAR-022",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-010",
+        "target": "SAT-POLAR-045",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-010",
+        "target": "SAT-POLAR-046",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-010",
+        "target": "SAT-POLAR-069",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-010",
+        "target": "SAT-POLAR-070",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-015",
+        "target": "SAT-POLAR-028",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-015",
+        "target": "SAT-POLAR-052",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-021",
+        "target": "SAT-POLAR-034",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-021",
+        "target": "SAT-POLAR-058",
+        "distance": 1976.43,
+        "estimated": false
+      },
+      {
+        "source": "GND-CHN-001",
+        "target": "SAT-009",
+        "distance": 1994.82,
+        "estimated": false
+      },
+      {
+        "source": "SAT-007",
+        "target": "SAT-POLAR-031",
+        "distance": 1998.32,
+        "estimated": false
+      },
+      {
+        "source": "SAT-024",
+        "target": "SAT-POLAR-055",
+        "distance": 1998.35,
+        "estimated": false
+      },
+      {
+        "source": "SAT-005",
+        "target": "SAT-POLAR-025",
+        "distance": 1998.36,
+        "estimated": false
+      },
+      {
+        "source": "SAT-022",
+        "target": "SAT-POLAR-049",
+        "distance": 1998.36,
+        "estimated": false
+      },
+      {
+        "source": "GND-ARG-002",
+        "target": "SAT-POLAR-056",
+        "distance": 2008.19,
+        "estimated": false
+      },
+      {
+        "source": "GND-ZAF-001",
+        "target": "SAT-015",
+        "distance": 2026.14,
+        "estimated": false
+      },
+      {
+        "source": "SAT-008",
+        "target": "SHIP-015",
+        "distance": 2029.72,
+        "estimated": false
+      },
+      {
+        "source": "GND-SDN-001",
+        "target": "SAT-005",
+        "distance": 2031.75,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-061",
+        "target": "SHIP-003",
+        "distance": 2038.41,
+        "estimated": false
+      },
+      {
+        "source": "GND-CAN-002",
+        "target": "SAT-POLAR-054",
+        "distance": 2041.19,
+        "estimated": false
+      },
+      {
+        "source": "GND-NIC-001",
+        "target": "SAT-POLAR-055",
+        "distance": 2056.35,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-012",
+        "target": "SHIP-015",
+        "distance": 2065.08,
+        "estimated": false
+      },
+      {
+        "source": "GND-PER-002",
+        "target": "SAT-024",
+        "distance": 2069.51,
+        "estimated": false
+      },
+      {
+        "source": "SAT-002",
+        "target": "UAV-012",
+        "distance": 2080.52,
+        "estimated": false
+      },
+      {
+        "source": "GND-TUR-002",
+        "target": "SAT-POLAR-014",
+        "distance": 2087.16,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-025",
+        "target": "SHIP-006",
+        "distance": 2092.08,
+        "estimated": false
+      },
+      {
+        "source": "GND-IDN-002",
+        "target": "SAT-POLAR-049",
+        "distance": 2104.22,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-013",
+        "target": "UAV-005",
+        "distance": 2104.83,
+        "estimated": false
+      },
+      {
+        "source": "GND-NIC-002",
+        "target": "SAT-POLAR-055",
+        "distance": 2112.66,
+        "estimated": false
+      },
+      {
+        "source": "GND-TUR-002",
+        "target": "SAT-POLAR-026",
+        "distance": 2112.76,
+        "estimated": false
+      },
+      {
+        "source": "SAT-003",
+        "target": "SHIP-020",
+        "distance": 2121.33,
+        "estimated": false
+      },
+      {
+        "source": "GND-CAN-001",
+        "target": "SAT-POLAR-053",
+        "distance": 2150.57,
+        "estimated": false
+      },
+      {
+        "source": "SAT-005",
+        "target": "UAV-006",
+        "distance": 2155.27,
+        "estimated": false
+      },
+      {
+        "source": "GND-AUS-002",
+        "target": "SAT-016",
+        "distance": 2155.57,
+        "estimated": false
+      },
+      {
+        "source": "GND-LBY-002",
+        "target": "SAT-POLAR-014",
+        "distance": 2165.89,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-068",
+        "target": "SHIP-015",
+        "distance": 2170.19,
+        "estimated": false
+      },
+      {
+        "source": "GND-IND-001",
+        "target": "SAT-POLAR-037",
+        "distance": 2172.62,
+        "estimated": false
+      },
+      {
+        "source": "GND-IRN-002",
+        "target": "SAT-002",
+        "distance": 2189.82,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-049",
+        "target": "UAV-010",
+        "distance": 2215.71,
+        "estimated": false
+      },
+      {
+        "source": "GND-CHN-002",
+        "target": "SAT-POLAR-062",
+        "distance": 2217.89,
+        "estimated": false
+      },
+      {
+        "source": "GND-PER-002",
+        "target": "SAT-POLAR-056",
+        "distance": 2221.11,
+        "estimated": false
+      },
+      {
+        "source": "SAT-006",
+        "target": "SAT-POLAR-062",
+        "distance": 2231.24,
+        "estimated": false
+      },
+      {
+        "source": "SAT-023",
+        "target": "SAT-POLAR-020",
+        "distance": 2231.24,
+        "estimated": false
+      },
+      {
+        "source": "SAT-008",
+        "target": "SAT-POLAR-068",
+        "distance": 2231.26,
+        "estimated": false
+      },
+      {
+        "source": "SAT-009",
+        "target": "UAV-010",
+        "distance": 2265.4,
+        "estimated": false
+      },
+      {
+        "source": "GND-IND-002",
+        "target": "SAT-022",
+        "distance": 2267.12,
+        "estimated": false
+      },
+      {
+        "source": "GND-TUR-001",
+        "target": "SAT-018",
+        "distance": 2271.74,
+        "estimated": false
+      },
+      {
+        "source": "GND-RUS-001",
+        "target": "SAT-002",
+        "distance": 2272.99,
+        "estimated": false
+      },
+      {
+        "source": "GND-PNG-001",
+        "target": "SAT-POLAR-007",
+        "distance": 2295.95,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-061",
+        "target": "SHIP-002",
+        "distance": 2298.05,
+        "estimated": false
+      },
+      {
+        "source": "SAT-010",
+        "target": "SAT-POLAR-030",
+        "distance": 2307.65,
+        "estimated": false
+      },
+      {
+        "source": "SAT-019",
+        "target": "SAT-POLAR-060",
+        "distance": 2307.68,
+        "estimated": false
+      },
+      {
+        "source": "SAT-012",
+        "target": "SAT-POLAR-036",
+        "distance": 2307.68,
+        "estimated": false
+      },
+      {
+        "source": "GND-CAN-002",
+        "target": "SAT-POLAR-053",
+        "distance": 2310.84,
+        "estimated": false
+      },
+      {
+        "source": "SAT-010",
+        "target": "UAV-001",
+        "distance": 2313.3,
+        "estimated": false
+      },
+      {
+        "source": "GND-MNG-001",
+        "target": "SAT-POLAR-062",
+        "distance": 2313.87,
+        "estimated": false
+      },
+      {
+        "source": "GND-CHN-001",
+        "target": "SAT-POLAR-050",
+        "distance": 2314.73,
+        "estimated": false
+      },
+      {
+        "source": "GND-USA-002",
+        "target": "SAT-014",
+        "distance": 2316.16,
+        "estimated": false
+      },
+      {
+        "source": "SAT-004",
+        "target": "SAT-POLAR-057",
+        "distance": 2329.9,
+        "estimated": false
+      },
+      {
+        "source": "SAT-002",
+        "target": "SAT-POLAR-027",
+        "distance": 2329.91,
+        "estimated": false
+      },
+      {
+        "source": "SAT-004",
+        "target": "SAT-POLAR-033",
+        "distance": 2329.91,
+        "estimated": false
+      },
+      {
+        "source": "GND-AUS-001",
+        "target": "SAT-023",
+        "distance": 2336.26,
+        "estimated": false
+      },
+      {
+        "source": "GND-ESP-001",
+        "target": "SAT-POLAR-002",
+        "distance": 2337.69,
+        "estimated": false
+      },
+      {
+        "source": "GND-RUS-002",
+        "target": "SAT-POLAR-015",
+        "distance": 2346.34,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-014",
+        "target": "SHIP-011",
+        "distance": 2349.67,
+        "estimated": false
+      },
+      {
+        "source": "GND-FRA-001",
+        "target": "SAT-POLAR-003",
+        "distance": 2355.85,
+        "estimated": false
+      },
+      {
+        "source": "GND-DZA-002",
+        "target": "SAT-POLAR-002",
+        "distance": 2366.4,
+        "estimated": false
+      },
+      {
+        "source": "SAT-001",
+        "target": "SHIP-014",
+        "distance": 2371.26,
+        "estimated": false
+      },
+      {
+        "source": "GND-COD-002",
+        "target": "SAT-POLAR-024",
+        "distance": 2374.0,
+        "estimated": false
+      },
+      {
+        "source": "SAT-009",
+        "target": "SAT-POLAR-050",
+        "distance": 2387.06,
+        "estimated": false
+      },
+      {
+        "source": "SAT-020",
+        "target": "SAT-POLAR-032",
+        "distance": 2387.06,
+        "estimated": false
+      },
+      {
+        "source": "SAT-011",
+        "target": "SAT-POLAR-056",
+        "distance": 2387.08,
+        "estimated": false
+      },
+      {
+        "source": "SAT-010",
+        "target": "SAT-POLAR-029",
+        "distance": 2387.09,
+        "estimated": false
+      },
+      {
+        "source": "SAT-017",
+        "target": "SAT-POLAR-053",
+        "distance": 2387.11,
+        "estimated": false
+      },
+      {
+        "source": "SAT-012",
+        "target": "SAT-POLAR-035",
+        "distance": 2387.11,
+        "estimated": false
+      },
+      {
+        "source": "SAT-019",
+        "target": "SAT-POLAR-059",
+        "distance": 2387.11,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-003",
+        "target": "UAV-004",
+        "distance": 2391.44,
+        "estimated": false
+      },
+      {
+        "source": "GND-IRN-001",
+        "target": "SAT-POLAR-038",
+        "distance": 2391.66,
+        "estimated": false
+      },
+      {
+        "source": "SAT-001",
+        "target": "UAV-005",
+        "distance": 2393.3,
+        "estimated": false
+      },
+      {
+        "source": "GND-AUS-001",
+        "target": "SAT-POLAR-071",
+        "distance": 2403.49,
+        "estimated": false
+      },
+      {
+        "source": "GND-IND-001",
+        "target": "SAT-POLAR-038",
+        "distance": 2405.44,
+        "estimated": false
+      },
+      {
+        "source": "GND-PNG-001",
+        "target": "SAT-POLAR-072",
+        "distance": 2409.48,
+        "estimated": false
+      },
+      {
+        "source": "GND-COD-002",
+        "target": "SAT-POLAR-025",
+        "distance": 2413.26,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-062",
+        "target": "SHIP-003",
+        "distance": 2415.13,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-008",
+        "target": "SHIP-020",
+        "distance": 2420.12,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-045",
+        "target": "SAT-POLAR-057",
+        "distance": 2427.72,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-005",
+        "target": "SAT-POLAR-063",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-009",
+        "target": "SAT-POLAR-070",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-011",
+        "target": "SAT-POLAR-022",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-011",
+        "target": "SAT-POLAR-069",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-016",
+        "target": "SAT-POLAR-029",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-021",
+        "target": "SAT-POLAR-033",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-022",
+        "target": "SAT-POLAR-035",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-029",
+        "target": "SAT-POLAR-040",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-033",
+        "target": "SAT-POLAR-045",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-035",
+        "target": "SAT-POLAR-046",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-005",
+        "target": "SAT-POLAR-016",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-009",
+        "target": "SAT-POLAR-021",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-057",
+        "target": "SAT-POLAR-069",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-059",
+        "target": "SAT-POLAR-070",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-046",
+        "target": "SAT-POLAR-059",
+        "distance": 2427.73,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-007",
+        "target": "SHIP-020",
+        "distance": 2455.97,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-054",
+        "target": "UAV-002",
+        "distance": 2460.2,
+        "estimated": false
+      },
+      {
+        "source": "SAT-013",
+        "target": "SHIP-017",
+        "distance": 2466.52,
+        "estimated": false
+      },
+      {
+        "source": "SAT-006",
+        "target": "SHIP-016",
+        "distance": 2471.69,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-049",
+        "target": "SHIP-002",
+        "distance": 2488.68,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-061",
+        "target": "UAV-010",
+        "distance": 2497.69,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-055",
+        "target": "UAV-002",
+        "distance": 2501.55,
+        "estimated": false
+      },
+      {
+        "source": "GND-CAN-001",
+        "target": "SAT-POLAR-065",
+        "distance": 2515.03,
+        "estimated": false
+      },
+      {
+        "source": "GND-MNG-002",
+        "target": "SAT-POLAR-062",
+        "distance": 2515.54,
+        "estimated": false
+      },
+      {
+        "source": "GND-USA-002",
+        "target": "SAT-POLAR-065",
+        "distance": 2516.08,
+        "estimated": false
+      },
+      {
+        "source": "SAT-013",
+        "target": "SAT-POLAR-018",
+        "distance": 2525.08,
+        "estimated": false
+      },
+      {
+        "source": "SAT-016",
+        "target": "SAT-POLAR-072",
+        "distance": 2525.08,
+        "estimated": false
+      },
+      {
+        "source": "SAT-014",
+        "target": "SAT-POLAR-066",
+        "distance": 2525.08,
+        "estimated": false
+      },
+      {
+        "source": "SAT-015",
+        "target": "SAT-POLAR-024",
+        "distance": 2525.08,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-062",
+        "target": "UAV-009",
+        "distance": 2531.8,
+        "estimated": false
+      },
+      {
+        "source": "GND-NIC-002",
+        "target": "SAT-POLAR-054",
+        "distance": 2567.86,
+        "estimated": false
+      },
+      {
+        "source": "GND-NIC-001",
+        "target": "SAT-POLAR-054",
+        "distance": 2577.57,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-042",
+        "target": "UAV-002",
+        "distance": 2579.58,
+        "estimated": false
+      },
+      {
+        "source": "GND-ZAF-002",
+        "target": "SAT-POLAR-036",
+        "distance": 2589.13,
+        "estimated": false
+      },
+      {
+        "source": "SAT-007",
+        "target": "SAT-POLAR-032",
+        "distance": 2593.09,
+        "estimated": false
+      },
+      {
+        "source": "GND-COL-001",
+        "target": "SAT-024",
+        "distance": 2608.81,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-026",
+        "target": "SHIP-006",
+        "distance": 2622.83,
+        "estimated": false
+      },
+      {
+        "source": "GND-AUS-002",
+        "target": "SAT-POLAR-071",
+        "distance": 2636.11,
+        "estimated": false
+      },
+      {
+        "source": "SAT-024",
+        "target": "SAT-POLAR-043",
+        "distance": 2655.59,
+        "estimated": false
+      },
+      {
+        "source": "SAT-007",
+        "target": "SAT-POLAR-043",
+        "distance": 2655.65,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-019",
+        "target": "SHIP-020",
+        "distance": 2661.89,
+        "estimated": false
+      },
+      {
+        "source": "SAT-007",
+        "target": "SHIP-018",
+        "distance": 2680.82,
+        "estimated": false
+      },
+      {
+        "source": "GND-COD-001",
+        "target": "SAT-POLAR-013",
+        "distance": 2685.54,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-050",
+        "target": "UAV-008",
+        "distance": 2690.19,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-001",
+        "target": "SHIP-014",
+        "distance": 2694.45,
+        "estimated": false
+      },
+      {
+        "source": "GND-DZA-001",
+        "target": "SAT-POLAR-002",
+        "distance": 2696.5,
+        "estimated": false
+      },
+      {
+        "source": "SAT-008",
+        "target": "SAT-POLAR-012",
+        "distance": 2713.63,
+        "estimated": false
+      },
+      {
+        "source": "SAT-006",
+        "target": "SAT-POLAR-006",
+        "distance": 2713.64,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-001",
+        "target": "UAV-005",
+        "distance": 2715.62,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-071",
+        "target": "UAV-011",
+        "distance": 2730.65,
+        "estimated": false
+      },
+      {
+        "source": "GND-MEX-001",
+        "target": "SAT-POLAR-054",
+        "distance": 2758.67,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-038",
+        "target": "UAV-012",
+        "distance": 2830.38,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-037",
+        "target": "UAV-007",
+        "distance": 2863.97,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-043",
+        "target": "SHIP-019",
+        "distance": 2864.05,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-067",
+        "target": "SHIP-012",
+        "distance": 2878.16,
+        "estimated": false
+      },
+      {
+        "source": "GND-COD-002",
+        "target": "SAT-POLAR-036",
+        "distance": 2896.51,
+        "estimated": false
+      },
+      {
+        "source": "SAT-020",
+        "target": "SAT-POLAR-020",
+        "distance": 2983.8,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-044",
+        "target": "SAT-POLAR-057",
+        "distance": 3055.55,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-011",
+        "target": "SAT-POLAR-023",
+        "distance": 3055.56,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-017",
+        "target": "SAT-POLAR-029",
+        "distance": 3055.56,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-020",
+        "target": "SAT-POLAR-033",
+        "distance": 3055.56,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-033",
+        "target": "SAT-POLAR-044",
+        "distance": 3055.56,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-035",
+        "target": "SAT-POLAR-047",
+        "distance": 3055.56,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-005",
+        "target": "SAT-POLAR-017",
+        "distance": 3055.56,
+        "estimated": false
+      },
+      {
+        "source": "GND-MEX-002",
+        "target": "SAT-POLAR-054",
+        "distance": 3056.11,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-056",
+        "target": "UAV-003",
+        "distance": 3066.31,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-030",
+        "target": "SHIP-017",
+        "distance": 3128.72,
+        "estimated": false
+      },
+      {
+        "source": "SAT-013",
+        "target": "SAT-POLAR-030",
+        "distance": 3177.21,
+        "estimated": false
+      },
+      {
+        "source": "SAT-016",
+        "target": "SAT-POLAR-060",
+        "distance": 3177.21,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-018",
+        "target": "SHIP-018",
+        "distance": 3182.11,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-019",
+        "target": "SHIP-018",
+        "distance": 3182.11,
+        "estimated": false
+      },
+      {
+        "source": "GND-IDN-001",
+        "target": "SAT-POLAR-060",
+        "distance": 3191.38,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-002",
+        "target": "SHIP-013",
+        "distance": 3239.59,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-037",
+        "target": "SHIP-009",
+        "distance": 3242.56,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-031",
+        "target": "SHIP-017",
+        "distance": 3251.45,
+        "estimated": false
+      },
+      {
+        "source": "GND-COL-001",
+        "target": "SAT-POLAR-054",
+        "distance": 3327.66,
+        "estimated": false
+      },
+      {
+        "source": "GND-COL-001",
+        "target": "SAT-POLAR-066",
+        "distance": 3366.56,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-026",
+        "target": "SHIP-008",
+        "distance": 3376.6,
+        "estimated": false
+      },
+      {
+        "source": "SAT-013",
+        "target": "SAT-POLAR-006",
+        "distance": 3384.4,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-062",
+        "target": "SHIP-004",
+        "distance": 3465.76,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-062",
+        "target": "SHIP-016",
+        "distance": 3526.51,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-050",
+        "target": "SHIP-001",
+        "distance": 3547.19,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-036",
+        "target": "UAV-006",
+        "distance": 3578.42,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-048",
+        "target": "SHIP-008",
+        "distance": 3780.03,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-049",
+        "target": "SHIP-009",
+        "distance": 3786.85,
+        "estimated": false
+      },
+      {
+        "source": "SAT-POLAR-037",
+        "target": "SAT-POLAR-048",
+        "distance": 3919.04,
+        "estimated": false
+      }
+    ],
+    "total_links": 460,
+    "neighbors_shown": 3
+  },
+  "requested_load_ratio": 0.35,
+  "applied_load_ratio": 0.35,
+  "load_reduced": false,
+  "ingress_selection": {
+    "remote": true,
+    "nearest_ground_km": 5780.448081597352,
+    "preference_penalties": {
+      "AIR": 0,
+      "SPACE": 1,
+      "SEA": 2,
+      "GROUND": 3
+    },
+    "chosen_type": "SPACE",
+    "chosen_node": "SAT-POLAR-020",
+    "access_distance_km": 3536.766974549276,
+    "access_rtt_ms": 71.23332855465893,
+    "predicted_access_rtt_ms": 71.19813537597656,
+    "access_bandwidth_mbps": 77.25,
+    "total_cost": 196.48394196107958,
+    "preference_penalty": 1,
+    "reason": "Xa GROUND gần nhất 5780 km. Tối ưu tổng điểm khoảng cách, băng thông và độ trễ; sở thích lớp theo sự kiện Gaming chỉ là trọng số phụ."
+  },
+  "objective": "Ingress + Σ hop: w_delay × RTT_proxy_ms + w_capacity × 100 / bandwidth_Mbps + w_distance × distance_km / 100 + soft_ingress_preference_penalty",
+  "unseen_layers": [],
+  "comparison": {
+    "same_path": true,
+    "predicted_cost_change": 0.0,
+    "application_estimate_change_ms": 0.0,
+    "score_change": 0.09952710540017051,
+    "evaluation_source": "same_snapshot_simulator_estimates_not_measured_improvement"
+  }
+}

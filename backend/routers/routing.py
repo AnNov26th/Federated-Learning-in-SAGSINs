@@ -23,9 +23,12 @@ def topology_view(scenario_id: int = Query(ge=1), topology: Literal["configured"
 
 @router.get("/context", response_model=APIResponse[dict])
 def routing_context(db: Session = Depends(get_db)):
+    from backend.models.research_region import ResearchRegion
     return APIResponse(data={
         "scenarios": [{"id": s.id, "name": s.name} for s in db.query(Scenario).order_by(Scenario.id)],
         "models": [model_summary(candidate) for candidate in model_candidates(db)],
+        "research_regions": [{"scenario_id":row.scenario_id,"center":row.config_json["center"]}
+                             for row in db.query(ResearchRegion)],
     })
 
 
@@ -49,7 +52,7 @@ def _calculate_event(request, background_tasks, db, reservations):
     from backend.models.simulation import Experiment
     from backend.schemas.fl import FLExperimentCreate
     from backend.services.fl_service import run_experiment
-    from backend.routers.federated_learning import _create_record, _network_config
+    from backend.routers.federated_learning import _create_record, _network_config, _training_snapshot
 
     pending = db.query(Experiment).filter(
         Experiment.scenario_id == request.scenario_id,
@@ -72,12 +75,15 @@ def _calculate_event(request, background_tasks, db, reservations):
             local_epochs=1, learning_rate=0.01, batch_size=64,
             partition="non_iid", seed=42, network_profile="normal",
             dropout_probability=0.0, timeout_ms=120_000,
+            region_lat=request.lat, region_lng=request.lng,
         )
         try:
             # Keep the scenario lock until the caller commits the event too.
             # A savepoint isolates training setup failures without releasing it.
             with db.begin_nested():
                 scenario = db.get(Scenario, request.scenario_id)
+                candidates, _, _, _ = _training_snapshot(db, scenario, training_request, minimum=2)
+                training_request.client_count = min(5, len(candidates))
                 config = _network_config(db, training_request, scenario)
                 experiment = _create_record(db, scenario, "Predictive", training_request, config)
                 db.flush()
@@ -132,6 +138,10 @@ def create_event(request: SavedEventRequest, background_tasks: BackgroundTasks, 
             raise HTTPException(status_code=409, detail="Mã điểm đã thuộc scenario khác.")
         return APIResponse(data=serialize_event(existing))
     result = _calculate_event(request, background_tasks, db, reservations_for(db, request.scenario_id)).data
+    from backend.services.research_region_service import region_for
+    from backend.services.research_flow_service import bind_flow
+    region=region_for(db,request.scenario_id)
+    if region:result=bind_flow(result,request,region.sim_time_s)
     number = (db.query(func.max(RoutingEvent.display_number)).filter(RoutingEvent.scenario_id == request.scenario_id).scalar() or 0) + 1
     event = RoutingEvent(client_key=request.client_key, display_number=number, scenario_id=request.scenario_id, service=request.service, lat=request.lat, lng=request.lng,
                          config_json=request.model_dump(exclude={"lat", "lng", "service", "client_key"}), result_json=result)
@@ -158,6 +168,10 @@ def recompute_event(event_id: int, request: EventRouteRequest, background_tasks:
     if event.scenario_id != request.scenario_id:
         raise HTTPException(status_code=409, detail="Không thể chuyển điểm sang scenario khác. Hãy tạo điểm mới.")
     result = _calculate_event(request, background_tasks, db, reservations_for(db, request.scenario_id, event_id)).data
+    from backend.services.research_region_service import region_for
+    from backend.services.research_flow_service import bind_flow
+    region=region_for(db,request.scenario_id)
+    if region:result=bind_flow(result,request,region.sim_time_s,(event.result_json or {}).get("flow"))
     event.service, event.lat, event.lng = request.service, request.lat, request.lng
     event.config_json = request.model_dump(exclude={"lat", "lng", "service"})
     event.result_json, event.playback_json = result, None

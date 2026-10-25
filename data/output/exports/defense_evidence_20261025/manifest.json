@@ -1,0 +1,60 @@
+{
+  "method": "Read existing files only; derived tables preserve source values.",
+  "sources": [
+    {
+      "path": "data/exports/network_dataset_3_20261023/metadata.json",
+      "bytes": 51810,
+      "sha256": "73b53e54e95d6fc801451a31057b83d7978cca9a512ecc60a6f4523420f0178d"
+    },
+    {
+      "path": "data/exports/network_dataset_3_20261023/observations.csv",
+      "bytes": 7952623,
+      "sha256": "bea40583c8eef446f123e562eb6dd0b49daafd8a1711402a5090b2c6ed64c184"
+    },
+    {
+      "path": "data/database_backups/training-topology-20261023-result.json",
+      "bytes": 95593,
+      "sha256": "ba23df718ce8dccffbaa0c4e92c68a204cf679f8cf6f6718a8bac4bfd7d0accd"
+    },
+    {
+      "path": "data/database_backups/latest-training-request.json",
+      "bytes": 976,
+      "sha256": "f0517faa1757d059a633fdf598c922006d0eed43a0dd8114e1655fa195dfc195"
+    }
+  ],
+  "dataset3": {
+    "id": 3,
+    "scenario_id": 6,
+    "observation_count": 46280,
+    "client_count": 178,
+    "config": {
+      "samples_per_client": 160,
+      "partition": "non_iid",
+      "network_profile": "normal",
+      "online_steps": 100,
+      "payload_bytes": 3844,
+      "feature_version": "network-features-v1",
+      "source": "generated",
+      "target": "next_tick_model_round_trip_ms",
+      "split_order": [
+        "train",
+        "validation",
+        "online",
+        "test"
+      ],
+      "locality": "logical_client_partitions_in_shared_database"
+    }
+  },
+  "experiment2": {
+    "id": 2,
+    "dataset_id": 2
+  },
+  "limitations": [
+    "Dataset 3 is not the training dataset of experiment 2; do not present them as one run.",
+    "Main database connection was unavailable during this preparation.",
+    "No checkpoint tensors, per-round scheduler audits or local model updates were available in these source files.",
+    "No matched three-policy benchmark or IID comparison results were available in these source files.",
+    "Saved routing output reflects its historical implementation; reproduce on the current application separately.",
+    "CSV target values have export precision rounding; next-tick pair checks use 0.001 ms tolerance."
+  ]
+}

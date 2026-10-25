@@ -1,0 +1,3 @@
+﻿policy,path,cost,total_predicted_transfer_ms,total_static_transfer_ms,application_one_way_ms,application_budget_ms,application_budget_met,estimated_hops
+route,SAT-POLAR-020 -> SAT-023 -> GND-AUS-001,196.48394196107958,213.57557678222656,213.69998566397678,105.26703398058253,50,False,0
+baseline,SAT-POLAR-020 -> SAT-023 -> GND-AUS-001,196.58346906647975,213.57557678222656,213.69998566397678,105.26703398058253,50,False,0

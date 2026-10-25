@@ -7,6 +7,8 @@ from starlette.concurrency import run_in_threadpool
 from backend.database.database import engine
 from backend.database.init_db import init_db
 from sqlalchemy import text
+import asyncio
+import contextlib
 
 
 @asynccontextmanager
@@ -16,9 +18,13 @@ async def lifespan(application):
     # Existing topology, datasets, experiments and checkpoints survive reload.
     await run_in_threadpool(init_db, bind=engine)
     application.state.database_ready = True
+    from backend.services.research_flow_service import run_clock
+    clock_task=asyncio.create_task(run_clock(engine))
     try:
         yield
     finally:
+        clock_task.cancel()
+        with contextlib.suppress(asyncio.CancelledError):await clock_task
         application.state.database_ready = False
 
 app = FastAPI(
@@ -36,10 +42,13 @@ async def revalidate_frontend(request, call_next):
         response.headers["Cache-Control"] = "no-cache"
     return response
 
-from backend.routers import network, participants, simulations, dashboard, federated_learning, network_learning, routing
+from backend.routers import network, participants, simulations, dashboard, federated_learning, network_learning, routing, training_monitor
 
 app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard"])
 app.include_router(federated_learning.router, prefix="/api/fl", tags=["Federated Learning"])
+app.include_router(training_monitor.router, prefix="/api/fl", tags=["Training monitor"])
+from backend.routers import research
+app.include_router(research.router,prefix="/api/research",tags=["Regional research"])
 app.include_router(network_learning.router, prefix="/api/fl", tags=["Network prediction"])
 app.include_router(network.router, prefix="/api", tags=["Network"])
 app.include_router(routing.router, prefix="/api/routing", tags=["Predictive routing"])
