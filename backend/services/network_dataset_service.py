@@ -147,7 +147,8 @@ def dataset_summary(db, dataset):
         "generator_version": dataset.generator_version, "fingerprint": dataset.fingerprint,
         "source": "generated", "target": config["target"], "partition": config["partition"],
         "network_profile": config["network_profile"], "client_count": len(config["profiles"]),
-        "counts": dict(counts), "layers": dict(Counter(p["layer"] for p in config["profiles"].values())),
+        "counts": config.get("counts",{}) if config.get("runtime")=="federated-http-v3" else dict(counts), "layers": dict(Counter(p["layer"] for p in config["profiles"].values())),
+        "runtime": config.get("runtime","legacy"),
         "samples_per_client": config["samples_per_client"], "online_steps": config["online_steps"],
         "locality": config["locality"], "created_at": dataset.created_at,
     }

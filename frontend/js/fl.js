@@ -9,11 +9,11 @@ let datasets = [], pool = [], busy = false, sizingTimer, previewToken = 0, loadT
 let liveId = null, lastRound = -1, comparisonId = null, launching = false, viewGeneration = 0;
 const runStates=new Map();
 function renderComparison(){const box=$('comparison-overview');box.hidden=!comparisonId;box.innerHTML=comparisonId?[...runStates.values()].map(run=>`<div><strong>${esc(run.algorithm)}</strong><span>${esc(run.status)} · ${run.completed_rounds}/${run.target_rounds} vòng</span></div>`).join(''):'';}
-const integerFields = ['scenario_id','rounds','client_count','local_epochs','batch_size','seed','samples_per_client','online_steps','timeout_ms'];
+const integerFields = ['scenario_id','rounds','client_count','local_epochs','batch_size','seed','samples_per_client','online_steps','timeout_ms','max_workers'];
 function payload() {
     const data = {};
     [...integerFields,'learning_rate','dropout_probability'].forEach(key => data[key] = Number(fields[key].value));
-    ['task','algorithm','partition','network_profile','pool_mode'].forEach(key => data[key] = fields[key].value);
+    ['task','algorithm','partition','network_profile','pool_mode','model_family','transport_codec','allocation_policy'].forEach(key => data[key] = fields[key].value);
     if (data.task === 'network_delay' && fields.dataset_id.value) data.dataset_id = Number(fields.dataset_id.value);
     data.region_radius_km=Number(fields.region_radius_km.value);
     for(const key of ['region_lat','region_lng']) if(fields[key].value.trim()!=='')data[key]=Number(fields[key].value);
@@ -50,7 +50,6 @@ function validate(showSummary=false) {
     if ((data.region_lat==null)!==(data.region_lng==null)) fail('region_lat','Nhập cả vĩ độ và kinh độ, hoặc để trống cả hai.');
     if (!(data.learning_rate>0) || !Number.isFinite(data.learning_rate)) fail('learning_rate','Learning rate phải là số dương hữu hạn.');
     if (data.algorithm !== 'Centralized' && data.client_count>pool.length) fail('client_count',`Pool có ${pool.length} client ACTIVE hợp lệ.`);
-    if (data.task==='network_delay' && !data.dataset_id && data.online_steps<data.rounds) fail('online_steps',`Cần ít nhất ${data.rounds} online ticks để chạy ${data.rounds} vòng.`);
     if (showSummary && errors.length) {
         $('form-errors').textContent=`Cần kiểm tra ${errors.length} thông số được đánh dấu. ${errors[0]}`; $('form-errors').hidden=false;
         const first=form.querySelector('[aria-invalid=true]'); first?.closest('details')?.setAttribute('open',''); first?.focus();
@@ -76,10 +75,19 @@ function updateTask() {
     if(network) applyDataset();else ['seed','partition','network_profile'].forEach(key=>fields[key].disabled=false);
     setBusy(busy);
     $('client-quality-label').textContent=network?'Local loss':'Local accuracy';
-    $('compare-button').textContent=network?'So sánh 3 cách chọn client':'So sánh 2 cách chọn client';
+    $('compare-button').textContent=network?'So sánh 3 phương án':'So sánh 2 cách chọn client';
     $('task-note').textContent=network?'Một mẫu: 12 đặc trưng hiện tại → 1 RTT tick tiếp theo. Dữ liệu là mô phỏng; FL chạy trên phân vùng logic trong cùng backend.':'MNIST dùng CNN. Dữ liệu sẽ được nạp/phân vùng khi chạy; thời gian mạng là mô phỏng.';
     if(network && trainingTarget==='application_link')$('task-note').textContent='Mỗi client giữ telemetry link của mình: 12 đặc trưng → độ trễ một chiều link ứng dụng ở tick kế tiếp. Chọn client FL ngẫu nhiên; model dùng để chấm tuyến, không dùng nhầm nhãn ứng dụng làm RTT tải model.';
+    const dataset=datasets.find(row=>row.id===Number(fields.dataset_id.value));
+    const centralOption=[...fields.algorithm.options].find(option=>option.value==='Centralized');
+    centralOption.disabled=network&&(!dataset||dataset.runtime==='federated-http-v3');
+    centralOption.title=centralOption.disabled?'Dataset local dùng centralized offline trong hướng dẫn kết quả':'';
+    if(centralOption.disabled&&fields.algorithm.value==='Centralized')fields.algorithm.value='FedAvg';
     const centralized=fields.algorithm.value==='Centralized';
+    const http=network&&!centralized&&(!dataset||dataset.runtime==='federated-http-v3');
+    $('online-field').hidden=http||!network;fields.online_steps.disabled=http;
+    ['model_family','transport_codec','max_workers','allocation_policy'].forEach(key=>fields[key].disabled=!http);
+    if(http)$('task-note').textContent='15 đặc trưng lịch sử link → độ trễ payload tham chiếu tại tick kế tiếp. Client giữ dữ liệu trong MySQL riêng và trao đổi model qua HTTP. Chọn theo chi phí tuyến là proxy mô phỏng, không phải thời gian upload model đo trên loopback.';
     fields.client_count.disabled=centralized; $('use-all-clients').disabled=centralized || !pool.length;
     const centralMNIST=centralized && !network;
     $('pool-hint').textContent=centralMNIST?'Đối chứng MNIST học toàn bộ tập train, không chia theo node.':centralized?'Đối chứng tập trung học dữ liệu toàn pool.':`${count(pool.length)} client ACTIVE hợp lệ trong pool.`;
@@ -130,7 +138,7 @@ async function updatePreview() {
         const data=await api('/api/fl/preview',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload())});
         if(token!==previewToken)return;
         if(data.task!=='network_delay') { $('data-preview').textContent=data.note; return; }
-        $('preview-source').textContent=data.source==='saved_dataset'?'Số lượng đọc từ dataset đã lưu; hỗ trợ cả cách chia tùy biến.':'Dự toán trước khi tạo dataset mới.';
+        $('preview-source').textContent=data.source==='saved_dataset'?'Số lượng đọc từ dataset đã lưu.':data.note||'Dự toán trước khi tạo dataset mới.';
         const stats=[['Tổng mẫu dataset',data.dataset_total],['Train ban đầu trong pool',data.pool_counts.train],['Candidate pool',data.candidate_count],['Mẫu học vòng đầu',range(data.first_round_samples)]];
         const rows=[['Dataset / pool',`${count(data.dataset_client_count)} / ${count(data.candidate_count)} client`],...['train','validation','online','test'].map(split=>[`${split} / client trong pool`,range(data.per_client[split])]),['Validation toàn pool',count(data.pool_counts.validation)],['Future test toàn pool',count(data.pool_counts.test)],['Cấu trúc mẫu','12 đầu vào → 1 đầu ra'],['Model','961 tham số · 3.844 byte FP32'],['Epochs cấu hình riêng',`${count(data.epoch_overrides)} client`]];
         $('data-preview').innerHTML=`<div class="sizing-stats">${stats.map(([label,value])=>`<div class="sizing-stat"><strong>${typeof value==='number'?count(value):value}</strong><span>${label}</span></div>`).join('')}</div><div class="split-bar" aria-hidden="true">${['train','validation','online','test'].map(split=>`<span style="flex:${data.dataset_counts[split]}"></span>`).join('')}</div><p class="note">Train · validation · online · future test</p><dl class="sizing-list">${rows.map(([label,value])=>`<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl>`;
@@ -169,8 +177,11 @@ async function refreshDetail() {
 }
 function renderDetail(data) {
     const rounds=data.rounds||[],latest=rounds.at(-1),network=data.task==='network_delay';
+    const http=data.config?.runtime==='federated-http-v3';
+    $('cancel-run').disabled=!http||!['QUEUED','RUNNING'].includes(data.status);
+    $('resume-run').disabled=!http||!['FAILED','CANCELLED','INTERRUPTED'].includes(data.status)||!rounds.length;
     $('summary').innerHTML=`Experiment <strong>#${data.id}</strong> · ${esc(data.algorithm)} · ${esc(data.status)} · ${data.completed_rounds}/${data.target_rounds} vòng · <a href="/results.html?${comparisonId?'comparison_id='+encodeURIComponent(comparisonId):'experiment_id='+data.id}">Phân tích kết quả</a>`;
-    $('rounds').innerHTML=`<div class="round"><progress max="${data.target_rounds}" value="${data.completed_rounds}" aria-label="Vòng đã hoàn tất"></progress><span>${network?'MAE '+num(latest?.prediction_metrics?.mae_ms)+' ms':'Accuracy '+num(latest?.accuracy)} · ${num(latest?.round_duration_s)} s/vòng mô phỏng</span></div>`;
+    $('rounds').innerHTML=`<div class="round"><progress max="${data.target_rounds}" value="${data.completed_rounds}" aria-label="Vòng đã hoàn tất"></progress><span>${network?'MAE '+num(latest?.prediction_metrics?.mae_ms)+' ms':'Accuracy '+num(latest?.accuracy)} · ${num(latest?.round_duration_s)} s/vòng thực thi</span></div>`;
     const values=rounds.map(row=>network?row.prediction_metrics?.mae_ms:row.accuracy).filter(Number.isFinite);
     if(values.length>1){const min=Math.min(...values),max=Math.max(...values),points=values.map((value,i)=>`${10+980*i/(values.length-1)},${120-100*(value-min)/(max-min||1)}`).join(' ');$('quality-chart').innerHTML=`<svg viewBox="0 0 1000 140" role="img" aria-label="${network?'MAE':'Accuracy'} qua ${values.length} vòng"><polyline points="${points}" fill="none" stroke="#8de5be" stroke-width="3"/></svg><p class="note">${network?'MAE (ms)':'Accuracy'} theo vòng · min ${num(min,6)} · max ${num(max,6)} · trục tự điều chỉnh</p>`;}
     if(latest && terminal(data.status)) $('clients').innerHTML=latest.clients.map(client=>`<tr><td>${esc(client.client_id)}</td><td>${esc(client.status)}</td><td>${count(client.samples_used)}</td><td>${network?num(client.local_loss,5):num(client.local_accuracy)}</td><td>${num(client.training_duration_s)} s</td><td>${num(client.communication_time_ms)} ms</td></tr>`).join('');
@@ -204,7 +215,7 @@ form.addEventListener('submit',event=>{event.preventDefault();queue(false);});
 $('compare-button').addEventListener('click',()=>queue(true));
 $('use-all-clients').addEventListener('click',()=>{fields.client_count.value=pool.length;schedulePreview();});
 form.addEventListener('input',event=>{if(['pool_mode','region_radius_km','region_lat','region_lng'].includes(event.target.name)){acceptedPoolQuery=null;setBusy(busy);}schedulePreview();});
-form.addEventListener('change',event=>{if(event.target===fields.scenario_id)loadScenario();else if(['pool_mode','region_radius_km','region_lat','region_lng'].includes(event.target.name))refreshPool();else if(event.target===fields.dataset_id){applyDataset();schedulePreview();}else if([fields.task,fields.algorithm].includes(event.target))updateTask();else schedulePreview();});
+form.addEventListener('change',event=>{if(event.target===fields.scenario_id)loadScenario();else if(['pool_mode','region_radius_km','region_lat','region_lng'].includes(event.target.name))refreshPool();else if(event.target===fields.dataset_id){updateTask();}else if([fields.task,fields.algorithm].includes(event.target))updateTask();else schedulePreview();});
 $('monitor-run').addEventListener('change',async()=>{liveId=Number($('monitor-run').value);lastRound=-1;$('quality-chart').replaceChildren();try{renderLive(await api(`/api/fl/experiments/${liveId}/progress`));}catch{}scheduleDetail();});
 window.addEventListener('pageshow',event=>{if(event.persisted)init();});
 window.addEventListener('focus',async()=>{
@@ -237,3 +248,6 @@ async function init() {
     } catch(error){message(error.message,true);setBusy(true);}
 }
 init();
+
+$('cancel-run').addEventListener('click',async()=>{try{await api(`/api/fl/experiments/${liveId}/cancel`,{method:'POST'});message('Đã yêu cầu hủy; đang thu hồi worker.');}catch(e){message(e.message,true);}});
+$('resume-run').addEventListener('click',async()=>{try{await api(`/api/fl/experiments/${liveId}/resume`,{method:'POST'});const run=await api(`/api/fl/experiments/${liveId}`);monitor([run]);setBusy(true);}catch(e){message(e.message,true);}});

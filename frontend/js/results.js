@@ -48,13 +48,14 @@ function render(data) {
     const config = data.config || {};
     const network = data.task === "network_delay";
     const last = rounds.at(-1), quality = last?.prediction_metrics;
+    const qualityLabel=quality?.evaluation_split==='validation'?'MAE validation vòng gần nhất':'MAE vòng cuối trên tập test';
     const selected = rounds.reduce((total, r) => total + r.selected_count, 0);
     const completed = rounds.reduce((total, r) => total + r.participants_count, 0);
     const transferred = rounds.reduce((total, r) => total + (r.metrics?.data_transferred_mb || 0), 0);
     const qualityChange = quality?.persistence_mae_ms > 0 ? (1 - quality.mae_ms / quality.persistence_mae_ms) * 100 : null;
     $("application-outcomes").hidden = !rounds.length;
     $("application-outcomes").innerHTML = [
-        [network ? "MAE vòng cuối trên tập test" : "Độ chính xác vòng cuối", network ? `${num(quality?.mae_ms)} ms` : `${num(last?.accuracy * 100, 1)}%`, network ? "Sai số dự đoán độ trễ; thấp hơn tốt hơn" : "Đánh giá trên tập test"],
+        [network ? qualityLabel : "Độ chính xác vòng cuối", network ? `${num(quality?.mae_ms)} ms` : `${num(last?.accuracy * 100, 1)}%`, network ? "Sai số dự đoán độ trễ; thấp hơn tốt hơn" : "Đánh giá trên tập test"],
         ["So với persistence", qualityChange == null ? "—" : Math.abs(qualityChange) < .001 ? "≈ 0%" : `${num(qualityChange, 3)}%`, "Mức giảm MAE; số âm là model kém hơn đối chứng"],
         ["Client hoàn tất / được chọn", `${completed} / ${selected}`, "Tổng lượt qua các vòng, có thể lặp client"],
         ["Payload FL đã ghi nhận", `${num(transferred, 4)} MiB`, "Chưa có baseline truyền dữ liệu thô để kết luận tiết kiệm"],
@@ -68,7 +69,7 @@ function render(data) {
     $("result-summary").innerHTML = `<strong>Experiment #${data.id}</strong> · ${esc(data.algorithm)} · ${esc(data.status)} · ${data.completed_rounds}/${data.target_rounds} rounds · Scenario ${data.scenario_id} · worker wall time ${num(data.actual_duration_s)} s<br><small>Seed ${esc(config.seed)} · ${esc(config.partition)} partition · Network profile ${esc(config.network_profile)} · Metrics: ${esc(config.metrics_source || "not specified")}</small>`;
     $("round-results").innerHTML = rounds.length ? rounds.map((round) => {
         const metrics = round.metrics || {};
-        return `<tr><td>${round.round}</td><td>${network ? num(round.prediction_metrics?.mae_ms)+" ms" : num(round.accuracy*100,1)+"%"}</td><td>${network ? num(round.prediction_metrics?.rmse_ms)+" ms" : num(round.loss,4)}</td><td>${round.participants_count}/${round.selected_count}</td><td>${num(round.round_duration_s)} s</td><td>${num(metrics.communication_time_ms,1)} ms</td><td>${num(metrics.energy_j,2)} J</td><td>${num(metrics.data_transferred_mb,4)} MB</td><td>${num(metrics.client_failure_ratio == null ? null : metrics.client_failure_ratio*100,1)}%</td></tr>`;
+        return `<tr><td>${round.round}</td><td>${network ? num(round.prediction_metrics?.mae_ms)+" ms" : num(round.accuracy*100,1)+"%"}</td><td>${network ? num(round.prediction_metrics?.rmse_ms)+" ms" : num(round.loss,4)}</td><td>${round.participants_count}/${round.selected_count}</td><td>${num(round.round_duration_s)} s</td><td>${num(metrics.communication_time_ms,1)} ms</td><td>${metrics.energy_source==='not_measured'?'—':num(metrics.energy_j,2)+' J'}</td><td>${num(metrics.data_transferred_mb,4)} MB</td><td>${num(metrics.client_failure_ratio == null ? null : metrics.client_failure_ratio*100,1)}%</td></tr>`;
     }).join("") : '<tr><td colspan="9" class="empty">No rounds have been saved for this experiment yet.</td></tr>';
     renderCharts(rounds);
     const roundSelect = $("result-round");
@@ -78,7 +79,19 @@ function render(data) {
         roundSelect.value = String(rounds.at(-1).round);
         renderRound(rounds.at(-1));
     } else renderRound(null);
-    renderNetworkDataset(data);
+    renderNetworkDataset(data).catch(error=>notice(error.message,'error'));
+    if(config.runtime==='federated-http-v3'){
+        section.querySelector('p').textContent='Mỗi vòng chỉ chấm validation; test chỉ đánh giá sau huấn luyện. Thời gian là wall time thực qua HTTP. Năng lượng chưa đo; lưu lượng ứng dụng là mô phỏng fluid trên snapshot scenario.';
+        $('accuracy-chart').closest('article').querySelector('span').textContent='MAE validation / test cuối (ms)';
+        $('loss-chart').closest('article').querySelector('span').textContent='RMSE validation / test cuối (ms)';
+        $('communication-chart').closest('article').querySelector('span').textContent='Wall time HTTP + local training (ms)';
+        $('energy-chart').closest('article').querySelector('span').textContent='Năng lượng chưa đo';
+        const headers=$('round-results').closest('table').querySelectorAll('th');
+        headers[1].textContent='MAE validation / test cuối';headers[2].textContent='RMSE validation / test cuối';
+        headers[4].textContent='Wall time thực';headers[5].textContent='HTTP + local training';headers[6].textContent='Năng lượng chưa đo';
+        $('accuracy-chart').setAttribute('aria-label','MAE validation từng vòng và test cuối');
+        $('loss-chart').setAttribute('aria-label','RMSE validation từng vòng và test cuối');
+    }
     notice(`Loaded experiment #${data.id} results.`);
 }
 function exportRounds() {

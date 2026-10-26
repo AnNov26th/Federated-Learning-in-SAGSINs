@@ -153,6 +153,7 @@ class RoutingTests(unittest.TestCase):
     def test_real_federated_checkpoint_is_reused_by_routing(self):
         with patch('backend.services.fl_service.SessionLocal',self.session):
             response = self.client.post('/api/fl/experiments',json={
+                'runtime':'legacy',
                 'task':'network_delay','scenario_id':self.scenario_id,'algorithm':'Predictive',
                 'rounds':2,'client_count':2,'local_epochs':1,'samples_per_client':40,
                 'batch_size':16,'learning_rate':.03,'timeout_ms':30000,

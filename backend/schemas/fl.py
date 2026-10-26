@@ -5,6 +5,11 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class RegionalPoolSettings(BaseModel):
+    runtime: Literal["distributed", "legacy"] = "distributed"
+    model_family: Literal["trend", "residual_mlp"] = "trend"
+    transport_codec: Literal["packed", "json"] = "packed"
+    max_workers: int = Field(default=4, ge=1, le=16)
+    allocation_policy: Literal["equal", "demand", "minimax", "deadline"] = "deadline"
     prediction_target: Literal["auto", "fl_rtt", "application_link"] = "auto"
     pool_mode: Literal["regional", "all"] = "regional"
     region_radius_km: float = Field(default=1500, gt=0, le=20040, allow_inf_nan=False)

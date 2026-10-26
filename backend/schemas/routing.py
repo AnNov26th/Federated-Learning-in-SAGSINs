@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field
 
 
 class EventRouteRequest(BaseModel):
+    allocation_policy: Literal["equal", "demand", "minimax", "deadline"] = "deadline"
     scenario_id: int = Field(ge=1)
     lat: float = Field(ge=-90, le=90, allow_inf_nan=False)
     lng: float = Field(ge=-180, le=180, allow_inf_nan=False)

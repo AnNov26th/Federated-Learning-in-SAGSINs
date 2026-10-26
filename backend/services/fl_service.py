@@ -95,14 +95,20 @@ def _run_experiment(experiment_id):
             return
         config = dict(experiment.config_json or {})
         experiment.status = "RUNNING"
+        experiment.error_message = None
         experiment.started_at = datetime.now(timezone.utc)
         db.commit()
         publish(db, experiment, "preparing")
 
         if config.get("task") == "network_delay":
-            from backend.services.network_prediction_service import run_network_experiment
-            run_network_experiment(db, experiment)
+            if config.get("runtime")=="federated-http-v3":
+                from backend.services.distributed_runtime_service import run
+                run(db,experiment)
+            else:
+                from backend.services.network_prediction_service import run_network_experiment
+                run_network_experiment(db, experiment)
             experiment.status = "COMPLETED"
+            experiment.error_message = None
             experiment.completed_at = datetime.now(timezone.utc)
             db.commit()
             publish(db, experiment, "completed")
@@ -286,6 +292,13 @@ def _run_experiment(experiment_id):
             experiment.completed_at = datetime.now(timezone.utc)
             db.commit()
             publish(db, experiment, "completed")
+    except InterruptedError as exc:
+        db.rollback()
+        stopped=db.get(Experiment,experiment_id)
+        if stopped:
+            stopped.status="CANCELLED";stopped.completed_at=datetime.now(timezone.utc)
+            stopped.error_message=str(exc)
+            db.commit();publish(db,stopped,"cancelled")
     except Exception as exc:
         db.rollback()
         failed = db.query(Experiment).filter(Experiment.id == experiment_id).first()

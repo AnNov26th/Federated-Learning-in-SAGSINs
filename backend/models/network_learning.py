@@ -58,3 +58,16 @@ class NetworkRoundPrediction(Base):
     rule_delay_ms = Column(Float, nullable=False)
     selected = Column(Boolean, nullable=False)
     model_round = Column(Integer, nullable=False)
+
+
+class NetworkClock(Base):
+    """Persistent clock for global fluid sessions; independent of browser tabs."""
+    __tablename__ = "network_clocks"
+    scenario_id = Column(Integer, ForeignKey("scenarios.id"), primary_key=True)
+    sim_time_s = Column(Float, nullable=False, default=0)
+
+
+class NetworkAllocationSettings(Base):
+    __tablename__ = "network_allocation_settings"
+    scenario_id = Column(Integer, ForeignKey("scenarios.id"), primary_key=True)
+    policy = Column(String(16), nullable=False, default="deadline")

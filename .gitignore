@@ -2,6 +2,9 @@ document/
 .venv/
 __pycache__/
 *.pyc
+.secrets/
+.env
+data/output/distributed_fl/
 .agents/
 data/output/network_demo/
 data/output/training_ui_check/

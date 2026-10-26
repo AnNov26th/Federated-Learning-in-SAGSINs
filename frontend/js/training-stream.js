@@ -1,5 +1,5 @@
-export const phases = {queued:'Đang chờ', preparing:'Chuẩn bị dữ liệu', selecting:'Chọn client', selected:'Phân phối global model (mô phỏng)', local_training:'Huấn luyện local', client_finished:'Nhận cập nhật client (mô phỏng)', aggregating:'Tổng hợp global model', round_completed:'Đã lưu kết quả vòng', completed:'Hoàn tất', failed:'Thất bại', running:'Đang chạy'};
-export const terminal = status => ['COMPLETED','FAILED','CANCELLED'].includes(status);
+export const phases = {queued:'Đang chờ', preparing:'Chuẩn bị dữ liệu', selecting:'Chọn client', selected:'Phân phối global model', local_training:'Huấn luyện local', client_finished:'Nhận cập nhật client', aggregating:'Tổng hợp global model', round_completed:'Đã lưu kết quả vòng', completed:'Hoàn tất', failed:'Thất bại', running:'Đang chạy',evaluating:'Đánh giá test và đối chứng mạng',cancelled:'Đã hủy',interrupted:'Gián đoạn'};
+export const terminal = status => ['COMPLETED','FAILED','CANCELLED','INTERRUPTED'].includes(status);
 
 export function watchTraining(id, onUpdate, onConnection = () => {}) {
     let source, timer, closed = false, fetching = false;

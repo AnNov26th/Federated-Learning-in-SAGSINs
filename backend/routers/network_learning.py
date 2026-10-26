@@ -60,6 +60,8 @@ def get_observations(dataset_id: int, client_id: str | None = None,
                      limit: int = Query(20, ge=1, le=100), offset: int = Query(0, ge=0), db: Session = Depends(get_db)):
     if db.get(NetworkDataset, dataset_id) is None:
         raise HTTPException(status_code=404, detail="Dataset not found.")
+    if db.get(NetworkDataset,dataset_id).config_json.get("runtime")=="federated-http-v3":
+        raise HTTPException(403,"Dữ liệu thô giữ tại client; coordinator chỉ cung cấp metadata và metric tổng hợp.")
     query = db.query(NetworkObservation).filter(NetworkObservation.dataset_id == dataset_id)
     if client_id:
         query = query.filter(NetworkObservation.client_id == client_id)
@@ -100,6 +102,11 @@ def saved_model_predict(experiment_id: int, request: PredictionInput, db: Sessio
     dataset = db.get(NetworkDataset, experiment.config_json["dataset_id"])
     if request.payload_bytes != dataset.config_json["payload_bytes"]:
         raise HTTPException(status_code=400, detail="Use the payload size of this model's training dataset.")
+    if dataset.config_json.get("runtime")=="federated-http-v3":
+        from backend.services.distributed_runtime_service import predict_features
+        prediction=predict_features(evaluation.checkpoint_json,[request.model_dump()])[0]
+        return APIResponse(data={"experiment_id":experiment_id,"model_round":round_row.round,
+            "target":dataset.config_json["target"],"predicted_delay_ms":prediction})
     from backend.services.fl_service import _training_lock
     with _training_lock:
         prediction = predict(load_checkpoint(evaluation.checkpoint_json), [request.model_dump()])[0]

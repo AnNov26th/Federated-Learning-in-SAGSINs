@@ -2,6 +2,7 @@ const $ = (id) => document.getElementById(id);
 const esc = (value) => String(value ?? "—").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const num = (value, digits = 2) => value == null ? "—" : Number(value).toFixed(digits);
 let experiment, rawRows = [], chart, requestId = 0, currentRound;
+let replay=null,replayRun=null;
 async function api(url, options) {
     const response = await fetch(url, options);
     const result = await response.json();
@@ -25,7 +26,26 @@ export async function renderNetworkDataset(run) {
     experiment = run;
     ++requestId;
     $("dataset-panel").hidden = run.task !== "network_delay";
+    $('network-outcomes').hidden=run.config.runtime!=='federated-http-v3';
     if (run.task !== "network_delay") return;
+    $('network-outcomes').hidden=run.config.runtime!=='federated-http-v3';
+    $('raw-client').closest('.toolbar').hidden=run.config.runtime==='federated-http-v3';
+    if(run.config.runtime==='federated-http-v3'){
+        const meta=await api(`/api/fl/datasets/${run.dataset_id}`);
+        if(experiment.id!==run.id)return;
+        $('dataset-summary').textContent=`Dataset #${meta.id} · ${meta.client_count} client · ${Object.entries(meta.counts).map(([k,v])=>`${k}: ${v}`).join(' / ')}. Dữ liệu local ở các tài khoản MySQL riêng; coordinator chỉ nhận model và metric tổng hợp.`;
+        $('raw-data').innerHTML='<tr><td colspan="6">Dữ liệu thô giữ tại client, không xuất qua API điều phối.</td></tr>';
+        try{
+            const outcome=await api(`/api/fl/experiments/${run.id}/outcomes`);
+            if(experiment.id!==run.id)return;
+            $('outcome-quality').textContent=Object.entries(outcome.test).map(([key,value])=>`${key}: MAE ${num(value.mae_ms,5)} ms`).join(' · ')+` · HTTP body: ${outcome.communication.total_json_bytes.toLocaleString()} byte; chưa gồm header/TCP/TLS. Snapshot: ${run.config.distributed_config.topology.nodes.length} node / ${run.config.distributed_config.topology.links.length} link.`;
+            if(outcome.offline_baseline)$('outcome-quality').textContent+=` · Centralized offline: ${num(outcome.offline_baseline.centralized.mae_ms,5)} ms.`;
+            $('network-policy-results').innerHTML=outcome.network.map(row=>`<tr><td>${esc(row.route_policy)} / ${esc(row.allocation_policy)}</td><td>${num(row.delivery_ratio*100,1)}%</td><td>${num(row.mean_completion_s,3)}</td><td>${num(row.p95_completion_s,3)}</td><td>${num(row.throughput_mbps,3)}</td><td>${num(row.fairness_jain,3)}</td><td>${row.capacity_violations}</td></tr>`).join('');
+            $('download-checkpoint').href=`/api/fl/experiments/${run.id}/checkpoint`;
+            replayRun=run.id;await loadReplay();
+        }catch(error){$('outcome-quality').textContent=error.message;}
+        return;
+    }
     try {
         const data = await api(`/api/fl/datasets/${run.dataset_id}`);
         if (experiment.id !== run.id) return;
@@ -36,9 +56,9 @@ export async function renderNetworkDataset(run) {
 }
 export function renderNetworkPredictions(run, round) {
     currentRound = round;
-    $("prediction-panel").hidden = run?.task !== "network_delay";
+    $("prediction-panel").hidden = run?.task !== "network_delay" || run?.config.runtime==='federated-http-v3';
     chart?.destroy(); chart = null;
-    if (run?.task !== "network_delay") return;
+    if (run?.task !== "network_delay" || run?.config.runtime==='federated-http-v3') return;
     const m = round?.prediction_metrics, predictions = round?.predictions || [];
     $("prediction-summary").textContent = m ? `Selection: ${m.selection_source}. Future test MAE ${num(m.mae_ms)} ms; RMSE ${num(m.rmse_ms)} ms; R² ${num(m.r2,4)}. Persistence baseline MAE ${num(m.persistence_mae_ms)} ms. Test samples: ${m.test_samples}. Predictions used the previous model before local training. Unselected next-tick labels are hidden.` : "No prediction round saved yet.";
     $("prediction-results").innerHTML = predictions.map((p) => `<tr><td>${esc(p.client_id)}</td><td>${p.selected ? "Yes" : "No"}</td><td>${num(p.predicted_delay_ms)}</td><td>${p.observed_delay_ms == null ? "Not selected" : num(p.observed_delay_ms)}</td><td>${num(p.rule_delay_ms)}</td><td>${p.model_round}${p.model_round === 0 ? " (initialization)" : ""}</td><td>${p.observation_id}</td></tr>`).join("");
@@ -60,6 +80,22 @@ $("predict-sample").addEventListener("click", async () => {
     } catch (error) { $("inference-result").textContent = error.message; }
     finally { $("predict-sample").disabled = false; }
 });
+
+async function loadReplay(){
+    const id=replayRun;if(!id)return;
+    const data=await api(`/api/fl/experiments/${id}/network/${$('replay-policy').value}`);
+    if(id!==replayRun)return;
+    replay=data;const ticks=data.audit.map(row=>row.tick);
+    $('replay-tick').min=Math.min(...ticks);$('replay-tick').max=Math.max(...ticks);$('replay-tick').value=$('replay-tick').min;drawReplay();
+}
+function drawReplay(){
+    if(!replay)return;const tick=Number($('replay-tick').value);
+    const rows=replay.audit.filter(row=>row.tick===tick&&row.kind==='allocation');
+    $('replay-summary').textContent=`Tick ${tick}: ${rows.length} flow · ${(rows.reduce((sum,row)=>sum+row.served_mbit,0)).toFixed(3)} Mbit đã phục vụ. Replay từ audit mô phỏng.`;
+    $('replay-rows').innerHTML=rows.map(row=>`<tr><td>${esc(row.flow)}</td><td>${esc(row.links.join(' → '))}</td><td>${num(row.rate_mbps,3)}</td><td>${num(row.realized_mbps,3)}</td><td>${num(row.served_mbit,3)}</td></tr>`).join('');
+}
+$('replay-policy').addEventListener('change',()=>loadReplay().catch(error=>{$('replay-summary').textContent=error.message;}));
+$('replay-tick').addEventListener('input',drawReplay);
 $("export-predictions").addEventListener("click", () => {
     if (!currentRound) return;
     const rows = [["round","client_id","selected","predicted_delay_ms","observed_delay_ms","rule_delay_ms","model_round","observation_id"],...currentRound.predictions.map((p) => [currentRound.round,p.client_id,p.selected,p.predicted_delay_ms,p.observed_delay_ms,p.rule_delay_ms,p.model_round,p.observation_id])];

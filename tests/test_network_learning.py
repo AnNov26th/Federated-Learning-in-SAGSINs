@@ -48,7 +48,7 @@ class NetworkLearningTests(unittest.TestCase):
         self.engine.dispose()
 
     def payload(self, **kwargs):
-        return {"task":"network_delay", "scenario_id":self.scenario_id, "algorithm":"Predictive",
+        return {"runtime":"legacy", "task":"network_delay", "scenario_id":self.scenario_id, "algorithm":"Predictive",
                 "rounds":3, "client_count":2, "local_epochs":2, "batch_size":16,
                 "learning_rate":.03, "samples_per_client":40, "partition":"non_iid", "seed":19, **kwargs}
 

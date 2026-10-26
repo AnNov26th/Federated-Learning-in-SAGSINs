@@ -1,5 +1,36 @@
 # Federated Learning in SAGSINs
 
+## Lõi hợp nhất, giữ giao diện gốc (26/10/2026)
+
+FL Training, Experiments, Results và địa cầu vẫn là giao diện cũ. Experiment
+network-delay mới chạy qua client HTTP và kho MySQL riêng, dùng snapshot node/link
+của scenario đang chọn. Không có trang/menu `/distributed/` riêng.
+
+Toàn cầu hiện giữ **178 node / 460 link ACTIVE**. Pool có thể dùng toàn bộ 178
+client; `max_workers` chỉ giới hạn tiến trình thực thi, không cắt topology hoặc
+client. Mỗi tiến trình phục vụ một nhóm client có database, khóa và cache riêng.
+
+Trên máy hiện tại, database và tài khoản vận hành đã được khởi tạo. Máy mới bật
+MySQL rồi chạy:
+
+```powershell
+.\setup-distributed.ps1
+.\.venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
+```
+
+Chỉ chạy một backend/worker; dùng không có `--reload` khi huấn luyện dài.
+FL Training mặc định tạo dataset local mới. Dataset cũ vẫn chạy/xem được bằng
+runtime lịch sử, không đổi nhãn hoặc ghi đè checkpoint.
+
+Đã bổ sung Trend/MLP, codec float32, hủy/resume trong API gốc, baseline và tám
+đối chứng mạng trong Results. Simulation dùng được checkpoint mới, có đồng hồ
+backend, flow hữu hạn và allocator dùng chung link/node. Backend chính dùng
+account MySQL giới hạn trong DB gốc; dữ liệu huấn luyện mới không được đưa vào
+`network_observations` tập trung.
+
+Xem [kiến trúc, database và nghiệm thu](DISTRIBUTED_FL.md). Những mục bên dưới là
+mô tả/lộ trình lịch sử; phần này và tài liệu tích hợp ghi trạng thái mới nhất.
+
 Chương trình chính mô phỏng mạng Space–Air–Ground–Sea, huấn luyện FL dự đoán độ trễ từ dữ liệu mạng trong database và so sánh chính sách chọn participant.
 
 ## Thư mục dữ liệu
@@ -507,3 +538,48 @@ Artifacts trong `data/output/network_benchmarks/volume_<timestamp>/`: SQLite, so
 - Cần đồng hồ mô phỏng chung, lan truyền quỹ đạo, contact duration/handover và ràng buộc năng lượng/hải trình UAV/tàu. Đã giữ băng thông theo nhu cầu của nhiều sự kiện đồng thời; chưa mô phỏng hàng đợi, chia thời gian hoặc tranh chấp từng gói tin.
 - Client hiện là phân vùng logic trong DB chung, chưa là tiến trình/thiết bị độc lập qua socket. Chưa triển khai Differential Privacy, NbFML hoặc QR-DQN/DRL. Các run đang dở chưa tự resume sau restart.
 - Tài liệu dự án được hợp nhất ở README.md này; ghi hướng dẫn, giả định, kết quả kiểm tra và giới hạn mới tại đây thay vì tạo thêm file Markdown.
+
+## Lộ trình tái cấu trúc theo yêu cầu FL gốc (26/10/2026)
+
+Nguồn phạm vi là riêng mục **1. Federated Learning (FL)** trong ảnh đề tài người dùng xác nhận. Mục tiêu gồm học từ dữ liệu local của SPACE/AIR/GROUND/SEA, dự đoán độ trễ, hỗ trợ chọn đường truyền, phân bổ băng thông và đánh giá chi phí trao đổi cùng giới hạn bảo vệ dữ liệu. Định tuyến và phân bổ băng thông thuộc phạm vi chính. Random/Delay-Aware là chính sách thí nghiệm hỗ trợ, không thay thế các mục tiêu này. DRL, Game Theory, SCA, NbFML và mô phỏng quỹ đạo chính xác không phải điều kiện nghiệm thu của phạm vi đã chốt.
+
+Trạng thái ngày 26/10: đã khảo sát khả năng tái sử dụng và lập lộ trình dưới đây; **chưa triển khai runtime client độc lập hay allocator mới**. Các kết quả lịch sử ở trên vẫn thuộc runtime cũ. Mục lộ trình này không chứng nhận các chức năng dự kiến đã hoạt động.
+
+### Bảo toàn và chuyển đổi
+
+- Giữ nguyên MySQL, dataset, checkpoint và các báo cáo đã có. Không reset, đổi nhãn hoặc huấn luyện lại chúng để phù hợp mục tiêu mới.
+- Runtime mới dùng scenario, thư mục dữ liệu và cấu hình experiment riêng; benchmark chạy trên database tách biệt. Chuyển UI mặc định sau khi luồng mới qua nghiệm thu.
+- Dataset/checkpoint mới phải ghi phiên bản feature, target, đơn vị, payload, simulator và runtime. Từ chối checkpoint không tương thích thay vì suy luận ngầm giữa RTT FL và độ trễ ứng dụng.
+- Tận dụng `algorithms/fedavg.py`, `algorithms/network_delay_model.py`, dữ liệu link, topology khả thi, routing, vòng đời flow và experiment/results. Tách logic khỏi DB chung khi dùng trong client mới.
+- Giữ giao diện hiện có phục vụ đối chiếu. Tạm dừng mở rộng quy mô toàn cầu, hiệu ứng 3D, điều động thiết bị và tác vụ MNIST trong luồng nghiên cứu chính.
+
+### Các mốc triển khai và điều kiện nghiệm thu
+
+| Mốc | Công việc | Bằng chứng hoàn thành |
+|---|---|---|
+| M0 — Hợp đồng dữ liệu | Chốt target `application_link` tại t+1; phân biệt chi phí trao đổi model; thống nhất byte/Mbps/ms và clock | Schema phiên bản, fixture nhỏ, kiểm tra feature tại t không chứa nhãn t+1 |
+| M1 — Simulator nghiên cứu | Scenario riêng 12–20 node đủ bốn tầng, nhiều tuyến, nút thắt vệ tinh/UAV; tải và hàng đợi theo thời gian | Tái lập bằng seed; kiểm tra thời gian, lượng dữ liệu, dung lượng; lịch train/validation/test tách biệt |
+| M2 — FL phân tán | Client thành tiến trình có kho local; server phát global model, nhận update và FedAvg | Tính lại một vòng từ local updates; kiểm tra timeout, trùng update, sai phiên bản, tensor lỗi, không có cập nhật và phục hồi checkpoint |
+| M3 — Predictor | Persistence, trung bình trượt, local-only, centralized và FL trên cùng holdout | MAE/RMSE theo tầng, profile, IID/Non-IID; ngân sách học được ghi; checkpoint suy luận tái lập |
+| M4 — Routing | So sánh chi phí tĩnh, telemetry hiện tại và dự đoán; outcome chỉ đo sau quyết định | Độ trễ end-to-end/p95, delivery/deadline, audit quyết định, no-path; không dùng nhãn tương lai |
+| M5 — Allocator | Cấp tốc độ cho nhiều flow trên tuyến cố định; giảm thời gian hoàn tất lớn nhất trong cửa sổ; đối chứng chia đều/cấp theo nhu cầu | Không vượt capacity mỗi link; tiếp nhận/từ chối rõ; giải phóng tài nguyên; đo completion time, throughput và fairness |
+| M6 — Dữ liệu và truyền thông | Tách telemetry điều khiển tối thiểu khỏi lịch sử huấn luyện; xác thực, phân quyền, bảo vệ đường truyền | Server FL không cần đọc dữ liệu local; log không chứa raw rows; đếm download/upload/metadata/retry và byte qua hop |
+| M7 — Nghiệm thu hệ thống | Tích hợp cấu hình → FL → predictor → routing → allocation → outcome → report | Cấu hình/seed/phiên bản/dấu vân tay/checkpoint/audit đầy đủ; báo cáo thí nghiệm từng khối và kết hợp |
+
+Thực hiện M0 → M1 → M2 → M3 trước khi kết luận về lợi ích predictor. M4 và M5 được kiểm chứng riêng trước khi kết hợp. M6 được thiết kế từ M2 và kiểm chứng toàn luồng trước M7. Từng mốc phải có kiểm thử hành vi cần thiết và báo cáo kết quả, không đánh dấu hoàn thành chỉ vì có file hoặc màn hình.
+
+### Ranh giới runtime và dữ liệu mới
+
+- Client giữ lịch sử link local, tạo mẫu, train/evaluate local. Giao thức gửi run/round/client/model version, số mẫu, tensor cập nhật và thống kê tổng hợp cần thiết; không gửi raw training rows. Server kiểm tra cập nhật trước khi FedAvg.
+- Server lưu cấu hình, global checkpoints và metric. Simulator có trạng thái môi trường riêng; API FL không được truy vấn kho dữ liệu local. Centralized dùng bộ xuất benchmark riêng, không dùng làm đường truyền dữ liệu của FL.
+- Predictor dự đoán link delay theo payload và điều kiện cấp phát tham chiếu đã công bố. Routing và allocator phải dùng điều kiện tương thích; không áp dụng trực tiếp dự đoán cho mọi tốc độ cấp phát mà không mô hình hóa hoặc kiểm chứng.
+- Định tuyến tối ưu theo chi phí dự đoán trên graph khả thi. Allocator tối ưu trên tuyến cố định và cửa sổ cụ thể. Không tuyên bố tối ưu toàn cục đồng thời tuyến, bandwidth và thời gian tương lai.
+- Giữ dữ liệu local và bảo vệ đường truyền không bảo đảm chống suy luận từ cập nhật model. Nếu thêm mục tiêu đó, cần cơ chế và đánh giá secure aggregation/DP riêng; không gọi clipping hoặc cộng noise tùy ý là bảo đảm DP.
+
+### Thí nghiệm và kết quả cần bàn giao
+
+Thăm dò bằng 3 seed; kết quả chính dùng ít nhất 5 seed và báo cáo độ biến thiên. So sánh ghép cặp theo cùng seed, nguồn lưu lượng, topology và trạng thái ban đầu; mỗi chính sách có trạng thái simulator riêng khi hành động làm thay đổi tải. Không ép các chính sách dùng cùng outcome sau khi hành động đã khác.
+
+Các nhóm bắt buộc: chất lượng predictor; Non-IID; client chậm/dropout/timeout; routing; allocator; chi phí FL so với gom dữ liệu; hệ thống kết hợp có ablation predictor/routing/allocator. Báo cáo ngân sách học, chi phí khởi tạo/retry, lượng truyền tích lũy và điều kiện FL tiết kiệm hoặc tốn hơn centralized. Không đặt điều kiện phải thắng baseline để sửa/chọn lọc dữ liệu; kết quả không thuận lợi vẫn phải lưu và giải thích.
+
+Ước lượng triển khai ban đầu: tuần 1 M0–M1; tuần 2–3 M2; tuần 4 M3; tuần 5 M4; tuần 6 M5; tuần 7 hoàn thiện M6; tuần 8 M7. Đây là dự toán, không phải tiến độ đã hoàn thành. Các mốc chưa qua kiểm chứng không được ghi là đã đạt chỉ dựa trên lịch.

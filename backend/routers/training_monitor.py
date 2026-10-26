@@ -18,7 +18,7 @@ from backend.schemas.base import APIResponse
 from backend.algorithms.network_delay_model import payload_bytes
 
 router = APIRouter()
-TERMINAL = {"COMPLETED", "FAILED", "CANCELLED"}
+TERMINAL = {"COMPLETED", "FAILED", "CANCELLED", "INTERRUPTED"}
 
 
 def snapshot(db, experiment):
@@ -49,7 +49,7 @@ def context(scenario_id: int, pool_mode: str = "regional", region_radius_km: flo
     from backend.services.research_region_service import region_for
     return APIResponse(data={"scenario_id": scenario.id, "candidate_pool": candidates,
         "candidate_count": len(candidates), "local_epochs_by_client": epochs, "training_region": region,
-        "client_types": types, "default_target": "application_link" if region_for(db,scenario.id) else "fl_rtt"})
+        "client_types": types, "default_target": "application_link"})
 
 
 @router.post("/preview")
@@ -62,6 +62,21 @@ def preview(request: FLExperimentCreate, db: Session = Depends(get_db)):
     if request.task != "network_delay":
         return APIResponse(data={"task": request.task, "candidate_count": len(candidates),
             "note": "MNIST: số mẫu local được xác định từ phân vùng khi nạp dataset; không tải dữ liệu trong dự toán."})
+    saved = db.get(NetworkDataset,request.dataset_id) if request.dataset_id else None
+    if (saved.config_json.get("runtime")=="federated-http-v3" if saved else request.runtime=="distributed") and request.algorithm!="Centralized":
+        n=request.samples_per_client
+        estimate={"train":int(n*.6)-3,"validation":int(n*.8)-int(n*.6)-3,"test":n-int(n*.8)-3,"online":0}
+        counts=(saved.config_json.get("client_counts",{}) if saved else {})
+        per=[counts.get(c,estimate) for c in candidates]
+        limits={s:{"min":min(p.get(s,0) for p in per),"max":max(p.get(s,0) for p in per)} for s in estimate}
+        totals={s:sum(p.get(s,0) for p in per) for s in estimate}
+        return APIResponse(data={"task":"network_delay","source":"saved_dataset" if saved else "estimate",
+            "note":"Dự toán tối đa trước khi loại outage; số mẫu thật do từng client xác nhận. Không gom dữ liệu thô vào backend.",
+            "candidate_count":len(candidates),"dataset_client_count":len(candidates),"training_region":region,
+            "dataset_counts":totals,"pool_counts":totals,"dataset_total":sum(totals.values()),"per_client":limits,
+            "first_round_samples":{"min":request.client_count*limits["train"]["min"],"max":request.client_count*limits["train"]["max"]},
+            "epoch_overrides":len(epochs),"features":15,"outputs":1,"parameters":4 if request.model_family=="trend" else 1057,
+            "payload_bytes":16 if request.model_family=="trend" else 4228})
     per_client = {}
     if request.dataset_id is not None:
         dataset = db.get(NetworkDataset, request.dataset_id)

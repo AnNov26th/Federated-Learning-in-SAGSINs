@@ -58,6 +58,7 @@ def advance_region(db, region, seconds):
     for event in events:
         result = deepcopy(event.result_json or {})
         flow = result.get("flow")
+        if flow and flow.get("engine")=="shared-fluid-v3":continue
         if not flow or flow["state"] in {"completed", "expired"}:
             continue
         route = result.get("route") or {}
@@ -201,5 +202,7 @@ async def run_clock(bind):
         previous = now
         try:
             await run_in_threadpool(tick_running_regions, bind, seconds)
+            from backend.services.fluid_network_service import tick
+            await run_in_threadpool(tick,bind,seconds)
         except Exception:
             logging.getLogger(__name__).exception("Research simulation clock failed")

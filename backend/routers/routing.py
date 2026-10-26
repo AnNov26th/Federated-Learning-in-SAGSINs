@@ -44,6 +44,9 @@ def _calculate_event(request, background_tasks, db, reservations):
     if db.get(Scenario, request.scenario_id) is None:
         raise HTTPException(status_code=404, detail="Scenario not found.")
     result = route_event(db, request, reservations=reservations)
+    if result.get("code")=="ok" and not request.allow_reposition and not result.get("research"):
+        result.setdefault("runtime","federated-http-v3")
+        result.setdefault("allocation_policy",request.allocation_policy)
     if (result.get("code") != "no_model" or request.policy != "predictive"
             or request.experiment_id or not request.auto_train):
         return APIResponse(data=result)
@@ -142,6 +145,8 @@ def create_event(request: SavedEventRequest, background_tasks: BackgroundTasks, 
     from backend.services.research_flow_service import bind_flow
     region=region_for(db,request.scenario_id)
     if region:result=bind_flow(result,request,region.sim_time_s)
+    from backend.services.fluid_network_service import bind
+    result=bind(db,result,request)
     number = (db.query(func.max(RoutingEvent.display_number)).filter(RoutingEvent.scenario_id == request.scenario_id).scalar() or 0) + 1
     event = RoutingEvent(client_key=request.client_key, display_number=number, scenario_id=request.scenario_id, service=request.service, lat=request.lat, lng=request.lng,
                          config_json=request.model_dump(exclude={"lat", "lng", "service", "client_key"}), result_json=result)
@@ -172,6 +177,8 @@ def recompute_event(event_id: int, request: EventRouteRequest, background_tasks:
     from backend.services.research_flow_service import bind_flow
     region=region_for(db,request.scenario_id)
     if region:result=bind_flow(result,request,region.sim_time_s,(event.result_json or {}).get("flow"))
+    from backend.services.fluid_network_service import bind
+    result=bind(db,result,request,(event.result_json or {}).get("flow"))
     event.service, event.lat, event.lng = request.service, request.lat, request.lng
     event.config_json = request.model_dump(exclude={"lat", "lng", "service"})
     event.result_json, event.playback_json = result, None

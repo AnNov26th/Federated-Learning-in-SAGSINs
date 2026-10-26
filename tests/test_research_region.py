@@ -72,6 +72,7 @@ class ResearchTests(unittest.TestCase):
     def test_link_training_target_future_labels_and_checkpoint_inference(self):
         region = self.region()
         request = {
+            "runtime": "legacy",
             "scenario_id": region["scenario_id"],
             "task": "network_delay",
             "algorithm": "Predictive",

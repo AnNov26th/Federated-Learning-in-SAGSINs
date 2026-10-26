@@ -134,6 +134,15 @@ def _register_candidate_rows(db, candidate_pool, request):
 
 
 def _network_config(db, request, scenario, comparison_id=None):
+    from backend.services.distributed_runtime_service import RUNTIME, create_config
+    saved = db.get(NetworkDataset,request.dataset_id) if request.dataset_id else None
+    distributed = (saved.config_json.get("runtime")==RUNTIME if saved else request.runtime=="distributed")
+    if distributed and getattr(request,"algorithm",None)=="Centralized":
+        raise HTTPException(400,"Dataset local dùng centralized offline: python -m sagsin.offline <artifact_directory>. Không gom raw data vào server FL.")
+    if distributed and getattr(request,"algorithm",None)!="Centralized":
+        candidates,_,epochs,region=_training_snapshot(db,scenario,request)
+        _register_candidate_rows(db,candidates,request)
+        return create_config(db,request,scenario,candidates,epochs,region,comparison_id)
     from backend.services.network_dataset_service import create_dataset
     candidates, _, epochs, region = _training_snapshot(db, scenario, request)
     if request.dataset_id is not None:
@@ -163,6 +172,7 @@ def _network_config(db, request, scenario, comparison_id=None):
     config = _config(request, scenario, candidates, {client: profiles[client] for client in candidates}, epochs, comparison_id, region)
     config.update({
         "dataset_id": dataset.id, "dataset_fingerprint": dataset.fingerprint,
+        "runtime": "legacy",
         "generator_version": dataset.generator_version, "feature_version": dataset.config_json["feature_version"],
         "metrics_source": "held_out_future_network_observations",
         "network_metrics_source": "generated_temporal_network_trace",
@@ -173,6 +183,11 @@ def _network_config(db, request, scenario, comparison_id=None):
 
 
 def _create_record(db, scenario, algorithm, request, config):
+    config=dict(config)
+    if config.get("runtime")=="federated-http-v3":
+        config["runtime_id"]=uuid.uuid4().hex
+        config["distributed_config"]={**config["distributed_config"],
+            "selection":{"DelayAware":"delay_aware","Predictive":"predictive"}.get(algorithm,"random")}
     experiment = Experiment(
         scenario_id=scenario.id, algorithm=algorithm, rounds=request.rounds,
         learning_rate=request.learning_rate, status="QUEUED", is_simulation=True,
@@ -259,15 +274,16 @@ def _detail(db, experiment):
                 "data_transferred_mb": metric.data_transferred_mb,
                 "packet_loss_ratio": metric.packet_loss_ratio,
                 "client_failure_ratio": failure_ratio,
-                "energy_source": "estimated_at_10_watts",
-                "round_duration_source": "simulated_parallel_completion_estimate",
+                "energy_source": "not_measured" if (experiment.config_json or {}).get("runtime")=="federated-http-v3" else "estimated_at_10_watts",
+                "round_duration_source": "measured_http_wall" if (experiment.config_json or {}).get("runtime")=="federated-http-v3" else "simulated_parallel_completion_estimate",
             } if metric else None),
             "clients": [FLClientRoundResult.model_validate(client).model_dump() for client in clients],
             "prediction_metrics": ({
                 "mae_ms": evaluation.mae_ms, "rmse_ms": evaluation.rmse_ms, "r2": evaluation.r2,
                 "validation_mae_ms": evaluation.validation_mae_ms, "persistence_mae_ms": evaluation.persistence_mae_ms,
                 "test_samples": evaluation.test_samples, "selection_source": evaluation.selection_source,
-                "loss_unit": "log1p_delay_mse",
+                "loss_unit": "validation_mae_ms" if (experiment.config_json or {}).get("runtime")=="federated-http-v3" else "log1p_delay_mse",
+                "evaluation_split": "test" if evaluation.test_samples else "validation",
             } if evaluation else None),
             "predictions": [{
                 "client_id": row.client_id, "observation_id": row.observation_id,
@@ -289,6 +305,33 @@ def get_experiment(experiment_id: int, db: Session = Depends(get_db)):
     if experiment is None:
         raise HTTPException(status_code=404, detail="Experiment not found.")
     return APIResponse(data=_detail(db, experiment))
+
+
+@router.post("/experiments/{experiment_id}/cancel", response_model=APIResponse[dict])
+def cancel_experiment(experiment_id:int, db:Session=Depends(get_db)):
+    from backend.services.distributed_runtime_service import RUNTIME,cancel
+    row=db.get(Experiment,experiment_id)
+    if not row:raise HTTPException(404,"Experiment not found")
+    if row.config_json.get("runtime")!=RUNTIME or row.status not in {"QUEUED","RUNNING"}:
+        raise HTTPException(409,"Chỉ hủy được experiment HTTP đang chờ hoặc đang chạy")
+    cancel(row.id)
+    return APIResponse(data={"id":row.id,"cancel_requested":True})
+
+
+@router.post("/experiments/{experiment_id}/resume", response_model=APIResponse[dict],status_code=202)
+def resume_experiment(experiment_id:int,background_tasks:BackgroundTasks,db:Session=Depends(get_db)):
+    from backend.services.distributed_runtime_service import RUNTIME,directory,CONTROLS,CONTROL_LOCK
+    row=db.get(Experiment,experiment_id)
+    if not row:raise HTTPException(404,"Experiment not found")
+    if row.config_json.get("runtime")!=RUNTIME or row.status not in {"FAILED","CANCELLED","INTERRUPTED"}:
+        raise HTTPException(409,"Experiment không ở trạng thái có thể tiếp tục")
+    if not (directory(row.config_json)/"checkpoint.json").is_file():raise HTTPException(409,"Chưa có checkpoint vòng hoàn tất")
+    with CONTROL_LOCK:CONTROLS.pop(row.id,None)
+    row.config_json={**row.config_json,"resume_requested":True}
+    row.status="QUEUED";row.error_message=None;row.completed_at=None
+    db.commit()
+    background_tasks.add_task(run_experiment,row.id)
+    return APIResponse(data={"id":row.id,"status":row.status})
 
 
 @router.get("/comparisons/{comparison_id}", response_model=APIResponse[dict])

@@ -27,7 +27,7 @@ def reservations_for(db, scenario_id, exclude_id=None):
         route = result.get("route")
         if not route:
             continue
-        demand = result["profile"]["min_bandwidth"]
+        demand = (result.get("flow") or {}).get("allocated_mbps",result["profile"]["min_bandwidth"])
         count += 1
         for node_id in set(route["path"]):
             nodes[node_id] += demand

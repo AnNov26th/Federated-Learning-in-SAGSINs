@@ -117,7 +117,7 @@ def model_candidates(db, scenario_id=None):
         dataset = db.get(NetworkDataset, config.get("dataset_id"))
         if not dataset or dataset.scenario_id != experiment.scenario_id:
             continue
-        if dataset.config_json.get("feature_version") != FEATURE_VERSION or dataset.config_json.get("target") not in {"next_tick_model_round_trip_ms", LINK_TARGET}:
+        if dataset.config_json.get("runtime")!="federated-http-v3" and (dataset.config_json.get("feature_version") != FEATURE_VERSION or dataset.config_json.get("target") not in {"next_tick_model_round_trip_ms", LINK_TARGET}):
             continue
         seen.add(experiment.id)
         result.append((experiment, round_row, evaluation, dataset))
@@ -448,12 +448,14 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
     chosen = None
     if request.policy == "predictive":
         candidates = model_candidates(db, request.scenario_id)
-        if research:candidates=[candidate for candidate in candidates if candidate[3].config_json["target"]==LINK_TARGET]
+        if research:candidates=[candidate for candidate in candidates if candidate[3].config_json["target"] in {LINK_TARGET,"next_tick_reference_payload_delay_ms"}]
         chosen = next((c for c in candidates if c[0].id == request.experiment_id), None) if request.experiment_id else next(iter(candidates), None)
         if chosen is None:
             return fail("no_model", "Chưa có checkpoint FL hoàn tất phù hợp. Huấn luyện Network delay cho scenario này hoặc chọn công thức tĩnh.")
         result["model"] = model_summary(chosen)
-    link_task = bool(chosen and chosen[3].config_json["target"] == LINK_TARGET)
+    distributed_model=bool(chosen and chosen[3].config_json.get("runtime")=="federated-http-v3")
+    model_links={e["id"]:e for e in chosen[0].config_json["distributed_config"]["topology"]["links"]} if distributed_model else {}
+    link_task = bool(chosen and chosen[3].config_json["target"] in {LINK_TARGET,"next_tick_reference_payload_delay_ms"})
     if research and chosen and not link_task:
         return fail("incompatible_model", "Khu vực nghiên cứu cần checkpoint học độ trễ link ứng dụng.")
 
@@ -500,6 +502,7 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
             if capacity >= profile["min_bandwidth"]:
                 access_latency = max(float(node.latency), item["distance_km"] / 299.792458) * network_profile["latency_multiplier"] * (1 + .8 * load) + 25 * load**2
                 access_rtt = estimate_communication_ms(access_latency, capacity, size / (1024*1024)) / (1 - .04 * load**2)
+                if distributed_model:access_rtt=access_latency+size*8/(capacity*1000)
                 feature = {"layer": node.type, "observed_delay_ms": access_rtt,
                            "latency_ms": access_latency, "bandwidth_mbps": capacity,
                            "distance_km": item["distance_km"], "load_ratio": load,
@@ -539,6 +542,16 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
                     if bandwidth < profile["min_bandwidth"]:excluded+=1;continue
                     static=feature["observed_delay_ms"]
                     future=telemetry(link,b.type,research.sim_time_s+1,size,base_load,reserved)["observed_delay_ms"]
+                if distributed_model:
+                    from backend.services.distributed_runtime_service import application_features
+                    from backend.models.network_learning import NetworkClock
+                    clock=db.get(NetworkClock,request.scenario_id)
+                    tick=clock.sim_time_s if clock else 0
+                    feature=application_features(link,b.type,tick,size,chosen[0].config_json["distributed_config"],load,
+                        used_links.get(tuple(sorted((first,second))),0),model_links.get(f"A{link['id']}"))
+                    bandwidth=min(bandwidth,feature["available_mbps"])
+                    static=feature["observed_delay_ms"]
+                    if bandwidth<profile["min_bandwidth"]:continue
                 features.append(feature)
                 edges.append({"link_id": link["id"], "source": first, "target": second,
                               "bandwidth_mbps": bandwidth, "static_ms": static, "predicted_ms": None,
@@ -569,11 +582,17 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
 
     ingress, edges, features, excluded = build_edges(selected_load)
     result["diagnostics"] = {"active_nodes": len(nodes), "links": len(links), "eligible_directions": len(edges), "excluded": excluded}
-    inference_features = features + [item["features"] for item in ingress]
+    inference_features = features + ([] if distributed_model else [item["features"] for item in ingress])
+    if distributed_model:
+        for item in ingress:item["predicted_access_rtt_ms"]=item["access_rtt_ms"]
     if chosen and inference_features:
-        from backend.services.fl_service import _training_lock
-        with _training_lock:
-            predictions = predict(load_checkpoint(chosen[2].checkpoint_json), inference_features)
+        if distributed_model:
+            from backend.services.distributed_runtime_service import predict_features
+            predictions=predict_features(chosen[2].checkpoint_json,inference_features)
+        else:
+            from backend.services.fl_service import _training_lock
+            with _training_lock:
+                predictions = predict(load_checkpoint(chosen[2].checkpoint_json), inference_features)
         if len(predictions) != len(inference_features) or any(not finite(value) for value in predictions):
             return fail("invalid_prediction", "Model trả về dự đoán không hợp lệ; hãy kiểm tra checkpoint.")
         for edge, prediction in zip(edges, predictions):
@@ -634,6 +653,10 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
         "feasibility_first": True, "prediction_target": chosen[3].config_json["target"] if chosen else None,
         "inferred_channels": len(inference_features) if chosen else 0,
         "note": "Model chấm cả tiếp cận và từng hop hợp lệ. Tuyến trùng baseline vẫn là kết quả dùng FL; chưa chứng minh cải thiện độ trễ ứng dụng."}
+    if distributed_model:
+        result["runtime"]="federated-http-v3"
+        result["allocation_policy"]=chosen[0].config_json.get("allocation_policy","deadline")
+        result["model_applicability_note"]="Inference cold start nếu chưa có lịch sử tương thích; telemetry ứng dụng là mô phỏng, chưa xác nhận đo thực địa."
     if chosen:
         trained = set((chosen[0].config_json or {}).get("candidate_pool", []))
         result["model_applicability"] = {
