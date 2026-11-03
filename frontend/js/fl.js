@@ -123,8 +123,8 @@ async function loadScenario() {
         if(token!==loadToken)return;
         datasets=rows;
         fields.client_count.max=String(Math.max(2,pool.length));
-        fields.dataset_id.innerHTML='<option value="">Tạo snapshot mới</option>'+rows.map(row=>`<option value="${row.id}">#${row.id} · ${esc(row.partition)} · ${count(row.client_count)} client · ${count(Object.values(row.counts).reduce((a,b)=>a+b,0))} mẫu</option>`).join('');
-        if(rows.some(row=>String(row.id)===previousDataset))fields.dataset_id.value=previousDataset;
+        fields.dataset_id.innerHTML='<option value="">Tạo snapshot mới</option>'+rows.map(row=>`<option value="${row.id}" ${row.available===false?'disabled':''}>#${row.id} · ${esc(row.partition)} · ${count(row.client_count)} client · ${row.available===false?'Tạm ngưng: lỗi lưu trữ':`${count(Object.values(row.counts).reduce((a,b)=>a+b,0))} mẫu`}</option>`).join('');
+        if(rows.some(row=>String(row.id)===previousDataset && row.available!==false))fields.dataset_id.value=previousDataset;
         updateTask();
     } catch(error) { message(error.message,true); }
 }

@@ -77,6 +77,8 @@ def train_local(global_state, rows, config, seed):
 
 
 def run_network_experiment(db, experiment):
+    from backend.database.storage_health import require_observations
+    require_observations(db)
     config = dict(experiment.config_json)
     dataset = db.get(NetworkDataset, config["dataset_id"])
     if dataset is None:

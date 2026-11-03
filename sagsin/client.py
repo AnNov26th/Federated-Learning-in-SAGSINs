@@ -8,7 +8,7 @@ from pathlib import Path
 from fastapi import Depends, FastAPI, Header, HTTPException
 from pydantic import BaseModel, ConfigDict, Field
 from .config import ExperimentConfig
-from .dataset import generate, load_local, save_local
+from .dataset import generate, load_local, save_local, reuse_local
 from .model import DelayModel, envelope, errors, predictions, train, validate_envelope
 from .topology import BY_NODE, stable_seed, configure
 
@@ -31,7 +31,9 @@ def create_client(client_id, config, directory, token, database_settings, datase
     torch.set_num_threads(1)
     directory = Path(directory)
     run_id = directory.parent.parent.name
-    if dataset_override is None:
+    if dataset_override is None and config.dataset_run_id:
+        rows, fingerprint = reuse_local(database_settings, config.dataset_run_id, config)
+    elif dataset_override is None:
         fingerprint = save_local(database_settings, run_id, generate(client_id, config), config.model_dump())
         rows = {split: load_local(database_settings, run_id, split) for split in ("train", "validation", "test")}
     else:

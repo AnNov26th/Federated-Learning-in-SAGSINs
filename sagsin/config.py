@@ -17,6 +17,7 @@ class ExperimentConfig(BaseModel):
     reroute_improvement: float = Field(0.15, ge=0, le=1)
     client_count: int = Field(4, ge=1)
     client_ids: list[str] | None = None
+    dataset_run_id: str | None = Field(None, pattern=r"^[a-f0-9]{32}$")
     clients_per_round: int | None = Field(None, ge=1)
     max_workers: int = Field(4, ge=1, le=16)
     topology: dict | None = None

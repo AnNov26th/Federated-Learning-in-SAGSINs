@@ -17,6 +17,11 @@ from backend.schemas.base import APIResponse
 
 router = APIRouter()
 
+@router.get('/motion')
+def network_motion(scenario_id:int=Query(ge=1),db:Session=Depends(get_db)):
+    from backend.services.network_motion_service import snapshot
+    return snapshot(db,scenario_id)
+
 @router.get("/nodes", response_model=APIResponse[List[NodeSchema]])
 def get_nodes(db: Session = Depends(get_db)):
     nodes = db.query(Node).all()

@@ -5,7 +5,7 @@ import html
 from pathlib import Path
 import re
 import statistics
-from .paths import ROOT, OUTPUT, RUNS
+from .paths import OUTPUT, RUNS
 from .storage import read_json, write_json
 
 

@@ -320,7 +320,7 @@ def nearest_feasible_ingress(ingress, targets, edges):
     return next(([row] for row in candidates if row["source_id"] in reachable), [])
 
 
-def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reservations=None):
+def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reservations=None, target_nodes=None):
     reservations = reservations or {}
     used_nodes, used_links = reservations.get("nodes", {}), reservations.get("links", {})
     research = region_for(db, request.scenario_id)
@@ -381,9 +381,9 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
         if not nodes:
             return fail("no_local_nodes", f"Không có node ACTIVE trong vùng cục bộ {request.local_radius_km:g} km; không tự nối ra xa.")
     ground_distances = [surface_distance(origin, n) for n in nodes.values() if n.type == "GROUND"]
-    if not ground_distances:
+    if not ground_distances and target_nodes is None:
         return fail("no_local_target" if local else "no_target", "Không có GROUND ACTIVE trong vùng cục bộ; không tự chọn đích ngoài vùng." if local else "Scenario cần ít nhất một node GROUND ACTIVE làm đích.")
-    nearest_ground_km = min(ground_distances)
+    nearest_ground_km = min(ground_distances) if ground_distances else float('inf')
     remote = nearest_ground_km > REMOTE_GROUND_THRESHOLD_KM
     # Global surface ingress is a virtual simulation channel, not radio coverage.
     # Elevated ingress still respects the horizon. Explicit radii remain strict.
@@ -431,6 +431,8 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
     result["access"] = sources[0]
     targets = {n.id for n in nodes.values() if n.type == "GROUND"}
     if research:targets &= set(research.config_json["service_nodes"])
+    if target_nodes is not None:
+        targets = set(target_nodes) & set(nodes)
     if request.target_id:
         if request.target_id not in targets:
             return fail("invalid_target", "Đích phải là node GROUND ACTIVE trong cùng scenario và phạm vi định tuyến đã chọn.")
@@ -460,7 +462,7 @@ def route_snapshot(db, request, position_overrides=None, ingress_ids=None, reser
         return fail("incompatible_model", "Khu vực nghiên cứu cần checkpoint học độ trễ link ứng dụng.")
 
     links = topology_links(db, nodes, "configured" if research else request.topology, position_overrides)
-    if nearest_access:
+    if nearest_access or target_nodes is not None:
         from backend.services.topology_service import feasible_pair
         # Keep explicit terrestrial backhaul, but never invent long ground links
         # or trust stale stored distances to bypass snapshot geometry.

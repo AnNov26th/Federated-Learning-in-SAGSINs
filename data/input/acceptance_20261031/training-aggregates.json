@@ -1,0 +1,26 @@
+[
+  {
+    "profile": "normal",
+    "partition": "non_iid",
+    "selection": "random",
+    "model_family": "trend",
+    "transport_codec": "packed",
+    "seeds": 5,
+    "fl_mae_ms_mean": 0.49494967039815935,
+    "fl_mae_ms_std": 0.0145265774035363,
+    "persistence_mae_ms_mean": 0.5144036266769737,
+    "persistence_mae_ms_std": 0.014488457197512206,
+    "linear_trend_mae_ms_mean": 0.6539533454145496,
+    "linear_trend_mae_ms_std": 0.019432570491174257,
+    "local_mae_ms_mean": 0.5084958103182977,
+    "local_mae_ms_std": 0.014635760442989563,
+    "centralized_mae_ms_mean": 0.49188427436895693,
+    "centralized_mae_ms_std": 0.014906288974725457,
+    "fl_json_bytes_mean": 763130.2,
+    "fl_json_bytes_std": 547.9344851348562,
+    "training_json_bytes_mean": 119438.2,
+    "training_json_bytes_std": 74.07901187245953,
+    "savings_inclusive_fraction_mean": 0.9037727608175808,
+    "savings_inclusive_fraction_std": 7.536039673818138e-05
+  }
+]

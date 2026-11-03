@@ -3,6 +3,7 @@ document/
 __pycache__/
 *.pyc
 .secrets/
+.specify/
 .env
 data/output/distributed_fl/
 .agents/
@@ -15,3 +16,8 @@ docs/
 
 data/input/network_benchmarks/
 data/input/mnist/
+data/output/releases/
+data/output/acceptance_20261031/
+data/output/acceptance_workers/
+data/output/acceptance_gaming_20261031/
+data/output/acceptance_phone_20261031/

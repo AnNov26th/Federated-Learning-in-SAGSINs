@@ -1,14 +1,11 @@
 """B's federated engine behind A's original experiment/data/API contracts."""
 from collections import Counter
-from datetime import datetime, timezone
 import hashlib
 import json
-from pathlib import Path
 import threading
 import uuid
 
 from fastapi import HTTPException
-from sqlalchemy.orm import Session
 from backend.models.network import Node, NetworkLink
 from backend.models.network_learning import NetworkDataset, NetworkRoundEvaluation
 from backend.models.simulation import Experiment, FLRound, FLClientRound, Metric
@@ -77,7 +74,14 @@ def create_config(db, request, scenario, candidates, epochs, region, comparison_
             raise HTTPException(400,"Dùng đúng seed, partition, profile và số mẫu của dataset đã lưu.")
         if any(c not in saved["profiles"] for c in candidates):
             raise HTTPException(400,"Pool chứa client ngoài dataset đã lưu.")
-        runtime = runtime.model_copy(update={"topology":saved["topology"]})
+        sources = db.query(Experiment).filter_by(status="COMPLETED").order_by(Experiment.id.asc()).all()
+        source = next((e for e in sources if (e.config_json or {}).get("dataset_id") == dataset.id
+                       and (e.config_json or {}).get("runtime") == RUNTIME), None)
+        if source is None:
+            raise HTTPException(400,"Dataset chưa có lượt hoàn tất để xác định dữ liệu MySQL gốc.")
+        source_config = source.config_json["distributed_config"]
+        source_run = source_config.get("dataset_run_id") or source.config_json["runtime_id"]
+        runtime = runtime.model_copy(update={"topology":saved["topology"], "dataset_run_id":source_run})
     else:
         metadata = dict(runtime=RUNTIME,target=TARGET,feature_version=FEATURE_VERSION,profiles=profiles,
             partition=request.partition,seed=request.seed,network_profile=request.network_profile,
@@ -137,7 +141,7 @@ def run(db, experiment):
         nonlocal previous_bytes
         check()
         phase=value.get("stage","training")
-        if phase=="clients_ready":
+        if phase=="clients_ready" and not runtime.dataset_run_id:
             dataset=db.get(NetworkDataset,config["dataset_id"])
             meta=dict(dataset.config_json)
             meta["client_counts"]={c:h["splits"] for c,h in value["clients"].items()}

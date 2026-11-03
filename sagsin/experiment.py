@@ -11,7 +11,7 @@ from .fedavg import FedAvg
 from .model import DelayModel, envelope, metrics, validate_envelope
 from .simulation import compare_network
 from .storage import read_json, write_json
-from .topology import NODES, BY_NODE, stable_seed, configure
+from .topology import stable_seed, configure
 from .transport import ClientPool
 
 CLIENT_ORDER = ["G1", "A1", "S1", "SEA1", "G2", "A2", "S2", "SEA2", "G3", "A3", "S3", "EDGE"]

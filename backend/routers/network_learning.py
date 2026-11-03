@@ -62,6 +62,8 @@ def get_observations(dataset_id: int, client_id: str | None = None,
         raise HTTPException(status_code=404, detail="Dataset not found.")
     if db.get(NetworkDataset,dataset_id).config_json.get("runtime")=="federated-http-v3":
         raise HTTPException(403,"Dữ liệu thô giữ tại client; coordinator chỉ cung cấp metadata và metric tổng hợp.")
+    from backend.database.storage_health import require_observations
+    require_observations(db)
     query = db.query(NetworkObservation).filter(NetworkObservation.dataset_id == dataset_id)
     if client_id:
         query = query.filter(NetworkObservation.client_id == client_id)

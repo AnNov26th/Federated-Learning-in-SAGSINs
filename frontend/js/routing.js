@@ -21,7 +21,7 @@ async function api(path, options) {
 }
 
 export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarker, flyGlobeToMarker,
-    resetGlobeView, selectedNodeSummary, actionSelect, actionHint, container, topologyReady, refreshNodes }) {
+    resetGlobeView, selectedNodeSummary, actionSelect, actionHint, container, topologyReady, refreshNodes, setPlacement }) {
     let nextId = 1, selectedId = null, generation = 0, context = { scenarios: [], models: [] }, refreshing = false;
     let showBaseline = false;
     let inspectorView = 'list', routeListScroll = 0, inspectorAnimation;
@@ -292,6 +292,12 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
                 if (moving.elapsed_s>=moving.eta_s) finishMobility(drop);
             }
         }
+        const movingTopology=scene3D.earth.userData.motionTopology;
+        if(movingTopology&&movingTopology.scenario_id===Number($('routing-scenario').value)){
+            drawTopology(movingTopology,movingTopology.key);
+            topologyDrawing.group.visible=$('show-topology').checked;
+            $('topology-caption').textContent=`${movingTopology.links.length}/${movingTopology.total_links} liên kết trong tầm · vị trí backend.`;
+        }
         if (topologyDrawing?.group.visible) for (const segment of topologyDrawing.segments) segment.update();
         for (const drawing of drawings.values()) {
             if (!drawing.group.visible) continue;
@@ -362,7 +368,7 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
         $('route-state').textContent = !drop ? 'Chờ điểm đặt' : drop.pending ? 'Đang tính' : moving ? 'Đang điều động · chưa truyền' : drop.result?.code === 'no_model' ? 'Thiếu checkpoint FL' : drop.route ? (drop.route.application.latency_budget_met ? 'Có tuyến · trong ngân sách' : 'Có tuyến · vượt ngân sách') : 'Chưa có tuyến';
         if(drop?.result?.flow)$('route-state').textContent=FLOW_NAMES[drop.result.flow.state];
         $('route-summary').dataset.state=drop && !drop.pending && !drop.route ? 'unavailable' : 'idle';
-        $('route-summary').textContent = !drop ? 'Chọn sự kiện rồi nhấn lên địa cầu để bắt đầu.'
+        $('route-summary').textContent = !drop ? 'Nhấn Đặt client rồi chọn vị trí trên địa cầu.'
             : drop.pending ? `${drop.name} · ${drop.status || 'Đang tính tuyến…'}`
             : drop.result?.flow && !transmitting(drop) ? `${drop.name} · ${drop.action} · ${FLOW_NAMES[drop.result.flow.state]}`
             : drop.route ? `${drop.name} · ${drop.action} · ${drop.route.hop_count} hop · ${number(drop.route.application.estimated_one_way_ms)} ms một chiều ước tính · Xem Phân tích tuyến`
@@ -506,7 +512,7 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
             config:config(), pending:true, status:'Đang tính tuyến…', route:null, focused:true };
         droppedMarkers.forEach(d => { d.focused = false; }); droppedMarkers.push(drop); selectedId = id;
         inspectorView = 'detail';
-        actionSelect.value = ''; actionHint.style.display = 'none'; container.style.cursor = 'default';
+        setPlacement(false);
         renderDroppedMarkers();
         setPanel('route');
         flyGlobeToMarker(drop.marker,6);
@@ -652,7 +658,7 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
     }
     $('routing-load').addEventListener('input', () => { $('routing-load-value').textContent = `${$('routing-load').value}%`; });
     $('routing-coordinate-form').addEventListener('submit', event => {
-        event.preventDefault(); addEvent(Number($('event-lat').value),Number($('event-lng').value),actionSelect.value);
+        event.preventDefault(); if(actionSelect.value==='service_client'){status('Dùng mục Client & phiên dịch vụ để nhập tọa độ client.');return;} addEvent(Number($('event-lat').value),Number($('event-lng').value),actionSelect.value);
     });
     $('routing-demo').addEventListener('click',async()=>{
         if(refreshing || deletingAll)return;
@@ -670,7 +676,7 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
     });
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape') {
-            if (actionSelect.value) { actionSelect.value = ''; actionHint.style.display = 'none'; container.style.cursor = 'default'; }
+            if (actionSelect.value) setPlacement(false);
             else if (openPanel === 'route' && inspectorView === 'detail') $('route-back').click();
             else setPanel(null, true);
         }
@@ -730,7 +736,7 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
     researchUI=setupResearchControls({api,scenarioSelect:$('routing-scenario'),refreshNodes,loadContext,updateOptions,
         refreshEvents:async()=>{if(!refreshing && !droppedMarkers.some(drop=>drop.computing))await restoreEvents();}});
     setInterval(()=>{if(visible && droppedMarkers.some(drop=>drop.result?.flow?.engine==='shared-fluid-v3') && !refreshing && !droppedMarkers.some(drop=>drop.computing))restoreEvents().catch(()=>{});},2000);
-    const ready = topologyReady.then(loadContext).then(restoreEvents).then(() => { $('backend-status').textContent = 'Connected'; status(`Đã tải ${droppedMarkers.length} điểm đã lưu. Chọn sự kiện để thêm điểm mới.`); })
+    const ready = topologyReady.then(loadContext).then(restoreEvents).then(() => { $('backend-status').textContent = 'Connected'; status(`Đã tải ${droppedMarkers.length} điểm lịch sử. Đặt client mới trong mục Client & phiên dịch vụ.`); })
         .catch(error => { $('backend-status').textContent = 'Không tải được mạng'; status(`Không tải được topology: ${error.message}. Nhấn cập nhật để thử lại.`); });
-    return { addEvent:async (...args) => { await ready; return addEvent(...args); }, reloadSavedEvents:async () => { await ready; return restoreEvents(); }, disposeRoute, renderDroppedMarkers, refreshDroppedRoutes, focusDroppedMarker, setVisible, closePanels:() => setPanel(null) };
+    return { openClientPanel:()=>setPanel('config'), addEvent:async (...args) => { await ready; return addEvent(...args); }, reloadSavedEvents:async () => { await ready; return restoreEvents(); }, disposeRoute, renderDroppedMarkers, refreshDroppedRoutes, focusDroppedMarker, setVisible, closePanels:() => setPanel(null) };
 }

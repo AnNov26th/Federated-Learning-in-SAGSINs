@@ -19,6 +19,8 @@ def create_link_dataset(
     online_steps,
     client_ids=None,
 ):
+    from backend.database.storage_health import require_observations
+    require_observations(db)
     from backend.services.research_region_service import region_for
     if not region_for(db,scenario_id):
         raise ValueError("Application-link training requires an explicit research region.")

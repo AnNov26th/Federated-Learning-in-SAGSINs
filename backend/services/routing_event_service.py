@@ -44,6 +44,14 @@ def reservations_for(db, scenario_id, exclude_id=None):
             locked.add(move["node_id"])
             if (event.playback_json or {}).get("elapsed_s", 0) < result["mobility"]["eta_s"]:
                 deploying.add(move["node_id"])
+    from backend.models.service_session import ServiceSession
+    for session in db.query(ServiceSession).filter_by(scenario_id=scenario_id):
+        if session.state in {'completed','ended','rejected','failed'}:
+            continue
+        result = session.result_json or {}
+        for route, demand in zip(result.get('routes', []), result.get('rates_mbps', [])):
+            for key in set(route['path']):nodes[key] += demand
+            for hop in route['hops']:links[tuple(sorted((hop['source'],hop['target'])))] += demand
     return {"nodes": dict(nodes), "links": dict(links), "positions": positions,
             "deploying_nodes": deploying, "locked_nodes": locked, "event_count": count}
 

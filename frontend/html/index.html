@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="/css/style.css?v=20261023g">
     <link rel="stylesheet" href="/css/routing.css?v=20261023g">
+    <link rel="stylesheet" href="/css/service-clients.css">
     
     <!-- FontAwesome cho Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -28,6 +29,8 @@
     </script>
 <link rel="stylesheet" href="/css/research-studio.css?v=20261023g">
 <link rel="stylesheet" href="/css/training-globe.css?v=20261025">
+    <link rel="stylesheet" href="/css/storage-status.css">
+    <script src="/js/storage-status.js" defer></script>
 </head>
 
 <body>
@@ -100,14 +103,9 @@
                 <p id="routing-readiness" class="routing-help" role="status">Đang kiểm tra model…</p>
                 <label class="topology-toggle" for="show-topology"><input id="show-topology" type="checkbox" checked> Hiện liên kết mạng mờ</label>
                 <p id="topology-caption" class="routing-help">Nét liền: link đã lưu · nét đứt: link ước tính.</p>
+                <p id="motion-sync-status" class="routing-help" role="status">Đang đồng bộ vị trí node…</p>
                 <div class="simulation-controls">
-                    <label class="toolbar-field event-picker" for="action-select"><span>Sự kiện</span>
-                        <select id="action-select" class="action-dropdown" aria-label="Sự kiện" aria-describedby="action-hint">
-                            <option value="">Chọn để đặt điểm</option>
-                            <option value="Video Call">Video Call</option><option value="Watch Video">Watch Video</option>
-                            <option value="Emergency">Emergency</option><option value="Message">Message</option><option value="Gaming">Gaming</option>
-                        </select>
-                    </label>
+                    <button id="action-select" class="toolbar-button client-placement-toggle" type="button" value="" aria-pressed="false" aria-describedby="action-hint"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span>Đặt client</span></button>
                     <label class="toolbar-field speed-picker" for="earth-speed"><span>Tốc độ xoay</span>
                         <select id="earth-speed" class="action-dropdown" aria-label="Tốc độ xoay"><option value="1">1×</option><option value="2">2×</option><option value="3">3×</option><option value="4">4×</option><option value="5">5×</option></select>
                     </label>
@@ -119,8 +117,8 @@
                     </div>
                 </div>
                 <div class="simulation-context">
-                    <p id="route-summary" role="status" aria-live="polite">Chọn sự kiện rồi nhấn lên địa cầu để bắt đầu.</p>
-                    <p id="action-hint" class="action-hint" style="display:none;">Nhấn lên địa cầu để đặt điểm · Esc để hủy.</p>
+                    <p id="route-summary" role="status" aria-live="polite">Nhấn Đặt client rồi chọn vị trí trên địa cầu.</p>
+                    <p id="action-hint" class="action-hint" style="display:none;">Nhấn lên địa cầu để đặt client · Nhấn lại nút hoặc Esc để hủy.</p>
                     <p id="selected-node-summary" class="selected-node-summary">Kéo để xoay · Cuộn để thu phóng</p>
                 </div>
             </aside>
@@ -131,12 +129,43 @@
     <aside id="action-panel" aria-label="Thiết lập mô phỏng" hidden>
         <div class="panel-header">
             <div class="panel-title-icon"><i class="fa-solid fa-earth-americas"></i></div>
-            <div><h3>Thiết lập mô phỏng</h3><p>Chọn scenario và đặt sự kiện trên địa cầu</p></div>
+            <div><h3>Thiết lập mô phỏng</h3><p>Chọn scenario, đặt client và tạo phiên dịch vụ</p></div>
         </div>
         
         <div class="panel-section event-section">
             <label for="routing-scenario">Scenario</label>
             <select id="routing-scenario" class="action-dropdown"><option value="">Đang tải scenario…</option></select>
+            <section id="service-clients-panel" aria-labelledby="service-clients-title">
+                <h4 id="service-clients-title">Client</h4>
+                <details class="service-add-details"><summary>Nhập tọa độ & thiết bị</summary>
+                <form id="service-client-form">
+                    <label for="service-client-name">Tên client</label><input id="service-client-name" maxlength="80" value="Client 1" required>
+                    <label for="service-client-device">Thiết bị truy cập</label>
+                    <select id="service-client-device" class="action-dropdown"><option value="network_gateway">Gateway mô phỏng · truy cập nhiều lớp</option><option value="smartphone">Điện thoại 4G/5G</option><option value="satellite_terminal">Đầu cuối vệ tinh</option><option value="emergency_radio">Thiết bị cứu hộ</option><option value="iot_sensor">Cảm biến IoT</option></select>
+                    <div class="coordinate-fields"><label for="service-client-lat">Vĩ độ<input id="service-client-lat" type="number" min="-90" max="90" step="any" value="16.0544" required></label><label for="service-client-lng">Kinh độ<input id="service-client-lng" type="number" min="-180" max="180" step="any" value="108.2022" required></label></div>
+                    <button class="action-btn" type="submit">Thêm client theo tọa độ</button>
+                </form>
+                </details>
+                <button id="service-demo-pair" class="action-btn" type="button">Đặt 2 client ở hai bán cầu</button>
+                <p id="service-connection" class="routing-help" role="status">Đang tải client…</p>
+                <section class="service-client-section" aria-labelledby="service-client-list-title">
+                    <div class="drop-section-heading"><div><h4 id="service-client-list-title">Client đã thả</h4><p id="service-client-count">0 client</p></div><span class="drop-live-dot" aria-hidden="true"></span></div>
+                    <div id="service-client-list" class="service-client-list" role="list" aria-label="Danh sách client"></div>
+                    <p class="routing-help">Vị trí node và vùng phủ dùng chung đồng hồ backend. Chọn thẻ để định vị client.</p>
+                </section>
+                <label for="service-source">Client thao tác</label><select id="service-source" class="action-dropdown"></select>
+                <form id="service-session-form">
+                    <label for="service-kind">Dịch vụ</label><select id="service-kind" class="action-dropdown"><option value="Video Call">Video call · hai chiều</option><option value="Emergency">Emergency · đợi ACK</option><option value="Message">Tin nhắn tới client</option><option value="Watch Video">Xem video từ GROUND</option><option value="Gaming">Gaming · hai chiều</option></select>
+                    <label for="service-peer">Client nhận</label><select id="service-peer" class="action-dropdown"></select>
+                    <label for="service-policy">Chọn tuyến</label><select id="service-policy" class="action-dropdown"><option value="static">Công thức tĩnh</option><option value="current">Telemetry hiện tại</option><option value="predictive">Dự đoán bằng FL · checkpoint mới nhất</option></select>
+                    <button class="action-btn" type="submit">Bắt đầu phiên</button>
+                </form>
+                <p id="service-feedback" class="routing-help" role="status" aria-live="polite">Nhấn Đặt client để thêm điểm.</p>
+                <div id="service-session-list" aria-label="Các phiên dịch vụ"></div>
+                <details id="service-benchmark" class="service-add-details"><summary>Kết quả đối chứng FL</summary><p id="service-benchmark-summary" class="routing-help">Mở để xem đối chứng trên cùng điều kiện mạng.</p><div id="service-benchmark-table"></div></details>
+                <p class="routing-help">Tín hiệu điều khiển dùng WebSocket thật; lưu lượng dịch vụ và tuyến SAGSIN là mô phỏng. Không truyền camera/microphone.</p>
+            </section>
+            <details class="routing-advanced"><summary>Sự kiện cũ & khu vực nghiên cứu</summary>
             <button id="research-create" type="button" class="action-btn">Mở khu vực nghiên cứu SAGSIN</button>
             <section id="research-panel" hidden aria-label="Điều khiển nghiên cứu">
                 <p id="research-state" role="status"></p>
@@ -195,13 +224,14 @@
             </details>
             <button id="routing-refresh" class="action-btn" type="button"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i> Cập nhật mạng & tính lại</button>
             <p id="routing-status" class="routing-help" role="status" aria-live="polite">Chọn sự kiện rồi nhấn lên địa cầu.</p>
+            </details>
         </div>
 
 
 
         <section class="drop-section" aria-labelledby="drop-section-title">
             <div class="drop-section-heading">
-                <div><h4 id="drop-section-title">Điểm đã thả</h4><p id="drop-count">0 điểm</p></div>
+                <div><h4 id="drop-section-title">Điểm sự kiện lịch sử</h4><p id="drop-count">0 điểm</p></div>
                 <span class="drop-live-dot" aria-hidden="true"></span>
             </div>
             <div id="drop-list" class="drop-list" role="list">

@@ -1,0 +1,99 @@
+{
+  "complete": true,
+  "version": 2,
+  "ticks": 30,
+  "cases": [
+    {
+      "name": "normal",
+      "profile": "normal",
+      "pairs": 3,
+      "capacity_scale": 1.0,
+      "fail_links": false,
+      "service": "Video Call",
+      "device": "network_gateway"
+    },
+    {
+      "name": "concurrent_congested",
+      "profile": "congested",
+      "pairs": 12,
+      "capacity_scale": 0.25,
+      "fail_links": false,
+      "service": "Video Call",
+      "device": "network_gateway"
+    },
+    {
+      "name": "mixed_outage",
+      "profile": "mixed",
+      "pairs": 6,
+      "capacity_scale": 0.5,
+      "fail_links": true,
+      "service": "Video Call",
+      "device": "network_gateway"
+    },
+    {
+      "name": "gaming_outage",
+      "profile": "mixed",
+      "pairs": 6,
+      "capacity_scale": 0.5,
+      "fail_links": true,
+      "service": "Gaming",
+      "device": "network_gateway"
+    },
+    {
+      "name": "smartphone_access",
+      "profile": "normal",
+      "pairs": 3,
+      "capacity_scale": 1.0,
+      "fail_links": false,
+      "service": "Video Call",
+      "device": "smartphone"
+    }
+  ],
+  "seeds": [
+    11,
+    42,
+    71,
+    101,
+    137
+  ],
+  "inputs_sha256": {
+    "inventory.json": "86829cf3503d56b1f2a47595a923774a67bf40978827f43cbd95c38984c0eafa",
+    "models/101.json": "ee92c3a2eb6cad1182777931610850bdcbe2b640d638dd0a99e7559ea9bf5d9e",
+    "models/11.json": "fb8561ff2281bbb143604a04e07ca445690891ba1d5debd1799370e983736299",
+    "models/137.json": "772b1a790d63fc865075fe3c18cbe95a99ed15af4c70719695bdc58533a0eb65",
+    "models/42.json": "66a2723fbb5baf72f8a5c892840762da039b01c28d4a100be625998e0af492fb",
+    "models/71.json": "478ed8f8fa33c2942143195191a2da3e12688f6b9c307c8c3228e40e996ef02e",
+    "models.json": "e582baaf64718b059b1b4822b24c5aa165019fe9785ae47cc04d20471c6a10f3",
+    "training-aggregates.json": "df60d162245b6216445d731d3ba3e7400567534329f39711855165cdf27e7fe4",
+    "training-paired.json": "01d1421e647b0d43dc272d0c5c9868f4b6f1732b3f6bbc37d298468f94186ca0",
+    "training-runs.json": "f45650d85ef2723349ea7987ee20761eae4e723f7a290c1e9718d05b68d48ea9"
+  },
+  "sources_sha256": {
+    "sagsin/acceptance_matrix.py": "ebaf750301ee00bde245bf8415a0bd596f7418e496c8f076a8cbd462e364b14c",
+    "sagsin/service_route_benchmark.py": "7b2c8d8bc748bde055bc015873357795a744fd38f589b4d25b171829afade935",
+    "backend/services/service_routing_service.py": "69c26255cd0867a41474733e8ffb9c40f5d9428c2ed402364dabe803a8f4cbf7",
+    "backend/services/network_motion_service.py": "68a7b81b381c63c3d6909774ac05041676937524d83f582988c3ae069cceea80"
+  },
+  "training_profile": "normal",
+  "information_time": "t",
+  "evaluation_time": "t+1",
+  "handover_pause_s": 0.1,
+  "interval": "paired seed percentile bootstrap, 5000 draws, seed=20261031",
+  "collected_from": [
+    {
+      "directory": "data\\output\\acceptance_workers\\main",
+      "runs_sha256": "516ceaab3ae736f8e4368dd2ebc048b772aeadd81c3edabed4838f3e6e90a498",
+      "source_complete": false
+    },
+    {
+      "directory": "data\\output\\acceptance_gaming_20261031",
+      "runs_sha256": "5eeb93a89ff8c262b90afe99b3d65507f604dce07c6ba4fe3cfad2e60e0b3af8",
+      "source_complete": true
+    },
+    {
+      "directory": "data\\output\\acceptance_phone_20261031",
+      "runs_sha256": "37bbbccf32c67e149b18660c65506d9262faa431292f5b78dd3a71edd167e008",
+      "source_complete": true
+    }
+  ]
+}

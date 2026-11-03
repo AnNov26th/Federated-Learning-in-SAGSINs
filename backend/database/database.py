@@ -19,7 +19,14 @@ if _managed_path.is_file():
         DATABASE_URL=URL.create("mysql+pymysql",username=_managed["user"],password=_managed["password"],
             host=_managed["host"],port=_managed["port"],database=_managed["database"])
 
-engine = create_engine(DATABASE_URL, echo=False)
+def connection_options(url):
+    """Bound MySQL handshake/query waits, including a server that accepts TCP only."""
+    if make_url(url).get_backend_name() == "mysql":
+        return {"connect_timeout": 5, "read_timeout": 30, "write_timeout": 30}
+    return {}
+
+
+engine = create_engine(DATABASE_URL, echo=False, connect_args=connection_options(DATABASE_URL))
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

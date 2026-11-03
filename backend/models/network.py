@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Boolean
 from backend.database.database import Base
-from datetime import datetime, timezone
 
 class Node(Base):
     __tablename__ = "nodes"

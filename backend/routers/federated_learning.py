@@ -11,10 +11,7 @@ from backend.models.scenario import Scenario
 from backend.models.simulation import Experiment, FLClientRound, FLRound, Metric
 from backend.models.network_learning import NetworkDataset, NetworkObservation, NetworkRoundEvaluation, NetworkRoundPrediction
 from backend.schemas.base import APIResponse
-from backend.schemas.fl import (
-    FLClientRoundResult, FLComparisonCreate, FLExperimentCreate, FLExperimentDetail,
-    FLExperimentSummary, FLRoundResult,
-)
+from backend.schemas.fl import FLClientRoundResult, FLComparisonCreate, FLExperimentCreate, FLExperimentDetail, FLExperimentSummary
 from backend.services.fl_service import run_experiment
 
 router = APIRouter()
@@ -144,6 +141,8 @@ def _network_config(db, request, scenario, comparison_id=None):
         _register_candidate_rows(db,candidates,request)
         return create_config(db,request,scenario,candidates,epochs,region,comparison_id)
     from backend.services.network_dataset_service import create_dataset
+    from backend.database.storage_health import require_observations
+    require_observations(db)
     candidates, _, epochs, region = _training_snapshot(db, scenario, request)
     if request.dataset_id is not None:
         dataset = db.get(NetworkDataset, request.dataset_id)

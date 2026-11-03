@@ -34,6 +34,8 @@ def stable_seed(seed, client_id, purpose):
 
 
 def create_dataset(db, scenario_id, seed=42, samples_per_client=160, partition="non_iid", network_profile="normal", online_steps=ONLINE_STEPS, client_ids=None, prediction_target="auto"):
+    from backend.database.storage_health import require_observations
+    require_observations(db)
     from backend.services.research_region_service import region_for
     if prediction_target == "application_link" or (prediction_target == "auto" and region_for(db,scenario_id)):
         from backend.services.link_dataset_service import create_link_dataset
@@ -139,15 +141,24 @@ def create_dataset(db, scenario_id, seed=42, samples_per_client=160, partition="
 
 def dataset_summary(db, dataset):
     from sqlalchemy import func
-    counts = db.query(NetworkObservation.split, func.count(NetworkObservation.id)).filter(
-        NetworkObservation.dataset_id == dataset.id).group_by(NetworkObservation.split).all()
+    from backend.database.storage_health import observations_available
     config = dataset.config_json
+    distributed = config.get("runtime") == "federated-http-v3"
+    available = distributed or observations_available(db)
+    if distributed:
+        counts = config.get("counts", {})
+    elif available:
+        counts = dict(db.query(NetworkObservation.split, func.count(NetworkObservation.id)).filter(
+            NetworkObservation.dataset_id == dataset.id).group_by(NetworkObservation.split).all())
+    else:
+        counts = {}
     return {
         "id": dataset.id, "scenario_id": dataset.scenario_id, "seed": dataset.seed,
         "generator_version": dataset.generator_version, "fingerprint": dataset.fingerprint,
         "source": "generated", "target": config["target"], "partition": config["partition"],
         "network_profile": config["network_profile"], "client_count": len(config["profiles"]),
-        "counts": config.get("counts",{}) if config.get("runtime")=="federated-http-v3" else dict(counts), "layers": dict(Counter(p["layer"] for p in config["profiles"].values())),
+        "counts": counts, "available": available, "counts_available": available,
+        "layers": dict(Counter(p["layer"] for p in config["profiles"].values())),
         "runtime": config.get("runtime","legacy"),
         "samples_per_client": config["samples_per_client"], "online_steps": config["online_steps"],
         "locality": config["locality"], "created_at": dataset.created_at,

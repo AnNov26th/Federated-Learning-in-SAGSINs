@@ -4,7 +4,6 @@
     realized capacities at t+1 cap actual service, preventing future leakage.
     This is not a packet/RF emulator; latency is a fluid completion estimate.
 """
-import copy
 import math
 import random
 from .allocation import allocate, assert_capacity

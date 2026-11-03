@@ -1,0 +1,44 @@
+#service-clients-panel { margin:18px 0; padding:16px 0; border-block:1px solid rgba(130,180,205,.25); }
+#service-clients-panel h4 { margin:0 0 10px; font-size:17px; }
+#service-clients-panel form { display:grid; gap:8px; margin-bottom:12px; }
+#service-clients-panel input,#service-clients-panel select { width:100%; min-height:44px; box-sizing:border-box; }
+#service-clients-panel button { min-height:44px; cursor:pointer; }
+#service-clients-panel button:disabled { cursor:wait; opacity:.55; }
+#service-clients-panel button:focus-visible { outline:2px solid #64ded2; outline-offset:3px; }
+.service-card { border:1px solid rgba(130,180,205,.3); border-radius:10px; padding:12px; margin:12px 0; background:rgba(10,25,43,.55); overflow-wrap:anywhere; }
+.service-card h5 { margin:0 0 8px; font-size:15px; }
+.service-card p { margin:6px 0; line-height:1.5; color:#d2e1ed; }
+.service-card .service-state { color:#76e2ce; font-weight:600; }
+.service-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.service-actions button { flex:1 1 110px; border-radius:7px; border:1px solid #548b9d; background:#17384d; color:#effaff; padding:8px; }
+.service-card summary { cursor:pointer; min-height:32px; padding:6px 0; }
+.service-client-section { margin:18px 0; }
+.service-client-list { display:grid; gap:8px; margin-top:12px; max-height:340px; overflow-y:auto; padding:2px 4px 4px 2px; scrollbar-width:thin; }
+.service-client-item { display:grid; grid-template-columns:minmax(0,1fr) 36px; align-items:center; gap:4px; padding:8px 6px 8px 10px; border:1px solid #2c394d; border-radius:12px; background:#131e2e; }
+.service-client-item:hover { border-color:#4d6279; background:#192639; }
+.service-client-item.selected { border-color:#69b9cb; box-shadow:inset 3px 0 #69b9cb; background:#1c3042; }
+.service-client-info { display:grid; grid-template-columns:32px minmax(0,1fr); align-items:center; gap:10px; width:100%; min-width:0; padding:4px 0; border:0; background:transparent; color:#effaff; text-align:left; }
+.service-client-avatar { display:grid; place-items:center; width:32px; height:36px; border:1px solid #3b526b; border-radius:9px; background:#21344a; color:#a4d7eb; font-size:16px; }
+.service-client-body { display:grid; gap:5px; min-width:0; }
+.service-client-top { display:flex; align-items:center; justify-content:space-between; gap:6px; min-width:0; }
+.service-client-top strong { min-width:0; font-size:13px; line-height:1.4; overflow-wrap:anywhere; }
+.service-client-status { display:flex; align-items:center; gap:4px; flex-shrink:0; font-size:10px; color:#a9b7c7; }
+.service-client-status::before { content:''; width:5px; height:5px; border-radius:50%; background:#8290a3; }
+.service-client-status[data-online="true"] { color:#a9e4d0; }
+.service-client-status[data-online="true"]::before { background:#72d7b3; }
+.service-client-meta { color:#b3c1d0; font-size:11px; line-height:1.5; }
+.service-client-meta span { white-space:nowrap; font-variant-numeric:tabular-nums; }
+.service-client-activity { color:#92a5b9; font-size:11px; line-height:1.4; }
+.service-client-activity[data-live="true"] { color:#7edfd0; }
+.service-client-delete { display:grid; place-items:center; width:36px; min-height:44px; border:0; border-radius:9px; background:transparent; color:#a2aebe; }
+.service-client-delete:hover { background:#472d3c; color:#ffacb7; }
+.client-placement-toggle { grid-column:1/-1; display:flex; align-items:center; justify-content:center; gap:8px; width:100%; min-height:44px; white-space:nowrap; }
+.client-placement-toggle[aria-pressed="true"] { border-color:#75d6c9!important; background:#204c52!important; color:#b9fff1!important; box-shadow:0 0 0 2px rgba(117,214,201,.12); }
+#service-clients-panel input { background:#152235; color:#e7f0f7; border:1px solid #34465f; border-radius:8px; padding:9px; }
+.service-add-details { margin:8px 0 12px; border:1px solid #2c394d; border-radius:9px; padding:0 10px; }
+.service-add-details > summary { cursor:pointer; padding:12px 0; min-height:20px; font-size:12px; color:#bacada; }
+.service-add-details[open] > summary { margin-bottom:8px; border-bottom:1px solid #2c394d; }
+.service-benchmark-scroll { overflow:auto; margin:10px 0; }
+.service-benchmark-scroll table { width:100%; border-collapse:collapse; font-size:11px; white-space:nowrap; }
+.service-benchmark-scroll th,.service-benchmark-scroll td { border:1px solid #34465f; padding:8px; text-align:left; }
+#service-benchmark a { display:inline-block; color:#9ce3ef; padding:10px 0; }

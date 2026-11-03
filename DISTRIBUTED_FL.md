@@ -1,5 +1,11 @@
 # Hợp nhất lõi Second vào dự án gốc
 
+> Cập nhật hiện hành 31/10/2026: xem [HANDOFF.md](HANDOFF.md) cho nghiệm thu,
+> gói tái lập và demo. Nội dung bên dưới là mốc hợp nhất 26/10. Service routing
+> hiện có chuyển động/contact động; kiến trúc huấn luyện vẫn giữ snapshot.
+> Giới hạn loopback, synthetic và chưa có TLS/DP/secure aggregation vẫn áp dụng.
+> Đã có đối chứng 5 seed; ma trận offline mở rộng thêm tải/outage/dịch vụ.
+
 Ngày 26/10/2026, Asia/Saigon. Giữ giao diện A; thay bộ thực thi phía sau bằng các
 khối tốt hơn của B, không nhúng một ứng dụng nghiên cứu thứ hai.
 

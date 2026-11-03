@@ -1,5 +1,16 @@
 # Dữ liệu đầu vào và đầu ra
 
+## Gói nghiệm thu hiện hành 31/10/2026
+
+- `input/acceptance_20261031/`: inventory, năm checkpoint + config, training
+  metrics/chi phí model; không có raw observations hoặc credential.
+- `output/acceptance_20261031_final/`: báo cáo HTML, CSV/JSON từng seed và
+  tổng hợp, CI ghép cặp, workload và methodology/hash của ma trận offline.
+- `output/acceptance_20261031/`: lượt bị dừng, complete=false, không nghiệm thu.
+- `output/releases/`: ZIP bàn giao source + model + report; không đưa ZIP vào Git.
+
+Lệnh tái lập và giới hạn phương pháp: [HANDOFF.md](../HANDOFF.md).
+
 ## Cấu trúc
 
 ```text

@@ -1,0 +1,2152 @@
+{
+  "gaming_outage:11": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": -9.45,
+        "lng": 147.18,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -33.9249,
+        "lng": 18.4241,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 47.92,
+        "lng": 106.91,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": 59.9343,
+        "lng": 30.3351,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": -11.6876,
+        "lng": 27.5026,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 49.0277,
+        "lng": 104.044,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": 15.6,
+        "lng": 32.53,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "gaming_outage:42": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 15.6,
+        "lng": 32.53,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": 43.6532,
+        "lng": -79.3832,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -31.4201,
+        "lng": -64.1888,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 40.7128,
+        "lng": -74.006,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": -6.17,
+        "lng": 106.82,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 40.4,
+        "lng": -3.68,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 39.92,
+        "lng": 116.38,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": 40.7128,
+        "lng": -74.006,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": 45.42,
+        "lng": -75.7,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 8.5667,
+        "lng": 16.0833,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": 40.7128,
+        "lng": -74.006,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "gaming_outage:71": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": 21.4858,
+        "lng": 39.1925,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": -34.58,
+        "lng": -58.67,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 48.87,
+        "lng": 2.33,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 31.2304,
+        "lng": 121.474,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": -25.7,
+        "lng": 28.22,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": 48.87,
+        "lng": 2.33,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": -23.5505,
+        "lng": -46.6333,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "gaming_outage:101": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 59.9343,
+        "lng": 30.3351,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -16.409,
+        "lng": -71.5375,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 36.2605,
+        "lng": 59.6168,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 47.92,
+        "lng": 106.91,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": -33.8688,
+        "lng": 151.209,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": 12.1,
+        "lng": 15.03,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": 36.75,
+        "lng": 3.05,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": 24.65,
+        "lng": 46.7,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": -7.2575,
+        "lng": 112.752,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "gaming_outage:137": [
+    {
+      "a": {
+        "id": 0,
+        "lat": -15.79,
+        "lng": -47.88,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": -11.6876,
+        "lng": 27.5026,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": 32.1194,
+        "lng": 20.0868,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": 12.13,
+        "lng": -86.25,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 36.2605,
+        "lng": 59.6168,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": -34.58,
+        "lng": -58.67,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": 32.88,
+        "lng": 13.17,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "smartphone_access:11": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 1,
+        "lat": -9.45,
+        "lng": 147.18,
+        "device": "smartphone"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -33.9249,
+        "lng": 18.4241,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 3,
+        "lat": 47.92,
+        "lng": 106.91,
+        "device": "smartphone"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 5,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "smartphone"
+      }
+    }
+  ],
+  "smartphone_access:42": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 15.6,
+        "lng": 32.53,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 1,
+        "lat": 43.6532,
+        "lng": -79.3832,
+        "device": "smartphone"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -31.4201,
+        "lng": -64.1888,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 3,
+        "lat": 40.7128,
+        "lng": -74.006,
+        "device": "smartphone"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": -6.17,
+        "lng": 106.82,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 5,
+        "lat": 40.4,
+        "lng": -3.68,
+        "device": "smartphone"
+      }
+    }
+  ],
+  "smartphone_access:71": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 1,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "smartphone"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": 21.4858,
+        "lng": 39.1925,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 3,
+        "lat": -34.58,
+        "lng": -58.67,
+        "device": "smartphone"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 48.87,
+        "lng": 2.33,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 5,
+        "lat": 31.2304,
+        "lng": 121.474,
+        "device": "smartphone"
+      }
+    }
+  ],
+  "smartphone_access:101": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 59.9343,
+        "lng": 30.3351,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 1,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "smartphone"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -16.409,
+        "lng": -71.5375,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 3,
+        "lat": 36.2605,
+        "lng": 59.6168,
+        "device": "smartphone"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 47.92,
+        "lng": 106.91,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 5,
+        "lat": -33.8688,
+        "lng": 151.209,
+        "device": "smartphone"
+      }
+    }
+  ],
+  "smartphone_access:137": [
+    {
+      "a": {
+        "id": 0,
+        "lat": -15.79,
+        "lng": -47.88,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 1,
+        "lat": -11.6876,
+        "lng": 27.5026,
+        "device": "smartphone"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": 32.1194,
+        "lng": 20.0868,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 3,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "smartphone"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "smartphone"
+      },
+      "b": {
+        "id": 5,
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "device": "smartphone"
+      }
+    }
+  ],
+  "normal:11": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": -9.45,
+        "lng": 147.18,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -33.9249,
+        "lng": 18.4241,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 47.92,
+        "lng": 106.91,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "normal:42": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 15.6,
+        "lng": 32.53,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": 43.6532,
+        "lng": -79.3832,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -31.4201,
+        "lng": -64.1888,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 40.7128,
+        "lng": -74.006,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": -6.17,
+        "lng": 106.82,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 40.4,
+        "lng": -3.68,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "normal:71": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": 21.4858,
+        "lng": 39.1925,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": -34.58,
+        "lng": -58.67,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 48.87,
+        "lng": 2.33,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 31.2304,
+        "lng": 121.474,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "normal:101": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 59.9343,
+        "lng": 30.3351,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -16.409,
+        "lng": -71.5375,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 36.2605,
+        "lng": 59.6168,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 47.92,
+        "lng": 106.91,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": -33.8688,
+        "lng": 151.209,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "normal:137": [
+    {
+      "a": {
+        "id": 0,
+        "lat": -15.79,
+        "lng": -47.88,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": -11.6876,
+        "lng": 27.5026,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": 32.1194,
+        "lng": 20.0868,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "concurrent_congested:11": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": -9.45,
+        "lng": 147.18,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -33.9249,
+        "lng": 18.4241,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 47.92,
+        "lng": 106.91,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": 59.9343,
+        "lng": 30.3351,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": -11.6876,
+        "lng": 27.5026,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 49.0277,
+        "lng": 104.044,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": 15.6,
+        "lng": 32.53,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 12,
+        "lat": 21.4858,
+        "lng": 39.1925,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 13,
+        "lat": -11.6876,
+        "lng": 27.5026,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 14,
+        "lat": 45.42,
+        "lng": -75.7,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 15,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 16,
+        "lat": 28.6,
+        "lng": 77.2,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 17,
+        "lat": 31.2304,
+        "lng": 121.474,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 18,
+        "lat": -23.5505,
+        "lng": -46.6333,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 19,
+        "lat": -16.409,
+        "lng": -71.5375,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 20,
+        "lat": 39.93,
+        "lng": 32.87,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 21,
+        "lat": 15.6,
+        "lng": 32.53,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 22,
+        "lat": -35.27,
+        "lng": 149.13,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 23,
+        "lat": 24.65,
+        "lng": 46.7,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "concurrent_congested:42": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 15.6,
+        "lng": 32.53,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": 43.6532,
+        "lng": -79.3832,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -31.4201,
+        "lng": -64.1888,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 40.7128,
+        "lng": -74.006,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": -6.17,
+        "lng": 106.82,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 40.4,
+        "lng": -3.68,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 39.92,
+        "lng": 116.38,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": 40.7128,
+        "lng": -74.006,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": 45.42,
+        "lng": -75.7,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 8.5667,
+        "lng": 16.0833,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": 40.7128,
+        "lng": -74.006,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 12,
+        "lat": -16.409,
+        "lng": -71.5375,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 13,
+        "lat": -23.5505,
+        "lng": -46.6333,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 14,
+        "lat": 59.9343,
+        "lng": 30.3351,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 15,
+        "lat": 19.43,
+        "lng": -99.13,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 16,
+        "lat": -35.27,
+        "lng": 149.13,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 17,
+        "lat": -31.4201,
+        "lng": -64.1888,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 18,
+        "lat": -23.5505,
+        "lng": -46.6333,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 19,
+        "lat": 36.75,
+        "lng": 3.05,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 20,
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 21,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 22,
+        "lat": 24.65,
+        "lng": 46.7,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 23,
+        "lat": -31.4201,
+        "lng": -64.1888,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "concurrent_congested:71": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": 21.4858,
+        "lng": 39.1925,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": -34.58,
+        "lng": -58.67,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 48.87,
+        "lng": 2.33,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 31.2304,
+        "lng": 121.474,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": -25.7,
+        "lng": 28.22,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": 48.87,
+        "lng": 2.33,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": -23.5505,
+        "lng": -46.6333,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 12,
+        "lat": -33.8688,
+        "lng": 151.209,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 13,
+        "lat": 24.65,
+        "lng": 46.7,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 14,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 15,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 16,
+        "lat": -31.4201,
+        "lng": -64.1888,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 17,
+        "lat": 39.93,
+        "lng": 32.87,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 18,
+        "lat": -12.05,
+        "lng": -77.05,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 19,
+        "lat": 51.16,
+        "lng": 71.45,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 20,
+        "lat": 47.92,
+        "lng": 106.91,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 21,
+        "lat": -25.7,
+        "lng": 28.22,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 22,
+        "lat": 39.92,
+        "lng": 116.38,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 23,
+        "lat": 36.2605,
+        "lng": 59.6168,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "concurrent_congested:101": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 59.9343,
+        "lng": 30.3351,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -16.409,
+        "lng": -71.5375,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 36.2605,
+        "lng": 59.6168,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 47.92,
+        "lng": 106.91,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": -33.8688,
+        "lng": 151.209,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": 12.1,
+        "lng": 15.03,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": 36.75,
+        "lng": 3.05,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": 24.65,
+        "lng": 46.7,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": -7.2575,
+        "lng": 112.752,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 12,
+        "lat": 12.13,
+        "lng": -86.25,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 13,
+        "lat": 39.93,
+        "lng": 32.87,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 14,
+        "lat": 36.75,
+        "lng": 3.05,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 15,
+        "lat": 35.7,
+        "lng": 51.42,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 16,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 17,
+        "lat": -15.79,
+        "lng": -47.88,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 18,
+        "lat": 48.87,
+        "lng": 2.33,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 19,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 20,
+        "lat": -4.32,
+        "lng": 15.3,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 21,
+        "lat": -23.5505,
+        "lng": -46.6333,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 22,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 23,
+        "lat": -33.9249,
+        "lng": 18.4241,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "concurrent_congested:137": [
+    {
+      "a": {
+        "id": 0,
+        "lat": -15.79,
+        "lng": -47.88,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": -11.6876,
+        "lng": 27.5026,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": 32.1194,
+        "lng": 20.0868,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": 12.13,
+        "lng": -86.25,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 36.2605,
+        "lng": 59.6168,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": -34.58,
+        "lng": -58.67,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": 32.88,
+        "lng": 13.17,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 12,
+        "lat": 32.88,
+        "lng": 13.17,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 13,
+        "lat": -12.05,
+        "lng": -77.05,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 14,
+        "lat": 49.0277,
+        "lng": 104.044,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 15,
+        "lat": 39.92,
+        "lng": 116.38,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 16,
+        "lat": 19.43,
+        "lng": -99.13,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 17,
+        "lat": -12.05,
+        "lng": -77.05,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 18,
+        "lat": -12.05,
+        "lng": -77.05,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 19,
+        "lat": 35.7,
+        "lng": 51.42,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 20,
+        "lat": -34.58,
+        "lng": -58.67,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 21,
+        "lat": 21.4858,
+        "lng": 39.1925,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 22,
+        "lat": -31.4201,
+        "lng": -64.1888,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 23,
+        "lat": 12.1,
+        "lng": 15.03,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "mixed_outage:11": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": -9.45,
+        "lng": 147.18,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -33.9249,
+        "lng": 18.4241,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 47.92,
+        "lng": 106.91,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 20.6597,
+        "lng": -103.35,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": 59.9343,
+        "lng": 30.3351,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": -11.6876,
+        "lng": 27.5026,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 49.0277,
+        "lng": 104.044,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": 15.6,
+        "lng": 32.53,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "mixed_outage:42": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 15.6,
+        "lng": 32.53,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": 43.6532,
+        "lng": -79.3832,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -31.4201,
+        "lng": -64.1888,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 40.7128,
+        "lng": -74.006,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": -6.17,
+        "lng": 106.82,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 40.4,
+        "lng": -3.68,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 39.92,
+        "lng": 116.38,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": 40.7128,
+        "lng": -74.006,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": 45.42,
+        "lng": -75.7,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 8.5667,
+        "lng": 16.0833,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": 40.7128,
+        "lng": -74.006,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "mixed_outage:71": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": 21.4858,
+        "lng": 39.1925,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": -34.58,
+        "lng": -58.67,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 48.87,
+        "lng": 2.33,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 31.2304,
+        "lng": 121.474,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": -25.7,
+        "lng": 28.22,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": 48.87,
+        "lng": 2.33,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": -23.5505,
+        "lng": -46.6333,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "mixed_outage:101": [
+    {
+      "a": {
+        "id": 0,
+        "lat": 59.9343,
+        "lng": 30.3351,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": -16.409,
+        "lng": -71.5375,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 36.2605,
+        "lng": 59.6168,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 47.92,
+        "lng": 106.91,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": -33.8688,
+        "lng": 151.209,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": 12.1,
+        "lng": 15.03,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": 36.75,
+        "lng": 3.05,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": 24.65,
+        "lng": 46.7,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": -7.2575,
+        "lng": 112.752,
+        "device": "network_gateway"
+      }
+    }
+  ],
+  "mixed_outage:137": [
+    {
+      "a": {
+        "id": 0,
+        "lat": -15.79,
+        "lng": -47.88,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 1,
+        "lat": -11.6876,
+        "lng": 27.5026,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 2,
+        "lat": 32.1194,
+        "lng": 20.0868,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 3,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 4,
+        "lat": 4.71,
+        "lng": -74.07,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 5,
+        "lat": 35.6969,
+        "lng": -0.6331,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 6,
+        "lat": 12.13,
+        "lng": -86.25,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 7,
+        "lat": 36.2605,
+        "lng": 59.6168,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 8,
+        "lat": -34.58,
+        "lng": -58.67,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 9,
+        "lat": 32.88,
+        "lng": 13.17,
+        "device": "network_gateway"
+      }
+    },
+    {
+      "a": {
+        "id": 10,
+        "lat": 12.4379,
+        "lng": -86.878,
+        "device": "network_gateway"
+      },
+      "b": {
+        "id": 11,
+        "lat": 19.076,
+        "lng": 72.8777,
+        "device": "network_gateway"
+      }
+    }
+  ]
+}

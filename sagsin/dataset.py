@@ -74,3 +74,26 @@ def load_local(settings, run_id, split):
         with db.cursor() as cursor:
             cursor.execute("SELECT payload FROM observations WHERE run_id=%s AND split=%s ORDER BY id", (run_id, split))
             return [json.loads(row["payload"]) for row in cursor.fetchall()]
+
+
+def reuse_local(settings, run_id, config):
+    """Read and verify an existing dataset without generating or writing rows."""
+    with connect(settings) as db:
+        with db.cursor() as cursor:
+            cursor.execute("SELECT fingerprint, config_json FROM datasets WHERE run_id=%s", (run_id,))
+            saved = cursor.fetchone()
+    if not saved:
+        raise ValueError(f"Existing client dataset not found: {run_id}")
+    original = ExperimentConfig.from_saved(json.loads(saved["config_json"]))
+    for key in ("seed", "partition", "profile", "samples_per_client", "payload_bytes", "topology"):
+        if getattr(original, key) != getattr(config, key):
+            raise ValueError(f"Existing dataset differs in {key}")
+    rows = {split: load_local(settings, run_id, split) for split in ("train", "validation", "test")}
+    encoded = "".join(json.dumps(row, sort_keys=True, separators=(",", ":"))
+                      for split in rows for row in rows[split])
+    fingerprint = hashlib.sha256(encoded.encode()).hexdigest()
+    if fingerprint != saved["fingerprint"]:
+        raise ValueError("Existing client dataset fingerprint mismatch")
+    if any(not part for part in rows.values()):
+        raise ValueError("Existing client dataset has an empty split")
+    return rows, fingerprint

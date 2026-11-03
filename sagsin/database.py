@@ -1,7 +1,5 @@
 """MySQL only. Separate schemas/users for coordinator and each client."""
-import json
 import os
-from pathlib import Path
 import re
 import secrets
 import hashlib

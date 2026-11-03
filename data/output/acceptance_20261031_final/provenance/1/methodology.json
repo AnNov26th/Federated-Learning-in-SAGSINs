@@ -1,0 +1,45 @@
+{
+  "complete": true,
+  "version": 2,
+  "ticks": 30,
+  "cases": [
+    {
+      "name": "gaming_outage",
+      "profile": "mixed",
+      "pairs": 6,
+      "capacity_scale": 0.5,
+      "fail_links": true,
+      "service": "Gaming",
+      "device": "network_gateway"
+    }
+  ],
+  "seeds": [
+    11,
+    42,
+    71,
+    101,
+    137
+  ],
+  "inputs_sha256": {
+    "inventory.json": "86829cf3503d56b1f2a47595a923774a67bf40978827f43cbd95c38984c0eafa",
+    "models/101.json": "ee92c3a2eb6cad1182777931610850bdcbe2b640d638dd0a99e7559ea9bf5d9e",
+    "models/11.json": "fb8561ff2281bbb143604a04e07ca445690891ba1d5debd1799370e983736299",
+    "models/137.json": "772b1a790d63fc865075fe3c18cbe95a99ed15af4c70719695bdc58533a0eb65",
+    "models/42.json": "66a2723fbb5baf72f8a5c892840762da039b01c28d4a100be625998e0af492fb",
+    "models/71.json": "478ed8f8fa33c2942143195191a2da3e12688f6b9c307c8c3228e40e996ef02e",
+    "models.json": "e582baaf64718b059b1b4822b24c5aa165019fe9785ae47cc04d20471c6a10f3",
+    "training-aggregates.json": "df60d162245b6216445d731d3ba3e7400567534329f39711855165cdf27e7fe4",
+    "training-runs.json": "f45650d85ef2723349ea7987ee20761eae4e723f7a290c1e9718d05b68d48ea9"
+  },
+  "sources_sha256": {
+    "sagsin/acceptance_matrix.py": "54619b9cb4be063c957bec5f6d1cc08b13c63d04160473df3c026943e4dd31b0",
+    "sagsin/service_route_benchmark.py": "7b2c8d8bc748bde055bc015873357795a744fd38f589b4d25b171829afade935",
+    "backend/services/service_routing_service.py": "69c26255cd0867a41474733e8ffb9c40f5d9428c2ed402364dabe803a8f4cbf7",
+    "backend/services/network_motion_service.py": "68a7b81b381c63c3d6909774ac05041676937524d83f582988c3ae069cceea80"
+  },
+  "training_profile": "normal",
+  "information_time": "t",
+  "evaluation_time": "t+1",
+  "handover_pause_s": 0.1,
+  "interval": "paired seed percentile bootstrap, 5000 draws, seed=20261031"
+}

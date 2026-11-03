@@ -1,5 +1,46 @@
 # Federated Learning in SAGSINs
 
+## Khởi động với dữ liệu MySQL hiện có — 03/11/2026
+
+Từ thư mục gốc, bật MySQL rồi chạy `uvicorn backend.main:app --reload`.
+Nếu đã cài dependency trong `.venv`, kích hoạt bằng
+`.\.venv\Scripts\Activate.ps1`, hoặc dùng
+`.\.venv\Scripts\python.exe -m uvicorn backend.main:app --reload`.
+
+Đã phục hồi bảng `network_observations` ngày 03/11: **228.294 bản ghi**,
+đầy đủ các tham chiếu của kết quả cũ. Backend MySQL đã kiểm tra startup thành
+công với `/api/health` trả `status=ok`, `database_ready=true`, không có cảnh báo.
+Xem [biên bản phục hồi](DATABASE_RECOVERY_20261103.md).
+
+Nếu riêng bảng dữ liệu tập trung cũ `network_observations` gặp lỗi MariaDB 1932,
+backend giữ nguyên bảng và khởi động các chức năng còn hoạt động: topology,
+phiên dịch vụ, experiment và FL phân tán. `/api/health` báo `status=degraded`,
+`database_ready=true`, kèm tên bảng không đọc được và cảnh báo. Giao diện hiển thị
+cảnh báo; dataset lịch sử bị lỗi không thể chọn để training hoặc đọc raw data.
+Metadata, kết quả experiment cũ và dataset FL phân tán vẫn xem được.
+
+Đây là cơ chế dự phòng khi có lỗi mới, không thay thế việc phục hồi InnoDB.
+Không xóa `.ibd`/`.frm`, không drop/recreate bảng để làm mất cảnh báo.
+Sau khi bảng được phục hồi và backend khởi động lại, chương trình tự kiểm tra
+lại và trở về `status=ok`. Lỗi kết nối, quyền truy cập hoặc lỗi bảng lõi vẫn
+chặn startup; không tự chuyển sang database khác.
+
+Chỉ dùng một backend/worker; tắt `--reload` khi huấn luyện dài.
+
+## Trạng thái hiện hành — 31/10/2026
+
+Hướng dẫn cài đặt, nghiệm thu sạch, demo và gói tái lập ở [HANDOFF.md](HANDOFF.md).
+Mô phỏng hiện có shared motion, contact động, QoS và phiên dịch vụ hai đầu;
+client dịch vụ tách khỏi pool FL. Các phần ghi snapshot/không có chuyển động
+bên dưới mô tả luồng cũ hoặc nghiệm thu lịch sử.
+
+`python -m sagsin.release_check` kiểm tra startup bằng SQLite tạm, không đụng
+MySQL. Bộ `sagsin.acceptance_matrix` tái lập offline từ inventory và năm model
+trong `data/input/acceptance_20261031/`: normal, tải đồng thời/nghẽn, outage,
+Gaming và smartphone. Kết quả ở `data/output/acceptance_20261031_final/`.
+Không suy từ cải thiện MAE sang bảo đảm QoS; đọc kết quả từng tình huống và
+khoảng tin cậy theo seed. Mô hình quỹ đạo/tải vẫn là synthetic.
+
 ## Lõi hợp nhất, giữ giao diện gốc (26/10/2026)
 
 FL Training, Experiments, Results và địa cầu vẫn là giao diện cũ. Experiment

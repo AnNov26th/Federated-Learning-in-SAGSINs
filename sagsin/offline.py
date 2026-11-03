@@ -4,7 +4,6 @@ Reads local stores on the benchmark host with the operator's filesystem access.
 This is a separate experimental counterfactual, not the federated protocol.
 """
 import argparse
-import csv
 import json
 import math
 import struct
@@ -14,7 +13,7 @@ import torch
 from .config import ExperimentConfig
 from .dataset import load_local
 from .database import credentials
-from .model import DelayModel, encode, errors, metrics, predictions, train, validate_envelope
+from .model import encode, errors, metrics, predictions, train, validate_envelope
 from .storage import read_json, write_json
 
 
@@ -30,9 +29,10 @@ def centralized(directory):
     secrets_value = credentials()
     for identifier in result["clients"]:
         settings = secrets_value["clients"][identifier]
-        rows = load_local(settings, directory.name, "train")
+        source_run = config.dataset_run_id or directory.name
+        rows = load_local(settings, source_run, "train")
         train_rows.extend(rows)
-        test_rows.extend(load_local(settings, directory.name, "test"))
+        test_rows.extend(load_local(settings, source_run, "test"))
         raw_bytes += len(json.dumps(rows, separators=(",", ":"), allow_nan=False).encode())
     budget = sum(c.get("samples", 0) * c.get("local_epochs",config.local_epochs) for r in result["rounds"] for c in r["clients"] if c["status"] == "completed")
     remaining, epoch = budget, 0
@@ -75,7 +75,7 @@ def refresh_byte_baselines(directory):
     accounts=credentials()["clients"]
     sizes={"raw_json":0,"raw_json_zlib":0,"training_float32":0,"training_float32_zlib":0}
     for client in result["clients"]:
-        rows=load_local(accounts[client],directory.name,"train")
+        rows=load_local(accounts[client],result.get('config',{}).get('dataset_run_id') or directory.name,"train")
         plain=json.dumps(rows,separators=(",",":"),allow_nan=False).encode()
         flat=[number for row in rows for number in [*encode(row),math.log1p(row["target_ms"])]]
         binary=struct.pack(f"<{len(flat)}f",*flat)

@@ -77,6 +77,8 @@ def preview(request: FLExperimentCreate, db: Session = Depends(get_db)):
             "first_round_samples":{"min":request.client_count*limits["train"]["min"],"max":request.client_count*limits["train"]["max"]},
             "epoch_overrides":len(epochs),"features":15,"outputs":1,"parameters":4 if request.model_family=="trend" else 1057,
             "payload_bytes":16 if request.model_family=="trend" else 4228})
+    from backend.database.storage_health import require_observations
+    require_observations(db)
     per_client = {}
     if request.dataset_id is not None:
         dataset = db.get(NetworkDataset, request.dataset_id)

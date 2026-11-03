@@ -1,6 +1,5 @@
 
 from pydantic import BaseModel
-from typing import Optional
 
 class ScenarioBase(BaseModel):
     name: str

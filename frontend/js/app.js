@@ -5,6 +5,8 @@ import { latLngToVector3 } from "./3d/coordinates.js";
 import { setupRouting } from "./routing.js?v=20261023g";
 import { setupTrainingGlobe } from "./training-globe.js?v=20261025";
 import { setupShellNavigation } from './shell-navigation.js';
+import {setupServiceClients} from './service-clients.js';
+import {setupSharedMotion} from './3d/shared-motion.js';
 
 const container = document.getElementById("earth-container");
 
@@ -76,16 +78,13 @@ generateLinksButton?.addEventListener('click', async () => {
     }
 });
 
-actionSelect.addEventListener('change', (e) => {
-    clearDeviceSelection();
-    if (e.target.value !== "") {
-        actionHint.style.display = 'block';
-        container.style.cursor = 'crosshair';
-    } else {
-        actionHint.style.display = 'none';
-        container.style.cursor = 'default';
-    }
-});
+function setPlacement(enabled) {
+    actionSelect.value=enabled?'service_client':'';
+    actionSelect.setAttribute('aria-pressed',String(enabled));
+    actionHint.style.display=enabled?'block':'none';
+    container.style.cursor=enabled?'crosshair':'default';
+}
+actionSelect.addEventListener('click',()=>{clearDeviceSelection();setPlacement(!actionSelect.value);});
 
 // 3D Click Intersect (Raycaster)
 const raycaster = new THREE.Raycaster();
@@ -172,21 +171,8 @@ function createDeviceMotion(node, initialPosition) {
     return null;
 }
 
-function advanceMovingDevices(elapsedSeconds) {
-    for (const device of movingDevices) {
-        device.phase = (device.phase || 0) + elapsedSeconds * device.angularSpeed;
-        // Deployed resources follow their saved deployment/playback instead.
-        if (scene3D.earth.userData.deployedNodePositions?.has(device.marker.userData.id)) continue;
-        if (device.type === 'SPACE') {
-            device.marker.position.copy(device.radial).multiplyScalar(Math.cos(device.phase))
-                .addScaledVector(device.tangent, Math.sin(device.phase)).multiplyScalar(device.radius);
-        } else {
-            const around = device.tangent.clone().multiplyScalar(Math.cos(device.phase)).addScaledVector(device.crossTrack, Math.sin(device.phase));
-            device.marker.position.copy(device.radial).multiplyScalar(Math.cos(device.pathAngle))
-                .addScaledVector(around, Math.sin(device.pathAngle)).multiplyScalar(device.radius);
-        }
-    }
-}
+let sharedMotion=null;
+function advanceMovingDevices(elapsedSeconds) { sharedMotion?.advance(elapsedSeconds); }
 
 scene3D.earth.userData.advanceDevices = advanceMovingDevices;
 
@@ -200,6 +186,7 @@ function removeSelectedOrbit() {
 function orbitBasis(marker) {
     const motion = marker.userData.motion, radial = marker.position.clone().normalize();
     const normal = new THREE.Vector3().crossVectors(motion.radial,motion.tangent);
+    if(Number.isFinite(scene3D.earth.userData.motionClock))normal.applyAxisAngle(new THREE.Vector3(0,1,0),-scene3D.earth.userData.motionClock*2*Math.PI/86164.0905);
     const tangent = new THREE.Vector3().crossVectors(normal,radial);
     if (tangent.lengthSq() < 1e-8) tangent.copy(motion.tangent).addScaledVector(radial,-motion.tangent.dot(radial));
     return { radial,tangent:tangent.normalize() };
@@ -318,13 +305,13 @@ function renderDeviceInfo(marker) {
     const [label,icon,color] = layers[data.type] || ['Thiết bị','microchip','#b5caff'];
     const format = value => Number.isFinite(Number(value)) && value != null ? Number(value).toFixed(1) : '—';
     const row = (name,value) => value == null || value === '' ? '' : `<div><dt>${name}</dt><dd>${escapeHtml(value)}</dd></div>`;
-    const remaining = Math.max(0, Number(data.remaining_bandwidth_mbps ?? data.bandwidth) || 0);
-    const reserved = Math.max(0, Number(data.reserved_bandwidth_mbps) || 0);
+    const reserved = Math.max(0, (Number(data.reserved_bandwidth_mbps)||0)+(Number(data.service_reserved_mbps)||0));
+    const remaining = Math.max(0, (Number(data.bandwidth)||0)-reserved);
     const used = data.bandwidth > 0 ? Math.min(100, reserved / data.bandwidth * 100) : 0;
     tooltip.style.setProperty('--device-accent',color);
     infoContent.innerHTML = `
         <header class="device-info-heading"><span class="device-info-icon"><i class="fa-solid fa-${icon}" aria-hidden="true"></i></span><div><span class="device-info-eyebrow">${label} · ${escapeHtml(data.type)}</span><h2 id="node-info-title">${escapeHtml(data.id)}</h2></div></header>
-        <div class="device-info-status"><span data-active="${data.status?.toUpperCase() === 'ACTIVE'}">${escapeHtml(data.status || 'Chưa rõ trạng thái')}</span><span>${data.event_connections || 0} điểm kết nối</span></div>
+        <div class="device-info-status"><span data-active="${data.status?.toUpperCase() === 'ACTIVE'}">${escapeHtml(data.status || 'Chưa rõ trạng thái')}</span><span>${(data.event_connections||0)+(data.service_connections||0)} luồng kết nối</span></div>
         <div class="device-info-location"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><div><strong>${escapeHtml(data.location_name || data.country_name || 'Vị trí mô phỏng')}</strong><span id="node-info-coordinates"></span></div></div>
         <dl class="device-info-metrics"><div><dt>Băng thông còn lại*</dt><dd>${format(remaining)} <small>Mbps</small></dd></div><div><dt>Độ trễ cấu hình</dt><dd>${format(data.latency)} <small>ms</small></dd></div></dl>
         <section class="device-info-capacity"><div><span>Đã giữ ${format(reserved)} Mbps</span><strong>${format(data.bandwidth)} Mbps tổng</strong></div><div class="device-capacity-track" role="meter" aria-label="Băng thông đã giữ" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${used.toFixed(1)}"><span style="width:${used}%"></span></div><p>* Phần còn lại trước khi tính tải nền.</p></section>
@@ -394,8 +381,11 @@ const droppedMarkers = [];
 // Routing decisions are computed server-side against a single DB snapshot.
 const routing = setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarker,
     flyGlobeToMarker, resetGlobeView, selectedNodeSummary, actionSelect, actionHint,
-    container, topologyReady, refreshNodes: syncDatabaseNodes });
+    container, topologyReady, refreshNodes: syncDatabaseNodes, setPlacement });
 const { disposeRoute, renderDroppedMarkers, refreshDroppedRoutes, focusDroppedMarker } = routing;
+const serviceClients=setupServiceClients({scene3D,nodeMarkers,createMarker,flyGlobeToMarker,routing});
+sharedMotion=setupSharedMotion({nodeMarkers,scenario:()=>document.getElementById('routing-scenario').value,earth:scene3D.earth});
+document.getElementById('routing-scenario').addEventListener('change',()=>sharedMotion.refresh());
 topologyReady.then(() => setupTrainingGlobe({ scene3D, nodeMarkers, container,
     scenarioSelect: document.getElementById('routing-scenario') }));
 
@@ -457,6 +447,9 @@ container.addEventListener('click', async (event) => {
         mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
         raycaster.setFromCamera(mouse, scene3D.camera);
+        const clientRoots=[...serviceClients.markers.values()].filter(marker=>marker.visible);
+        const clientHit=raycaster.intersectObjects(clientRoots,true).find(isNodeHitVisible);
+        if(clientHit){const clientRoot=markerRoot(clientHit.object,new Set(clientRoots));serviceClients.focus(clientRoot.userData.serviceClientId);return;}
         const eventsByMarker = new Map(droppedMarkers.filter(drop => drop.marker.visible).map(drop => [drop.marker,drop]));
         const roots = new Set([...nodeMarkers.filter(marker => marker.visible), ...eventsByMarker.keys()]);
         const nodeHit = raycaster.intersectObjects(nodeMarkers.filter(marker => marker.visible),true).find(isNodeHitVisible);
@@ -500,6 +493,11 @@ container.addEventListener('click', async (event) => {
 
     if (intersects.length > 0) {
         const point = intersects[0].point;
+        if(actionSelect.value==='service_client'){
+            const local=scene3D.earth.worldToLocal(point.clone());
+            await serviceClients.addClient(THREE.MathUtils.radToDeg(Math.asin(local.y/local.length())),THREE.MathUtils.radToDeg(Math.atan2(-local.z,local.x)));
+            return;
+        }
         
         // Tạo Marker mới (Màu Hồng Magenta: 0xff00ff, 255, 0, 255)
         const newMarker = createMarker(0xff00ff, 255, 0, 255, 1.2);

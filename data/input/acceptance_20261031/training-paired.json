@@ -1,0 +1,21 @@
+{
+  "unit": "seed",
+  "delta": "FL MAE minus baseline MAE in ms",
+  "persistence": {
+    "n": 5,
+    "mean": -0.01945395627881439,
+    "ci95": [
+      -0.02065533951971845,
+      -0.018162198316405354
+    ]
+  },
+  "centralized": {
+    "n": 5,
+    "mean": 0.0030653960292024275,
+    "ci95": [
+      0.0011435794184371018,
+      0.004987212639967753
+    ]
+  },
+  "communication_scope": "Saved training JSON body bytes; excludes TCP/TLS headers; not offline replay traffic"
+}

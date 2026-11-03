@@ -1,0 +1,842 @@
+[
+  {
+    "case": "concurrent_congested",
+    "baseline": "static",
+    "metric": "availability_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.002777777777777768,
+    "ci95": [
+      0.0005555555555555536,
+      0.004999999999999982
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "static",
+    "metric": "qos_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.03444444444444446,
+    "ci95": [
+      -0.022777777777777786,
+      0.09944444444444445
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "static",
+    "metric": "delivery_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.013597007906943782,
+    "ci95": [
+      -0.006960390225017643,
+      0.0343021569445475
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "static",
+    "metric": "throughput_mbps",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.6526563795333018,
+    "ci95": [
+      -0.33409873080084795,
+      1.6465035333382843
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "static",
+    "metric": "mean_one_way_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.6027346254311453,
+    "ci95": [
+      0.23661958496004729,
+      1.0711092097415134
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "static",
+    "metric": "next_tick_link_mae_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -8.763123979325048,
+    "ci95": [
+      -8.766506829949856,
+      -8.760052652131535
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "static",
+    "metric": "handovers",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 1.6,
+    "ci95": [
+      0.2,
+      3
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "current",
+    "metric": "availability_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "current",
+    "metric": "qos_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "current",
+    "metric": "delivery_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 4.937062192800212e-05,
+    "ci95": [
+      0.0,
+      0.00014811186578400637
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "current",
+    "metric": "throughput_mbps",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.002369789852544102,
+    "ci95": [
+      0.0,
+      0.007109369557632306
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "current",
+    "metric": "mean_one_way_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.06257350294176263,
+    "ci95": [
+      -0.18772050882528787,
+      0.0
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "current",
+    "metric": "next_tick_link_mae_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.01877650009596179,
+    "ci95": [
+      -0.019131576530467244,
+      -0.018421423661456337
+    ]
+  },
+  {
+    "case": "concurrent_congested",
+    "baseline": "current",
+    "metric": "handovers",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.2,
+    "ci95": [
+      -0.6,
+      0
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "static",
+    "metric": "availability_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0022222222222221923,
+    "ci95": [
+      -0.003333333333333366,
+      0.00777777777777775
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "static",
+    "metric": "qos_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.013333333333333332,
+    "ci95": [
+      -0.04,
+      0.0
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "static",
+    "metric": "delivery_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.002000000000000024,
+    "ci95": [
+      -0.004111111111111043,
+      0.008111111111111092
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "static",
+    "metric": "throughput_mbps",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.02400000000000091,
+    "ci95": [
+      -0.04933333333333252,
+      0.09733333333333434
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "static",
+    "metric": "mean_one_way_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.7693181907769884,
+    "ci95": [
+      -1.420674645162552,
+      -0.16394712326132604
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "static",
+    "metric": "next_tick_link_mae_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -2.6095788271906253,
+    "ci95": [
+      -2.6132650580434773,
+      -2.6042372649948398
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "static",
+    "metric": "handovers",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.4,
+    "ci95": [
+      -0.6,
+      1.4
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "current",
+    "metric": "availability_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "current",
+    "metric": "qos_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "current",
+    "metric": "delivery_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "current",
+    "metric": "throughput_mbps",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "current",
+    "metric": "mean_one_way_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.05336239211721079,
+    "ci95": [
+      -0.12761394313455127,
+      0.0
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "current",
+    "metric": "next_tick_link_mae_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.0064105619688523355,
+    "ci95": [
+      -0.0067199173575386625,
+      -0.006071292952712038
+    ]
+  },
+  {
+    "case": "gaming_outage",
+    "baseline": "current",
+    "metric": "handovers",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0,
+    "ci95": [
+      0,
+      0
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "static",
+    "metric": "availability_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -2.2204460492503132e-17,
+    "ci95": [
+      -0.00666666666666671,
+      0.006666666666666643
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "static",
+    "metric": "qos_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.0033333333333332993,
+    "ci95": [
+      -0.014444444444444393,
+      0.007777777777777817
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "static",
+    "metric": "delivery_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.0003333333333332966,
+    "ci95": [
+      -0.007444444444444387,
+      0.006777777777777816
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "static",
+    "metric": "throughput_mbps",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.00800000000000054,
+    "ci95": [
+      -0.1786666666666669,
+      0.16266666666666652
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "static",
+    "metric": "mean_one_way_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.19997777164129218,
+    "ci95": [
+      -0.40399342351668394,
+      0.7577123036168871
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "static",
+    "metric": "next_tick_link_mae_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -2.6095788271906253,
+    "ci95": [
+      -2.6132650580434773,
+      -2.6042372649948398
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "static",
+    "metric": "handovers",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.6,
+    "ci95": [
+      -0.4,
+      1.4
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "current",
+    "metric": "availability_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.0011111111111111072,
+    "ci95": [
+      -0.0033333333333333214,
+      0.0
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "current",
+    "metric": "qos_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.0033333333333333214,
+    "ci95": [
+      -0.00777777777777775,
+      0.0
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "current",
+    "metric": "delivery_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.0013333333333333196,
+    "ci95": [
+      -0.0037777777777777467,
+      0.0
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "current",
+    "metric": "throughput_mbps",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.032000000000000736,
+    "ci95": [
+      -0.09066666666666805,
+      0.0
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "current",
+    "metric": "mean_one_way_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.058551185321280744,
+    "ci95": [
+      -0.13516007150593906,
+      0.3108136274697813
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "current",
+    "metric": "next_tick_link_mae_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.0064105619688523355,
+    "ci95": [
+      -0.0067199173575386625,
+      -0.006071292952712038
+    ]
+  },
+  {
+    "case": "mixed_outage",
+    "baseline": "current",
+    "metric": "handovers",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.4,
+    "ci95": [
+      0,
+      0.8
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "static",
+    "metric": "availability_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "static",
+    "metric": "qos_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "static",
+    "metric": "delivery_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "static",
+    "metric": "throughput_mbps",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "static",
+    "metric": "mean_one_way_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.7633837028730568,
+    "ci95": [
+      0.07927729324947848,
+      1.6154839048405336
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "static",
+    "metric": "next_tick_link_mae_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.9997770067394081,
+    "ci95": [
+      -1.0000180416159752,
+      -0.9995475521932775
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "static",
+    "metric": "handovers",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0,
+    "ci95": [
+      0,
+      0
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "current",
+    "metric": "availability_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "current",
+    "metric": "qos_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "current",
+    "metric": "delivery_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "current",
+    "metric": "throughput_mbps",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "current",
+    "metric": "mean_one_way_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.019952796595481458,
+    "ci95": [
+      -0.05985838978644438,
+      0.0
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "current",
+    "metric": "next_tick_link_mae_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.002890924555892671,
+    "ci95": [
+      -0.003172168045045942,
+      -0.0025700883114999572
+    ]
+  },
+  {
+    "case": "normal",
+    "baseline": "current",
+    "metric": "handovers",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0,
+    "ci95": [
+      0,
+      0
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "static",
+    "metric": "availability_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "static",
+    "metric": "qos_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "static",
+    "metric": "delivery_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "static",
+    "metric": "throughput_mbps",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "static",
+    "metric": "mean_one_way_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "static",
+    "metric": "next_tick_link_mae_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.9997770067394081,
+    "ci95": [
+      -1.0000180416159752,
+      -0.9995475521932775
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "static",
+    "metric": "handovers",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0,
+    "ci95": [
+      0,
+      0
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "current",
+    "metric": "availability_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "current",
+    "metric": "qos_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "current",
+    "metric": "delivery_fraction",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "current",
+    "metric": "throughput_mbps",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "current",
+    "metric": "mean_one_way_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "current",
+    "metric": "next_tick_link_mae_ms",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": -0.002890924555892671,
+    "ci95": [
+      -0.003172168045045942,
+      -0.0025700883114999572
+    ]
+  },
+  {
+    "case": "smartphone_access",
+    "baseline": "current",
+    "metric": "handovers",
+    "delta": "FL minus baseline",
+    "n": 5,
+    "mean": 0,
+    "ci95": [
+      0,
+      0
+    ]
+  }
+]

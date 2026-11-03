@@ -1,5 +1,5 @@
 """Acceptance through A's original API, global snapshot and actual HTTP workers."""
-import argparse,json,time,uuid,urllib.request
+import argparse, json, time, urllib.request
 from sqlalchemy import text
 import torch
 from .paths import OUTPUT

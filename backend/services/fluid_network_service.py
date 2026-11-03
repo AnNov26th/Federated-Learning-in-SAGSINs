@@ -1,6 +1,7 @@
 """Shared-link allocation from B, applied to A's persisted global event routes."""
 from copy import deepcopy
 from sqlalchemy.orm import Session
+from sqlalchemy.orm.attributes import flag_modified
 from backend.models.network_learning import NetworkClock, NetworkAllocationSettings
 from backend.models.network import Node,NetworkLink
 from backend.models.routing_event import RoutingEvent
@@ -94,8 +95,11 @@ def advance(db,clock,seconds):
         if path and flow["deadline_s"]>now-seconds:
             active.append(dict(id=event.id,path=path,remaining_mbit=flow["remaining_mbit"],time_left_s=flow["deadline_s"]-(now-seconds)))
             by_id[event.id]=(event,result)
-    rates=allocate(active,caps,policy)
-    assert_capacity(active,rates,caps)
+    from backend.services.service_session_service import prepare, serve
+    service_flows, service_contexts = prepare(db,clock,seconds,caps,legacy_nodes,legacy_links)
+    all_flows = active + service_flows
+    rates=allocate(all_flows,caps,policy)
+    assert_capacity(all_flows,rates,caps)
     for item in active:
         event,result=by_id[item["id"]];flow=result["flow"]
         rate=rates[event.id]
@@ -108,11 +112,14 @@ def advance(db,clock,seconds):
         result["allocation"]={**result.get("allocation",{}),"engine":"shared-fluid-v3","policy":policy,
             "allocated_mbps":rate,"capacity_violations":0,"clock_s":now}
         event.result_json=result
+        flag_modified(event,'result_json')
+    serve(service_contexts,rates,now,seconds)
     db.flush()
 
 
 def tick(bind,seconds):
     with Session(bind) as db:
+        for identifier, in db.query(Scenario.id).all():clock_for(db,identifier)
         for identifier, in db.query(NetworkClock.scenario_id).all():
             db.query(Scenario).filter_by(id=identifier).with_for_update().first()
             advance(db,db.get(NetworkClock,identifier),seconds)

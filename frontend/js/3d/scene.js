@@ -102,6 +102,7 @@ export function createScene(container) {
 
         earth.userData.advanceDevices?.(elapsedSeconds);
         earth.userData.advanceRoutes?.(elapsedSeconds);
+        earth.userData.advanceServiceRoutes?.(elapsedSeconds);
         earth.userData.advanceTraining?.(elapsedSeconds);
 
         controls.update();
