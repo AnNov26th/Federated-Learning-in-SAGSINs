@@ -57,7 +57,7 @@ Bộ kiểm thử gần nhất: 195 Python tests PASS, 3 JavaScript tests PASS.
 
 ## Backup và audit
 
-Các file dưới đây nằm trong `data/output/database_backups/network-observations-20261103/`
+Các file dưới đây nằm trong `storage/output/database_backups/network-observations-20261103/`
 và được ignore khỏi Git:
 
 - `network_observations.ibd`, `network_observations.frm`: bản sao file lỗi trước sửa.

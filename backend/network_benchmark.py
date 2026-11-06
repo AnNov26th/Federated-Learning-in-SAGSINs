@@ -12,7 +12,7 @@ from pathlib import Path
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scenario-id", type=int, required=True)
-    parser.add_argument("--demo", action="store_true", help="Use only data/output/network_demo/demo.sqlite")
+    parser.add_argument("--demo", action="store_true", help="Use only storage/output/network_demo/demo.sqlite")
     parser.add_argument("--seeds", type=int, nargs="+", default=[11, 42, 71])
     parser.add_argument("--profiles", nargs="+", choices=["normal", "high_latency", "low_bandwidth", "bursty_congestion", "regime_switching"], default=["normal"])
     parser.add_argument("--partitions", nargs="+", choices=["iid", "non_iid"], default=["non_iid"])
@@ -23,7 +23,7 @@ def main():
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     if args.demo:
-        demo = root / "data" / "output" / "network_demo" / "demo.sqlite"
+        demo = root / "storage" / "output" / "network_demo" / "demo.sqlite"
         if not demo.exists():
             parser.error("Run python -m backend.network_demo first.")
         os.environ["DATABASE_URL"] = "sqlite:///" + demo.as_posix()
@@ -76,7 +76,7 @@ def main():
             entry[metric+"_mean"] = statistics.mean(values)
             entry[metric+"_std"] = statistics.stdev(values) if len(values) > 1 else 0.
         aggregates.append(entry)
-    directory = root / "data" / "output" / "network_benchmarks" / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    directory = root / "storage" / "output" / "network_benchmarks" / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     directory.mkdir(parents=True)
     (directory / "experiments.json").write_text(json.dumps(outputs,default=str,indent=2),encoding="utf-8")
     for name, values in (("runs",rows),("aggregates",aggregates)):

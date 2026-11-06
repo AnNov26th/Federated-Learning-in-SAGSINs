@@ -47,7 +47,7 @@ def main():
     parser.add_argument("--clients", type=int, default=24)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
-    out = root / "data" / "output" / "network_benchmarks" / ("volume_" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
+    out = root / "storage" / "output" / "network_benchmarks" / ("volume_" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
     out.mkdir(parents=True, exist_ok=False)
     inputs = benchmark_inputs(out)
     inputs.mkdir(parents=True, exist_ok=True)

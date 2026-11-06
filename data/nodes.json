@@ -1,0 +1,1070 @@
+[
+  {
+    "id": "GND-ARG-001",
+    "layer": "GROUND",
+    "x": -58.67,
+    "y": -34.58
+  },
+  {
+    "id": "GND-ARG-002",
+    "layer": "GROUND",
+    "x": -64.1888,
+    "y": -31.4201
+  },
+  {
+    "id": "GND-AUS-001",
+    "layer": "GROUND",
+    "x": 149.13,
+    "y": -35.27
+  },
+  {
+    "id": "GND-AUS-002",
+    "layer": "GROUND",
+    "x": 151.209,
+    "y": -33.8688
+  },
+  {
+    "id": "GND-BRA-001",
+    "layer": "GROUND",
+    "x": -47.88,
+    "y": -15.79
+  },
+  {
+    "id": "GND-BRA-002",
+    "layer": "GROUND",
+    "x": -46.6333,
+    "y": -23.5505
+  },
+  {
+    "id": "GND-CAN-001",
+    "layer": "GROUND",
+    "x": -75.7,
+    "y": 45.42
+  },
+  {
+    "id": "GND-CAN-002",
+    "layer": "GROUND",
+    "x": -79.3832,
+    "y": 43.6532
+  },
+  {
+    "id": "GND-CHN-001",
+    "layer": "GROUND",
+    "x": 116.38,
+    "y": 39.92
+  },
+  {
+    "id": "GND-CHN-002",
+    "layer": "GROUND",
+    "x": 121.474,
+    "y": 31.2304
+  },
+  {
+    "id": "GND-COD-001",
+    "layer": "GROUND",
+    "x": 15.3,
+    "y": -4.32
+  },
+  {
+    "id": "GND-COD-002",
+    "layer": "GROUND",
+    "x": 27.5026,
+    "y": -11.6876
+  },
+  {
+    "id": "GND-COL-001",
+    "layer": "GROUND",
+    "x": -74.07,
+    "y": 4.71
+  },
+  {
+    "id": "GND-DZA-001",
+    "layer": "GROUND",
+    "x": 3.05,
+    "y": 36.75
+  },
+  {
+    "id": "GND-DZA-002",
+    "layer": "GROUND",
+    "x": -0.6331,
+    "y": 35.6969
+  },
+  {
+    "id": "GND-ESP-001",
+    "layer": "GROUND",
+    "x": -3.68,
+    "y": 40.4
+  },
+  {
+    "id": "GND-FRA-001",
+    "layer": "GROUND",
+    "x": 2.33,
+    "y": 48.87
+  },
+  {
+    "id": "GND-IDN-001",
+    "layer": "GROUND",
+    "x": 106.82,
+    "y": -6.17
+  },
+  {
+    "id": "GND-IDN-002",
+    "layer": "GROUND",
+    "x": 112.752,
+    "y": -7.2575
+  },
+  {
+    "id": "GND-IND-001",
+    "layer": "GROUND",
+    "x": 77.2,
+    "y": 28.6
+  },
+  {
+    "id": "GND-IND-002",
+    "layer": "GROUND",
+    "x": 72.8777,
+    "y": 19.076
+  },
+  {
+    "id": "GND-IRN-001",
+    "layer": "GROUND",
+    "x": 51.42,
+    "y": 35.7
+  },
+  {
+    "id": "GND-IRN-002",
+    "layer": "GROUND",
+    "x": 59.6168,
+    "y": 36.2605
+  },
+  {
+    "id": "GND-KAZ-001",
+    "layer": "GROUND",
+    "x": 71.45,
+    "y": 51.16
+  },
+  {
+    "id": "GND-KAZ-002",
+    "layer": "GROUND",
+    "x": 76.8897,
+    "y": 43.2389
+  },
+  {
+    "id": "GND-LBY-001",
+    "layer": "GROUND",
+    "x": 13.17,
+    "y": 32.88
+  },
+  {
+    "id": "GND-LBY-002",
+    "layer": "GROUND",
+    "x": 20.0868,
+    "y": 32.1194
+  },
+  {
+    "id": "GND-MEX-001",
+    "layer": "GROUND",
+    "x": -99.13,
+    "y": 19.43
+  },
+  {
+    "id": "GND-MEX-002",
+    "layer": "GROUND",
+    "x": -103.35,
+    "y": 20.6597
+  },
+  {
+    "id": "GND-MNG-001",
+    "layer": "GROUND",
+    "x": 106.91,
+    "y": 47.92
+  },
+  {
+    "id": "GND-MNG-002",
+    "layer": "GROUND",
+    "x": 104.044,
+    "y": 49.0277
+  },
+  {
+    "id": "GND-NIC-001",
+    "layer": "GROUND",
+    "x": -86.25,
+    "y": 12.13
+  },
+  {
+    "id": "GND-NIC-002",
+    "layer": "GROUND",
+    "x": -86.878,
+    "y": 12.4379
+  },
+  {
+    "id": "GND-PER-001",
+    "layer": "GROUND",
+    "x": -77.05,
+    "y": -12.05
+  },
+  {
+    "id": "GND-PER-002",
+    "layer": "GROUND",
+    "x": -71.5375,
+    "y": -16.409
+  },
+  {
+    "id": "GND-PNG-001",
+    "layer": "GROUND",
+    "x": 147.18,
+    "y": -9.45
+  },
+  {
+    "id": "GND-RUS-001",
+    "layer": "GROUND",
+    "x": 37.6,
+    "y": 55.75
+  },
+  {
+    "id": "GND-RUS-002",
+    "layer": "GROUND",
+    "x": 30.3351,
+    "y": 59.9343
+  },
+  {
+    "id": "GND-SAU-001",
+    "layer": "GROUND",
+    "x": 46.7,
+    "y": 24.65
+  },
+  {
+    "id": "GND-SAU-002",
+    "layer": "GROUND",
+    "x": 39.1925,
+    "y": 21.4858
+  },
+  {
+    "id": "GND-SDN-001",
+    "layer": "GROUND",
+    "x": 32.53,
+    "y": 15.6
+  },
+  {
+    "id": "GND-SDN-002",
+    "layer": "GROUND",
+    "x": 37.2164,
+    "y": 19.6158
+  },
+  {
+    "id": "GND-TCD-001",
+    "layer": "GROUND",
+    "x": 15.03,
+    "y": 12.1
+  },
+  {
+    "id": "GND-TCD-002",
+    "layer": "GROUND",
+    "x": 16.0833,
+    "y": 8.5667
+  },
+  {
+    "id": "GND-TUR-001",
+    "layer": "GROUND",
+    "x": 32.87,
+    "y": 39.93
+  },
+  {
+    "id": "GND-TUR-002",
+    "layer": "GROUND",
+    "x": 28.9784,
+    "y": 41.0082
+  },
+  {
+    "id": "GND-USA-001",
+    "layer": "GROUND",
+    "x": -77.05,
+    "y": 38.89
+  },
+  {
+    "id": "GND-USA-002",
+    "layer": "GROUND",
+    "x": -74.006,
+    "y": 40.7128
+  },
+  {
+    "id": "GND-ZAF-001",
+    "layer": "GROUND",
+    "x": 28.22,
+    "y": -25.7
+  },
+  {
+    "id": "GND-ZAF-002",
+    "layer": "GROUND",
+    "x": 18.4241,
+    "y": -33.9249
+  },
+  {
+    "id": "SAT-001",
+    "layer": "SPACE",
+    "x": -19.5991,
+    "y": 0.0
+  },
+  {
+    "id": "SAT-002",
+    "layer": "SPACE",
+    "x": 70.4009,
+    "y": 53.0
+  },
+  {
+    "id": "SAT-003",
+    "layer": "SPACE",
+    "x": 160.401,
+    "y": 0.0
+  },
+  {
+    "id": "SAT-004",
+    "layer": "SPACE",
+    "x": -109.599,
+    "y": -53.0
+  },
+  {
+    "id": "SAT-005",
+    "layer": "SPACE",
+    "x": 49.5614,
+    "y": 11.9292
+  },
+  {
+    "id": "SAT-006",
+    "layer": "SPACE",
+    "x": 154.401,
+    "y": 50.4818
+  },
+  {
+    "id": "SAT-007",
+    "layer": "SPACE",
+    "x": -130.439,
+    "y": -11.9292
+  },
+  {
+    "id": "SAT-008",
+    "layer": "SPACE",
+    "x": -25.5988,
+    "y": -50.4818
+  },
+  {
+    "id": "SAT-009",
+    "layer": "SPACE",
+    "x": 119.561,
+    "y": 23.5355
+  },
+  {
+    "id": "SAT-010",
+    "layer": "SPACE",
+    "x": -125.788,
+    "y": 43.76
+  },
+  {
+    "id": "SAT-011",
+    "layer": "SPACE",
+    "x": -60.4389,
+    "y": -23.5355
+  },
+  {
+    "id": "SAT-012",
+    "layer": "SPACE",
+    "x": 54.2124,
+    "y": -43.76
+  },
+  {
+    "id": "SAT-013",
+    "layer": "SPACE",
+    "x": -168.559,
+    "y": 34.3829
+  },
+  {
+    "id": "SAT-014",
+    "layer": "SPACE",
+    "x": -50.6392,
+    "y": 34.3829
+  },
+  {
+    "id": "SAT-015",
+    "layer": "SPACE",
+    "x": 11.4411,
+    "y": -34.3829
+  },
+  {
+    "id": "SAT-016",
+    "layer": "SPACE",
+    "x": 129.361,
+    "y": -34.3829
+  },
+  {
+    "id": "SAT-017",
+    "layer": "SPACE",
+    "x": -93.4105,
+    "y": 43.76
+  },
+  {
+    "id": "SAT-018",
+    "layer": "SPACE",
+    "x": 21.2407,
+    "y": 23.5355
+  },
+  {
+    "id": "SAT-019",
+    "layer": "SPACE",
+    "x": 86.5895,
+    "y": -43.76
+  },
+  {
+    "id": "SAT-020",
+    "layer": "SPACE",
+    "x": -158.759,
+    "y": -23.5355
+  },
+  {
+    "id": "SAT-021",
+    "layer": "SPACE",
+    "x": -13.5994,
+    "y": 50.4818
+  },
+  {
+    "id": "SAT-022",
+    "layer": "SPACE",
+    "x": 91.2405,
+    "y": 11.9292
+  },
+  {
+    "id": "SAT-023",
+    "layer": "SPACE",
+    "x": 166.401,
+    "y": -50.4818
+  },
+  {
+    "id": "SAT-024",
+    "layer": "SPACE",
+    "x": -88.7595,
+    "y": -11.9292
+  },
+  {
+    "id": "SAT-POLAR-001",
+    "layer": "SPACE",
+    "x": -19.5991,
+    "y": 0.0
+  },
+  {
+    "id": "SAT-POLAR-002",
+    "layer": "SPACE",
+    "x": -19.5991,
+    "y": 30.0
+  },
+  {
+    "id": "SAT-POLAR-003",
+    "layer": "SPACE",
+    "x": -19.5991,
+    "y": 60.0
+  },
+  {
+    "id": "SAT-POLAR-004",
+    "layer": "SPACE",
+    "x": -19.5991,
+    "y": 90.0
+  },
+  {
+    "id": "SAT-POLAR-005",
+    "layer": "SPACE",
+    "x": 160.401,
+    "y": 60.0
+  },
+  {
+    "id": "SAT-POLAR-006",
+    "layer": "SPACE",
+    "x": 160.401,
+    "y": 30.0
+  },
+  {
+    "id": "SAT-POLAR-007",
+    "layer": "SPACE",
+    "x": 160.401,
+    "y": 0.0
+  },
+  {
+    "id": "SAT-POLAR-008",
+    "layer": "SPACE",
+    "x": 160.401,
+    "y": -30.0
+  },
+  {
+    "id": "SAT-POLAR-009",
+    "layer": "SPACE",
+    "x": 160.401,
+    "y": -60.0
+  },
+  {
+    "id": "SAT-POLAR-010",
+    "layer": "SPACE",
+    "x": 160.401,
+    "y": -90.0
+  },
+  {
+    "id": "SAT-POLAR-011",
+    "layer": "SPACE",
+    "x": -19.5991,
+    "y": -60.0
+  },
+  {
+    "id": "SAT-POLAR-012",
+    "layer": "SPACE",
+    "x": -19.5991,
+    "y": -30.0
+  },
+  {
+    "id": "SAT-POLAR-013",
+    "layer": "SPACE",
+    "x": 10.4009,
+    "y": 15.0
+  },
+  {
+    "id": "SAT-POLAR-014",
+    "layer": "SPACE",
+    "x": 10.4009,
+    "y": 45.0
+  },
+  {
+    "id": "SAT-POLAR-015",
+    "layer": "SPACE",
+    "x": 10.4009,
+    "y": 75.0
+  },
+  {
+    "id": "SAT-POLAR-016",
+    "layer": "SPACE",
+    "x": -169.599,
+    "y": 75.0
+  },
+  {
+    "id": "SAT-POLAR-017",
+    "layer": "SPACE",
+    "x": -169.599,
+    "y": 45.0
+  },
+  {
+    "id": "SAT-POLAR-018",
+    "layer": "SPACE",
+    "x": -169.599,
+    "y": 15.0
+  },
+  {
+    "id": "SAT-POLAR-019",
+    "layer": "SPACE",
+    "x": -169.599,
+    "y": -15.0
+  },
+  {
+    "id": "SAT-POLAR-020",
+    "layer": "SPACE",
+    "x": -169.599,
+    "y": -45.0
+  },
+  {
+    "id": "SAT-POLAR-021",
+    "layer": "SPACE",
+    "x": -169.599,
+    "y": -75.0
+  },
+  {
+    "id": "SAT-POLAR-022",
+    "layer": "SPACE",
+    "x": 10.4009,
+    "y": -75.0
+  },
+  {
+    "id": "SAT-POLAR-023",
+    "layer": "SPACE",
+    "x": 10.4009,
+    "y": -45.0
+  },
+  {
+    "id": "SAT-POLAR-024",
+    "layer": "SPACE",
+    "x": 10.4009,
+    "y": -15.0
+  },
+  {
+    "id": "SAT-POLAR-025",
+    "layer": "SPACE",
+    "x": 40.4009,
+    "y": 0.0
+  },
+  {
+    "id": "SAT-POLAR-026",
+    "layer": "SPACE",
+    "x": 40.4009,
+    "y": 30.0
+  },
+  {
+    "id": "SAT-POLAR-027",
+    "layer": "SPACE",
+    "x": 40.4009,
+    "y": 60.0
+  },
+  {
+    "id": "SAT-POLAR-028",
+    "layer": "SPACE",
+    "x": 40.4009,
+    "y": 90.0
+  },
+  {
+    "id": "SAT-POLAR-029",
+    "layer": "SPACE",
+    "x": -139.599,
+    "y": 60.0
+  },
+  {
+    "id": "SAT-POLAR-030",
+    "layer": "SPACE",
+    "x": -139.599,
+    "y": 30.0
+  },
+  {
+    "id": "SAT-POLAR-031",
+    "layer": "SPACE",
+    "x": -139.599,
+    "y": 0.0
+  },
+  {
+    "id": "SAT-POLAR-032",
+    "layer": "SPACE",
+    "x": -139.599,
+    "y": -30.0
+  },
+  {
+    "id": "SAT-POLAR-033",
+    "layer": "SPACE",
+    "x": -139.599,
+    "y": -60.0
+  },
+  {
+    "id": "SAT-POLAR-034",
+    "layer": "SPACE",
+    "x": -139.599,
+    "y": -90.0
+  },
+  {
+    "id": "SAT-POLAR-035",
+    "layer": "SPACE",
+    "x": 40.4009,
+    "y": -60.0
+  },
+  {
+    "id": "SAT-POLAR-036",
+    "layer": "SPACE",
+    "x": 40.4009,
+    "y": -30.0
+  },
+  {
+    "id": "SAT-POLAR-037",
+    "layer": "SPACE",
+    "x": 70.4009,
+    "y": 15.0
+  },
+  {
+    "id": "SAT-POLAR-038",
+    "layer": "SPACE",
+    "x": 70.4009,
+    "y": 45.0
+  },
+  {
+    "id": "SAT-POLAR-039",
+    "layer": "SPACE",
+    "x": 70.4009,
+    "y": 75.0
+  },
+  {
+    "id": "SAT-POLAR-040",
+    "layer": "SPACE",
+    "x": -109.599,
+    "y": 75.0
+  },
+  {
+    "id": "SAT-POLAR-041",
+    "layer": "SPACE",
+    "x": -109.599,
+    "y": 45.0
+  },
+  {
+    "id": "SAT-POLAR-042",
+    "layer": "SPACE",
+    "x": -109.599,
+    "y": 15.0
+  },
+  {
+    "id": "SAT-POLAR-043",
+    "layer": "SPACE",
+    "x": -109.599,
+    "y": -15.0
+  },
+  {
+    "id": "SAT-POLAR-044",
+    "layer": "SPACE",
+    "x": -109.599,
+    "y": -45.0
+  },
+  {
+    "id": "SAT-POLAR-045",
+    "layer": "SPACE",
+    "x": -109.599,
+    "y": -75.0
+  },
+  {
+    "id": "SAT-POLAR-046",
+    "layer": "SPACE",
+    "x": 70.4009,
+    "y": -75.0
+  },
+  {
+    "id": "SAT-POLAR-047",
+    "layer": "SPACE",
+    "x": 70.4009,
+    "y": -45.0
+  },
+  {
+    "id": "SAT-POLAR-048",
+    "layer": "SPACE",
+    "x": 70.4009,
+    "y": -15.0
+  },
+  {
+    "id": "SAT-POLAR-049",
+    "layer": "SPACE",
+    "x": 100.401,
+    "y": 0.0
+  },
+  {
+    "id": "SAT-POLAR-050",
+    "layer": "SPACE",
+    "x": 100.401,
+    "y": 30.0
+  },
+  {
+    "id": "SAT-POLAR-051",
+    "layer": "SPACE",
+    "x": 100.401,
+    "y": 60.0
+  },
+  {
+    "id": "SAT-POLAR-052",
+    "layer": "SPACE",
+    "x": 100.401,
+    "y": 90.0
+  },
+  {
+    "id": "SAT-POLAR-053",
+    "layer": "SPACE",
+    "x": -79.5991,
+    "y": 60.0
+  },
+  {
+    "id": "SAT-POLAR-054",
+    "layer": "SPACE",
+    "x": -79.5991,
+    "y": 30.0
+  },
+  {
+    "id": "SAT-POLAR-055",
+    "layer": "SPACE",
+    "x": -79.5991,
+    "y": 0.0
+  },
+  {
+    "id": "SAT-POLAR-056",
+    "layer": "SPACE",
+    "x": -79.5991,
+    "y": -30.0
+  },
+  {
+    "id": "SAT-POLAR-057",
+    "layer": "SPACE",
+    "x": -79.5991,
+    "y": -60.0
+  },
+  {
+    "id": "SAT-POLAR-058",
+    "layer": "SPACE",
+    "x": -79.5991,
+    "y": -90.0
+  },
+  {
+    "id": "SAT-POLAR-059",
+    "layer": "SPACE",
+    "x": 100.401,
+    "y": -60.0
+  },
+  {
+    "id": "SAT-POLAR-060",
+    "layer": "SPACE",
+    "x": 100.401,
+    "y": -30.0
+  },
+  {
+    "id": "SAT-POLAR-061",
+    "layer": "SPACE",
+    "x": 130.401,
+    "y": 15.0
+  },
+  {
+    "id": "SAT-POLAR-062",
+    "layer": "SPACE",
+    "x": 130.401,
+    "y": 45.0
+  },
+  {
+    "id": "SAT-POLAR-063",
+    "layer": "SPACE",
+    "x": 130.401,
+    "y": 75.0
+  },
+  {
+    "id": "SAT-POLAR-064",
+    "layer": "SPACE",
+    "x": -49.5991,
+    "y": 75.0
+  },
+  {
+    "id": "SAT-POLAR-065",
+    "layer": "SPACE",
+    "x": -49.5991,
+    "y": 45.0
+  },
+  {
+    "id": "SAT-POLAR-066",
+    "layer": "SPACE",
+    "x": -49.5991,
+    "y": 15.0
+  },
+  {
+    "id": "SAT-POLAR-067",
+    "layer": "SPACE",
+    "x": -49.5991,
+    "y": -15.0
+  },
+  {
+    "id": "SAT-POLAR-068",
+    "layer": "SPACE",
+    "x": -49.5991,
+    "y": -45.0
+  },
+  {
+    "id": "SAT-POLAR-069",
+    "layer": "SPACE",
+    "x": -49.5991,
+    "y": -75.0
+  },
+  {
+    "id": "SAT-POLAR-070",
+    "layer": "SPACE",
+    "x": 130.401,
+    "y": -75.0
+  },
+  {
+    "id": "SAT-POLAR-071",
+    "layer": "SPACE",
+    "x": 130.401,
+    "y": -45.0
+  },
+  {
+    "id": "SAT-POLAR-072",
+    "layer": "SPACE",
+    "x": 130.401,
+    "y": -15.0
+  },
+  {
+    "id": "SHIP-001",
+    "layer": "SEA",
+    "x": 101.2,
+    "y": 2.2
+  },
+  {
+    "id": "SHIP-002",
+    "layer": "SEA",
+    "x": 114.0,
+    "y": 12.0
+  },
+  {
+    "id": "SHIP-003",
+    "layer": "SEA",
+    "x": 126.0,
+    "y": 28.0
+  },
+  {
+    "id": "SHIP-004",
+    "layer": "SEA",
+    "x": 128.0,
+    "y": 18.0
+  },
+  {
+    "id": "SHIP-005",
+    "layer": "SEA",
+    "x": 111.0,
+    "y": -5.0
+  },
+  {
+    "id": "SHIP-006",
+    "layer": "SEA",
+    "x": 48.0,
+    "y": 12.0
+  },
+  {
+    "id": "SHIP-007",
+    "layer": "SEA",
+    "x": 38.0,
+    "y": 20.0
+  },
+  {
+    "id": "SHIP-008",
+    "layer": "SEA",
+    "x": 63.0,
+    "y": 14.0
+  },
+  {
+    "id": "SHIP-009",
+    "layer": "SEA",
+    "x": 72.0,
+    "y": -10.0
+  },
+  {
+    "id": "SHIP-010",
+    "layer": "SEA",
+    "x": 10.0,
+    "y": 36.0
+  },
+  {
+    "id": "SHIP-011",
+    "layer": "SEA",
+    "x": 28.0,
+    "y": 35.0
+  },
+  {
+    "id": "SHIP-012",
+    "layer": "SEA",
+    "x": -30.0,
+    "y": -5.0
+  },
+  {
+    "id": "SHIP-013",
+    "layer": "SEA",
+    "x": -45.0,
+    "y": 20.0
+  },
+  {
+    "id": "SHIP-014",
+    "layer": "SEA",
+    "x": -20.0,
+    "y": -20.0
+  },
+  {
+    "id": "SHIP-015",
+    "layer": "SEA",
+    "x": -35.0,
+    "y": -35.0
+  },
+  {
+    "id": "SHIP-016",
+    "layer": "SEA",
+    "x": 160.0,
+    "y": 30.0
+  },
+  {
+    "id": "SHIP-017",
+    "layer": "SEA",
+    "x": -160.0,
+    "y": 15.0
+  },
+  {
+    "id": "SHIP-018",
+    "layer": "SEA",
+    "x": -150.0,
+    "y": 0.0
+  },
+  {
+    "id": "SHIP-019",
+    "layer": "SEA",
+    "x": -130.0,
+    "y": -25.0
+  },
+  {
+    "id": "SHIP-020",
+    "layer": "SEA",
+    "x": 170.0,
+    "y": -15.0
+  },
+  {
+    "id": "UAV-001",
+    "layer": "AIR",
+    "x": -100.0,
+    "y": 40.0
+  },
+  {
+    "id": "UAV-002",
+    "layer": "AIR",
+    "x": -90.0,
+    "y": 15.0
+  },
+  {
+    "id": "UAV-003",
+    "layer": "AIR",
+    "x": -60.0,
+    "y": -15.0
+  },
+  {
+    "id": "UAV-004",
+    "layer": "AIR",
+    "x": 5.0,
+    "y": 50.0
+  },
+  {
+    "id": "UAV-005",
+    "layer": "AIR",
+    "x": 0.0,
+    "y": 5.0
+  },
+  {
+    "id": "UAV-006",
+    "layer": "AIR",
+    "x": 38.0,
+    "y": -2.0
+  },
+  {
+    "id": "UAV-007",
+    "layer": "AIR",
+    "x": 50.0,
+    "y": 25.0
+  },
+  {
+    "id": "UAV-008",
+    "layer": "AIR",
+    "x": 80.0,
+    "y": 22.0
+  },
+  {
+    "id": "UAV-009",
+    "layer": "AIR",
+    "x": 110.0,
+    "y": 35.0
+  },
+  {
+    "id": "UAV-010",
+    "layer": "AIR",
+    "x": 115.0,
+    "y": 5.0
+  },
+  {
+    "id": "UAV-011",
+    "layer": "AIR",
+    "x": 135.0,
+    "y": -25.0
+  },
+  {
+    "id": "UAV-012",
+    "layer": "AIR",
+    "x": 100.0,
+    "y": 55.0
+  }
+]

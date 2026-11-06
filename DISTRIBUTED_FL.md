@@ -68,7 +68,7 @@ mọi tọa độ đều có tuyến. Snapshot không phải mô phỏng quỹ �
   trong DB gốc. Sau setup cần restart backend để dùng account này.
 - Provisioner lấy cấu hình từ `DATABASE_URL`/`MYSQL_ADMIN_USER`/`MYSQL_ADMIN_PASSWORD`;
   quyền quản trị chỉ phục vụ cấp account/schema. File bí mật bị bỏ qua bởi Git.
-- Artifacts của experiment gốc: `data/output/distributed_fl/experiments/<runtime_id>/`.
+- Artifacts của experiment gốc: `storage/output/distributed_fl/experiments/<runtime_id>/`.
   ID số của experiment chứa mapping này trong config, không có lịch sử UI thứ hai.
 - Các artifact `runs/` của lần tích hợp thử trước được giữ, không dùng làm runtime
   chính. Không sao chép database, credential hoặc kết quả từ thư mục Second.
@@ -114,7 +114,7 @@ heuristic. Không suy ra tối ưu toàn cục hoặc bảo đảm QoS ngoài th
 # Đối chứng codec/model ghép cặp:
 .\.venv\Scripts\python.exe -m sagsin.upgrade_benchmark --url http://127.0.0.1:8000 --compare-upgrades
 # Centralized offline của một experiment đã hoàn tất:
-.\.venv\Scripts\python.exe -m sagsin.offline data/output/distributed_fl/experiments/<runtime_id>
+.\.venv\Scripts\python.exe -m sagsin.offline storage/output/distributed_fl/experiments/<runtime_id>
 ```
 
 Chỉ dùng loopback. Chưa có TLS/DP/secure aggregation, triển khai LAN nhiều máy,
@@ -129,7 +129,7 @@ Các fixture kiểm chứng runtime cũ đặt `runtime=legacy` rõ ràng; test 
 chứng mặc định HTTP, giữ topology scenario, không tập trung raw data, dùng chung
 capacity và ngừng cấp tốc độ khi link INACTIVE.
 
-Báo cáo nghiệm thu mới lưu ở `data/output/distributed_fl/acceptance/unified.json`.
+Báo cáo nghiệm thu mới lưu ở `storage/output/distributed_fl/acceptance/unified.json`.
 Các lượt đã kiểm chứng trên A: experiment #7 (178 client, 2 vòng), #8 (hủy sau
 vòng 1 rồi tiếp tục đủ 8 vòng); audit khớp từng tensor và account backend chính
 bị từ chối SELECT DB client. Event #48 dùng checkpoint #7, truyền đủ 0,5 Mbit,
@@ -139,4 +139,4 @@ worker được giữ lại; không xóa kết quả thất bại. Log startup �
 Benchmark nhiều seed toàn ma trận chưa chạy trong lượt hợp nhất này. Các kết quả
 nghiệm thu xác nhận hệ thống hoạt động, chưa chứng minh FL luôn thắng baseline.
 
-Nghiệm thu cuối trên server chính: {"experiment_id": 10, "pool": 178, "nodes": 178, "links": 460, "completed_rounds": 2, "resume": {"experiment_id": 11, "retained_rounds": 1, "completed_rounds": 8}}. Ảnh giao diện gốc: `data/output/distributed_fl/unified-results.png`. Startup worker có retry giới hạn một lần và giữ log; không xóa lượt lỗi.
+Nghiệm thu cuối trên server chính: {"experiment_id": 10, "pool": 178, "nodes": 178, "links": 460, "completed_rounds": 2, "resume": {"experiment_id": 11, "retained_rounds": 1, "completed_rounds": 8}}. Ảnh giao diện gốc: `storage/output/distributed_fl/unified-results.png`. Startup worker có retry giới hạn một lần và giữ log; không xóa lượt lỗi.

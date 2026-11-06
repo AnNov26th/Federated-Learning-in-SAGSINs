@@ -2,7 +2,7 @@
 
 > Bản bàn giao ngày 31/10 và lệnh demo/tái lập: [HANDOFF.md](HANDOFF.md).
 > Kết quả bên dưới là benchmark lịch sử 27/10. Ma trận mới nằm trong
-> `data/output/acceptance_20261031_final/`, bổ sung access capacity dùng chung,
+> `storage/output/acceptance_20261031_final/`, bổ sung access capacity dùng chung,
 > trừ setup/handover pause và khoảng tin cậy ghép cặp theo seed; không so trực
 > tiếp delivery/QoS giữa hai phương pháp.
 
@@ -59,7 +59,7 @@ Không có vi phạm capacity. FL giảm MAE link khoảng 2,12% so với curren
 
 Phép đối chứng mạng động dùng bước 1 giây và không trừ pause handover 0,1 giây trong số liệu delivery; phiên live có trừ pause đó. Do đó không đối chiếu trực tiếp throughput live với benchmark. Số đổi tuyến trong khảo sát này bằng nhau giữa cả ba chính sách.
 
-Nguồn: `data/output/distributed_fl/benchmarks/20261027T034040Z/`, phần mạng động tại `dynamic-services/`. Có runs/aggregates CSV+JSON, workloads, inventory, paired.json và methodology.json. Input riêng tại `data/input/service_benchmarks/20261027T034040Z/`. API báo cáo: `/api/service/benchmark?scenario_id=6`; báo cáo HTML: `/api/service/benchmark/report?run=20261027T034040Z`.
+Nguồn: `storage/output/distributed_fl/benchmarks/20261027T034040Z/`, phần mạng động tại `dynamic-services/`. Có runs/aggregates CSV+JSON, workloads, inventory, paired.json và methodology.json. Input riêng tại `storage/input/service_benchmarks/20261027T034040Z/`. API báo cáo: `/api/service/benchmark?scenario_id=6`; báo cáo HTML: `/api/service/benchmark/report?run=20261027T034040Z`.
 
 ## Tái lập và nghiệm thu
 
@@ -68,9 +68,9 @@ Nguồn: `data/output/distributed_fl/benchmarks/20261027T034040Z/`, phần mạn
 node --test tests/service-path.test.mjs
 .\.venv\Scripts\python.exe -m sagsin.service_smoke
 .\.venv\Scripts\python.exe -m sagsin.benchmark --seeds 11 42 71 101 137 --rounds 5 --samples 160 --clients 24 --profiles normal
-.\.venv\Scripts\python.exe -m sagsin.service_route_benchmark data/output/distributed_fl/benchmarks/20261027T034040Z --ticks 45
+.\.venv\Scripts\python.exe -m sagsin.service_route_benchmark storage/output/distributed_fl/benchmarks/20261027T034040Z --ticks 45
 ```
 
 177/177 Python tests và 3/3 JavaScript tests PASS. Bao gồm mất vùng phủ khi vệ tinh di chuyển, observer không tăng clock, model không đổi weather, QoS thay thế tuyến rẻ nhưng quá trễ, chặn độ vòng, hysteresis và các kiểm thử phiên/ACK/capacity cũ.
 
-Smoke thật: call #18 đạt 2 Mbps mỗi chiều, Emergency #19 có ACK. UI call #20 tiếp tục truyền trên graph động, đã thay tuyến khi điều kiện đổi và đã kết thúc. Audit `data/output/distributed_fl/acceptance/shared-motion-qos.json` đối chiếu tọa độ mọi node trong tuyến với hàm backend tại đúng tick: sai khác 0 độ. Các client sự kiện vẫn tách pool FL, database node vẫn 184 (scenario toàn cầu có 178).
+Smoke thật: call #18 đạt 2 Mbps mỗi chiều, Emergency #19 có ACK. UI call #20 tiếp tục truyền trên graph động, đã thay tuyến khi điều kiện đổi và đã kết thúc. Audit `storage/output/distributed_fl/acceptance/shared-motion-qos.json` đối chiếu tọa độ mọi node trong tuyến với hàm backend tại đúng tick: sai khác 0 độ. Các client sự kiện vẫn tách pool FL, database node vẫn 184 (scenario toàn cầu có 178).

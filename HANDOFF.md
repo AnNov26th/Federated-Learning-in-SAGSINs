@@ -26,20 +26,20 @@ Nó không kết nối MySQL vận hành, không huấn luyện và không reset
 
 ## 2. Tái lập benchmark offline, không cần MySQL
 
-Inventory và năm checkpoint đã đóng băng nằm trong `data/input/acceptance_20261031/`.
+Inventory và năm checkpoint đã đóng băng nằm trong `storage/input/acceptance_20261031/`.
 Gói này có config/topology/model, không có raw observations hoặc credential.
 Không cần sao chép database của người làm trước.
 
 ```powershell
-.\.venv\Scripts\python.exe -m sagsin.acceptance_matrix --package data/input/acceptance_20261031 --output data/output/replay-local --ticks 30
+.\.venv\Scripts\python.exe -m sagsin.acceptance_matrix --package storage/input/acceptance_20261031 --output storage/output/replay-local --ticks 30
 ```
 
 Output phải là thư mục mới để giữ bằng chứng các lượt cũ. Báo cáo HTML/CSV/JSON,
 workload, khoảng tin cậy và hash đầu vào/mã nguồn được tạo cùng thư mục.
 Chỉ coi một lượt hoàn tất nếu `methodology.json` có `complete=true`.
-Lượt bị dừng trong `data/output/acceptance_20261031/` giữ `complete=false` và
+Lượt bị dừng trong `storage/output/acceptance_20261031/` giữ `complete=false` và
 không được tính là kết quả. Kết quả cuối nằm trong
-`data/output/acceptance_20261031_final/report.html`.
+`storage/output/acceptance_20261031_final/report.html`.
 
 Ma trận: normal (3 cặp), concurrent_congested (12 cặp, 25% residual capacity),
 mixed_outage (6 cặp, 50% capacity), gaming_outage (6 cặp), smartphone_access
@@ -101,7 +101,7 @@ SGP4 hoặc bảo đảm QoS thực địa. Không dùng ảnh nghiệm thu cũ 
 ## 4. Tạo gói source và minh chứng
 
 ```powershell
-.\.venv\Scripts\python.exe -m sagsin.release_bundle --output data/output/releases/sagsin-20261031.zip
+.\.venv\Scripts\python.exe -m sagsin.release_bundle --output storage/output/releases/sagsin-20261031.zip
 ```
 
 ZIP chứa source, tests, inventory, checkpoint offline, báo cáo ma trận và tài

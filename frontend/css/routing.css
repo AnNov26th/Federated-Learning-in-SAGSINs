@@ -239,7 +239,7 @@ details[open]>summary::before { transform:rotate(90deg); }
     #top-header h1 { font-size:12px; }
     #top-header p { display:none; }
     #simulation-toolbar { top:12px; left:12px; width:calc(100% - 24px); max-height:38dvh; padding:10px; border-radius:14px; }
-    .controls-heading,#topology-caption { display:none; }
+    .controls-heading { display:none; }
     #simulation-toolbar>#routing-readiness { margin:0 0 6px; font-size:11px; }
     .topology-toggle { min-height:30px; margin-bottom:8px; font-size:11px; }
     .simulation-controls { grid-template-columns:minmax(0,1fr) 64px 36px 36px; gap:6px; }

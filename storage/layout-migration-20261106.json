@@ -1,0 +1,35 @@
+{
+  "old_root": "data/input, data/output, data/archive",
+  "new_root": "storage/input, storage/output, storage/archive",
+  "public_data_files": [
+    "links.json",
+    "metadata.json",
+    "nodes.json",
+    "observations.json",
+    "predictions.json",
+    "routing.json",
+    "training.json"
+  ],
+  "updated_code_paths": [
+    "backend\\delete_experiment.py",
+    "backend\\export_evidence.py",
+    "backend\\network_benchmark.py",
+    "backend\\network_demo.py",
+    "backend\\network_volume_demo.py",
+    "backend\\reset_training.py",
+    "backend\\database\\build_global_ground_inventory.py",
+    "backend\\database\\build_global_multilayer_inventory.py",
+    "backend\\database\\global_coverage.py",
+    "backend\\database\\seed_db.py",
+    "backend\\utils\\dataset_manager.py",
+    "sagsin\\paths.py",
+    "sagsin\\release_bundle.py",
+    "sagsin\\service_route_benchmark.py"
+  ],
+  "preserved_file_counts": {
+    "input": 75,
+    "output/database_backups": 225,
+    "output/training_reset_backups": 11,
+    "output/distributed_fl": 388
+  }
+}

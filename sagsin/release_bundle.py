@@ -11,8 +11,8 @@ from .paths import ROOT
 
 def candidates():
     roots = ['backend', 'frontend', 'sagsin', 'tests',
-             'data/input/global_ground_nodes', 'data/input/acceptance_20261031',
-             'data/output/acceptance_20261031_final']
+             'storage/input/global_ground_nodes', 'storage/input/acceptance_20261031',
+             'storage/output/acceptance_20261031_final']
     allowed = {'.py', '.js', '.mjs', '.html', '.css', '.csv', '.json', '.txt', '.md', '.jpg', '.png'}
     for name in roots:
         for path in sorted((ROOT / name).rglob('*')):
@@ -27,7 +27,7 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if args.output.exists():parser.error('Refusing to overwrite an existing release')
-    report = ROOT / 'data/output/acceptance_20261031_final/methodology.json'
+    report = ROOT / 'storage/output/acceptance_20261031_final/methodology.json'
     if not report.exists() or not json.loads(report.read_text())['complete']:
         parser.error('Complete the acceptance matrix first')
     files = sorted(set(candidates()))

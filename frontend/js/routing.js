@@ -146,11 +146,13 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
         const group=new THREE.Group(), segments=[];
         for (const link of snapshot.links) {
             const segment=createLiveArc({from:()=>nodePosition(link.source),to:()=>nodePosition(link.target),
-                color:link.estimated ? 0x6b94b9 : 0x86b5c5,dashed:Boolean(link.estimated),opacity:link.estimated ? .12 : .22});
+                color:link.estimated ? 0x92bce4 : 0xa4dce9,dashed:Boolean(link.estimated),opacity:link.estimated ? .4 : .6});
             segments.push(segment); group.add(segment.line);
         }
         scene3D.earth.add(group); topologyDrawing={key,group,segments};
-        $('topology-caption').textContent=`${snapshot.links.length}/${snapshot.total_links} link · liền: đã lưu · đứt: ước tính.`;
+        const connected = new Set(snapshot.links.flatMap(link => [link.source, link.target]));
+        const nodeCount = snapshot.nodes?.length ?? snapshot.node_count ?? connected.size;
+        $('topology-caption').textContent=`${snapshot.links.length}/${snapshot.total_links} link · ${connected.size}/${nodeCount} node có kết nối · liền: đã lưu · đứt: ước tính.`;
         $('topology-caption').title=`Hiện một phần topology để dễ quan sát, chọn ${snapshot.neighbors_shown} lân cận gần nhất cho mỗi node. Định tuyến vẫn xét toàn bộ liên kết hợp lệ.`;
     }
 
@@ -296,7 +298,6 @@ export function setupRouting({ scene3D, nodeMarkers, droppedMarkers, createMarke
         if(movingTopology&&movingTopology.scenario_id===Number($('routing-scenario').value)){
             drawTopology(movingTopology,movingTopology.key);
             topologyDrawing.group.visible=$('show-topology').checked;
-            $('topology-caption').textContent=`${movingTopology.links.length}/${movingTopology.total_links} liên kết trong tầm · vị trí backend.`;
         }
         if (topologyDrawing?.group.visible) for (const segment of topologyDrawing.segments) segment.update();
         for (const drawing of drawings.values()) {

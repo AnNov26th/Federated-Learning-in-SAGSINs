@@ -13,7 +13,7 @@ export function setupSharedMotion({nodeMarkers,scenario,earth}) {
             scenarioId=id;clock=data.clock_s;horizon=data.horizon_s;elapsed=0;
             samples=new Map(data.nodes.map(n=>[n.id,{from:latLngToVector3(n.lat,n.lng,n.alt),to:latLngToVector3(n.next.lat,n.next.lng,n.next.alt)}]));
             earth.userData.motionClock=clock;earth.userData.motionSynchronized=true;
-            earth.userData.motionTopology={scenario_id:id,links:data.contacts||[],total_links:data.total_contacts,neighbors_shown:2,
+            earth.userData.motionTopology={scenario_id:id,links:data.contacts||[],total_links:data.total_contacts,node_count:data.nodes.length,neighbors_shown:2,
                 key:`${id}:motion:${(data.contacts||[]).map(e=>e.id).sort().join(',')}`};
             const status=document.getElementById('motion-sync-status');if(status)status.textContent=`Vị trí đồng bộ · t = ${clock.toFixed(0)} s`;
         }catch{earth.userData.motionSynchronized=false;const status=document.getElementById('motion-sync-status');if(status)status.textContent='Mất đồng bộ vị trí · tạm giữ vị trí gần nhất';}

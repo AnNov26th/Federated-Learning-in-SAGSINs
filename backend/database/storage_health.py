@@ -3,7 +3,7 @@ import logging
 from weakref import WeakKeyDictionary
 
 from fastapi import HTTPException
-from sqlalchemy.exc import OperationalError
+from sqlalchemy.exc import OperationalError, ProgrammingError
 
 LEGACY_TABLE = "network_observations"
 LEGACY_MESSAGE = ("Dữ liệu huấn luyện tập trung cũ đang tạm ngưng do lỗi lưu trữ. "
@@ -25,7 +25,7 @@ def inspect_legacy_store(engine):
     try:
         with engine.connect() as connection:
             connection.exec_driver_sql("SELECT 1 FROM network_observations LIMIT 0")
-    except OperationalError as error:
+    except (OperationalError, ProgrammingError) as error:
         code = error.orig.args[0]
         if code == 1146:  # A fresh database: create_all will create the table.
             return {}

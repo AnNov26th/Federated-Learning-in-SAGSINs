@@ -63,7 +63,7 @@ def main():
     args = parser.parse_args()
     from backend.database.database import engine
     root = Path(__file__).resolve().parents[1]
-    print(json.dumps(remove_experiment(engine, args.id, root / "data/output/training_reset_backups", args.apply, args.expect_latest), ensure_ascii=True))
+    print(json.dumps(remove_experiment(engine, args.id, root / "storage/output/training_reset_backups", args.apply, args.expect_latest), ensure_ascii=True))
 
 
 if __name__ == "__main__":

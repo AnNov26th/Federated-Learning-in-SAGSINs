@@ -1,74 +1,34 @@
-# Dữ liệu đầu vào và đầu ra
+# Dữ liệu để xem và trình bày
 
-## Gói nghiệm thu hiện hành 31/10/2026
+Mở các file ngay trong thư mục này; không cần tìm trong thư mục con.
+Tất cả thuộc experiment #24, dataset #13, seed 42.
 
-- `input/acceptance_20261031/`: inventory, năm checkpoint + config, training
-  metrics/chi phí model; không có raw observations hoặc credential.
-- `output/acceptance_20261031_final/`: báo cáo HTML, CSV/JSON từng seed và
-  tổng hợp, CI ghép cặp, workload và methodology/hash của ma trận offline.
-- `output/acceptance_20261031/`: lượt bị dừng, complete=false, không nghiệm thu.
-- `output/releases/`: ZIP bàn giao source + model + report; không đưa ZIP vào Git.
+| File | Mở khi cần xem |
+|---|---|
+| [nodes.json](nodes.json) | 178 node trong topology snapshot của thí nghiệm |
+| [links.json](links.json) | Các link, băng thông, độ trễ lan truyền và khoảng cách |
+| [observations.json](observations.json) | Toàn bộ 26.878 mẫu đầu vào/nhãn; trường split chỉ rõ train, validation, test |
+| [training.json](training.json) | Cấu hình, 10 vòng huấn luyện, client tham gia và checkpoint |
+| [predictions.json](predictions.json) | 5.162 mẫu test, dự đoán trước/sau học và sai số |
+| [routing.json](routing.json) | Chỉ số chính sách, cặp flow đối chứng/FL và lịch sử chọn tuyến |
+| [metadata.json](metadata.json) | Nguồn dữ liệu, ý nghĩa cột, đơn vị, số liệu kiểm tra và hash các file |
 
-Lệnh tái lập và giới hạn phương pháp: [HANDOFF.md](../HANDOFF.md).
+## Cách đọc
 
-## Cấu trúc
+- nodes.json, links.json, observations.json là mảng bản ghi.
+- training.json có config, split_counts, round_metrics, client_rounds, checkpoint.
+- predictions.json có metrics và test_predictions.
+- routing.json có policy_metrics, paired_flows, route_decisions, flows.
+- Mỗi mẫu observations chứa split: train (16.554), validation (5.162), test (5.162).
+  Không lưu thêm ba bản sao riêng để tránh trùng dữ liệu.
+- observed_delay_ms là độ trễ tại t, target_ms là nhãn tại t+1. Hai cột này không
+  phải trước/sau tối ưu. Muốn so sánh trước/sau học, mở predictions.json.
+- Dữ liệu là mô phỏng synthetic; không phải phép đo từ vệ tinh/UAV/tàu thực.
+- Sai số dự đoán giảm không tự chứng minh QoS/throughput tốt hơn; đọc routing.json.
 
-```text
-data/
-├── input/
-│   ├── global_ground_nodes/    # Nguồn địa lý, waypoint, inventory node/vệ tinh
-│   └── network_benchmarks/     # Mẫu nguồn, nhãn, cấu hình/request từng benchmark
-└── output/
-    ├── exports/                # JSON/CSV định tuyến, báo cáo, ảnh minh chứng
-    ├── network_benchmarks/     # Metric, prediction audit, checkpoint, báo cáo
-    ├── global_ground_nodes/    # Kết quả kiểm chứng phủ sóng
-    ├── network_demo/           # Database demo và kết quả chạy demo
-    ├── training_ui_check/      # Database kiểm thử giao diện, ảnh và log demo
-    ├── database_backups/       # Bản sao lưu database
-    └── training_reset_backups/ # Bản sao lưu trước thao tác reset/xóa đã thực hiện
-```
+## Dữ liệu chạy ứng dụng
 
-`input` chứa dữ liệu dùng để tạo mạng hoặc huấn luyện/đánh giá. Nhãn thật
-(`target_delay_ms`) và các tập validation/test cũng là input của thí nghiệm;
-không phải dự đoán đầu ra của model. MNIST, nếu tải lại, được lưu tại
-`input/mnist/`; không tạo sẵn thư mục rỗng.
-
-`output` chứa kết quả đã sinh: dự đoán, metric, trọng số/checkpoint, tuyến,
-báo cáo và bản sao lưu. Một JSON kết quả có thể kèm lại request/config để audit;
-giữ nguyên các bản ghi đó thay vì cắt mất thông tin tái lập.
-
-## Đối chiếu một benchmark
-
-Cùng tên lần chạy, ví dụ `volume_20261024T182515238765Z`:
-
-- `input/network_benchmarks/<run>/`: `nodes.csv`, `links.csv`, `manifest.json`.
-- `input/network_benchmarks/<run>/<profile_seed>/`: `source_observations.csv`,
-  `small/large_request.json`, `small/large_dataset_metadata.json`.
-- `output/network_benchmarks/<run>/`: bảng tổng hợp, báo cáo HTML, database demo.
-- `output/network_benchmarks/<run>/<profile_seed>/`: checkpoint, experiment,
-  decision audit và client outcomes.
-
-Tạo lại báo cáo bằng:
-
-```powershell
-python -m backend.network_volume_report data/output/network_benchmarks/<run>
-```
-
-Tiện ích tự tìm input cùng tên lần chạy trong cây `data/input`.
-
-## Database và bảo toàn dữ liệu
-
-Database chính vẫn ở MySQL theo `DATABASE_URL`, không bị chuyển hoặc reset.
-Các bảng dataset/observation/experiment/checkpoint trong MySQL không bị tách
-vật lý. SQLite demo là trạng thái chạy hỗn hợp, có cả dữ liệu nguồn lẫn kết quả;
-được giữ nguyên database trong `output`, không cắt bảng để tránh mất quan hệ.
-
-Lần tổ chức ngày 25/10/2026 chỉ chuyển file, sửa đường dẫn code/tài liệu và
-liên kết báo cáo. Danh sách vị trí cũ/mới và SHA-256 trước chuyển nằm trong
-`output/data-reorganization.json`. Dịch vụ demo cổng 8767 được khởi động lại
-với SQLite ở vị trí mới; ứng dụng MySQL chính giữ cấu hình hiện tại.
-
-Các folder rỗng đã được xóa; không có file 0 byte trong dữ liệu lúc kiểm tra.
-Không xóa bản sao lưu, checkpoint hoặc dữ liệu có nội dung. Các báo cáo lịch sử
-vẫn có thể nhắc đường dẫn cũ trong nội dung audit; dùng danh sách chuyển file để
-tra vị trí mới.
+Checkpoint, inventory nguồn, kết quả đầy đủ và backup được giữ riêng trong
+storage/ ở thư mục gốc dự án. Backend vẫn dùng MySQL và storage/output/distributed_fl.
+Các JSON tại data/ là bản minh chứng cố định, không tự đổi theo mỗi lần chạy mô phỏng.
+Không cần mở storage/ khi chỉ trình bày dữ liệu với giảng viên.

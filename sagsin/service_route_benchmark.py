@@ -143,7 +143,7 @@ def main():
         paired.append(dict(seed=seed,mae_improvement_ms=current['next_tick_link_mae_ms']-fl['next_tick_link_mae_ms'],
                            qos_change=fl['qos_fraction']-current['qos_fraction']))
     write_json(destination/'paired.json',paired)
-    inputs=ROOT/'data/input/service_benchmarks'/args.benchmark_directory.name
+    inputs=ROOT/'storage/input/service_benchmarks'/args.benchmark_directory.name
     write_json(inputs/'inventory.json',dict(scenario_id=scenario,nodes=nodes,links=links))
     write_json(inputs/'workloads.json',workloads)
     for name,values in [('runs',rows),('aggregates',aggregates)]:

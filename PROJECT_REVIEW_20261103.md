@@ -37,7 +37,7 @@ Tài liệu nền: [FedAvg, McMahan et al.](https://proceedings.mlr.press/v54/mc
 - MariaDB 10.4.32 trả lỗi 1932 khi `DESCRIBE` hoặc `SELECT` bảng `sagsins_db.network_observations`.
 - Error log: expected tablespace ID 16, file chứa 4294967294. Bản sao file cho thấy page 0/2/3 có ID này, trong khi page 1 có ID 16. Chưa xác định nguyên nhân hoặc phạm vi record còn phục hồi được.
 - 18 bảng khác trong DB chính đọc được ở lần kiểm tra; bảng lỗi vẫn có tham chiếu từ 11.950 observation ID khác nhau trong `network_round_predictions`.
-- Đã sao chép `.ibd` (117.440.512 byte) và `.frm` vào `data/output/database_backups/network-observations-20261103/`. Đây là bản bảo toàn bảng lỗi, không phải backup toàn DB có tính nhất quán giao dịch.
+- Đã sao chép `.ibd` (117.440.512 byte) và `.frm` vào `storage/output/database_backups/network-observations-20261103/`. Đây là bản bảo toàn bảng lỗi, không phải backup toàn DB có tính nhất quán giao dịch.
 - Backup SQL tìm thấy là 23/10, cũ hơn các dataset/tham chiếu hiện tại. Không tự drop/recreate, ghi đè .ibd, đổi recovery mode hoặc khôi phục toàn DB bằng bản cũ.
 - Đã sửa thông báo startup để lỗi 1932 có hướng dẫn đúng; ứng dụng tiếp tục dừng khi DB chưa sẵn sàng.
 
@@ -124,11 +124,11 @@ Hai lượt policy bổ sung là kiểm tra trên **một seed**, không phải 
 
 Artifact chi tiết:
 
-- `data/output/distributed_fl/retraining/mysql-existing-20261103-fedavg/runs.json`
+- `storage/output/distributed_fl/retraining/mysql-existing-20261103-fedavg/runs.json`
 - Cùng thư mục: `summary.json`, `summary.csv`, `selection-comparison.json`, `preservation-check.json`.
-- `data/output/distributed_fl/retraining/mysql-existing-20261103-delay-aware/runs.json`
-- `data/output/distributed_fl/retraining/mysql-existing-20261103-predictive/runs.json`
-- Checkpoint/audit/network output riêng từng experiment ở `data/output/distributed_fl/experiments/<artifact_id>/`.
+- `storage/output/distributed_fl/retraining/mysql-existing-20261103-delay-aware/runs.json`
+- `storage/output/distributed_fl/retraining/mysql-existing-20261103-predictive/runs.json`
+- Checkpoint/audit/network output riêng từng experiment ở `storage/output/distributed_fl/experiments/<artifact_id>/`.
 
 ## 5. Thứ tự hoàn thiện phù hợp đề tài
 

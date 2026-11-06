@@ -6,8 +6,9 @@ from unittest.mock import MagicMock, patch
 
 from fastapi.testclient import TestClient
 from pymysql.err import OperationalError as DriverError
+from pymysql.err import ProgrammingError as DriverProgrammingError
 from sqlalchemy import create_engine, event
-from sqlalchemy.exc import OperationalError
+from sqlalchemy.exc import OperationalError, ProgrammingError
 from sqlalchemy.orm import Session
 
 from backend.database.database import Base, get_db
@@ -38,6 +39,19 @@ class StorageProbeTests(unittest.TestCase):
     def test_missing_table_is_created_normally_on_fresh_database(self):
         engine, _ = self.probe(1146)
         self.assertEqual(inspect_legacy_store(engine), {})
+
+    def test_pymysql_missing_table_is_a_programming_error(self):
+        engine, connection = self.probe(1146)
+        connection.exec_driver_sql.side_effect = ProgrammingError(
+            'SELECT 1', {}, DriverProgrammingError(1146, "Table doesn't exist"))
+        self.assertEqual(inspect_legacy_store(engine), {})
+
+    def test_other_programming_errors_are_not_hidden(self):
+        engine, connection = self.probe(1064)
+        connection.exec_driver_sql.side_effect = ProgrammingError(
+            'SELECT 1', {}, DriverProgrammingError(1064, 'SQL syntax error'))
+        with self.assertRaises(ProgrammingError):
+            inspect_legacy_store(engine)
 
     def test_permission_and_connection_errors_are_not_hidden(self):
         for code in (1044, 1045, 2003, 2013):

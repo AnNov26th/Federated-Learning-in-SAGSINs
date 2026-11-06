@@ -1,0 +1,3682 @@
+[
+  {
+    "id": "A20",
+    "source": "GND-NIC-001",
+    "target": "GND-NIC-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.0,
+    "distance_km": 76.33899086838504
+  },
+  {
+    "id": "A21",
+    "source": "GND-SDN-002",
+    "target": "SHIP-007",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 1.0,
+    "distance_km": 92.43990383680291
+  },
+  {
+    "id": "A22",
+    "source": "GND-SAU-002",
+    "target": "SHIP-007",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 1.0,
+    "distance_km": 206.56137274154642
+  },
+  {
+    "id": "A24",
+    "source": "GND-MNG-001",
+    "target": "GND-MNG-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.0,
+    "distance_km": 244.51826237072737
+  },
+  {
+    "id": "A25",
+    "source": "GND-AUS-001",
+    "target": "GND-AUS-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.0,
+    "distance_km": 245.9646563843602
+  },
+  {
+    "id": "A26",
+    "source": "GND-IDN-002",
+    "target": "SHIP-005",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 1.05749,
+    "distance_km": 317.0271737013833
+  },
+  {
+    "id": "A27",
+    "source": "GND-USA-001",
+    "target": "GND-USA-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.099521473479001,
+    "distance_km": 329.6282451580516
+  },
+  {
+    "id": "A29",
+    "source": "GND-TUR-001",
+    "target": "GND-TUR-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.16837,
+    "distance_km": 350.2671621035947
+  },
+  {
+    "id": "A30",
+    "source": "GND-DZA-001",
+    "target": "GND-DZA-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.1689719306592532,
+    "distance_km": 350.4489684253431
+  },
+  {
+    "id": "A31",
+    "source": "GND-CAN-001",
+    "target": "GND-CAN-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.173403373568389,
+    "distance_km": 351.77748158755963
+  },
+  {
+    "id": "A32",
+    "source": "GND-TCD-001",
+    "target": "GND-TCD-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.36547,
+    "distance_km": 409.3561241211089
+  },
+  {
+    "id": "A34",
+    "source": "GND-LBY-001",
+    "target": "SHIP-010",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 1.50926,
+    "distance_km": 452.46468503429736
+  },
+  {
+    "id": "A35",
+    "source": "GND-MEX-001",
+    "target": "GND-MEX-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.5391136533158691,
+    "distance_km": 461.4146652689243
+  },
+  {
+    "id": "A36",
+    "source": "GND-IDN-001",
+    "target": "SHIP-005",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 1.6024813375030877,
+    "distance_km": 480.4118190691783
+  },
+  {
+    "id": "A38",
+    "source": "GND-CAN-001",
+    "target": "GND-USA-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.8046,
+    "distance_km": 541.0054165873954
+  },
+  {
+    "id": "A39",
+    "source": "GND-CAN-002",
+    "target": "GND-USA-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.8355117933525564,
+    "distance_km": 550.272592217151
+  },
+  {
+    "id": "A40",
+    "source": "GND-USA-001",
+    "target": "GND-CAN-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.881791221633522,
+    "distance_km": 564.1468157763363
+  },
+  {
+    "id": "A42",
+    "source": "SAT-005",
+    "target": "SHIP-006",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 1.9274814899167885,
+    "distance_km": 577.8444136116563
+  },
+  {
+    "id": "A43",
+    "source": "GND-DZA-002",
+    "target": "GND-ESP-001",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.95728,
+    "distance_km": 586.7772683858466
+  },
+  {
+    "id": "A44",
+    "source": "GND-KAZ-001",
+    "target": "SAT-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 1.983374057150896,
+    "distance_km": 594.6005837266996
+  },
+  {
+    "id": "A45",
+    "source": "GND-ARG-001",
+    "target": "GND-ARG-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 2.0772516227440434,
+    "distance_km": 622.7443698669255
+  },
+  {
+    "id": "A47",
+    "source": "GND-RUS-001",
+    "target": "GND-RUS-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 2.110004817911322,
+    "distance_km": 632.5635307534777
+  },
+  {
+    "id": "A48",
+    "source": "GND-LBY-001",
+    "target": "GND-LBY-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 2.18066,
+    "distance_km": 653.7453689388943
+  },
+  {
+    "id": "A49",
+    "source": "GND-IDN-001",
+    "target": "GND-IDN-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 2.22099,
+    "distance_km": 665.8351648357469
+  },
+  {
+    "id": "A50",
+    "source": "GND-SDN-001",
+    "target": "GND-SDN-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 2.22651,
+    "distance_km": 667.4902531072723
+  },
+  {
+    "id": "A53",
+    "source": "GND-ESP-001",
+    "target": "GND-DZA-001",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 2.37274,
+    "distance_km": 711.3286732093148
+  },
+  {
+    "id": "A55",
+    "source": "GND-IRN-001",
+    "target": "GND-IRN-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 2.46686,
+    "distance_km": 739.5457373403781
+  },
+  {
+    "id": "A57",
+    "source": "GND-PER-001",
+    "target": "GND-PER-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 2.55569,
+    "distance_km": 766.1757580271322
+  },
+  {
+    "id": "A63",
+    "source": "GND-SAU-001",
+    "target": "GND-SAU-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 2.81518,
+    "distance_km": 843.9689784624914
+  },
+  {
+    "id": "A64",
+    "source": "GND-ZAF-002",
+    "target": "SAT-015",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 2.895051696003646,
+    "distance_km": 867.9146639820018
+  },
+  {
+    "id": "A65",
+    "source": "GND-BRA-001",
+    "target": "GND-BRA-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 2.9088217714956843,
+    "distance_km": 872.0428287606056
+  },
+  {
+    "id": "A66",
+    "source": "SAT-017",
+    "target": "UAV-001",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 3.01012,
+    "distance_km": 902.409983971117
+  },
+  {
+    "id": "A68",
+    "source": "GND-KAZ-001",
+    "target": "GND-KAZ-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 3.2367401276907177,
+    "distance_km": 970.3502787876341
+  },
+  {
+    "id": "A69",
+    "source": "SAT-009",
+    "target": "SHIP-003",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 3.36951,
+    "distance_km": 1010.1522678281117
+  },
+  {
+    "id": "A70",
+    "source": "GND-FRA-001",
+    "target": "GND-ESP-001",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 3.5126012012429664,
+    "distance_km": 1053.0513480943816
+  },
+  {
+    "id": "A71",
+    "source": "SAT-009",
+    "target": "GND-CHN-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 3.553902512596895,
+    "distance_km": 1065.4331697437992
+  },
+  {
+    "id": "A72",
+    "source": "GND-CHN-001",
+    "target": "GND-CHN-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 3.56477,
+    "distance_km": 1068.690544593354
+  },
+  {
+    "id": "A76",
+    "source": "SAT-011",
+    "target": "UAV-003",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 3.77571,
+    "distance_km": 1131.928811538944
+  },
+  {
+    "id": "A77",
+    "source": "GND-ARG-002",
+    "target": "SAT-011",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 3.779604437828569,
+    "distance_km": 1133.096904684335
+  },
+  {
+    "id": "A78",
+    "source": "SAT-018",
+    "target": "GND-LBY-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 3.8094,
+    "distance_km": 1142.0286884684338
+  },
+  {
+    "id": "A79",
+    "source": "GND-IND-001",
+    "target": "GND-IND-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 3.8185802389958274,
+    "distance_km": 1144.7815559187866
+  },
+  {
+    "id": "A85",
+    "source": "SHIP-004",
+    "target": "SAT-009",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 4.14789315982501,
+    "distance_km": 1243.5070859053267
+  },
+  {
+    "id": "A86",
+    "source": "SAT-017",
+    "target": "GND-CAN-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 4.319433270601143,
+    "distance_km": 1294.933517360496
+  },
+  {
+    "id": "A88",
+    "source": "GND-ZAF-001",
+    "target": "GND-ZAF-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 4.37459,
+    "distance_km": 1311.4687604610972
+  },
+  {
+    "id": "A89",
+    "source": "SAT-021",
+    "target": "GND-FRA-001",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 4.418634745459201,
+    "distance_km": 1324.6733713454182
+  },
+  {
+    "id": "A90",
+    "source": "SAT-016",
+    "target": "UAV-011",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 4.476862392043382,
+    "distance_km": 1342.1295806384453
+  },
+  {
+    "id": "A92",
+    "source": "GND-KAZ-002",
+    "target": "SAT-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 4.508483717689544,
+    "distance_km": 1351.6094155791266
+  },
+  {
+    "id": "A94",
+    "source": "GND-ARG-001",
+    "target": "SAT-011",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 4.678904037076997,
+    "distance_km": 1402.700142021436
+  },
+  {
+    "id": "A95",
+    "source": "GND-COD-001",
+    "target": "GND-TCD-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 4.77841,
+    "distance_km": 1432.530451838607
+  },
+  {
+    "id": "A96",
+    "source": "GND-PER-001",
+    "target": "SAT-024",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 4.786091202270465,
+    "distance_km": 1434.834045740838
+  },
+  {
+    "id": "A97",
+    "source": "SAT-001",
+    "target": "SHIP-012",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 4.8125850783109385,
+    "distance_km": 1442.776709960959
+  },
+  {
+    "id": "A98",
+    "source": "SAT-018",
+    "target": "GND-LBY-001",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 4.88562,
+    "distance_km": 1464.6712537012713
+  },
+  {
+    "id": "A99",
+    "source": "SAT-021",
+    "target": "UAV-004",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 4.93548,
+    "distance_km": 1479.619622908159
+  },
+  {
+    "id": "A100",
+    "source": "SAT-POLAR-004",
+    "target": "SAT-POLAR-028",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 0.0
+  },
+  {
+    "id": "A101",
+    "source": "SAT-POLAR-004",
+    "target": "SAT-POLAR-052",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 0.0
+  },
+  {
+    "id": "A102",
+    "source": "SAT-POLAR-010",
+    "target": "SAT-POLAR-034",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 0.0
+  },
+  {
+    "id": "A103",
+    "source": "SAT-POLAR-010",
+    "target": "SAT-POLAR-058",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 0.0
+  },
+  {
+    "id": "A104",
+    "source": "SAT-POLAR-028",
+    "target": "SAT-POLAR-052",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 0.0
+  },
+  {
+    "id": "A105",
+    "source": "SAT-POLAR-034",
+    "target": "SAT-POLAR-058",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 0.0
+  },
+  {
+    "id": "A106",
+    "source": "SAT-001",
+    "target": "SAT-POLAR-001",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 650.0
+  },
+  {
+    "id": "A107",
+    "source": "SAT-003",
+    "target": "SAT-POLAR-007",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 650.0
+  },
+  {
+    "id": "A108",
+    "source": "SAT-POLAR-006",
+    "target": "SHIP-016",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1200.7381065109616
+  },
+  {
+    "id": "A109",
+    "source": "SAT-002",
+    "target": "SAT-POLAR-038",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1200.9932599560652
+  },
+  {
+    "id": "A110",
+    "source": "SAT-004",
+    "target": "SAT-POLAR-044",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1200.9932599560652
+  },
+  {
+    "id": "A111",
+    "source": "GND-BRA-001",
+    "target": "SAT-POLAR-067",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1220.4619364303474
+  },
+  {
+    "id": "A112",
+    "source": "SAT-POLAR-049",
+    "target": "SHIP-001",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1233.0771629733983
+  },
+  {
+    "id": "A113",
+    "source": "SAT-POLAR-025",
+    "target": "UAV-006",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 1258.0483887226071
+  },
+  {
+    "id": "A114",
+    "source": "SAT-POLAR-061",
+    "target": "SHIP-004",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1284.526984944233
+  },
+  {
+    "id": "A115",
+    "source": "GND-RUS-001",
+    "target": "SAT-POLAR-027",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1318.220073109619
+  },
+  {
+    "id": "A116",
+    "source": "GND-IND-002",
+    "target": "SAT-POLAR-037",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1329.0134658676584
+  },
+  {
+    "id": "A117",
+    "source": "GND-KAZ-002",
+    "target": "SAT-POLAR-038",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1343.097561887882
+  },
+  {
+    "id": "A118",
+    "source": "SAT-POLAR-051",
+    "target": "UAV-012",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 1344.273505653174
+  },
+  {
+    "id": "A119",
+    "source": "GND-RUS-002",
+    "target": "SAT-POLAR-027",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1346.1142179623114
+  },
+  {
+    "id": "A120",
+    "source": "SAT-POLAR-048",
+    "target": "SHIP-009",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1357.5104287208408
+  },
+  {
+    "id": "A121",
+    "source": "GND-TCD-001",
+    "target": "SAT-POLAR-013",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1364.0931283438163
+  },
+  {
+    "id": "A122",
+    "source": "SAT-POLAR-014",
+    "target": "UAV-004",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 1414.5895938346428
+  },
+  {
+    "id": "A123",
+    "source": "GND-KAZ-001",
+    "target": "SAT-POLAR-038",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1415.6890981782988
+  },
+  {
+    "id": "A124",
+    "source": "SAT-008",
+    "target": "SAT-POLAR-011",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1431.0395594025154
+  },
+  {
+    "id": "A125",
+    "source": "SAT-021",
+    "target": "SAT-POLAR-003",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1431.0395594025154
+  },
+  {
+    "id": "A126",
+    "source": "SAT-006",
+    "target": "SAT-POLAR-005",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1431.0459352759194
+  },
+  {
+    "id": "A127",
+    "source": "SAT-023",
+    "target": "SAT-POLAR-009",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1431.0459352759194
+  },
+  {
+    "id": "A128",
+    "source": "SAT-POLAR-066",
+    "target": "SHIP-013",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1445.3500990951782
+  },
+  {
+    "id": "A129",
+    "source": "GND-FRA-001",
+    "target": "SAT-POLAR-014",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1450.6554517872073
+  },
+  {
+    "id": "A130",
+    "source": "SAT-POLAR-037",
+    "target": "SHIP-008",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1485.9086650638706
+  },
+  {
+    "id": "A131",
+    "source": "GND-COL-001",
+    "target": "SAT-POLAR-055",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1487.6462419095967
+  },
+  {
+    "id": "A132",
+    "source": "SAT-013",
+    "target": "SAT-POLAR-017",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1492.2030678398105
+  },
+  {
+    "id": "A133",
+    "source": "SAT-016",
+    "target": "SAT-POLAR-071",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1492.2030678398105
+  },
+  {
+    "id": "A134",
+    "source": "SAT-014",
+    "target": "SAT-POLAR-065",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1492.2037170219917
+  },
+  {
+    "id": "A135",
+    "source": "SAT-015",
+    "target": "SAT-POLAR-023",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1492.204366266303
+  },
+  {
+    "id": "A136",
+    "source": "GND-ESP-001",
+    "target": "SAT-021",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1517.5795568301592
+  },
+  {
+    "id": "A137",
+    "source": "GND-SAU-001",
+    "target": "SAT-POLAR-026",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1522.7197026322467
+  },
+  {
+    "id": "A138",
+    "source": "GND-MEX-002",
+    "target": "SAT-POLAR-042",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1558.31178205229
+  },
+  {
+    "id": "A139",
+    "source": "GND-PER-002",
+    "target": "SAT-011",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1560.2307291039667
+  },
+  {
+    "id": "A140",
+    "source": "GND-BRA-002",
+    "target": "SAT-011",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1563.225548204039
+  },
+  {
+    "id": "A141",
+    "source": "SAT-009",
+    "target": "SHIP-002",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1567.163644310079
+  },
+  {
+    "id": "A142",
+    "source": "GND-CAN-001",
+    "target": "SAT-017",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1567.905505846997
+  },
+  {
+    "id": "A143",
+    "source": "GND-TCD-002",
+    "target": "SAT-POLAR-013",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1581.2211351894127
+  },
+  {
+    "id": "A144",
+    "source": "GND-TCD-001",
+    "target": "SAT-018",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1586.5503013540574
+  },
+  {
+    "id": "A145",
+    "source": "GND-SAU-002",
+    "target": "SAT-POLAR-026",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1587.596331742396
+  },
+  {
+    "id": "A146",
+    "source": "SAT-018",
+    "target": "SHIP-011",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1588.1901812665412
+  },
+  {
+    "id": "A147",
+    "source": "SAT-POLAR-041",
+    "target": "UAV-001",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 1593.1278649411242
+  },
+  {
+    "id": "A148",
+    "source": "GND-AUS-002",
+    "target": "SAT-POLAR-008",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1597.0702728841281
+  },
+  {
+    "id": "A149",
+    "source": "GND-SAU-001",
+    "target": "SAT-005",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1601.5185002426645
+  },
+  {
+    "id": "A150",
+    "source": "SAT-012",
+    "target": "SAT-POLAR-047",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1602.8566850431444
+  },
+  {
+    "id": "A151",
+    "source": "SAT-017",
+    "target": "SAT-POLAR-041",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1602.8566850431444
+  },
+  {
+    "id": "A152",
+    "source": "SAT-019",
+    "target": "SAT-POLAR-047",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1602.864808926608
+  },
+  {
+    "id": "A153",
+    "source": "SAT-010",
+    "target": "SAT-POLAR-041",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1602.8973045371054
+  },
+  {
+    "id": "A154",
+    "source": "SAT-005",
+    "target": "UAV-007",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 1609.1565936314626
+  },
+  {
+    "id": "A155",
+    "source": "SAT-007",
+    "target": "SHIP-019",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1609.2269378974024
+  },
+  {
+    "id": "A156",
+    "source": "GND-IDN-001",
+    "target": "SAT-POLAR-049",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1612.4786578803555
+  },
+  {
+    "id": "A157",
+    "source": "GND-BRA-002",
+    "target": "SAT-POLAR-067",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1620.6957128142253
+  },
+  {
+    "id": "A158",
+    "source": "GND-USA-001",
+    "target": "SAT-017",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1621.1893995578898
+  },
+  {
+    "id": "A159",
+    "source": "SAT-POLAR-014",
+    "target": "SHIP-010",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1621.435408639491
+  },
+  {
+    "id": "A160",
+    "source": "SAT-005",
+    "target": "SHIP-008",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1628.6134924497615
+  },
+  {
+    "id": "A161",
+    "source": "GND-SDN-001",
+    "target": "SAT-018",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1629.0236849421813
+  },
+  {
+    "id": "A162",
+    "source": "GND-USA-001",
+    "target": "SAT-POLAR-054",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1631.9469877274464
+  },
+  {
+    "id": "A163",
+    "source": "SAT-POLAR-018",
+    "target": "SHIP-017",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1643.2281845237503
+  },
+  {
+    "id": "A164",
+    "source": "SAT-POLAR-050",
+    "target": "UAV-009",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 1662.7139948866884
+  },
+  {
+    "id": "A165",
+    "source": "SAT-005",
+    "target": "SHIP-007",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1679.5912526980385
+  },
+  {
+    "id": "A166",
+    "source": "GND-SAU-002",
+    "target": "SAT-005",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1684.4876262549567
+  },
+  {
+    "id": "A167",
+    "source": "SAT-POLAR-026",
+    "target": "UAV-007",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 1693.101455879202
+  },
+  {
+    "id": "A168",
+    "source": "SAT-POLAR-032",
+    "target": "SHIP-019",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1693.2876916061696
+  },
+  {
+    "id": "A169",
+    "source": "SAT-022",
+    "target": "SHIP-001",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1694.1546892450444
+  },
+  {
+    "id": "A170",
+    "source": "GND-DZA-001",
+    "target": "SAT-POLAR-014",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1699.2775408449518
+  },
+  {
+    "id": "A171",
+    "source": "SAT-POLAR-012",
+    "target": "SHIP-014",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1705.143105446319
+  },
+  {
+    "id": "A172",
+    "source": "SAT-POLAR-067",
+    "target": "UAV-003",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 1708.3017294924155
+  },
+  {
+    "id": "A173",
+    "source": "GND-BRA-001",
+    "target": "SAT-011",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1722.9656499788166
+  },
+  {
+    "id": "A174",
+    "source": "GND-SDN-002",
+    "target": "SAT-005",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1724.5755514887767
+  },
+  {
+    "id": "A175",
+    "source": "SAT-POLAR-026",
+    "target": "SHIP-007",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1724.67582195892
+  },
+  {
+    "id": "A176",
+    "source": "SAT-009",
+    "target": "UAV-009",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 1726.783125102599
+  },
+  {
+    "id": "A177",
+    "source": "SAT-POLAR-031",
+    "target": "SHIP-018",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1739.298405492375
+  },
+  {
+    "id": "A178",
+    "source": "GND-SDN-002",
+    "target": "SAT-POLAR-026",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1772.4495450445593
+  },
+  {
+    "id": "A179",
+    "source": "GND-AUS-001",
+    "target": "SAT-POLAR-008",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1778.5655306386393
+  },
+  {
+    "id": "A180",
+    "source": "GND-IRN-001",
+    "target": "SAT-POLAR-026",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1779.8379069700654
+  },
+  {
+    "id": "A181",
+    "source": "GND-USA-002",
+    "target": "SAT-017",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1780.327826337111
+  },
+  {
+    "id": "A182",
+    "source": "SAT-POLAR-072",
+    "target": "UAV-011",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 1782.3763210498953
+  },
+  {
+    "id": "A183",
+    "source": "GND-MEX-001",
+    "target": "SAT-POLAR-042",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1786.349078441289
+  },
+  {
+    "id": "A184",
+    "source": "SAT-022",
+    "target": "UAV-008",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 1787.6387867196731
+  },
+  {
+    "id": "A185",
+    "source": "SAT-011",
+    "target": "SAT-POLAR-067",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1799.7732586670286
+  },
+  {
+    "id": "A186",
+    "source": "SAT-018",
+    "target": "SAT-POLAR-013",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1799.7732586670286
+  },
+  {
+    "id": "A187",
+    "source": "SAT-009",
+    "target": "SAT-POLAR-061",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1799.7901842175677
+  },
+  {
+    "id": "A188",
+    "source": "SAT-020",
+    "target": "SAT-POLAR-019",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1799.7901842175677
+  },
+  {
+    "id": "A189",
+    "source": "GND-MNG-002",
+    "target": "SAT-POLAR-051",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1807.6062237589645
+  },
+  {
+    "id": "A190",
+    "source": "SAT-POLAR-037",
+    "target": "UAV-008",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 1835.2439730246647
+  },
+  {
+    "id": "A191",
+    "source": "GND-CHN-001",
+    "target": "SAT-POLAR-062",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1837.8228189327758
+  },
+  {
+    "id": "A192",
+    "source": "SAT-POLAR-001",
+    "target": "SHIP-012",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1840.1611121502171
+  },
+  {
+    "id": "A193",
+    "source": "SAT-014",
+    "target": "SHIP-013",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1843.2332216015332
+  },
+  {
+    "id": "A194",
+    "source": "SAT-POLAR-026",
+    "target": "SHIP-011",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1844.9358109876557
+  },
+  {
+    "id": "A195",
+    "source": "GND-ZAF-001",
+    "target": "SAT-POLAR-036",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1845.6425355764848
+  },
+  {
+    "id": "A196",
+    "source": "GND-USA-002",
+    "target": "SAT-POLAR-054",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1850.0889606686878
+  },
+  {
+    "id": "A197",
+    "source": "GND-TUR-001",
+    "target": "SAT-POLAR-026",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1854.1302613017426
+  },
+  {
+    "id": "A198",
+    "source": "SAT-POLAR-049",
+    "target": "SHIP-005",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1856.5410870702501
+  },
+  {
+    "id": "A199",
+    "source": "GND-COD-001",
+    "target": "SAT-POLAR-024",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1857.5666916808182
+  },
+  {
+    "id": "A200",
+    "source": "GND-IRN-002",
+    "target": "SAT-POLAR-038",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1879.2239117662457
+  },
+  {
+    "id": "A201",
+    "source": "GND-TCD-002",
+    "target": "SAT-018",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1902.2801377913775
+  },
+  {
+    "id": "A202",
+    "source": "SAT-018",
+    "target": "SHIP-010",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 1906.7903636898527
+  },
+  {
+    "id": "A203",
+    "source": "GND-LBY-001",
+    "target": "SAT-POLAR-014",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1912.3808635016517
+  },
+  {
+    "id": "A204",
+    "source": "GND-PER-001",
+    "target": "SAT-POLAR-055",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1912.8483825390977
+  },
+  {
+    "id": "A205",
+    "source": "GND-DZA-002",
+    "target": "SAT-POLAR-014",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1932.088621684002
+  },
+  {
+    "id": "A206",
+    "source": "GND-ARG-001",
+    "target": "SAT-POLAR-068",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1932.1792824587824
+  },
+  {
+    "id": "A207",
+    "source": "GND-MNG-001",
+    "target": "SAT-POLAR-051",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1945.3942509343021
+  },
+  {
+    "id": "A208",
+    "source": "GND-ZAF-002",
+    "target": "SAT-POLAR-023",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1946.9647088954573
+  },
+  {
+    "id": "A209",
+    "source": "GND-PNG-001",
+    "target": "SAT-003",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1950.6260790901772
+  },
+  {
+    "id": "A210",
+    "source": "GND-AUS-001",
+    "target": "SAT-016",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1953.217002796509
+  },
+  {
+    "id": "A211",
+    "source": "SAT-POLAR-040",
+    "target": "SAT-POLAR-064",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1959.5160286585233
+  },
+  {
+    "id": "A212",
+    "source": "SAT-POLAR-045",
+    "target": "SAT-POLAR-069",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1959.5160286585233
+  },
+  {
+    "id": "A213",
+    "source": "SAT-POLAR-015",
+    "target": "SAT-POLAR-039",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1959.5189904711833
+  },
+  {
+    "id": "A214",
+    "source": "SAT-POLAR-015",
+    "target": "SAT-POLAR-064",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1959.5189904711833
+  },
+  {
+    "id": "A215",
+    "source": "SAT-POLAR-016",
+    "target": "SAT-POLAR-040",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1959.5189904711833
+  },
+  {
+    "id": "A216",
+    "source": "SAT-POLAR-016",
+    "target": "SAT-POLAR-063",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1959.5189904711833
+  },
+  {
+    "id": "A217",
+    "source": "SAT-POLAR-021",
+    "target": "SAT-POLAR-045",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1959.5189904711833
+  },
+  {
+    "id": "A218",
+    "source": "SAT-POLAR-021",
+    "target": "SAT-POLAR-070",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1959.5189904711833
+  },
+  {
+    "id": "A219",
+    "source": "SAT-POLAR-022",
+    "target": "SAT-POLAR-046",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1959.5189904711833
+  },
+  {
+    "id": "A220",
+    "source": "SAT-POLAR-022",
+    "target": "SAT-POLAR-069",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1959.5189904711833
+  },
+  {
+    "id": "A221",
+    "source": "SAT-POLAR-039",
+    "target": "SAT-POLAR-063",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1959.5219522823552
+  },
+  {
+    "id": "A222",
+    "source": "SAT-POLAR-046",
+    "target": "SAT-POLAR-070",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1959.5219522823552
+  },
+  {
+    "id": "A223",
+    "source": "SAT-POLAR-004",
+    "target": "SAT-POLAR-015",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A224",
+    "source": "SAT-POLAR-004",
+    "target": "SAT-POLAR-016",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A225",
+    "source": "SAT-POLAR-004",
+    "target": "SAT-POLAR-039",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A226",
+    "source": "SAT-POLAR-004",
+    "target": "SAT-POLAR-040",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A227",
+    "source": "SAT-POLAR-004",
+    "target": "SAT-POLAR-063",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A228",
+    "source": "SAT-POLAR-004",
+    "target": "SAT-POLAR-064",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A229",
+    "source": "SAT-POLAR-010",
+    "target": "SAT-POLAR-021",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A230",
+    "source": "SAT-POLAR-010",
+    "target": "SAT-POLAR-022",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A231",
+    "source": "SAT-POLAR-010",
+    "target": "SAT-POLAR-045",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A232",
+    "source": "SAT-POLAR-010",
+    "target": "SAT-POLAR-046",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A233",
+    "source": "SAT-POLAR-010",
+    "target": "SAT-POLAR-069",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A234",
+    "source": "SAT-POLAR-010",
+    "target": "SAT-POLAR-070",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A235",
+    "source": "SAT-POLAR-015",
+    "target": "SAT-POLAR-028",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A236",
+    "source": "SAT-POLAR-015",
+    "target": "SAT-POLAR-052",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A237",
+    "source": "SAT-POLAR-016",
+    "target": "SAT-POLAR-028",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A238",
+    "source": "SAT-POLAR-016",
+    "target": "SAT-POLAR-052",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A239",
+    "source": "SAT-POLAR-021",
+    "target": "SAT-POLAR-034",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A240",
+    "source": "SAT-POLAR-021",
+    "target": "SAT-POLAR-058",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A241",
+    "source": "SAT-POLAR-022",
+    "target": "SAT-POLAR-034",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A242",
+    "source": "SAT-POLAR-022",
+    "target": "SAT-POLAR-058",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A243",
+    "source": "SAT-POLAR-028",
+    "target": "SAT-POLAR-039",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A244",
+    "source": "SAT-POLAR-028",
+    "target": "SAT-POLAR-040",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A245",
+    "source": "SAT-POLAR-028",
+    "target": "SAT-POLAR-063",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A246",
+    "source": "SAT-POLAR-028",
+    "target": "SAT-POLAR-064",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A247",
+    "source": "SAT-POLAR-034",
+    "target": "SAT-POLAR-045",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A248",
+    "source": "SAT-POLAR-034",
+    "target": "SAT-POLAR-046",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A249",
+    "source": "SAT-POLAR-034",
+    "target": "SAT-POLAR-069",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A250",
+    "source": "SAT-POLAR-034",
+    "target": "SAT-POLAR-070",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1976.42760259602
+  },
+  {
+    "id": "A251",
+    "source": "GND-CHN-001",
+    "target": "SAT-009",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1994.81887316271
+  },
+  {
+    "id": "A252",
+    "source": "SAT-007",
+    "target": "SAT-POLAR-031",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1998.3228655741118
+  },
+  {
+    "id": "A253",
+    "source": "SAT-024",
+    "target": "SAT-POLAR-055",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1998.3513783466326
+  },
+  {
+    "id": "A254",
+    "source": "SAT-005",
+    "target": "SAT-POLAR-025",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1998.3585066690785
+  },
+  {
+    "id": "A255",
+    "source": "SAT-022",
+    "target": "SAT-POLAR-049",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 1998.3585066690785
+  },
+  {
+    "id": "A256",
+    "source": "GND-ARG-002",
+    "target": "SAT-POLAR-056",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2008.194549514152
+  },
+  {
+    "id": "A257",
+    "source": "GND-ZAF-001",
+    "target": "SAT-015",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2026.1352220917872
+  },
+  {
+    "id": "A258",
+    "source": "SAT-008",
+    "target": "SHIP-015",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2029.7171643734964
+  },
+  {
+    "id": "A259",
+    "source": "GND-SDN-001",
+    "target": "SAT-005",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2031.753736157648
+  },
+  {
+    "id": "A260",
+    "source": "SAT-POLAR-061",
+    "target": "SHIP-003",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2038.4081085195553
+  },
+  {
+    "id": "A261",
+    "source": "GND-CAN-002",
+    "target": "SAT-POLAR-054",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2041.1872623208376
+  },
+  {
+    "id": "A262",
+    "source": "GND-NIC-001",
+    "target": "SAT-POLAR-055",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2056.3476309899465
+  },
+  {
+    "id": "A263",
+    "source": "SAT-POLAR-012",
+    "target": "SHIP-015",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2065.0802575915254
+  },
+  {
+    "id": "A264",
+    "source": "GND-PER-002",
+    "target": "SAT-024",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2069.508725377561
+  },
+  {
+    "id": "A265",
+    "source": "SAT-002",
+    "target": "UAV-012",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2080.5207856085494
+  },
+  {
+    "id": "A266",
+    "source": "GND-TUR-002",
+    "target": "SAT-POLAR-014",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2087.1615639177485
+  },
+  {
+    "id": "A267",
+    "source": "SAT-POLAR-025",
+    "target": "SHIP-006",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2092.083544466811
+  },
+  {
+    "id": "A268",
+    "source": "GND-DZA-002",
+    "target": "SAT-021",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2093.876804048124
+  },
+  {
+    "id": "A269",
+    "source": "GND-IDN-002",
+    "target": "SAT-POLAR-049",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2104.2155128166805
+  },
+  {
+    "id": "A270",
+    "source": "SAT-POLAR-013",
+    "target": "UAV-005",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2104.8283544013852
+  },
+  {
+    "id": "A271",
+    "source": "GND-NIC-002",
+    "target": "SAT-POLAR-055",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2112.6589673193785
+  },
+  {
+    "id": "A272",
+    "source": "GND-TUR-002",
+    "target": "SAT-POLAR-026",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2112.758296692039
+  },
+  {
+    "id": "A273",
+    "source": "SAT-003",
+    "target": "SHIP-020",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2121.333636734915
+  },
+  {
+    "id": "A274",
+    "source": "GND-CAN-001",
+    "target": "SAT-POLAR-053",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2150.574099850962
+  },
+  {
+    "id": "A275",
+    "source": "SAT-005",
+    "target": "UAV-006",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2155.270194616456
+  },
+  {
+    "id": "A276",
+    "source": "GND-AUS-002",
+    "target": "SAT-016",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2155.566750254443
+  },
+  {
+    "id": "A277",
+    "source": "GND-LBY-002",
+    "target": "SAT-POLAR-014",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2165.8857528634553
+  },
+  {
+    "id": "A278",
+    "source": "GND-DZA-001",
+    "target": "SAT-021",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2169.8256479840356
+  },
+  {
+    "id": "A279",
+    "source": "SAT-POLAR-068",
+    "target": "SHIP-015",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2170.187768726725
+  },
+  {
+    "id": "A280",
+    "source": "GND-IND-001",
+    "target": "SAT-POLAR-037",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2172.6186901699566
+  },
+  {
+    "id": "A281",
+    "source": "GND-IRN-002",
+    "target": "SAT-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2189.8161991553866
+  },
+  {
+    "id": "A282",
+    "source": "SAT-POLAR-049",
+    "target": "UAV-010",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2215.7051193684233
+  },
+  {
+    "id": "A283",
+    "source": "GND-CHN-002",
+    "target": "SAT-POLAR-062",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2217.887088772379
+  },
+  {
+    "id": "A284",
+    "source": "GND-TUR-002",
+    "target": "SAT-018",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2219.6795225872393
+  },
+  {
+    "id": "A285",
+    "source": "GND-PER-002",
+    "target": "SAT-POLAR-056",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2221.109798223676
+  },
+  {
+    "id": "A286",
+    "source": "SAT-006",
+    "target": "SAT-POLAR-062",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2231.238743095041
+  },
+  {
+    "id": "A287",
+    "source": "SAT-023",
+    "target": "SAT-POLAR-020",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2231.238743095041
+  },
+  {
+    "id": "A288",
+    "source": "SAT-008",
+    "target": "SAT-POLAR-068",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2231.261246651707
+  },
+  {
+    "id": "A289",
+    "source": "GND-CAN-001",
+    "target": "SAT-POLAR-054",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2246.861362709947
+  },
+  {
+    "id": "A290",
+    "source": "SAT-009",
+    "target": "UAV-010",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2265.3951907349574
+  },
+  {
+    "id": "A291",
+    "source": "GND-IND-002",
+    "target": "SAT-022",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2267.124789173432
+  },
+  {
+    "id": "A292",
+    "source": "GND-TUR-001",
+    "target": "SAT-018",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2271.7404675409025
+  },
+  {
+    "id": "A293",
+    "source": "GND-RUS-001",
+    "target": "SAT-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2272.9939179868343
+  },
+  {
+    "id": "A294",
+    "source": "GND-SDN-001",
+    "target": "SAT-POLAR-026",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2286.667074330698
+  },
+  {
+    "id": "A295",
+    "source": "GND-PNG-001",
+    "target": "SAT-POLAR-007",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2295.948862530942
+  },
+  {
+    "id": "A296",
+    "source": "SAT-POLAR-061",
+    "target": "SHIP-002",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2298.0509094107547
+  },
+  {
+    "id": "A297",
+    "source": "SAT-010",
+    "target": "SAT-POLAR-030",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2307.652322206555
+  },
+  {
+    "id": "A298",
+    "source": "SAT-019",
+    "target": "SAT-POLAR-060",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2307.6819096038057
+  },
+  {
+    "id": "A299",
+    "source": "SAT-012",
+    "target": "SAT-POLAR-036",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2307.681909603809
+  },
+  {
+    "id": "A300",
+    "source": "GND-CAN-002",
+    "target": "SAT-POLAR-053",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2310.8364879716755
+  },
+  {
+    "id": "A301",
+    "source": "SAT-010",
+    "target": "UAV-001",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2313.3047757748895
+  },
+  {
+    "id": "A302",
+    "source": "GND-MNG-001",
+    "target": "SAT-POLAR-062",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2313.86976777669
+  },
+  {
+    "id": "A303",
+    "source": "GND-CHN-001",
+    "target": "SAT-POLAR-050",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2314.7252008666374
+  },
+  {
+    "id": "A304",
+    "source": "GND-USA-002",
+    "target": "SAT-014",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2316.1588513079296
+  },
+  {
+    "id": "A305",
+    "source": "GND-PER-001",
+    "target": "SAT-011",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2316.947484343758
+  },
+  {
+    "id": "A306",
+    "source": "SAT-004",
+    "target": "SAT-POLAR-057",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2329.8998037545043
+  },
+  {
+    "id": "A307",
+    "source": "SAT-002",
+    "target": "SAT-POLAR-027",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2329.9057093547376
+  },
+  {
+    "id": "A308",
+    "source": "SAT-004",
+    "target": "SAT-POLAR-033",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2329.9057093547376
+  },
+  {
+    "id": "A309",
+    "source": "SAT-002",
+    "target": "SAT-POLAR-051",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2329.9116149578554
+  },
+  {
+    "id": "A310",
+    "source": "GND-AUS-001",
+    "target": "SAT-023",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2336.260983935777
+  },
+  {
+    "id": "A311",
+    "source": "GND-ESP-001",
+    "target": "SAT-POLAR-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2337.6903982281015
+  },
+  {
+    "id": "A312",
+    "source": "GND-RUS-002",
+    "target": "SAT-POLAR-015",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2346.335197918324
+  },
+  {
+    "id": "A313",
+    "source": "SAT-POLAR-014",
+    "target": "SHIP-011",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2349.6669527477507
+  },
+  {
+    "id": "A314",
+    "source": "GND-FRA-001",
+    "target": "SAT-POLAR-003",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2355.846294106949
+  },
+  {
+    "id": "A315",
+    "source": "GND-DZA-002",
+    "target": "SAT-POLAR-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2366.3992523141214
+  },
+  {
+    "id": "A316",
+    "source": "GND-AUS-002",
+    "target": "SAT-023",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2368.9552164836277
+  },
+  {
+    "id": "A317",
+    "source": "SAT-001",
+    "target": "SHIP-014",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2371.2609400453794
+  },
+  {
+    "id": "A318",
+    "source": "GND-COD-002",
+    "target": "SAT-POLAR-024",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2374.000290101582
+  },
+  {
+    "id": "A319",
+    "source": "SAT-009",
+    "target": "SAT-POLAR-050",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2387.0595314091574
+  },
+  {
+    "id": "A320",
+    "source": "SAT-020",
+    "target": "SAT-POLAR-032",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2387.0595314091574
+  },
+  {
+    "id": "A321",
+    "source": "SAT-011",
+    "target": "SAT-POLAR-056",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2387.079499019099
+  },
+  {
+    "id": "A322",
+    "source": "SAT-010",
+    "target": "SAT-POLAR-029",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2387.094373354094
+  },
+  {
+    "id": "A323",
+    "source": "SAT-017",
+    "target": "SAT-POLAR-053",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2387.1075843923827
+  },
+  {
+    "id": "A324",
+    "source": "SAT-012",
+    "target": "SAT-POLAR-035",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2387.1108871991546
+  },
+  {
+    "id": "A325",
+    "source": "SAT-019",
+    "target": "SAT-POLAR-059",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2387.1108871991546
+  },
+  {
+    "id": "A326",
+    "source": "SAT-POLAR-003",
+    "target": "UAV-004",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2391.4394397492756
+  },
+  {
+    "id": "A327",
+    "source": "GND-IRN-001",
+    "target": "SAT-POLAR-038",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2391.663795628
+  },
+  {
+    "id": "A328",
+    "source": "SAT-001",
+    "target": "UAV-005",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2393.303048800226
+  },
+  {
+    "id": "A329",
+    "source": "GND-IRN-002",
+    "target": "SAT-POLAR-026",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2401.7856819555304
+  },
+  {
+    "id": "A330",
+    "source": "GND-AUS-001",
+    "target": "SAT-POLAR-071",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2403.4901157597747
+  },
+  {
+    "id": "A331",
+    "source": "GND-IND-001",
+    "target": "SAT-POLAR-038",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2405.443758806863
+  },
+  {
+    "id": "A332",
+    "source": "GND-TUR-001",
+    "target": "SAT-POLAR-014",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2405.913401390305
+  },
+  {
+    "id": "A333",
+    "source": "GND-PNG-001",
+    "target": "SAT-POLAR-072",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2409.4828605371736
+  },
+  {
+    "id": "A334",
+    "source": "GND-COD-002",
+    "target": "SAT-POLAR-025",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2413.257142051858
+  },
+  {
+    "id": "A335",
+    "source": "SAT-POLAR-062",
+    "target": "SHIP-003",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2415.131225033656
+  },
+  {
+    "id": "A336",
+    "source": "SAT-POLAR-008",
+    "target": "SHIP-020",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2420.12150438494
+  },
+  {
+    "id": "A337",
+    "source": "SAT-POLAR-040",
+    "target": "SAT-POLAR-053",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7223261076556
+  },
+  {
+    "id": "A338",
+    "source": "SAT-POLAR-045",
+    "target": "SAT-POLAR-057",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7223261076556
+  },
+  {
+    "id": "A339",
+    "source": "SAT-POLAR-003",
+    "target": "SAT-POLAR-015",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762887
+  },
+  {
+    "id": "A340",
+    "source": "SAT-POLAR-005",
+    "target": "SAT-POLAR-063",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762887
+  },
+  {
+    "id": "A341",
+    "source": "SAT-POLAR-009",
+    "target": "SAT-POLAR-070",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762887
+  },
+  {
+    "id": "A342",
+    "source": "SAT-POLAR-011",
+    "target": "SAT-POLAR-022",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762887
+  },
+  {
+    "id": "A343",
+    "source": "SAT-POLAR-011",
+    "target": "SAT-POLAR-069",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762887
+  },
+  {
+    "id": "A344",
+    "source": "SAT-POLAR-015",
+    "target": "SAT-POLAR-027",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762887
+  },
+  {
+    "id": "A345",
+    "source": "SAT-POLAR-016",
+    "target": "SAT-POLAR-029",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762887
+  },
+  {
+    "id": "A346",
+    "source": "SAT-POLAR-021",
+    "target": "SAT-POLAR-033",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762887
+  },
+  {
+    "id": "A347",
+    "source": "SAT-POLAR-022",
+    "target": "SAT-POLAR-035",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762887
+  },
+  {
+    "id": "A348",
+    "source": "SAT-POLAR-029",
+    "target": "SAT-POLAR-040",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762887
+  },
+  {
+    "id": "A349",
+    "source": "SAT-POLAR-033",
+    "target": "SAT-POLAR-045",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762887
+  },
+  {
+    "id": "A350",
+    "source": "SAT-POLAR-035",
+    "target": "SAT-POLAR-046",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762887
+  },
+  {
+    "id": "A351",
+    "source": "SAT-POLAR-005",
+    "target": "SAT-POLAR-016",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762914
+  },
+  {
+    "id": "A352",
+    "source": "SAT-POLAR-009",
+    "target": "SAT-POLAR-021",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762914
+  },
+  {
+    "id": "A353",
+    "source": "SAT-POLAR-057",
+    "target": "SAT-POLAR-069",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762914
+  },
+  {
+    "id": "A354",
+    "source": "SAT-POLAR-059",
+    "target": "SAT-POLAR-070",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.7249924762914
+  },
+  {
+    "id": "A355",
+    "source": "SAT-POLAR-046",
+    "target": "SAT-POLAR-059",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2427.727658850055
+  },
+  {
+    "id": "A356",
+    "source": "GND-LBY-002",
+    "target": "SAT-POLAR-026",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2430.408545091627
+  },
+  {
+    "id": "A357",
+    "source": "GND-ARG-002",
+    "target": "SAT-POLAR-068",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2452.353298229115
+  },
+  {
+    "id": "A358",
+    "source": "SAT-POLAR-007",
+    "target": "SHIP-020",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2455.9679499707936
+  },
+  {
+    "id": "A359",
+    "source": "SAT-POLAR-054",
+    "target": "UAV-002",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2460.204846898151
+  },
+  {
+    "id": "A360",
+    "source": "SAT-013",
+    "target": "SHIP-017",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2466.5205044642253
+  },
+  {
+    "id": "A361",
+    "source": "SAT-006",
+    "target": "SHIP-016",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2471.692119771928
+  },
+  {
+    "id": "A362",
+    "source": "SAT-POLAR-049",
+    "target": "SHIP-002",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2488.6766107480703
+  },
+  {
+    "id": "A363",
+    "source": "GND-PER-001",
+    "target": "SAT-POLAR-056",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2493.2771499182913
+  },
+  {
+    "id": "A364",
+    "source": "SAT-POLAR-061",
+    "target": "UAV-010",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2497.694592783449
+  },
+  {
+    "id": "A365",
+    "source": "GND-CHN-002",
+    "target": "SAT-POLAR-050",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2497.9665404072093
+  },
+  {
+    "id": "A366",
+    "source": "SAT-POLAR-055",
+    "target": "UAV-002",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2501.5491752787902
+  },
+  {
+    "id": "A367",
+    "source": "GND-IND-001",
+    "target": "SAT-022",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2504.463310476082
+  },
+  {
+    "id": "A368",
+    "source": "GND-ARG-001",
+    "target": "SAT-POLAR-056",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2507.2503988942085
+  },
+  {
+    "id": "A369",
+    "source": "GND-CAN-001",
+    "target": "SAT-POLAR-065",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2515.026678730236
+  },
+  {
+    "id": "A370",
+    "source": "GND-MNG-002",
+    "target": "SAT-POLAR-062",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2515.536671537909
+  },
+  {
+    "id": "A371",
+    "source": "GND-USA-002",
+    "target": "SAT-POLAR-065",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2516.0829811570766
+  },
+  {
+    "id": "A372",
+    "source": "GND-MNG-002",
+    "target": "SAT-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2518.5467525496633
+  },
+  {
+    "id": "A373",
+    "source": "GND-KAZ-001",
+    "target": "SAT-POLAR-051",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2523.132728861071
+  },
+  {
+    "id": "A374",
+    "source": "SAT-013",
+    "target": "SAT-POLAR-018",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2525.0775795154814
+  },
+  {
+    "id": "A375",
+    "source": "SAT-016",
+    "target": "SAT-POLAR-072",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2525.0775795154814
+  },
+  {
+    "id": "A376",
+    "source": "SAT-014",
+    "target": "SAT-POLAR-066",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2525.078103572592
+  },
+  {
+    "id": "A377",
+    "source": "SAT-015",
+    "target": "SAT-POLAR-024",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2525.0786276799768
+  },
+  {
+    "id": "A378",
+    "source": "SAT-POLAR-062",
+    "target": "UAV-009",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2531.797466419759
+  },
+  {
+    "id": "A379",
+    "source": "GND-MNG-001",
+    "target": "SAT-POLAR-050",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2545.7673758044953
+  },
+  {
+    "id": "A380",
+    "source": "GND-NIC-002",
+    "target": "SAT-POLAR-054",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2567.8553901840064
+  },
+  {
+    "id": "A381",
+    "source": "GND-IRN-001",
+    "target": "SAT-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2575.9391213011763
+  },
+  {
+    "id": "A382",
+    "source": "GND-NIC-001",
+    "target": "SAT-POLAR-054",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2577.5655289512533
+  },
+  {
+    "id": "A383",
+    "source": "SAT-POLAR-042",
+    "target": "UAV-002",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2579.585034503007
+  },
+  {
+    "id": "A384",
+    "source": "GND-IDN-002",
+    "target": "SAT-POLAR-072",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2582.6857049223136
+  },
+  {
+    "id": "A385",
+    "source": "GND-ZAF-002",
+    "target": "SAT-POLAR-036",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2589.1314447845225
+  },
+  {
+    "id": "A386",
+    "source": "SAT-007",
+    "target": "SAT-POLAR-032",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2593.094558042701
+  },
+  {
+    "id": "A387",
+    "source": "SAT-024",
+    "target": "SAT-POLAR-056",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2593.113587170806
+  },
+  {
+    "id": "A388",
+    "source": "GND-RUS-002",
+    "target": "SAT-POLAR-014",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2597.3355458205942
+  },
+  {
+    "id": "A389",
+    "source": "GND-COL-001",
+    "target": "SAT-024",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2608.8076277621785
+  },
+  {
+    "id": "A390",
+    "source": "SAT-022",
+    "target": "SHIP-002",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2621.834087583648
+  },
+  {
+    "id": "A391",
+    "source": "SAT-POLAR-026",
+    "target": "SHIP-006",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2622.8332945353773
+  },
+  {
+    "id": "A392",
+    "source": "SAT-021",
+    "target": "SHIP-010",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2627.029995076477
+  },
+  {
+    "id": "A393",
+    "source": "SAT-POLAR-054",
+    "target": "UAV-001",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2630.4734564510877
+  },
+  {
+    "id": "A394",
+    "source": "GND-AUS-002",
+    "target": "SAT-POLAR-071",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2636.1081922196954
+  },
+  {
+    "id": "A395",
+    "source": "SAT-024",
+    "target": "SAT-POLAR-043",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2655.5907631052874
+  },
+  {
+    "id": "A396",
+    "source": "SAT-007",
+    "target": "SAT-POLAR-043",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2655.6486549003594
+  },
+  {
+    "id": "A397",
+    "source": "SAT-POLAR-019",
+    "target": "SHIP-020",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2661.8856243410896
+  },
+  {
+    "id": "A398",
+    "source": "GND-ZAF-001",
+    "target": "SAT-POLAR-024",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2673.076550787122
+  },
+  {
+    "id": "A399",
+    "source": "SAT-007",
+    "target": "SHIP-018",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2680.8173443785977
+  },
+  {
+    "id": "A400",
+    "source": "GND-COD-001",
+    "target": "SAT-POLAR-013",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2685.535727968787
+  },
+  {
+    "id": "A401",
+    "source": "SAT-POLAR-050",
+    "target": "UAV-008",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2690.187337137711
+  },
+  {
+    "id": "A402",
+    "source": "SAT-POLAR-001",
+    "target": "SHIP-014",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2694.448509217598
+  },
+  {
+    "id": "A403",
+    "source": "GND-DZA-001",
+    "target": "SAT-POLAR-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2696.5031759954886
+  },
+  {
+    "id": "A404",
+    "source": "SAT-008",
+    "target": "SAT-POLAR-012",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2713.6315465774287
+  },
+  {
+    "id": "A405",
+    "source": "SAT-021",
+    "target": "SAT-POLAR-002",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2713.6315465774287
+  },
+  {
+    "id": "A406",
+    "source": "SAT-006",
+    "target": "SAT-POLAR-006",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2713.6373703120194
+  },
+  {
+    "id": "A407",
+    "source": "SAT-023",
+    "target": "SAT-POLAR-008",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2713.6373703120194
+  },
+  {
+    "id": "A408",
+    "source": "SAT-POLAR-001",
+    "target": "UAV-005",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2715.617435893108
+  },
+  {
+    "id": "A409",
+    "source": "GND-RUS-001",
+    "target": "SAT-POLAR-014",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2716.281852636036
+  },
+  {
+    "id": "A410",
+    "source": "SAT-POLAR-071",
+    "target": "UAV-011",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2730.650226923077
+  },
+  {
+    "id": "A411",
+    "source": "GND-MEX-001",
+    "target": "SAT-POLAR-054",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2758.6685891776806
+  },
+  {
+    "id": "A412",
+    "source": "SAT-012",
+    "target": "SAT-019",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2787.2367391426933
+  },
+  {
+    "id": "A413",
+    "source": "GND-USA-001",
+    "target": "SAT-POLAR-065",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2822.4380785149438
+  },
+  {
+    "id": "A414",
+    "source": "SAT-POLAR-038",
+    "target": "UAV-012",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2830.3778140075005
+  },
+  {
+    "id": "A415",
+    "source": "SAT-004",
+    "target": "SAT-POLAR-045",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2837.8637273819404
+  },
+  {
+    "id": "A416",
+    "source": "GND-CAN-002",
+    "target": "SAT-POLAR-041",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2858.713999299101
+  },
+  {
+    "id": "A417",
+    "source": "SAT-POLAR-072",
+    "target": "SHIP-005",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2859.4850549526664
+  },
+  {
+    "id": "A418",
+    "source": "SAT-POLAR-037",
+    "target": "UAV-007",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2863.9690042794273
+  },
+  {
+    "id": "A419",
+    "source": "SAT-POLAR-043",
+    "target": "SHIP-019",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2864.048062214472
+  },
+  {
+    "id": "A420",
+    "source": "GND-BRA-002",
+    "target": "SAT-POLAR-068",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2864.476174489471
+  },
+  {
+    "id": "A421",
+    "source": "SAT-POLAR-067",
+    "target": "SHIP-012",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2878.157591097172
+  },
+  {
+    "id": "A422",
+    "source": "SAT-POLAR-062",
+    "target": "UAV-012",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2878.3416156711987
+  },
+  {
+    "id": "A423",
+    "source": "GND-COD-002",
+    "target": "SAT-POLAR-036",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2896.512896358377
+  },
+  {
+    "id": "A424",
+    "source": "SAT-POLAR-037",
+    "target": "SHIP-006",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2906.906158091829
+  },
+  {
+    "id": "A425",
+    "source": "GND-KAZ-002",
+    "target": "SAT-POLAR-051",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2907.8646625081565
+  },
+  {
+    "id": "A426",
+    "source": "GND-NIC-002",
+    "target": "SAT-POLAR-042",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2932.2349279167197
+  },
+  {
+    "id": "A427",
+    "source": "SAT-POLAR-027",
+    "target": "UAV-004",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2938.947152585415
+  },
+  {
+    "id": "A428",
+    "source": "SAT-POLAR-050",
+    "target": "SHIP-003",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 2956.28739363136
+  },
+  {
+    "id": "A429",
+    "source": "SAT-POLAR-024",
+    "target": "UAV-005",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 2963.5704480829863
+  },
+  {
+    "id": "A430",
+    "source": "SAT-020",
+    "target": "SAT-POLAR-020",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 2983.804974559309
+  },
+  {
+    "id": "A431",
+    "source": "GND-NIC-001",
+    "target": "SAT-POLAR-042",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3003.590382854015
+  },
+  {
+    "id": "A432",
+    "source": "SAT-POLAR-008",
+    "target": "UAV-011",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 3021.0148475150995
+  },
+  {
+    "id": "A433",
+    "source": "SAT-POLAR-044",
+    "target": "SAT-POLAR-057",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.5535121619137
+  },
+  {
+    "id": "A434",
+    "source": "SAT-POLAR-005",
+    "target": "SAT-POLAR-062",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.5593000204694
+  },
+  {
+    "id": "A435",
+    "source": "SAT-POLAR-009",
+    "target": "SAT-POLAR-071",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.5593000204694
+  },
+  {
+    "id": "A436",
+    "source": "SAT-POLAR-011",
+    "target": "SAT-POLAR-023",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.5593000204694
+  },
+  {
+    "id": "A437",
+    "source": "SAT-POLAR-017",
+    "target": "SAT-POLAR-029",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.5593000204694
+  },
+  {
+    "id": "A438",
+    "source": "SAT-POLAR-020",
+    "target": "SAT-POLAR-033",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.5593000204694
+  },
+  {
+    "id": "A439",
+    "source": "SAT-POLAR-023",
+    "target": "SAT-POLAR-035",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.5593000204694
+  },
+  {
+    "id": "A440",
+    "source": "SAT-POLAR-033",
+    "target": "SAT-POLAR-044",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.5593000204694
+  },
+  {
+    "id": "A441",
+    "source": "SAT-POLAR-035",
+    "target": "SAT-POLAR-047",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.5593000204694
+  },
+  {
+    "id": "A442",
+    "source": "SAT-POLAR-005",
+    "target": "SAT-POLAR-017",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.5593000204717
+  },
+  {
+    "id": "A443",
+    "source": "SAT-POLAR-009",
+    "target": "SAT-POLAR-020",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.5593000204717
+  },
+  {
+    "id": "A444",
+    "source": "SAT-POLAR-059",
+    "target": "SAT-POLAR-071",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.5593000204717
+  },
+  {
+    "id": "A445",
+    "source": "SAT-POLAR-047",
+    "target": "SAT-POLAR-059",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3055.565087885554
+  },
+  {
+    "id": "A446",
+    "source": "GND-MEX-002",
+    "target": "SAT-POLAR-054",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3056.1136694687584
+  },
+  {
+    "id": "A447",
+    "source": "SAT-POLAR-056",
+    "target": "UAV-003",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 3066.3054248455355
+  },
+  {
+    "id": "A448",
+    "source": "SAT-POLAR-067",
+    "target": "SHIP-015",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3118.062302508703
+  },
+  {
+    "id": "A449",
+    "source": "GND-PNG-001",
+    "target": "SAT-POLAR-008",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3124.5853624693887
+  },
+  {
+    "id": "A450",
+    "source": "SAT-POLAR-030",
+    "target": "SHIP-017",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3128.71581279321
+  },
+  {
+    "id": "A451",
+    "source": "SAT-006",
+    "target": "SAT-POLAR-017",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3147.5896111599436
+  },
+  {
+    "id": "A452",
+    "source": "GND-SAU-001",
+    "target": "SAT-POLAR-037",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3154.07560833094
+  },
+  {
+    "id": "A453",
+    "source": "SAT-POLAR-038",
+    "target": "UAV-008",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 3161.3448101699273
+  },
+  {
+    "id": "A454",
+    "source": "SAT-013",
+    "target": "SAT-POLAR-030",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3177.214326455677
+  },
+  {
+    "id": "A455",
+    "source": "SAT-016",
+    "target": "SAT-POLAR-060",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3177.214326455677
+  },
+  {
+    "id": "A456",
+    "source": "SAT-POLAR-055",
+    "target": "UAV-003",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 3182.0681213526273
+  },
+  {
+    "id": "A457",
+    "source": "SAT-POLAR-018",
+    "target": "SHIP-018",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3182.10840201546
+  },
+  {
+    "id": "A458",
+    "source": "SAT-POLAR-019",
+    "target": "SHIP-018",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3182.10840201546
+  },
+  {
+    "id": "A459",
+    "source": "GND-IDN-001",
+    "target": "SAT-POLAR-060",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3191.3835268864555
+  },
+  {
+    "id": "A460",
+    "source": "GND-MEX-002",
+    "target": "SAT-POLAR-041",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3223.98682043609
+  },
+  {
+    "id": "A461",
+    "source": "GND-BRA-002",
+    "target": "SAT-POLAR-012",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3227.8066325334225
+  },
+  {
+    "id": "A462",
+    "source": "SAT-POLAR-002",
+    "target": "SHIP-013",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3239.592161256808
+  },
+  {
+    "id": "A463",
+    "source": "SAT-POLAR-037",
+    "target": "SHIP-009",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3242.5601443201017
+  },
+  {
+    "id": "A464",
+    "source": "SAT-POLAR-031",
+    "target": "SHIP-017",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3251.448326652055
+  },
+  {
+    "id": "A465",
+    "source": "SAT-POLAR-072",
+    "target": "UAV-010",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 3254.370242931559
+  },
+  {
+    "id": "A466",
+    "source": "SAT-POLAR-065",
+    "target": "SHIP-013",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3268.7693198727834
+  },
+  {
+    "id": "A467",
+    "source": "GND-COD-001",
+    "target": "SAT-POLAR-025",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3286.120388536397
+  },
+  {
+    "id": "A468",
+    "source": "SAT-POLAR-013",
+    "target": "SHIP-011",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3290.96633652439
+  },
+  {
+    "id": "A469",
+    "source": "GND-IDN-002",
+    "target": "SAT-POLAR-060",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3295.22078786021
+  },
+  {
+    "id": "A470",
+    "source": "SAT-POLAR-051",
+    "target": "UAV-009",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 3321.3543441616744
+  },
+  {
+    "id": "A471",
+    "source": "GND-COL-001",
+    "target": "SAT-POLAR-054",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3327.6601838209754
+  },
+  {
+    "id": "A472",
+    "source": "SAT-POLAR-038",
+    "target": "UAV-007",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 3336.9653380935783
+  },
+  {
+    "id": "A473",
+    "source": "SAT-POLAR-044",
+    "target": "SHIP-019",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3337.010434632521
+  },
+  {
+    "id": "A474",
+    "source": "GND-IND-002",
+    "target": "SAT-POLAR-038",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3347.762507329993
+  },
+  {
+    "id": "A475",
+    "source": "GND-COL-001",
+    "target": "SAT-POLAR-066",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3366.564098653515
+  },
+  {
+    "id": "A476",
+    "source": "SAT-POLAR-026",
+    "target": "SHIP-008",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3376.601048030007
+  },
+  {
+    "id": "A477",
+    "source": "SAT-013",
+    "target": "SAT-POLAR-006",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3384.4007273703
+  },
+  {
+    "id": "A478",
+    "source": "SAT-POLAR-025",
+    "target": "SHIP-008",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3390.1086817808127
+  },
+  {
+    "id": "A479",
+    "source": "SAT-POLAR-031",
+    "target": "SHIP-019",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3420.904433128635
+  },
+  {
+    "id": "A480",
+    "source": "SAT-POLAR-012",
+    "target": "SHIP-012",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3441.8012446329526
+  },
+  {
+    "id": "A481",
+    "source": "GND-MEX-001",
+    "target": "SAT-POLAR-041",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3458.2135389425794
+  },
+  {
+    "id": "A482",
+    "source": "SAT-POLAR-062",
+    "target": "SHIP-004",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3465.764043305958
+  },
+  {
+    "id": "A483",
+    "source": "SAT-007",
+    "target": "SAT-020",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3499.1626379934796
+  },
+  {
+    "id": "A484",
+    "source": "GND-TCD-001",
+    "target": "SAT-POLAR-024",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3511.173975244485
+  },
+  {
+    "id": "A485",
+    "source": "SAT-POLAR-062",
+    "target": "SHIP-016",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3526.506953460838
+  },
+  {
+    "id": "A486",
+    "source": "SAT-POLAR-050",
+    "target": "SHIP-001",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3547.1895825856773
+  },
+  {
+    "id": "A487",
+    "source": "SAT-POLAR-050",
+    "target": "SHIP-004",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3548.1379586985454
+  },
+  {
+    "id": "A488",
+    "source": "SAT-POLAR-066",
+    "target": "SHIP-012",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3554.7199015463043
+  },
+  {
+    "id": "A489",
+    "source": "SAT-POLAR-036",
+    "target": "UAV-006",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 3578.423867785242
+  },
+  {
+    "id": "A490",
+    "source": "SAT-POLAR-017",
+    "target": "SHIP-016",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3584.648224227167
+  },
+  {
+    "id": "A491",
+    "source": "SAT-POLAR-067",
+    "target": "SHIP-014",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3637.8327819699516
+  },
+  {
+    "id": "A492",
+    "source": "SAT-POLAR-006",
+    "target": "SAT-POLAR-062",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3648.507609629267
+  },
+  {
+    "id": "A493",
+    "source": "SAT-POLAR-017",
+    "target": "SAT-POLAR-030",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3648.507609629267
+  },
+  {
+    "id": "A494",
+    "source": "SAT-POLAR-020",
+    "target": "SAT-POLAR-032",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3648.507609629267
+  },
+  {
+    "id": "A495",
+    "source": "GND-BRA-001",
+    "target": "SAT-POLAR-068",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3706.3359209083274
+  },
+  {
+    "id": "A496",
+    "source": "SAT-POLAR-048",
+    "target": "SHIP-008",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3780.0302568116113
+  },
+  {
+    "id": "A497",
+    "source": "SAT-POLAR-049",
+    "target": "SHIP-009",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3786.8532852819762
+  },
+  {
+    "id": "A498",
+    "source": "SAT-POLAR-007",
+    "target": "SHIP-016",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3790.320939292778
+  },
+  {
+    "id": "A499",
+    "source": "SAT-003",
+    "target": "SAT-POLAR-006",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3802.9909975881365
+  },
+  {
+    "id": "A500",
+    "source": "SAT-POLAR-024",
+    "target": "UAV-006",
+    "capacity_mbps": 50.0,
+    "propagation_ms": 30.0,
+    "distance_km": 3809.0827525558425
+  },
+  {
+    "id": "A501",
+    "source": "SAT-POLAR-018",
+    "target": "SAT-POLAR-019",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3919.037980942369
+  },
+  {
+    "id": "A502",
+    "source": "SAT-POLAR-037",
+    "target": "SAT-POLAR-048",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3919.037980942369
+  },
+  {
+    "id": "A503",
+    "source": "SAT-POLAR-042",
+    "target": "SAT-POLAR-043",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3919.037980942369
+  },
+  {
+    "id": "A504",
+    "source": "SAT-POLAR-047",
+    "target": "SAT-POLAR-048",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3919.0379809423707
+  },
+  {
+    "id": "A505",
+    "source": "SAT-POLAR-061",
+    "target": "SHIP-001",
+    "capacity_mbps": 25.0,
+    "propagation_ms": 80.0,
+    "distance_km": 3958.6417396312627
+  },
+  {
+    "id": "A506",
+    "source": "GND-COD-002",
+    "target": "SAT-POLAR-013",
+    "capacity_mbps": 100.0,
+    "propagation_ms": 25.0,
+    "distance_km": 3968.8484788630785
+  }
+]

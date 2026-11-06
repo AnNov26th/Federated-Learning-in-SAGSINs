@@ -36,8 +36,8 @@ bên dưới mô tả luồng cũ hoặc nghiệm thu lịch sử.
 
 `python -m sagsin.release_check` kiểm tra startup bằng SQLite tạm, không đụng
 MySQL. Bộ `sagsin.acceptance_matrix` tái lập offline từ inventory và năm model
-trong `data/input/acceptance_20261031/`: normal, tải đồng thời/nghẽn, outage,
-Gaming và smartphone. Kết quả ở `data/output/acceptance_20261031_final/`.
+trong `storage/input/acceptance_20261031/`: normal, tải đồng thời/nghẽn, outage,
+Gaming và smartphone. Kết quả ở `storage/output/acceptance_20261031_final/`.
 Không suy từ cải thiện MAE sang bảo đảm QoS; đọc kết quả từng tình huống và
 khoảng tin cậy theo seed. Mô hình quỹ đạo/tải vẫn là synthetic.
 
@@ -76,9 +76,13 @@ Chương trình chính mô phỏng mạng Space–Air–Ground–Sea, huấn luy
 
 ## Thư mục dữ liệu
 
-Dữ liệu nguồn/inventory, mẫu benchmark và request nằm trong `data/input/`.
-Metric, checkpoint, báo cáo, minh chứng và backup nằm trong `data/output/`.
-Xem [hướng dẫn input/output](data/README.md) để tra từng loại file và cách tạo
+`data/` chỉ có 7 file JSON đặt trực tiếp để xem và trình bày: `nodes.json`,
+`links.json`, `observations.json`, `training.json`, `predictions.json`,
+`routing.json`, `metadata.json`. Mở [hướng dẫn dữ liệu](data/README.md).
+
+Dữ liệu nguồn/inventory, mẫu benchmark và request nằm trong `storage/input/`.
+Metric, checkpoint, báo cáo, minh chứng và backup nằm trong `storage/output/`.
+Xem [hướng dẫn kho nội bộ](storage/README.md) để tra từng loại file và cách tạo
 lại báo cáo. Database MySQL chính giữ nguyên; không huấn luyện lại hoặc reset
 dữ liệu khi tổ chức thư mục.
 
@@ -93,7 +97,7 @@ dữ liệu khi tổ chức thư mục.
 
 Đồ thị kiểm tra lại khoảng cách từ vị trí snapshot, tầm nhìn và giới hạn theo lớp. Link terrestrial đã lưu được giữ trong giới hạn backbone; không tự tạo các link GROUND–GROUND xa trong topology adaptive. Nếu không có truy cập hoặc tuyến hợp lệ, trả nguyên nhân rõ ràng. Thả ở mọi tọa độ là được; không cam kết mọi tọa độ đều có vùng phủ/dung lượng trong mọi trạng thái mạng.
 
-Báo cáo `data/output/exports/global-gateway-check.json` và ảnh `global-gateway-demo.png` là minh chứng **chế độ truy cập không giới hạn trước lần sửa này**, không dùng để đánh giá logic gần/khả thi hiện tại. Khu vực nghiên cứu 6 node vẫn là lựa chọn riêng; lịch sử/dữ liệu đầu vào được giữ lại.
+Báo cáo `storage/output/exports/global-gateway-check.json` và ảnh `global-gateway-demo.png` là minh chứng **chế độ truy cập không giới hạn trước lần sửa này**, không dùng để đánh giá logic gần/khả thi hiện tại. Khu vực nghiên cứu 6 node vẫn là lựa chọn riêng; lịch sử/dữ liệu đầu vào được giữ lại.
 
 ## Khu vực nghiên cứu và phiên sự kiện hữu hạn (25/10/2026)
 
@@ -105,7 +109,7 @@ Huấn luyện trong khu vực dùng `next_tick_application_link_delay_ms`: inpu
 
 Demo MySQL: scenario **#7**, experiment **#6**, **6 client × (2.000 lịch sử + 20 online)**, 20 vòng, 2 local epoch. Tổng **12.120 mẫu**: train 7.200, validation 2.400, test 2.400, online 120. MAE **0,130392 ms**, persistence **0,129412 ms**: FL chưa tốt hơn baseline. Năm ca điều kiện mạng đã đối chiếu cùng trạng thái; các ca có tuyến đều chọn cùng đường, mất toàn bộ backhaul trả `no_path`. Chưa có bằng chứng FL cải thiện định tuyến.
 
-Mở `data/output/exports/regional_research/report.html` để xem báo cáo, JSON/CSV và ảnh UI. Toàn bộ 107 kiểm thử đã qua; 3 kiểm thử khu vực chạy lại sau dọn mã. Code mới tách telemetry, dataset link, khu vực, vòng đời và đánh giá; formatter không phải dependency runtime. Các mô tả RTT/giữ băng thông đến khi xóa phía dưới áp dụng luồng cũ ngoài khu vực nghiên cứu.
+Mở `storage/output/exports/regional_research/report.html` để xem báo cáo, JSON/CSV và ảnh UI. Toàn bộ 107 kiểm thử đã qua; 3 kiểm thử khu vực chạy lại sau dọn mã. Code mới tách telemetry, dataset link, khu vực, vòng đời và đánh giá; formatter không phải dependency runtime. Các mô tả RTT/giữ băng thông đến khi xóa phía dưới áp dụng luồng cũ ngoài khu vực nghiên cứu.
 
 ## Chạy ứng dụng chính
 
@@ -136,7 +140,7 @@ Lịch sử nằm trong bảng `database_migrations`. Mỗi phiên bản chỉ �
 
 Migration tiếp theo `20261023_02_feasible_snapshot_links` tạo topology khả thi cho snapshot vị trí: bốn lân cận gần nhất mỗi node và cây khung trên các cặp thỏa tầm nhìn/giới hạn khoảng cách. Không tự tạo backbone GROUND–GROUND mới. Link radio ACTIVE cũ vi phạm điều kiện được chuyển INACTIVE và ghi ID trong lịch sử migration, không xóa bản ghi; link đã chủ động tắt không được tự bật lại. Bộ sinh link lân cận trên giao diện cũng kiểm tra tầm nhìn. Khả thi ở snapshot không đồng nghĩa với liên kết luôn tồn tại khi vệ tinh chạy theo quỹ đạo.
 
-Phải commit/push cả code migration và `data/input/global_ground_nodes/polar_coverage_satellites_v1.csv` để teammate nhận được khi pull. Không đưa `.env`, database cá nhân hay backup SQL lên Git. Không sửa inventory của một phiên bản đã áp dụng; các lần bổ sung sau cần migration có phiên bản mới.
+Phải commit/push cả code migration và `storage/input/global_ground_nodes/polar_coverage_satellites_v1.csv` để teammate nhận được khi pull. Không đưa `.env`, database cá nhân hay backup SQL lên Git. Không sửa inventory của một phiên bản đã áp dụng; các lần bổ sung sau cần migration có phiên bản mới.
 
 Chi tiết cấu hình và kiểm tra phủ sóng nằm trong README này. Phủ sóng ở đây là hình học trong mô hình quỹ đạo tròn lý tưởng, không phải cam kết dung lượng hoặc SLA. Dataset/checkpoint cũ không bị huấn luyện lại; tạo experiment mới nếu cần dữ liệu huấn luyện cho topology đã mở rộng.
 
@@ -146,7 +150,7 @@ Chức năng chính đều thuộc `backend.main:app`. `backend.network_demo` ch
 ## Bắt đầu lại dữ liệu huấn luyện
 
 `python -m backend.reset_training --database main` chỉ kiểm tra số bản ghi.
-Thêm `--apply` để sao lưu vào `data/output/training_reset_backups/` rồi xóa experiment,
+Thêm `--apply` để sao lưu vào `storage/output/training_reset_backups/` rồi xóa experiment,
 round, metric, prediction, checkpoint và dataset mạng đã sinh. Dùng
 `--database demo` cho SQLite demo. Scenario, node, link và cấu hình participant
 được giữ lại; dataset_size/selected của participant được đưa về 0/false.
@@ -182,7 +186,7 @@ Database có **487 link: 460 ACTIVE, 27 INACTIVE**. Đã thêm 407 link, tắt 2
 
 ID experiment/dataset/scenario là của máy hiện tại; database mới trên máy teammate có thể cấp ID khác. Migration đồng bộ topology, không sao chép model hoặc dữ liệu huấn luyện cá nhân qua Git. Để tạo model mới trên máy khác, chọn scenario trong FL Training và nhập cấu hình tương ứng. Model cũ và dataset cũ được giữ nguyên.
 
-Xem kết quả cục bộ tại `/results.html?experiment_id=2`. Báo cáo JSON chi tiết trong `data/output/database_backups/training-topology-20261023-result.json` được bỏ qua bởi Git.
+Xem kết quả cục bộ tại `/results.html?experiment_id=2`. Báo cáo JSON chi tiết trong `storage/output/database_backups/training-topology-20261023-result.json` được bỏ qua bởi Git.
 
 ## Thời gian và chuyển động mô phỏng
 
@@ -338,7 +342,7 @@ Chạy `.venv/Scripts/python.exe -m unittest discover -s tests -p test_routing.p
 ## Polar coverage shell v1
 
 The additive migration `20261023_01_global_polar_coverage` adds the committed
-`data/input/global_ground_nodes/polar_coverage_satellites_v1.csv` inventory to the existing scenario. IDs are
+`storage/input/global_ground_nodes/polar_coverage_satellites_v1.csv` inventory to the existing scenario. IDs are
 `SAT-POLAR-001` through `SAT-POLAR-072`. The original 106 nodes remain unchanged:
 50 GROUND + 20 SEA + 12 AIR + 24 original SPACE + 72 polar SPACE = 178 nodes.
 The historical scenario name `SAGSIN-Global-Multilayer-106` is retained.
@@ -365,7 +369,7 @@ Atmospheric drag, J2, terrain, antenna beams and radio link budgets are excluded
 
 The supplemental 24-hour test samples a 5-degree global grid every 300 seconds:
 769,896 point/time samples, zero gaps below 10 degrees. Results are committed in
-`data/output/global_ground_nodes/polar_coverage_v1_validation.json`. The continuous geometric claim comes from
+`storage/output/global_ground_nodes/polar_coverage_v1_validation.json`. The continuous geometric claim comes from
 the analytical bound, not only from this discrete sample. Disabling satellites
 or changing their orbits invalidates that claim.
 
@@ -404,7 +408,7 @@ The database itself must already exist and the configured account must be able
 to create tables, add the optional metadata column, and insert inventory rows.
 
 No XAMPP configuration changes are needed. Local SQL backups belong in ignored
-`data/output/database_backups/`, not in Git. Commit the migration code, CSV, validation
+`storage/output/database_backups/`, not in Git. Commit the migration code, CSV, validation
 report and documentation so teammates receive the same upgrade via pull.
 
 ### Feasible stored links
@@ -430,7 +434,7 @@ datasets/checkpoints retain their original immutable snapshots.
 
 ## Inventory gốc và quy ước tọa độ
 
-Inventory gốc nằm ở `data/input/global_ground_nodes/global_multilayer_nodes_106.csv`; không sửa file để ghi đè database đã migration. Ground (50 node) giữ metadata quốc gia/thành phố đại diện, phân bố theo diện tích đất với điều chỉnh nhẹ từ GDP/ITU IDI, tối đa hai node/quốc gia. SEA (20 node) lấy waypoint hành lang hàng hải; AIR (12 node) là UAV ở 0,3 km; các vị trí là giả lập, không phải AIS, flight tracking hoặc trạm thực. Không suy diễn quốc tịch tàu từ waypoint trên biển.
+Inventory gốc nằm ở `storage/input/global_ground_nodes/global_multilayer_nodes_106.csv`; không sửa file để ghi đè database đã migration. Ground (50 node) giữ metadata quốc gia/thành phố đại diện, phân bố theo diện tích đất với điều chỉnh nhẹ từ GDP/ITU IDI, tối đa hai node/quốc gia. SEA (20 node) lấy waypoint hành lang hàng hải; AIR (12 node) là UAV ở 0,3 km; các vị trí là giả lập, không phải AIS, flight tracking hoặc trạm thực. Không suy diễn quốc tịch tàu từ waypoint trên biển.
 
 24 vệ tinh gốc ở 550 km, độ nghiêng 53°, 6 mặt phẳng × 4 vệ tinh, Walker-style F=1. 72 vệ tinh quỹ đạo cực bổ sung có cấu hình được giải thích ở mục Polar coverage shell v1. Dữ liệu ngoài mặt đất có cờ `is_simulated=true`; độ cao database tính bằng km. Các giá trị demo: GROUND 100 Mbps/10 ms, SEA 25 Mbps/80 ms, AIR 50 Mbps/30 ms, SPACE 100 Mbps/25 ms.
 
@@ -464,7 +468,7 @@ Có thể tái tạo inventory gốc bằng `python -m backend.database.build_gl
 
 ## MNIST demo tùy chọn
 
-Trong FL Training chọn **MNIST classification demo**. Dữ liệu tải vào `data/input/mnist`; lần đầu cần mạng để tải dataset. CNN nhỏ hỗ trợ Centralized, FedAvg và DelayAware; IID chia ngẫu nhiên theo seed, Non-IID dùng label-sorted shards. MNIST test set chỉ dùng đánh giá accuracy/loss. Bắt đầu với 2–3 vòng và 2–5 client để kiểm tra CPU. Huấn luyện chạy trên host backend; thời gian truyền, dropout/timeout và năng lượng là ước tính. Khác network-delay checkpoint, trọng số MNIST của runtime hiện tại không được lưu để resume sau restart.
+Trong FL Training chọn **MNIST classification demo**. Dữ liệu tải vào `storage/input/mnist`; lần đầu cần mạng để tải dataset. CNN nhỏ hỗ trợ Centralized, FedAvg và DelayAware; IID chia ngẫu nhiên theo seed, Non-IID dùng label-sorted shards. MNIST test set chỉ dùng đánh giá accuracy/loss. Bắt đầu với 2–3 vòng và 2–5 client để kiểm tra CPU. Huấn luyện chạy trên host backend; thời gian truyền, dropout/timeout và năng lượng là ước tính. Khác network-delay checkpoint, trọng số MNIST của runtime hiện tại không được lưu để resume sau restart.
 
 ## Benchmark và kết quả lịch sử
 
@@ -474,7 +478,7 @@ CLI so sánh nhiều seed/profile/distribution:
 python -m backend.network_benchmark --demo --scenario-id 1 --seeds 11 42 71 --profiles normal high_latency low_bandwidth --partitions iid non_iid --client-counts 5 10 --rounds 10
 ```
 
-Mỗi comparison dùng cùng dataset/seed/candidate pool/cấu hình, chỉ khác chính sách chọn client. Artifacts gồm `experiments.json`, `runs.csv`, `aggregates.csv` trong `data/output/network_benchmarks/<timestamp>` (bỏ qua Git). Bỏ `--demo` để dùng database đang cấu hình; kiểm tra scenario ID trước khi chạy.
+Mỗi comparison dùng cùng dataset/seed/candidate pool/cấu hình, chỉ khác chính sách chọn client. Artifacts gồm `experiments.json`, `runs.csv`, `aggregates.csv` trong `storage/output/network_benchmarks/<timestamp>` (bỏ qua Git). Bỏ `--demo` để dùng database đang cấu hình; kiểm tra scenario ID trước khi chạy.
 
 Lần khảo sát trước trên demo 106 node: 3 seed (11, 42, 71), 80 mẫu lịch sử/client, 5 client/vòng, 5 vòng, 2 local epochs, LR 0,01, Non-IID, dropout 0, timeout 30.000 ms; 27 experiment. Tổng cost truyền (client chậm nhất mỗi round), trung bình ba seed, là số liệu simulator:
 
@@ -484,7 +488,7 @@ Lần khảo sát trước trên demo 106 node: 3 seed (11, 42, 71), 80 mẫu l�
 | High latency | 6.951,21 | 1.574,59 | 2.212,59 |
 | Low bandwidth | 843,88 | 283,43 | 285,16 |
 
-Ở khảo sát đó Predictive tốt hơn random nhưng chưa tốt hơn static về tổng cost; round đầu phải warm up bằng random. Đây là kết quả lịch sử trên cấu hình khác, không phải kết quả model #2 hoặc bằng chứng thuật toán luôn tốt hơn. Artifacts cũ: `data/output/network_benchmarks/20261015T174711084670Z/` nếu còn trên máy.
+Ở khảo sát đó Predictive tốt hơn random nhưng chưa tốt hơn static về tổng cost; round đầu phải warm up bằng random. Đây là kết quả lịch sử trên cấu hình khác, không phải kết quả model #2 hoặc bằng chứng thuật toán luôn tốt hơn. Artifacts cũ: `storage/output/network_benchmarks/20261015T174711084670Z/` nếu còn trên máy.
 
 ## Kiểm tra
 
@@ -502,7 +506,7 @@ Lượt cập nhật liên kết đạt 8 kiểm thử migration, 4 kiểm thử
 
 ## Sao lưu và MySQL/XAMPP
 
-XAMPP tiếp tục dùng ở `C:\xampp`, MySQL port 3306; không cần đổi cấu hình XAMPP để chạy migration. Database dự án lấy từ `DATABASE_URL`. Backup SQL trước các cập nhật nằm trong `data/output/database_backups/` và bị bỏ qua bởi Git. Backup phải được giữ ngoài các thay đổi tài liệu Markdown.
+XAMPP tiếp tục dùng ở `C:\xampp`, MySQL port 3306; không cần đổi cấu hình XAMPP để chạy migration. Database dự án lấy từ `DATABASE_URL`. Backup SQL trước các cập nhật nằm trong `storage/output/database_backups/` và bị bỏ qua bởi Git. Backup phải được giữ ngoài các thay đổi tài liệu Markdown.
 
 Các bản phục hồi MySQL từ phiên xử lý trước được giữ ở `C:\xampp\mysql\recovery-backup-20261022` và `C:\xampp\mysql\data.before-recovery-20261022`; dữ liệu đang chạy ở `C:\xampp\mysql\data`. Không dùng folder backup làm datadir đang hoạt động. Nếu gặp lỗi Start, kiểm tra log lỗi và port trước khi sửa; giữ nguyên dữ liệu gốc và backup SQL.
 
@@ -516,7 +520,7 @@ Thiết lập có nút “Thử sự kiện gần trạm trong vùng đã học�
 
 `frontend/js/shell-navigation.js` điều hướng link nội bộ cùng origin trong khung `page-frame`, giữ sidebar và nguyên pathname/query/hash. Áp dụng cho link FL trực tiếp, link trong các trang con, link trở về địa cầu có target `_top`, và thông điệp điều hướng từ frame hợp lệ. Không bắt link ngoài origin, link tải file, `_blank` hoặc thao tác mở tab bằng phím bổ trợ. Link FL trực tiếp giữ `experiment_id=5` và mở đúng tiến trình thay vì rời shell.
 
-Đã kiểm tra trực tiếp bằng trình duyệt trên port 8000: nút thử tạo Điểm 2 (Message) tại (35,705; 51,42), tới GND-IRN-001 khoảng 0,56 km, dùng checkpoint #5 vòng 10; thả điểm bằng chuột tạo Điểm 3 ngoài vùng phủ và hiển thị các node gần nhất cùng lý do; link FL trực tiếp, liên kết giữa các trang con và quay lại Simulation đều giữ menu. Giữ nguyên Điểm 1 của người dùng. Ảnh kiểm chứng tại `data/output/exports/ui-fixes/local-event.png`, `menu-preserved.png`, `no-coverage-feedback.png`. Không có lỗi JS trong các thao tác đã kiểm tra. Kiểm thử thiết bị bổ sung xác minh chẩn đoán phủ sóng còn tồn tại khi không có node cục bộ.
+Đã kiểm tra trực tiếp bằng trình duyệt trên port 8000: nút thử tạo Điểm 2 (Message) tại (35,705; 51,42), tới GND-IRN-001 khoảng 0,56 km, dùng checkpoint #5 vòng 10; thả điểm bằng chuột tạo Điểm 3 ngoài vùng phủ và hiển thị các node gần nhất cùng lý do; link FL trực tiếp, liên kết giữa các trang con và quay lại Simulation đều giữ menu. Giữ nguyên Điểm 1 của người dùng. Ảnh kiểm chứng tại `storage/output/exports/ui-fixes/local-event.png`, `menu-preserved.png`, `no-coverage-feedback.png`. Không có lỗi JS trong các thao tác đã kiểm tra. Kiểm thử thiết bị bổ sung xác minh chẩn đoán phủ sóng còn tồn tại khi không có node cục bộ.
 
 ### Thiết bị sự kiện và kiểm tra vai trò model (25/10/2026)
 
@@ -528,7 +532,7 @@ Lọc khả thi trước, suy luận checkpoint sau: lớp truy cập phải đ�
 
 Kết quả predictive lưu `routing_decision`: experiment, round, số kênh suy luận, phương pháp chọn và điều kiện khả thi. `model_applicability` ghi target, payload huấn luyện/ứng dụng, các node tuyến ngoài pool đã học và MAE holdout. Model hiện học RTT tick kế tiếp cho payload FL 3.844 byte, chưa học trực tiếp độ trễ end-to-end ứng dụng hay chính sách routing. Dữ liệu huấn luyện là kênh đại diện mỗi client, trong khi định tuyến áp dụng model cho từng link/thiết bị: đây là chuyển miền cần đối chứng, không tự được xem là đã xác thực. Experiment #5: MAE 4,70044 ms so với persistence 4,70241 ms, chênh khoảng 0,00197 ms trên holdout FL; chưa chứng minh cải thiện định tuyến.
 
-File `data/output/exports/local_route_check/device-checks.json` chứa 5 dịch vụ tại (24,66; 46,71), tự chọn thiết bị, dùng checkpoint #5 round 10, đường đến GND-SAU-001 khoảng 1,50257 km. Mỗi trường hợp chỉ có một kênh truy cập hợp lệ nên không dùng demo này để kết luận FL chọn tuyến tốt hơn baseline. Điểm cũ (24,8; 46,85), cách trạm 22,53 km, nay trả `no_coverage` với điện thoại: chỉ nằm trong vùng cục bộ chưa đủ điều kiện radio. Snapshot cũ không tự sửa. Khi kiểm tra, danh sách điểm production đã được xóa từ phía ứng dụng; không khôi phục hoặc tạo thêm điểm thay người dùng.
+File `storage/output/exports/local_route_check/device-checks.json` chứa 5 dịch vụ tại (24,66; 46,71), tự chọn thiết bị, dùng checkpoint #5 round 10, đường đến GND-SAU-001 khoảng 1,50257 km. Mỗi trường hợp chỉ có một kênh truy cập hợp lệ nên không dùng demo này để kết luận FL chọn tuyến tốt hơn baseline. Điểm cũ (24,8; 46,85), cách trạm 22,53 km, nay trả `no_coverage` với điện thoại: chỉ nằm trong vùng cục bộ chưa đủ điều kiện radio. Snapshot cũ không tự sửa. Khi kiểm tra, danh sách điểm production đã được xóa từ phía ứng dụng; không khôi phục hoặc tạo thêm điểm thay người dùng.
 
 Đã đạt 37 kiểm thử routing, 15 lưu sự kiện và 5 thiết bị sự kiện sau cập nhật, cùng kiểm tra cú pháp JS. Giao diện có lựa chọn auto-device và hiển thị thiết bị, hướng/kiểu lưu lượng, đích và checkpoint đã sử dụng; chưa xác minh trực quan lại trong browser do chặn truy cập tab ở phiên trước.
 
@@ -548,7 +552,7 @@ Không có tuyến cục bộ thì trả lỗi rõ ràng, không tự mở vùng
 
 Đã huấn luyện thật experiment #5 trên MySQL: Predictive, 9 client cùng vùng, 10 vòng, 2.000 lịch sử và 10 online/client, model 961 tham số. Trong phép kiểm tra trước sửa, sự kiện tại (28, 50) qua SAT-POLAR-026 → GND-SAU-001 với tổng khoảng 3.113,82 km. Cùng điểm đó sau giới hạn cục bộ 300 km trả `no_local_nodes`, không dựng tuyến thay thế từ xa. Điểm ở vị trí từng dùng trong ảnh (40,6954; 171,432) cũng không có tuyến cục bộ.
 
-Đã lưu đúng một sự kiện demo mới, ID 17, tọa độ (24,8; 46,85), dùng checkpoint #5: trực tiếp tới GND-SAU-001, quãng đường 22,53275 km, không điều động, ước tính một chiều 16,28668 ms. Có một chặng tiếp cận và 0 hop backbone vì đã tới trạm đích. File chứng cứ tại `data/output/exports/local_route_check/`: `training.json`, `before.json`, `after.json`, `saved-event.json`; chứa cấu hình, kết quả từng vòng và tuyến trước/sau. Những số này là kết quả mô phỏng trên dữ liệu thật của ứng dụng, không phải độ trễ đã đo ngoài đời.
+Đã lưu đúng một sự kiện demo mới, ID 17, tọa độ (24,8; 46,85), dùng checkpoint #5: trực tiếp tới GND-SAU-001, quãng đường 22,53275 km, không điều động, ước tính một chiều 16,28668 ms. Có một chặng tiếp cận và 0 hop backbone vì đã tới trạm đích. File chứng cứ tại `storage/output/exports/local_route_check/`: `training.json`, `before.json`, `after.json`, `saved-event.json`; chứa cấu hình, kết quả từng vòng và tuyến trước/sau. Những số này là kết quả mô phỏng trên dữ liệu thật của ứng dụng, không phải độ trễ đã đo ngoài đời.
 
 ### Client theo khu vực (25/10/2026)
 
@@ -560,9 +564,9 @@ Khoảng cách khu vực là cung tròn lớn của vị trí chiếu xuống m�
 
 Tự huấn luyện khi tìm tuyến mới dùng tâm sự kiện, bán kính 1.500 km và tối đa 5 client/vòng trong nhóm đủ điều kiện (cần ít nhất 2). Đối chứng RTT tập trung học dữ liệu trong pool đã chọn. Đối chứng MNIST tập trung vẫn học toàn bộ tập train chuẩn, không chia theo node; giao diện và preview nêu rõ ngoại lệ này. Chương trình `backend.network_volume_demo` giữ `pool_mode=all` để tái lập thí nghiệm toàn scenario trước đó.
 
-Demo SQLite riêng tại `data/output/training_ui_check/regional-smoke.json` lưu request, nhóm client, dự toán, ví dụ quan sát đầu vào và kết quả từng vòng. Snapshot demo 178 node chọn được 9 client quanh GND-SAU-001, bán kính 1.500 km: 4 GROUND, 2 SPACE, 1 AIR, 2 SEA. Với 2.000 lịch sử và 2 online/client: 10.800 train, 3.600 validation, 3.600 test, 18 online; tổng 18.018 mẫu. Hai vòng Predictive hoàn tất, MAE lần lượt khoảng 5,079854 và 5,079389 ms; đây là kiểm tra luồng, không phải bằng chứng cải thiện chất lượng so với mức dữ liệu khác.
+Demo SQLite riêng tại `storage/output/training_ui_check/regional-smoke.json` lưu request, nhóm client, dự toán, ví dụ quan sát đầu vào và kết quả từng vòng. Snapshot demo 178 node chọn được 9 client quanh GND-SAU-001, bán kính 1.500 km: 4 GROUND, 2 SPACE, 1 AIR, 2 SEA. Với 2.000 lịch sử và 2 online/client: 10.800 train, 3.600 validation, 3.600 test, 18 online; tổng 18.018 mẫu. Hai vòng Predictive hoàn tất, MAE lần lượt khoảng 5,079854 và 5,079389 ms; đây là kiểm tra luồng, không phải bằng chứng cải thiện chất lượng so với mức dữ liệu khác.
 
-Tiện ích `python -m backend.delete_experiment --id <ID> --expect-latest` chỉ xem trước. Thêm `--apply` để lưu và kiểm tra backup gzip trước khi xóa đúng experiment terminal cùng các round liên quan; từ chối job đang chạy và giữ dataset, observations, node/link, participant, snapshot tuyến. Experiment production #4 đã xóa ở phiên trước; backup nằm tại `data/output/training_reset_backups/20261024T200611711021Z-experiment-4/`. Không chạy lại thao tác xóa. Phiên tiếp tục chưa đọc lại được MySQL vì dịch vụ và ứng dụng cổng 8000 đang tắt.
+Tiện ích `python -m backend.delete_experiment --id <ID> --expect-latest` chỉ xem trước. Thêm `--apply` để lưu và kiểm tra backup gzip trước khi xóa đúng experiment terminal cùng các round liên quan; từ chối job đang chạy và giữ dataset, observations, node/link, participant, snapshot tuyến. Experiment production #4 đã xóa ở phiên trước; backup nằm tại `storage/output/training_reset_backups/20261024T200611711021Z-experiment-4/`. Không chạy lại thao tác xóa. Phiên tiếp tục chưa đọc lại được MySQL vì dịch vụ và ứng dụng cổng 8000 đang tắt.
 
 Kiểm thử sau thay đổi: 15 bài network learning, 33 bài routing, 7 bài MNIST runtime và 2 bài xóa experiment đều đạt trên DB tạm. Kiểm tra cú pháp JavaScript và whitespace được thực hiện riêng. Kiểm tra giao diện trực tiếp của phiên này chưa hoàn tất vì trình duyệt chặn quyền truy cập tab demo; các con số demo được xác minh qua API.
 
@@ -572,7 +576,7 @@ Kiểm thử sau thay đổi: 15 bài network learning, 33 bài routing, 7 bài 
 
 Đã bổ sung `bursty_congestion` (nghẽn 8/47 tick) và `regime_switching` (trạng thái 60 tick) cho telemetry FL, API, CLI và lựa chọn profile trên FL Training. Các profile cũ giữ generator v1; profile mới ghi `sagsin-network-v2-dynamic` và thông số mô phỏng trong metadata. Không đưa lịch tương lai vào feature; routing chưa mô phỏng các trạng thái thời gian này. Bộ sinh observation ghi theo lô 2.000 mẫu để không giữ toàn bộ ORM objects trong RAM khi sinh dataset lớn.
 
-Artifacts trong `data/output/network_benchmarks/volume_<timestamp>/`: SQLite, source CSV, metadata, requests, per-round audit/outcomes, checkpoints và bảng so sánh nhiều seed. Chạy `python -m backend.network_volume_report data/output/network_benchmarks/volume_<timestamp>` để kiểm chứng cùng holdout, suy luận lại từ checkpoint và tạo `report.html`. Tài liệu bảo vệ theo yêu cầu nằm ở `document/10_cau_hoi_bao_ve_FL_SAGSINs.md`.
+Artifacts trong `storage/output/network_benchmarks/volume_<timestamp>/`: SQLite, source CSV, metadata, requests, per-round audit/outcomes, checkpoints và bảng so sánh nhiều seed. Chạy `python -m backend.network_volume_report storage/output/network_benchmarks/volume_<timestamp>` để kiểm chứng cùng holdout, suy luận lại từ checkpoint và tạo `report.html`. Tài liệu bảo vệ theo yêu cầu nằm ở `document/10_cau_hoi_bao_ve_FL_SAGSINs.md`.
 
 - Đã có FL regression, participant scheduling, inference checkpoint, định tuyến nhiều hop theo snapshot và so sánh với công thức trên cùng điều kiện. Chưa chứng minh tối ưu toàn cục hoặc hiệu quả độ trễ ứng dụng ngoài đời.
 - FL hiện dự đoán RTT payload model tick tiếp theo; cần dataset theo link/t+1, hàng đợi, payload ứng dụng và đo end-to-end để kiểm chứng xếp hạng tuyến ứng dụng. Không coi R² cao hay một seed tốt là đủ bằng chứng.

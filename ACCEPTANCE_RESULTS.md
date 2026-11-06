@@ -54,9 +54,9 @@ Training lịch sử có FL MAE 0,494950 ms, persistence 0,514404 ms và central
 0,491884 ms. JSON body trung bình 763.130 byte/lượt, trong đó body training
 119.438 byte. Các số này thuộc experiment đã lưu, không phải chi phí replay;
 không gồm header/TCP/TLS. Số liệu từng seed, paired CI và phạm vi byte nằm trong
-`data/input/acceptance_20261031/training-*.json`.
+`storage/input/acceptance_20261031/training-*.json`.
 
-Báo cáo: `data/output/acceptance_20261031_final/report.html`, kèm CSV/JSON,
+Báo cáo: `storage/output/acceptance_20261031_final/report.html`, kèm CSV/JSON,
 workload và methodology/hash. Kết quả tổng hợp từ các worker cục bộ; các hàng
 hoàn chỉnh của nhánh bị dừng sau khi đủ normal/congested/mixed được giữ trong
 provenance cùng hash. Chỉ kết quả đủ mọi seed/chính sách được đánh dấu
